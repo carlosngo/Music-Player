@@ -125,6 +125,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         if(e.getActionCommand().equals("Log In")){
             //usernameInput.getText() and check username
             //passwordInput.getText() and check password
+            /*
             //open joption window if username is unsused
             boolean testingOnly = true;
             if(testingOnly){
@@ -138,6 +139,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
                     dispose();
                 }
             }
+            */
             dispose();
             //open main screen (logged in)
         }
