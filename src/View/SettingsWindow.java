@@ -165,6 +165,24 @@ public class SettingsWindow extends JFrame implements ActionListener {
         }
         if(e.getSource() == addToPlaylist){
             //JOption get text then add to the playlist
+            String playlist_name;
+            playlist_name = JOptionPane.showInputDialog("Enter playlist name:");
+            //check if playlist name is new or not, if new ask if want to create new playlist
+            boolean testingOnly = true;
+            if(testingOnly){
+                int choice = JOptionPane.showConfirmDialog(null, "This playlist is not found in your library.\n"
+                        + "Create new playlist?", "New Playlist", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    String new_playlist_name;
+                    new_playlist_name = JOptionPane.showInputDialog("Enter playlist name:");
+                    //then add the new playlist in the database
+                    //then add the song into the new playlist
+                    dispose();
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    //open main screen (not logged in)
+                    dispose();
+                }
+            }
         }
         if(e.getSource() == edit){
             EditSongProfileWindow espw = new EditSongProfileWindow();
