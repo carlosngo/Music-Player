@@ -17,7 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
 public class UnregisteredMainScreen extends JFrame implements ActionListener{
-    private JButton logIn, signUp,
+    private JButton addSongs, logIn, signUp,
             mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years,
             volume, repeat, rewind, playOrPause, shuffle, fastforward;
     private JLabel option;
@@ -52,13 +52,18 @@ public class UnregisteredMainScreen extends JFrame implements ActionListener{
         JLabel title = new JLabel("iPl4yer");
         title.setFont(new Font("Arial", Font.PLAIN, 45));
         p1.add(title);
-        p1.add(Box.createRigidArea(new Dimension(250,0)));
+        p1.add(Box.createRigidArea(new Dimension(220,0)));
+        addSongs = new JButton("Add Songs");
+        addSongs.addActionListener(this);
+        p1.add(addSongs);
+        p1.add(Box.createRigidArea(new Dimension(5,0)));
         logIn = new JButton("Log In");
         logIn.addActionListener(this);
         p1.add(logIn);
-        p1.add(Box.createRigidArea(new Dimension(10,0)));
+        p1.add(Box.createRigidArea(new Dimension(5,0)));
         signUp = new JButton("Sign Up");
         signUp.addActionListener(this);
+        p1.add(Box.createRigidArea(new Dimension(15,0)));
         p1.add(signUp);
         p.add(p1);
 
@@ -418,6 +423,9 @@ public class UnregisteredMainScreen extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == addSongs){
+            //add songs
+        }
         if(e.getSource() == logIn){
             LogInWindow l = new LogInWindow();
             dispose();
