@@ -146,17 +146,15 @@ public class RegisteredMainScreen extends JFrame implements ActionListener{
         //this one should get a "list" of songs (to know the times this thing should loop)
         //this is a test array, needs to be replaced with the real thing pa
         ArrayList<String> songList = new ArrayList<String>();
-        songList.add("Tomorrow");
-        songList.add("Departure");
-        songList.add("Jet Set Run");
-        songList.add("You Can Be A Hero Too");
-        songList.add("Orth Waltz");
-        songList.add("Neo Arcadia");
-        songList.add("Crash");
-        songList.add("Freesia");
-        songList.add("Cannonball");
-        songList.add("Falling Down");
-        songList.add("Nothing Beats");
+        songList.add("Song 0");
+        songList.add("Song 1");
+        songList.add("Song 2");
+        songList.add("Song 3");
+        songList.add("Song 4");
+        songList.add("Song 5");
+        songList.add("Song 6");
+        songList.add("Song 7");
+        songList.add("Song 8");
         p6.add(displaySongList(songList));
         ArrayList<String> list = new ArrayList<String>(5);
         list.add("suboption 0");
@@ -428,41 +426,45 @@ public class RegisteredMainScreen extends JFrame implements ActionListener{
         }
         if(e.getSource() == mostFrqntlyPlyd){
             //show list of most frequently played songs
+            option.setText("Most Frequently Played");
         }
         if(e.getSource() == playlists){
             //show list of playlists
             ArrayList<String> list = new ArrayList<String>(5);
-            list.add("suboption 0");
-            list.add("suboption 1");
-            list.add("suboption 2");
-            list.add("suboption 3");
-            list.add("suboption 4");
-            list.add("suboption 5");
+            list.add("item 0");
+            list.add("item 1");
+            list.add("item 2");
+            list.add("item 3");
+            list.add("item 4");
+            list.add("item 5");
             p6.remove(scroll);
             p6.add(displaySubOptionList(list, "playlist"));
+            option.setText("Playlists");
         }
         if(e.getSource() == artists){
             //show list of artists
-            displaySubOptionList(samplelist, "artists");
-            p6.add(scroll);
+            p6.add(displaySubOptionList(samplelist, "artists"));
+            option.setText("Artists");
         }
         if(e.getSource() == albums){
             //show list of albums
-            displaySubOptionList(samplelist, "albums");
-            p6.add(scroll);
+            p6.add(displaySubOptionList(samplelist, "albums"));
+            option.setText("Albums");
         }
         if(e.getSource() == songs){
             //show list of songs
+            p6.add(displaySongList(samplelist));
+            option.setText("All Songs");
         }
         if(e.getSource() == genres){
             //show list of genres
-            displaySubOptionList(samplelist, "genres");
-            p6.add(scroll);
+            p6.add(displaySubOptionList(samplelist, "genres"));
+            option.setText("Genres");
         }
         if(e.getSource() == years){
             //show list of years
-            displaySubOptionList(samplelist, "years");
-            p6.add(scroll);
+            p6.add(displaySubOptionList(samplelist, "years"));
+            option.setText("Years");
         }
         if(e.getSource() == volume){
             //volume stuff
