@@ -426,61 +426,105 @@ public class UnregisteredMainScreen extends JFrame implements ActionListener{
             CreateAccountWindow caw = new CreateAccountWindow();
             dispose();
         }
-        if(e.getSource() == mostFrqntlyPlyd){
-            //show list of most frequently played songs
-        }
         if(e.getSource() == playlists){
             //show list of playlists
             ArrayList<String> list = new ArrayList<String>(5);
-            list.add("suboption 0");
-            list.add("suboption 1");
-            list.add("suboption 2");
-            list.add("suboption 3");
-            list.add("suboption 4");
-            list.add("suboption 5");
-            p6.remove(scroll);
-            p6.add(displaySubOptionList(list, "playlist"));
-        }
-        if(e.getSource() == mostFrqntlyPlyd){
-            //show list of most frequently played songs
-            option.setText("Most Frequently Played");
-        }
-        if(e.getSource() == playlists){
-            //show list of playlists
-            ArrayList<String> list = new ArrayList<String>(5);
-            list.add("item 0");
-            list.add("item 1");
-            list.add("item 2");
-            list.add("item 3");
-            list.add("item 4");
-            list.add("item 5");
-            p6.remove(scroll);
+            list.add("playlist 0");
+            list.add("playlist 1");
+            list.add("playlist 2");
+            list.add("playlist 3");
+            list.add("playlist 4");
+            list.add("playlist 5");
+            p6.removeAll();
             p6.add(displaySubOptionList(list, "playlist"));
             option.setText("Playlists");
         }
+        if(e.getSource() == mostFrqntlyPlyd){
+            //show list of most frequently played songs
+            ArrayList<String> songList = new ArrayList<String>();
+            songList.add("Tomorrow");
+            songList.add("Departure");
+            songList.add("Jet Set Run");
+            songList.add("You Can Be A Hero Too");
+            songList.add("Orth Waltz");
+            songList.add("Neo Arcadia");
+            songList.add("Crash");
+            songList.add("Freesia");
+            songList.add("Cannonball");
+            songList.add("Falling Down");
+            songList.add("Nothing Beats");
+            option.setText("Most Frequently Played");
+            p6.removeAll();
+            p6.add(displaySongList(songList));
+        }
         if(e.getSource() == artists){
             //show list of artists
-            p6.add(displaySubOptionList(samplelist, "artists"));
+            ArrayList<String> list = new ArrayList<String>(5);
+            list.add("artist 0");
+            list.add("artist 1");
+            list.add("artist 2");
+            list.add("artist 3");
+            list.add("artist 4");
+            list.add("artist 5");
+            p6.removeAll();
+            p6.add(displaySubOptionList(list, "artist"));
             option.setText("Artists");
         }
         if(e.getSource() == albums){
             //show list of albums
-            p6.add(displaySubOptionList(samplelist, "albums"));
+            ArrayList<String> list = new ArrayList<String>(5);
+            list.add("album 0");
+            list.add("album 1");
+            list.add("album 2");
+            list.add("album 3");
+            list.add("album 4");
+            list.add("album 5");
+            p6.removeAll();
+            p6.add(displaySubOptionList(list, "album"));
             option.setText("Albums");
         }
         if(e.getSource() == songs){
-            //show list of songs
-            p6.add(displaySongList(samplelist));
+            //show list of all songs
+            ArrayList<String> songList = new ArrayList<String>();
+            songList.add("Tomorrow");
+            songList.add("Departure");
+            songList.add("Jet Set Run");
+            songList.add("You Can Be A Hero Too");
+            songList.add("Orth Waltz");
+            songList.add("Neo Arcadia");
+            songList.add("Crash");
+            songList.add("Freesia");
+            songList.add("Cannonball");
+            songList.add("Falling Down");
+            songList.add("Nothing Beats");
+            p6.removeAll();
+            p6.add(displaySongList(songList));
             option.setText("All Songs");
         }
         if(e.getSource() == genres){
             //show list of genres
-            p6.add(displaySubOptionList(samplelist, "genres"));
+            ArrayList<String> list = new ArrayList<String>(5);
+            list.add("genre 0");
+            list.add("genre 1");
+            list.add("genre 2");
+            list.add("genre 3");
+            list.add("genre 4");
+            list.add("genre 5");
+            p6.removeAll();
+            p6.add(displaySubOptionList(list, "genre"));
             option.setText("Genres");
         }
         if(e.getSource() == years){
             //show list of years
-            p6.add(displaySubOptionList(samplelist, "years"));
+            ArrayList<String> list = new ArrayList<String>(5);
+            list.add("year 0");
+            list.add("year 1");
+            list.add("year 2");
+            list.add("year 3");
+            list.add("year 4");
+            list.add("year 5");
+            p6.removeAll();
+            p6.add(displaySubOptionList(list, "year"));
             option.setText("Years");
         }
         if(e.getSource() == volume){
