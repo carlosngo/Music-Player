@@ -125,7 +125,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         //cancel.setBorderPainted(false);
         p5.add(cancel);
         p5.add(Box.createRigidArea(new Dimension(10,0)));
-        save = new JButton("Add ToPlaylist");
+        save = new JButton("Save");
         save.setAlignmentX(Component.CENTER_ALIGNMENT);
         save.addActionListener(this);
         save.setFont(new Font("Arial", Font.PLAIN, 24));
