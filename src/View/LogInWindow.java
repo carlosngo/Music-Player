@@ -35,13 +35,13 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Abril Fatface", Font.BOLD, 30));
         p.add(title);
-        p.add(Box.createRigidArea(new Dimension(0,20))); // add space
+        p.add(Box.createRigidArea(new Dimension(0,20)));
 
         JPanel p1 = new JPanel();
         p1.setOpaque(false);
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
         //subP.setLayout(new FlowLayout());
-        p1.add(Box.createRigidArea(new Dimension(15,0))); // add space
+        p1.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel nameLabel = new JLabel("Username: ");
         //nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -53,16 +53,16 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         usernameInput.setFont(new Font("Arial", Font.BOLD, 22));
         //usernameInput.setBackground(new Color(152,251,152));
         p1.add(usernameInput);
-        p1.add(Box.createRigidArea(new Dimension(15,0))); // add space
+        p1.add(Box.createRigidArea(new Dimension(15,0)));
         p1.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(p1);
-        p.add(Box.createRigidArea(new Dimension(0,7))); // add space
+        p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p2 = new JPanel();
         p2.setOpaque(false);
         p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
         //subP2.setLayout(new FlowLayout());
-        p.add(Box.createRigidArea(new Dimension(15,0))); // add space
+        p.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel pwLabel = new JLabel("Password: ");
         //pwLabel.setForeground(Color.WHITE);
         pwLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -74,10 +74,10 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
        //passwordInput.setBackground(new Color(152,251,152));
         p2.add(passwordInput);
-        p2.add(Box.createRigidArea(new Dimension(15,0))); // add space
+        p2.add(Box.createRigidArea(new Dimension(15,0)));
         p2.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(p2);
-        p.add(Box.createRigidArea(new Dimension(0,7))); // add space
+        p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p3 = new JPanel();
         p3.setOpaque(false);
