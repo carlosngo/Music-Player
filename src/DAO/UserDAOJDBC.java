@@ -6,6 +6,12 @@ public class UserDAOJDBC implements UserDAO {
 
     private DAOFactory db;
 
+    private static final String SQL_FIND_BY_ID = "";
+    private static final String SQL_FIND_BY_EMAIL_AND_PASSWORD = "";
+    private static final String SQL_INSERT = "";
+    private static final String SQL_DELETE = "";
+    private static final String SQL_UPDATE = "";
+
     public UserDAOJDBC(DAOFactory db) {
         this.db = db;
     }

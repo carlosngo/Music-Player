@@ -18,7 +18,17 @@ public class DriverManagerDAOFactory extends DAOFactory {
         return DriverManager.getConnection(url, username, password);
     }
 
-    public UserDAO getUserDAO() {
-        return new UserDAOJDBC(this);
-    }
+    public UserDAO getUserDAO() { return new UserDAOJDBC(this); }
+
+    @Override
+    public SongDAO getSongDAO() { return new SongDAOJDBC(this); }
+
+    @Override
+    public GenreDAO getGenreDAO() { return new GenreDAOJDBC(this); }
+
+    @Override
+    public PlaylistDAO getPlaylistDAO() { return new PlaylistDAOJDBC(this); }
+
+    @Override
+    public AlbumDAO getAlbumDAO() { return new AlbumDAOJDBC(this); }
 }
