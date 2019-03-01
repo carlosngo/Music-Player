@@ -1,21 +1,25 @@
 package DAO;
 
 import Model.*;
+import java.sql.*;
+import java.util.*;
 
 public interface UserDAO {
 
-    User find(long userId);
+    User find(long userId) throws SQLException;
 
-    User find(String username, String password);
+    User find(String username, String password) throws SQLException;
 
-    void create(User user);
+    ArrayList<User> listById() throws SQLException;
 
-    void delete(User user);
+    void create(User user) throws SQLException;
 
-    void update(User user);
+    void delete(User user) throws SQLException;
 
-    boolean existUsername(String username);
+    void update(User user) throws SQLException;
 
-    public void changePassword(User user);
+    boolean existUserName(String username) throws SQLException;
+
+    public void changePassword(User user) throws SQLException;
 
 }

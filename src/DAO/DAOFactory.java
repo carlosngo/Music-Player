@@ -24,7 +24,7 @@ public abstract class DAOFactory {
     public static final String ALBUM_COLUMNS =
             "PK_AlbumID, FK_UserID, Name, Artist, Cover";
 
-    public DAOFactory getInstance() {
+    public static DAOFactory getInstance() {
         return null;
     }
     public abstract Connection getConnection() throws SQLException;
