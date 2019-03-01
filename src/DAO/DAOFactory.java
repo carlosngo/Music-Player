@@ -6,7 +6,7 @@ public abstract class DAOFactory {
 
     public static final String USER_TABLE = "musicplayer.user";
     public static final String USER_COLUMNS =
-            "PK_UserID, Username, Password, FirstName, LastName, Birthday";
+            "PK_UserID, Username, Password, FirstName, LastName, Gender, Birthday";
 
     public static final String SONG_TABLE = "musicplayer.song";
     public static final String SONG_COLUMNS =
@@ -24,6 +24,9 @@ public abstract class DAOFactory {
     public static final String ALBUM_COLUMNS =
             "PK_AlbumID, FK_UserID, Name, Artist, Cover";
 
+    public DAOFactory getInstance() {
+        return null;
+    }
     public abstract Connection getConnection() throws SQLException;
 
     public abstract UserDAO getUserDAO();

@@ -11,7 +11,7 @@ public class Song {
     private int year;
     private boolean favorite;
     private long playTime;
-    private Calendar lastPlayed;
+    private Date lastPlayed;
     private String path;
 
     public Song() { }
@@ -22,11 +22,11 @@ public class Song {
         this.year = year;
     }
 
-    public Calendar getLastPlayed() {
+    public Date getLastPlayed() {
         return lastPlayed;
     }
 
-    public void setLastPlayed(Calendar lastPlayed) {
+    public void setLastPlayed(Date lastPlayed) {
         this.lastPlayed = lastPlayed;
     }
 
