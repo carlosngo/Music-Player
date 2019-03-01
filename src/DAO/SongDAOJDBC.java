@@ -2,7 +2,8 @@ package DAO;
 
 import Model.Song;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.io.*;
 
 public class SongDAOJDBC implements SongDAO {
     private DAOFactory db;
@@ -11,6 +12,7 @@ public class SongDAOJDBC implements SongDAO {
     private static final String SQL_LIST_BY_GENRE = "";
     private static final String SQL_LIST_BY_ALBUM = "";
     private static final String SQL_LIST_BY_YEAR = "";
+    private static final String SQL_GET_FILE_BY_ID = "";
     private static final String SQL_INSERT = "";
     private static final String SQL_DELETE = "";
     private static final String SQL_UPDATE = "";
@@ -34,6 +36,10 @@ public class SongDAOJDBC implements SongDAO {
 
     @Override
     public ArrayList<Song> findByYear() {
+        return null;
+    }
+
+    public File getFileById(int songId) {
         return null;
     }
 

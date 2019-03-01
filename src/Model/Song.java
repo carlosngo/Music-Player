@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.*;
+
 public class Song {
     private int songId;
     private int userId;
@@ -9,6 +11,7 @@ public class Song {
     private int year;
     private boolean favorite;
     private long playTime;
+    private Calendar lastPlayed;
     private String path;
 
     public Song() { }
@@ -17,6 +20,14 @@ public class Song {
         this.userId = userId;
         this.name = name;
         this.year = year;
+    }
+
+    public Calendar getLastPlayed() {
+        return lastPlayed;
+    }
+
+    public void setLastPlayed(Calendar lastPlayed) {
+        this.lastPlayed = lastPlayed;
     }
 
     public int getSongId() {
