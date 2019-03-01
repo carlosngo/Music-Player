@@ -16,10 +16,10 @@ import Model.Album;
 public class AlbumDAOJDBC implements AlbumDAO {
     private DAOFactory db;
 
-    private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE albumid = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
     private static final String SQL_INSERT = "INSERT INTO album VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_DELETE = "DELETE FROM album WHERE albumid = ?";
-    private static final String SQL_UPDATE = "UPDATE album SET userid = ?, name = ?, artist = ?, cover = ? WHERE albumid = ?";
+    private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
+    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, name = ?, artist = ?, cover = ? WHERE PK_AlbumID = ?";
 
     public AlbumDAOJDBC(DAOFactory db) {
         this.db = db;
@@ -29,14 +29,14 @@ public class AlbumDAOJDBC implements AlbumDAO {
 		Album album = new Album();	
 		
 		String fileFormat = ".jpg";
-		String path =  "/Desktop/"+ rs.getString(3) + "_" + rs.getInt(1) + fileFormat;
-		File file = new File(path);
+		String savePath =  "/Desktop/"+ rs.getString(3) + "_" + rs.getInt(1) + fileFormat;
+		File file = new File(savePath);
 		
 		album.setAlbumId(rs.getInt(1));
 		album.setUserId(rs.getInt(2));
 		album.setName(rs.getString(3));
 		album.setArtist(rs.getString(4));
-		album.setCoverPath(path);
+		album.setCoverPath(savePath);
 		
 		byte[] buffer = new byte[1024];
 		InputStream input = rs.getBinaryStream(5);
@@ -59,6 +59,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
     		if(rs.next()) {
     			album = toAlbum(rs);
     		}
+    		
     		rs.close();
     		statement.close();
     		connection.close();
