@@ -16,10 +16,10 @@ import Model.Album;
 public class AlbumDAOJDBC implements AlbumDAO {
     private DAOFactory db;
 
-    private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE albumid = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
     private static final String SQL_INSERT = "INSERT INTO album VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_DELETE = "DELETE FROM album WHERE albumid = ?";
-    private static final String SQL_UPDATE = "UPDATE album SET userid = ?, name = ?, artist = ?, cover = ? WHERE albumid = ?";
+    private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
+    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, name = ?, artist = ?, cover = ? WHERE PK_AlbumID = ?";
 
     public AlbumDAOJDBC(DAOFactory db) {
         this.db = db;
