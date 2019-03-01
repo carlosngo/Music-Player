@@ -48,8 +48,8 @@ public class SongDAOJDBC implements SongDAO {
     	song.setFavorite(rs.getBoolean("Favorite"));
     	song.setPlayTime(rs.getLong("PlayTime"));
     	song.setLastPlayed(rs.getDate("LastPlayed"));
+    	song.setFile(rs.getBlob("File"));
     	song.setFileName(fileName);
-    	
     	return song;
     }
    
@@ -126,7 +126,7 @@ public class SongDAOJDBC implements SongDAO {
     public void update(Song song) {
     	try {
     		Connection connection = db.getConnection();
-    		PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+    		PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
     		
     		statement.setInt(1, song.getUserId());
     		statement.setInt(2, song.getAlbumId());

@@ -1,5 +1,6 @@
 package Model;
 
+import java.sql.Blob;
 import java.util.*;
 
 public class Song {
@@ -13,8 +14,10 @@ public class Song {
     private long playTime;
     private Date lastPlayed;
     private String fileName;
+    private Blob file;
 
-    public Song() { }
+
+	public Song() { }
     public Song(int songId, int userId, String name, int year) {
         this.songId = songId;
         this.userId = userId;
@@ -101,4 +104,12 @@ public class Song {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+    
+    public Blob getFile() {
+		return file;
+	}
+    
+	public void setFile(Blob file) {
+		this.file = file;
+	}
 }
