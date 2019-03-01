@@ -94,7 +94,7 @@ public class Song {
         this.playTime = playTime;
     }
 
-    public String setFileName() {
+    public String getFileName() {
         return fileName;
     }
 

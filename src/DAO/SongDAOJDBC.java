@@ -29,6 +29,9 @@ public class SongDAOJDBC implements SongDAO {
     private static final String SQL_UPDATE = 
     		"UPDATE " + DAOFactory.SONG_TABLE + " SET FK_UserID = ?, FK_AlbumID = ?, FK_GenreID = ?, Name = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ?, File = ? WHERE PK_SongID = ?";
 
+    private static final String PATH =
+    		"resources/music/";
+    
     public SongDAOJDBC(DAOFactory db) { this.db = db; }
     
     private Song map(ResultSet rs) throws SQLException{
@@ -46,6 +49,7 @@ public class SongDAOJDBC implements SongDAO {
     	song.setPlayTime(rs.getLong("PlayTime"));
     	song.setLastPlayed(rs.getDate("LastPlayed"));
     	song.setFileName(fileName);
+    	
     	return song;
     }
    
@@ -89,7 +93,7 @@ public class SongDAOJDBC implements SongDAO {
     		statement.setBoolean(7, song.isFavorite());
     		statement.setLong(8, song.getPlayTime());
     		statement.setDate(9, (Date) song.getLastPlayed());
-    		statement.setBinaryStream(10, new FileInputStream(new File(song.getPath())));
+    		statement.setBinaryStream(10, new FileInputStream(new File(PATH + song.getFileName())));
     		
     		statement.executeUpdate();
     		
@@ -132,7 +136,7 @@ public class SongDAOJDBC implements SongDAO {
     		statement.setBoolean(6, song.isFavorite());
     		statement.setLong(7, song.getPlayTime());
     		statement.setDate(8, (Date) song.getLastPlayed());
-    		statement.setBinaryStream(9, new FileInputStream(new File(song.getPath())));
+    		statement.setBinaryStream(9, new FileInputStream(new File(PATH + song.getFileName())));
     		statement.setInt(10, song.getSongId());
     		
     		statement.executeUpdate();

@@ -12,7 +12,7 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     private DAOFactory db;
 
     private static final String SQL_FIND_BY_ID = 
-    		"SELECT * FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
+    		"SELECT " + DAOFactory.PLAYLIST_COLUMNS +" FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
     private static final String SQL_INSERT = 
     		"INSERT INTO " + DAOFactory.PLAYLIST_TABLE + " VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE = 
