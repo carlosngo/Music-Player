@@ -1,9 +1,4 @@
--- MySQL Workbench Forward Engineering
-
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
+-- MySQL Workbench Forward Engineerin
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
@@ -14,7 +9,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema musicplayer
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `musicplayer` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+CREATE SCHEMA IF NOT EXISTS `musicplayer`;
 USE `musicplayer` ;
 
 -- -----------------------------------------------------
@@ -27,10 +22,7 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`user` (
   `FirstName` VARCHAR(45) NULL DEFAULT NULL,
   `LastName` VARCHAR(45) NULL DEFAULT NULL,
   `Birthday` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`PK_UserID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`PK_UserID`));
 
 
 -- -----------------------------------------------------
@@ -43,15 +35,11 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`album` (
   `Artist` VARCHAR(45) NULL DEFAULT NULL,
   `Cover` BLOB NULL DEFAULT NULL,
   PRIMARY KEY (`PK_AlbumID`),
-  INDEX `FK_UserID_idx` (`FK_UserID` ASC) VISIBLE,
+  INDEX `FK_UserID_idx` (`FK_UserID` ASC) ,
   CONSTRAINT `Album_UserID`
     FOREIGN KEY (`FK_UserID`)
     REFERENCES `musicplayer`.`user` (`PK_UserID`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
+    ON DELETE CASCADE);
 
 -- -----------------------------------------------------
 -- Table `musicplayer`.`genre`
@@ -61,14 +49,11 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`genre` (
   `FK_UserID` INT(11) NOT NULL,
   `Name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_GenreID`),
-  INDEX `Genre_UserID_idx` (`FK_UserID` ASC) VISIBLE,
+  INDEX `Genre_UserID_idx` (`FK_UserID` ASC) ,
   CONSTRAINT `Genre_UserID`
     FOREIGN KEY (`FK_UserID`)
     REFERENCES `musicplayer`.`user` (`PK_UserID`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ON DELETE CASCADE);
 
 
 -- -----------------------------------------------------
@@ -80,13 +65,10 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`playlist` (
   `Name` VARCHAR(45) NULL DEFAULT NULL,
   `Favorite` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NULL DEFAULT 'No',
   PRIMARY KEY (`PK_PlaylistID`),
-  INDEX `FK_UserID_idx` (`FK_UserID` ASC) VISIBLE,
+  INDEX `FK_UserID_idx` (`FK_UserID` ASC) ,
   CONSTRAINT `Playlist_UserID`
     FOREIGN KEY (`FK_UserID`)
-    REFERENCES `musicplayer`.`user` (`PK_UserID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    REFERENCES `musicplayer`.`user` (`PK_UserID`));
 
 
 -- -----------------------------------------------------
@@ -104,9 +86,9 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`song` (
   `LastPlayed` DATETIME NULL DEFAULT NULL,
   `File` BLOB NULL DEFAULT NULL,
   PRIMARY KEY (`PK_SongID`),
-  INDEX `Song_UserID_idx` (`FK_UserID` ASC) VISIBLE,
-  INDEX `Song_GenreID_idx` (`FK_GenreID` ASC) VISIBLE,
-  INDEX `Song_AlbumID_idx` (`FK_AlbumID` ASC) VISIBLE,
+  INDEX `Song_UserID_idx` (`FK_UserID` ASC) ,
+  INDEX `Song_GenreID_idx` (`FK_GenreID` ASC) ,
+  INDEX `Song_AlbumID_idx` (`FK_AlbumID` ASC) ,
   CONSTRAINT `Song_AlbumID`
     FOREIGN KEY (`FK_AlbumID`)
     REFERENCES `musicplayer`.`album` (`PK_AlbumID`)
@@ -118,10 +100,7 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`song` (
   CONSTRAINT `Song_UserID`
     FOREIGN KEY (`FK_UserID`)
     REFERENCES `musicplayer`.`user` (`PK_UserID`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ON DELETE CASCADE);
 
 
 -- -----------------------------------------------------
@@ -131,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`playlistsong` (
   `FK_PlaylistID` INT(11) NOT NULL,
   `FK_SongID` INT(11) NOT NULL,
   PRIMARY KEY (`FK_PlaylistID`, `FK_SongID`),
-  INDEX `FK_SongID_idx` (`FK_SongID` ASC) VISIBLE,
+  INDEX `FK_SongID_idx` (`FK_SongID` ASC) ,
   CONSTRAINT `FK_PlaylistID`
     FOREIGN KEY (`FK_PlaylistID`)
     REFERENCES `musicplayer`.`playlist` (`PK_PlaylistID`)
@@ -139,12 +118,4 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`playlistsong` (
   CONSTRAINT `FK_SongID`
     FOREIGN KEY (`FK_SongID`)
     REFERENCES `musicplayer`.`song` (`PK_SongID`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+    ON DELETE CASCADE);
