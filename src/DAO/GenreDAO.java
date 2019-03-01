@@ -1,15 +1,21 @@
 package DAO;
 
 import Model.*;
+import java.sql.*;
+import java.util.*;
 
 public interface GenreDAO {
 
-    Genre find(int genreId);
+    Genre find(int genreId) throws SQLException;
 
-    void create(Genre genre);
+    ArrayList<Genre> listById(int userId) throws SQLException;
 
-    void delete(Genre genre);
+    boolean existGenre(String name) throws SQLException;
 
-    void update(Genre genre);
+    void create(Genre genre) throws SQLException;
+
+    void delete(Genre genre) throws SQLException;
+
+    void update(Genre genre) throws SQLException;
 
 }

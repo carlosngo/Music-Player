@@ -11,6 +11,10 @@ public class User {
     private String gender;
     private Date birthday;
 
+    public User() {
+        userId = -1;
+    }
+
     public String getGender() {
         return gender;
     }

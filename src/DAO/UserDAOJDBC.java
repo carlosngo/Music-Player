@@ -11,11 +11,11 @@ public class UserDAOJDBC implements UserDAO {
     private DAOFactory db;
 
     private static final String SQL_FIND_BY_ID =
-            "SELECT " + DAOFactory.USER_COLUMNS + " FROM " + DAOFactory.USER_TABLE + " WHERE PK_UserID = ?";
+            "SELECT * FROM " + DAOFactory.USER_TABLE + " WHERE PK_UserID = ?";
     private static final String SQL_FIND_BY_EMAIL_AND_PASSWORD =
-            "SELECT " + DAOFactory.USER_COLUMNS + " FROM " + DAOFactory.USER_TABLE + " WHERE UserName = ? AND Password = ?";
+            "SELECT * FROM " + DAOFactory.USER_TABLE + " WHERE UserName = ? AND Password = ?";
     private static final String SQL_LIST_BY_ID =
-            "SELECT " + DAOFactory.USER_COLUMNS + " FROM " + DAOFactory.USER_TABLE + " ORDER BY PK_UserID";
+            "SELECT * FROM " + DAOFactory.USER_TABLE + " ORDER BY PK_UserID";
     private static final String SQL_INSERT =
             "INSERT INTO " + DAOFactory.USER_TABLE + " (UserName, Password, FirstName, LastName, Gender, Birthday) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
@@ -64,7 +64,7 @@ public class UserDAOJDBC implements UserDAO {
 
     @Override
     public void create(User user) throws IllegalArgumentException, SQLException {
-        if (user.getUserId() == -1) {
+        if (user.getUserId() != -1) {
             throw new IllegalArgumentException("User is already created, the user ID is not null.");
         }
 
@@ -147,7 +147,7 @@ public class UserDAOJDBC implements UserDAO {
 
     }
 
-    public static User map(ResultSet rs) throws SQLException {
+    private static User map(ResultSet rs) throws SQLException {
         User user = new User();
         user.setUserId(rs.getInt("PK_UserID"));
         user.setUserName(rs.getString("UserName"));
@@ -198,11 +198,11 @@ public class UserDAOJDBC implements UserDAO {
         System.out.println("Thus, amount of users in database is: " + users.size());
 
         // Delete user.
-//        userDAO.delete(user);
+        userDAO.delete(user);
         System.out.println("User successfully deleted: " + user);
 
         // Check if email exists.
-        boolean exist = userDAO.existUserName("foo@bar.com");
+        boolean exist = userDAO.existUserName("user");
         System.out.println("This email should not exist anymore, so this should print false: " + exist);
 
         // Change password.
@@ -215,7 +215,7 @@ public class UserDAOJDBC implements UserDAO {
         System.out.println("Another user successfully queried with new password: " + foundAnotherUser);
 
         // Delete another user.
-//        userDAO.delete(foundAnotherUser);
+        userDAO.delete(foundAnotherUser);
         System.out.println("Another user successfully deleted: " + foundAnotherUser);
 
         // List all users again.

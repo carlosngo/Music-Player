@@ -17,7 +17,9 @@ public class Song {
     private Blob file;
 
 
-	public Song() { }
+	public Song() {
+	    songId = -1;
+    }
     public Song(int songId, int userId, String name, int year) {
         this.songId = songId;
         this.userId = userId;

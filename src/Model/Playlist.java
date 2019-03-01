@@ -6,7 +6,10 @@ public class Playlist {
     private String name;
     private boolean favorite;
 
-    public Playlist() { }
+    public Playlist() {
+        playlistId = -1;
+    }
+
     public Playlist(int playlistId, int userId, String name) {
         this.playlistId = playlistId;
         this.userId = userId;

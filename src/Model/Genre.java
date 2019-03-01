@@ -5,7 +5,9 @@ public class Genre {
     private int userId;
     private String name;
 
-    public Genre() { }
+    public Genre() {
+        genreId = -1;
+    }
 
     public Genre(int genreId, int userId, String name) {
         this.genreId = genreId;

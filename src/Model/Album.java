@@ -6,7 +6,11 @@ public class Album {
     private String name;
     private String artist;
     private String coverPath;
-    
+
+    public Album() {
+    	albumId = -1;
+	}
+
 	public int getAlbumId() {
 		return albumId;
 	}
