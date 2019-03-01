@@ -29,14 +29,14 @@ public class AlbumDAOJDBC implements AlbumDAO {
 		Album album = new Album();	
 		
 		String fileFormat = ".jpg";
-		String path =  "/Desktop/"+ rs.getString(3) + "_" + rs.getInt(1) + fileFormat;
-		File file = new File(path);
+		String savePath =  "/Desktop/"+ rs.getString(3) + "_" + rs.getInt(1) + fileFormat;
+		File file = new File(savePath);
 		
 		album.setAlbumId(rs.getInt(1));
 		album.setUserId(rs.getInt(2));
 		album.setName(rs.getString(3));
 		album.setArtist(rs.getString(4));
-		album.setCoverPath(path);
+		album.setCoverPath(savePath);
 		
 		byte[] buffer = new byte[1024];
 		InputStream input = rs.getBinaryStream(5);
@@ -59,6 +59,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
     		if(rs.next()) {
     			album = toAlbum(rs);
     		}
+    		
     		rs.close();
     		statement.close();
     		connection.close();

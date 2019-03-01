@@ -12,7 +12,7 @@ public class Song {
     private boolean favorite;
     private long playTime;
     private Date lastPlayed;
-    private String path;
+    private String fileName;
 
     public Song() { }
     public Song(int songId, int userId, String name, int year) {
@@ -94,11 +94,11 @@ public class Song {
         this.playTime = playTime;
     }
 
-    public String getPath() {
-        return path;
+    public String setFileName() {
+        return fileName;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
