@@ -16,6 +16,10 @@ public abstract class DAOFactory {
     public static final String PLAYLIST_COLUMNS =
             "PK_PlaylistID, FK_UserID, Name, Favorite";
 
+    public static final String PLAYLISTSONG_TABLE = "musicplayer.playlistsong";
+    public static final String PLAYLISTSONG_COLUMNS =
+            "FK_PlaylistID, FK_SongID";
+
     public static final String GENRE_TABLE = "musicplayer.genre";
     public static final String GENRE_COLUMNS =
             "PK_GenreID, FK_UserID, Name";
