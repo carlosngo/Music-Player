@@ -111,6 +111,8 @@ public class UnregisteredMainScreen extends JFrame implements ActionListener{
         p.add(p2);
 
 
+        ControlPanel cp = new ControlPanel();
+        p2.add(cp);
         Border border = BorderFactory.createLineBorder(Color.white); // line for the border
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3, BoxLayout.Y_AXIS));
