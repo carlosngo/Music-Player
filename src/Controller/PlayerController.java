@@ -4,15 +4,15 @@ import View.*;
 import javax.media.*;
 import java.io.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class PlayerController {
     private Player player = null;
-    public PlayerPanel pp;
+    private PlayerPanel pp;
+    private PlayerThread pt;
 
     public PlayerController() {
         pp = new PlayerPanel(this);
-
-
     }
 
     /**
@@ -31,6 +31,7 @@ public class PlayerController {
         // create a new player with the new locator.  This will effectively
         // stop and discard any current player.
         setPlayer(Manager.createRealizedPlayer(locator), title, artist);
+
     }
     /**
      * Sets the player reference.  Setting this to a new value will discard
@@ -44,12 +45,17 @@ public class PlayerController {
         closeCurrentPlayer();
 
         player = newPlayer;
-
         // refresh the tabbed pane.\
         pp.update(title, artist, player.getControlPanelComponent());
-        System.out.println("Refreshed.");
         if (player == null) return;
+    }
 
+    public void attach(PlayerThread pt) {
+        if (this.pt != null) {
+            player.removeControllerListener(this.pt);
+        }
+        this.pt = pt;
+        player.addControllerListener(pt);
     }
 
     /**
@@ -62,6 +68,18 @@ public class PlayerController {
         }
     }
 
+    public PlayerPanel getPlayerPanel() {
+        return pp;
+    }
+
+    public boolean isRepeat() {
+        return pp.isRepeat();
+    }
+
+    public boolean isShuffle() {
+        return pp.isShuffle();
+    }
+
     public static void main(String[] args) throws Exception {
         JFrame frm = new JFrame();
         PlayerController pc = new PlayerController();
@@ -70,7 +88,7 @@ public class PlayerController {
         pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song1", "Artist1");
 //        fc.showOpenDialog(null);
 //        pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song2", "Artist2");
-        frm.setContentPane(pc.pp);
+        frm.setContentPane(pc.getPlayerPanel());
         frm.pack();
         frm.setVisible(true);
         frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -18,9 +18,13 @@ public class PlayerPanel extends JPanel implements ActionListener {
     private JLabel albumCover, titleLbl, artistLbl;
     private Component controlPnl;
     private JPanel p3;
+    private boolean isShuffle, isRepeat;
+
 
     public PlayerPanel(PlayerController pc){
         this.pc = pc;
+        isShuffle = false;
+        isRepeat = false;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 //        setOpaque(false);
         add(Box.createRigidArea(new Dimension(7,0)));
@@ -75,6 +79,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
 //        repeat.setOpaque(false);
         repeat.setContentAreaFilled(false);
         repeat.setBorderPainted(false);
+        repeat.addActionListener(this);
         add(repeat);
         add(Box.createRigidArea(new Dimension(8,0)));
 
@@ -82,6 +87,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
 //        shuffle.setOpaque(false);
         shuffle.setContentAreaFilled(false);
         shuffle.setBorderPainted(false);
+        shuffle.addActionListener(this);
         add(shuffle);
         add(Box.createRigidArea(new Dimension(0,5)));
 
@@ -103,7 +109,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
 //            resource = getClass().getClassLoader().getResource("imgShuffleBtn.png");
 //            img = Paths.get(resource.toURI()).toFile();
 //            shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            resource = getClass().getClassLoader().getResource("nocover.jpg");
+            resource = getClass().getClassLoader().getResource("images/nocover.jpg");
             img = Paths.get(resource.toURI()).toFile();
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
         }catch (URISyntaxException e) {
@@ -124,8 +130,43 @@ public class PlayerPanel extends JPanel implements ActionListener {
         repaint();
     }
 
+    public boolean isRepeat() {
+        return isRepeat;
+    }
+
+    public boolean isShuffle() {
+        return isShuffle;
+    }
+
+    public void addControlListener(ActionListener listener) {
+        for( ActionListener al : next.getActionListeners() ) {
+            next.removeActionListener( al );
+        }
+        next.addActionListener(listener);
+
+        for( ActionListener al : prev.getActionListeners() ) {
+            prev.removeActionListener( al );
+        }
+        prev.addActionListener(listener);
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getActionCommand().equals("Repeat")) {
+            isRepeat = !isRepeat;
+            if (isRepeat) {
+                // set image to repeat pressed
+            } else {
+                // set image to repeat not pressed
+            }
+        } else if (e.getActionCommand().equals("Shuffle")) {
+            isShuffle = !isShuffle;
+            if (isShuffle) {
+                // set image to shuffle pressed
+            } else {
+                // set image to shuffle not pressed
+            }
+        }
     }
 }
