@@ -21,8 +21,10 @@ public class SettingsWindow extends JFrame implements ActionListener {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
+        p.setBackground(new Color(0,0,0));
 
         JLabel songTitle = new JLabel("Song Profile");
+        songTitle.setForeground(Color.white);
         songTitle.setFont(new Font("Arial", Font.PLAIN, 45));
         songTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(songTitle);
@@ -32,7 +34,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
         p1.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel titleLabel = new JLabel("Title: ");
-        //title.setForeground(Color.WHITE);
+        titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p1.add(titleLabel);
         //p1.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -53,7 +55,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
         p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
         p2.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel albumLabel = new JLabel("Album: ");
-        //albumLabel.setForeground(Color.WHITE);
+        albumLabel.setForeground(Color.WHITE);
         albumLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(albumLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -74,7 +76,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
         p3.setLayout(new BoxLayout(p3, BoxLayout.X_AXIS));
         p3.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel genreLabel = new JLabel("Genre: ");
-        //genreLabel.setForeground(Color.WHITE);
+        genreLabel.setForeground(Color.WHITE);
         genreLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p3.add(genreLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -95,7 +97,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
         p4.setLayout(new BoxLayout(p4, BoxLayout.X_AXIS));
         p4.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel yearLabel = new JLabel("Year: ");
-        //yearLabel.setForeground(Color.WHITE);
+        yearLabel.setForeground(Color.WHITE);
         yearLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p4.add(yearLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -119,32 +121,32 @@ public class SettingsWindow extends JFrame implements ActionListener {
         //cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
         back.addActionListener(this);
         back.setFont(new Font("Arial", Font.PLAIN, 24));
-        //back.setForeground(Color.white);
-        //back.setBackground(new Color(1,121,150));
+        back.setForeground(Color.white);
+        back.setBackground(new Color(1,121,150));
         back.setOpaque(true);
-        //back.setBorderPainted(false);
+        back.setBorderPainted(false);
         p5.add(back);
         p5.add(Box.createRigidArea(new Dimension(10,0)));
         addToPlaylist = new JButton("Add ToPlaylist");
         addToPlaylist.setAlignmentX(Component.CENTER_ALIGNMENT);
         addToPlaylist.addActionListener(this);
         addToPlaylist.setFont(new Font("Arial", Font.PLAIN, 24));
-        //addToPlaylist.setForeground(Color.white);
-        //addToPlaylist.setBackground(new Color(1,121,150));
+        addToPlaylist.setForeground(Color.white);
+        addToPlaylist.setBackground(new Color(1,121,150));
         addToPlaylist.setOpaque(true);
-        //addToPlaylist.setBorderPainted(false);
-        //addToPlaylist.setEnabled(false);
+        addToPlaylist.setBorderPainted(false);
+        addToPlaylist.setEnabled(false);
         p5.add(addToPlaylist);
         p5.add(Box.createRigidArea(new Dimension(10,0)));
         edit = new JButton("Edit");
         edit.setAlignmentX(Component.CENTER_ALIGNMENT);
         edit.addActionListener(this);
         edit.setFont(new Font("Arial", Font.PLAIN, 24));
-        //addToPlaylist.setForeground(Color.white);
-        //addToPlaylist.setBackground(new Color(1,121,150));
+        edit.setForeground(Color.white);
+        edit.setBackground(new Color(1,121,150));
         edit.setOpaque(true);
-        //edit.setBorderPainted(false);
-        //edit.setEnabled(false);
+        edit.setBorderPainted(false);
+        edit.setEnabled(false);
         p5.add(edit);
         p.add(p5);
         p.add(Box.createRigidArea(new Dimension(0,7)));
@@ -152,6 +154,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
         add(p);
         setVisible(true);
         setResizable(false);
+        //setUndecorated(true);
         pack();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
