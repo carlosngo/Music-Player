@@ -1,16 +1,19 @@
 package Model;
 
+import java.sql.Blob;
+
 public class Album {
     private int albumId;
     private int userId;
     private String name;
     private String artist;
     private String coverPath;
+    private Blob file;
 
-    public Album() {
+
+	public Album() {
     	albumId = -1;
 	}
-
 	public int getAlbumId() {
 		return albumId;
 	}
@@ -40,5 +43,11 @@ public class Album {
 	}
 	public void setCoverPath(String coverPath) {
 		this.coverPath = coverPath;
+	}
+    public Blob getFile() {
+		return file;
+	}
+	public void setFile(Blob file) {
+		this.file = file;
 	}
 }

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import Model.Album;
 
@@ -20,30 +21,28 @@ public class AlbumDAOJDBC implements AlbumDAO {
     private static final String SQL_INSERT = "INSERT INTO album VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
     private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, name = ?, artist = ?, cover = ? WHERE PK_AlbumID = ?";
-
+    private static final String SQL_LIST_BY_ID = "SELECT * FROM " + DAOFactory.ALBUM_TABLE + " WHERE FK_UserID = ?";
+    private static final String SQL_EXIST_ALBUM = "SELECT COUNT(*) FROM " + DAOFactory.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
+    
+    private static final String PATH = "resources/images/";
     public AlbumDAOJDBC(DAOFactory db) {
         this.db = db;
     }
 
-    private Album toAlbum(ResultSet rs) throws SQLException, IOException {
+    private Album map(ResultSet rs) throws SQLException {
 		Album album = new Album();	
 		
 		String fileFormat = ".jpg";
-		String savePath =  "/Desktop/"+ rs.getString(3) + "_" + rs.getInt(1) + fileFormat;
-		File file = new File(savePath);
+		String fileName = rs.getString("Name") + rs.getInt("PK_AlbumID") + fileFormat;
 		
-		album.setAlbumId(rs.getInt(1));
-		album.setUserId(rs.getInt(2));
-		album.setName(rs.getString(3));
-		album.setArtist(rs.getString(4));
-		album.setCoverPath(savePath);
+		album.setAlbumId(rs.getInt("PK_AlbumID"));
+		album.setUserId(rs.getInt("FK_UserID"));
+		album.setName(rs.getString("Name"));
+		album.setArtist(rs.getString("Artist"));
+		album.setFile(rs.getBlob("Cover"));
+		album.setCoverPath(fileName);
 		
-		byte[] buffer = new byte[1024];
-		InputStream input = rs.getBinaryStream(5);
-		FileOutputStream output = new FileOutputStream(file);
-		while(input.read(buffer) > 0) {
-			output.write(buffer);
-		}
+	
 		return album;
 	}
     
@@ -57,16 +56,14 @@ public class AlbumDAOJDBC implements AlbumDAO {
     		ResultSet rs = statement.executeQuery();
     		
     		if(rs.next()) {
-    			album = toAlbum(rs);
+    			album = map(rs);
     		}
     		
     		rs.close();
     		statement.close();
     		connection.close();
-    		System.out.println("[ALBUM] SELECT SUCCESS!");
     		return album;
-        }catch(SQLException | IOException e) {
-        	System.out.println("[ALBUM] SELECT FAILED!");
+        }catch(SQLException e) {
         	e.printStackTrace();
         	return null;
         }
@@ -88,9 +85,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
     		
     		statement.close();
     		connection.close();
-    		System.out.println("[ALBUM] INSERT SUCCESS!");
     	}catch(SQLException | FileNotFoundException e) {
-    		System.out.println("[ALBUM] INSERT FAILED!");
     		e.printStackTrace();
     	}
     }
@@ -107,9 +102,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
 			
 			statement.close();
 			connection.close();
-			System.out.println("[ALBUM] DELETE SUCCESS!");
 		} catch (SQLException e) {
-			System.out.println("[ALBUM] DELETE FAILED!");
 			e.printStackTrace();
 		}	
     }
@@ -130,10 +123,52 @@ public class AlbumDAOJDBC implements AlbumDAO {
 			
 			statement.close();
 			connection.close();
-			System.out.println("[ALBUM] UPDATE SUCCESS!");
 		} catch (SQLException | FileNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("[ALBUM] UPDATE FAILED!");
 		}
     }
+
+	@Override
+	public ArrayList<Album> listById(int userId) {
+		ArrayList<Album> albums = new ArrayList<>();
+		try {
+			Connection connection = db.getConnection();
+			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
+			statement.setInt(1, userId);
+			ResultSet rs = statement.executeQuery();
+			
+			while(rs.next()) {
+				albums.add(map(rs));
+			}
+			
+			return albums;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean existAlbum(String albumName, int userId) {
+		int count = 0;
+		try{
+			Connection connection = db.getConnection();
+			PreparedStatement statement = connection.prepareStatement(SQL_EXIST_ALBUM);
+			statement.setString(1, albumName);
+			statement.setInt(2, userId);
+			ResultSet rs = statement.executeQuery();
+			
+			if(rs.next()) {
+				if(rs.getInt(1) > 0) {
+					return true;
+				}
+			}
+			
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
