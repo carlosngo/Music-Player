@@ -10,7 +10,7 @@ public abstract class DAOFactory {
 
     public static final String SONG_TABLE = "musicplayer.song";
     public static final String SONG_COLUMNS =
-            "PK_SongID, FK_UserID, FK_AlbumID, FK_GenreID, Name, Year, Favorite, PlayTime, LastPlayed, Path";
+            "PK_SongID, FK_UserID, FK_AlbumID, FK_GenreID, Name, Year, Favorite, PlayTime, LastPlayed, File";
 
     public static final String PLAYLIST_TABLE = "musicplayer.playlist";
     public static final String PLAYLIST_COLUMNS =

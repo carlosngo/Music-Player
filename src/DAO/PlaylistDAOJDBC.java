@@ -48,7 +48,6 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     		}
     		rs.close();
     		statement.close();
-    		connection.close();
     		
     		return playlist;
     	}catch(SQLException e) {
@@ -69,7 +68,6 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     		
     		statement.executeUpdate();
     		statement.close();
-    		connection.close();
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
@@ -85,7 +83,6 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     		
     		statement.executeUpdate();
     		statement.close();
-    		connection.close();
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
@@ -103,9 +100,38 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     		
     		statement.executeUpdate();
     		statement.close();
-    		connection.close();
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
+    }
+    
+    public static void main(String[] args) {
+        DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
+        PlaylistDAO playlistDAO = db.getPlaylistDAO();
+        
+        
+        //create playlist
+        Playlist playlist1 = new Playlist();
+    	playlist1.setPlaylistId(1);
+    	playlist1.setUserId(1);
+    	playlist1.setName("Playlist#1");
+    	playlist1.setFavorite(true);
+    	playlistDAO.create(playlist1);
+    	
+    	
+    	
+    	//find playlist
+    	Playlist playlist2 = playlistDAO.find(1);
+    	
+    	//update playlist
+    	playlist1.setPlaylistId(1);
+    	playlist1.setUserId(1);
+    	playlist1.setName("Playlist#1Updated");
+    	playlist1.setFavorite(false);
+    	playlistDAO.update(playlist1);
+    	Playlist playlist1updated = playlistDAO.find(1);
+    	
+    	//delete playlist
+    	playlistDAO.delete(playlist1updated);
     }
 }
