@@ -16,13 +16,13 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
     public void init(){
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBackground(new Color(0,78,56));
+        p.setBackground(new Color(0,0,0));
 
         p.add(Box.createRigidArea(new Dimension(0,15))); // add space
         JLabel title = new JLabel("Create An Account");
         title.setForeground(Color.white);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setFont(new Font("Abril Fatface", Font.BOLD, 28));
+        title.setFont(new Font("Arial", Font.BOLD, 28));
         p.add(title);
         p.add(Box.createRigidArea(new Dimension(0,20))); // add space
 
@@ -38,7 +38,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         usernameInput.addActionListener(this);
         usernameInput.getDocument().addDocumentListener(this);
         usernameInput.setFont(new Font("Arial", Font.BOLD, 22));
-        usernameInput.setBackground(new Color(152,251,152));
+        //usernameInput.setBackground(new Color(152,251,152));
         p1.add(usernameInput);
         p1.add(Box.createRigidArea(new Dimension(15,0))); // add space
         p.add(p1);
@@ -56,7 +56,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         passwordInput.addActionListener(this);
         passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
-        passwordInput.setBackground(new Color(152,251,152));
+        //passwordInput.setBackground(new Color(152,251,152));
         p2.add(passwordInput);
         p2.add(Box.createRigidArea(new Dimension(15,0))); // add space
         p.add(p2);
@@ -74,7 +74,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
                 "May", "June", "July", "August", "September",
                 "October", "November", "December"};
         mon = new JComboBox(months);
-        mon.setBackground(new Color(152,251,152));
+        //mon.setBackground(new Color(152,251,152));
         mon.addActionListener(this);
         p3.add(mon);
         String[] days = new String[32];
@@ -83,7 +83,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
             days[i] = Integer.toString(i);
         }
         day = new JComboBox(days);
-        day.setBackground(new Color(152,251,152));
+        //day.setBackground(new Color(152,251,152));
         day.addActionListener(this);
         p3.add(day);
         String[] years = new String[101];
@@ -92,7 +92,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
             years[i] = Integer.toString(1999 + i);
         }
         yr = new JComboBox(years);
-        yr.setBackground(new Color(152,251,152));
+        //yr.setBackground(new Color(152,251,152));
         yr.addActionListener(this);
         p3.add(yr);
         p3.add(Box.createRigidArea(new Dimension(15,0))); // add space
@@ -103,7 +103,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         p4.setOpaque(false);
         p4.setLayout(new BoxLayout(p4, BoxLayout.X_AXIS));
         cancel = new JButton("Cancel");
-        cancel.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
+        cancel.setFont(new Font("Arial", Font.PLAIN, 20));
         cancel.addActionListener(this);
         cancel.setForeground(Color.white);
         cancel.setBackground(new Color(1,121,150));
@@ -113,7 +113,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         p4.add(Box.createRigidArea(new Dimension(10,0))); // add space
         createAccount = new JButton("Create Account");
         createAccount.setEnabled(false);
-        createAccount.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
+        createAccount.setFont(new Font("Arial", Font.PLAIN, 20));
         createAccount.addActionListener(this);
         createAccount.setForeground(Color.white);
         createAccount.setBackground(new Color(1,121,150));
