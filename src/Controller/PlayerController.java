@@ -47,6 +47,7 @@ public class PlayerController {
         player = newPlayer;
         // refresh the tabbed pane.\
         pp.update(title, artist, player.getControlPanelComponent());
+        player.start();
         if (player == null) return;
     }
 

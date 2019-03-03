@@ -1,7 +1,6 @@
 package DAO;
 
-import Model.Genre;
-import Model.Genre;
+import Model.*;
 
 import static DAO.DAOUtil.*;
 import java.sql.*;
@@ -21,7 +20,7 @@ public class GenreDAOJDBC implements GenreDAO {
     private static final String SQL_UPDATE =
             "UPDATE " + DAOFactory.GENRE_TABLE + " SET Name = ? WHERE PK_GenreID = ?";
     private static final String SQL_EXIST_GENRE =
-            "SELECT PK_GenreID FROM " + DAOFactory.GENRE_TABLE + " WHERE Name = ?";
+            "SELECT PK_GenreID FROM " + DAOFactory.GENRE_TABLE + " WHERE Name = ? AND FK_UserID = ?";
 
     public GenreDAOJDBC(DAOFactory db) {
         this.db = db;
@@ -56,9 +55,13 @@ public class GenreDAOJDBC implements GenreDAO {
     }
 
     @Override
-    public boolean existGenre(String name) throws SQLException {
+    public boolean existGenre(String name, int userId) throws SQLException {
+        Object[] values = {
+                name,
+                userId
+        };
         Connection con = db.getConnection();
-        PreparedStatement stmt = prepareStatement(con, SQL_EXIST_GENRE, false, name);
+        PreparedStatement stmt = prepareStatement(con, SQL_EXIST_GENRE, false, values);
         ResultSet rs = stmt.executeQuery();
         return rs.next();
     }
