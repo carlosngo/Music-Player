@@ -27,13 +27,13 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
-        //p.setBackground(new Color(0,78,56));
+        p.setBackground(new Color(0,0,0));
 
         p.add(Box.createRigidArea(new Dimension(0,15))); // add space
         JLabel title = new JLabel("Log In");
-        //title.setForeground(Color.WHITE);
+        title.setForeground(Color.WHITE);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setFont(new Font("Abril Fatface", Font.BOLD, 30));
+        title.setFont(new Font("Arial", Font.BOLD, 30));
         p.add(title);
         p.add(Box.createRigidArea(new Dimension(0,20)));
 
@@ -43,7 +43,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         //subP.setLayout(new FlowLayout());
         p1.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel nameLabel = new JLabel("Username: ");
-        //nameLabel.setForeground(Color.WHITE);
+        nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p1.add(nameLabel);
         //p1.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -64,7 +64,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         //subP2.setLayout(new FlowLayout());
         p.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel pwLabel = new JLabel("Password: ");
-        //pwLabel.setForeground(Color.WHITE);
+        pwLabel.setForeground(Color.WHITE);
         pwLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(pwLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -87,20 +87,20 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         //cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
         cancel.addActionListener(this);
         cancel.setFont(new Font("Arial", Font.PLAIN, 24));
-        //cancel.setForeground(Color.white);
-        //cancel.setBackground(new Color(1,121,150));
+        cancel.setForeground(Color.white);
+        cancel.setBackground(new Color(1,121,150));
         cancel.setOpaque(true);
-        //cancel.setBorderPainted(false);
+        cancel.setBorderPainted(false);
         p3.add(cancel);
         p3.add(Box.createRigidArea(new Dimension(10,0))); // add space
         logIn = new JButton("Log In");
         logIn.setAlignmentX(Component.CENTER_ALIGNMENT);
         logIn.addActionListener(this);
         logIn.setFont(new Font("Arial", Font.BOLD, 24));
-        //logIn.setForeground(Color.white);
-        //logIn.setBackground(new Color(1,121,150));
+        logIn.setForeground(Color.white);
+        logIn.setBackground(new Color(1,121,150));
         logIn.setOpaque(true);
-        //logIn.setBorderPainted(false);
+        logIn.setBorderPainted(false);
         logIn.setEnabled(false);
         p3.add(logIn);
         p.add(p3);
