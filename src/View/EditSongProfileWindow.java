@@ -21,9 +21,11 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
+        p.setBackground(new Color(0,0,0));
 
         JLabel songTitle = new JLabel("Song Profile");
-        songTitle.setFont(new Font("Arial", Font.PLAIN, 45));
+        songTitle.setForeground(Color.white);
+        songTitle.setFont(new Font("Arial", Font.PLAIN, 28));
         songTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(songTitle);
 
@@ -32,7 +34,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
         p1.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel titleLabel = new JLabel("Title: ");
-        //title.setForeground(Color.WHITE);
+        titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p1.add(titleLabel);
         //p1.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -53,7 +55,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
         p2.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel albumLabel = new JLabel("Album: ");
-        //albumLabel.setForeground(Color.WHITE);
+        albumLabel.setForeground(Color.WHITE);
         albumLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(albumLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -74,7 +76,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p3.setLayout(new BoxLayout(p3, BoxLayout.X_AXIS));
         p3.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel genreLabel = new JLabel("Genre: ");
-        //genreLabel.setForeground(Color.WHITE);
+        genreLabel.setForeground(Color.WHITE);
         genreLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p3.add(genreLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -95,7 +97,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p4.setLayout(new BoxLayout(p4, BoxLayout.X_AXIS));
         p4.add(Box.createRigidArea(new Dimension(15,0)));
         JLabel yearLabel = new JLabel("Year: ");
-        //yearLabel.setForeground(Color.WHITE);
+        yearLabel.setForeground(Color.WHITE);
         yearLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p4.add(yearLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
@@ -114,25 +116,23 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         JPanel p5 = new JPanel();
         p5.setOpaque(false);
         p5.setLayout(new BoxLayout(p5, BoxLayout.X_AXIS));
-        //subP3.setLayout(new FlowLayout());
         cancel = new JButton("Cancel");
-        //cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
         cancel.addActionListener(this);
         cancel.setFont(new Font("Arial", Font.PLAIN, 24));
-        //cancel.setForeground(Color.white);
-        //cancel.setBackground(new Color(1,121,150));
+        cancel.setForeground(Color.white);
+        cancel.setBackground(new Color(1,121,150));
         cancel.setOpaque(true);
-        //cancel.setBorderPainted(false);
+        cancel.setBorderPainted(false);
         p5.add(cancel);
         p5.add(Box.createRigidArea(new Dimension(10,0)));
         save = new JButton("Save");
         save.setAlignmentX(Component.CENTER_ALIGNMENT);
         save.addActionListener(this);
         save.setFont(new Font("Arial", Font.PLAIN, 24));
-        //save.setForeground(Color.white);
-        //save.setBackground(new Color(1,121,150));
+        save.setForeground(Color.white);
+        save.setBackground(new Color(1,121,150));
         save.setOpaque(true);
-        //save.setBorderPainted(false);
+        save.setBorderPainted(false);
         save.setEnabled(false);
         p5.add(save);
         p.add(p5);
@@ -141,6 +141,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         add(p);
         setVisible(true);
         setResizable(false);
+        //setUndecorated(true);
         /*
         setUndecorated(true);
         addWindowListener(new WindowAdapter() {
