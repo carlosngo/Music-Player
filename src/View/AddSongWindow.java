@@ -138,7 +138,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         cancel.setBorderPainted(false);
         p5.add(cancel);
         p5.add(Box.createRigidArea(new Dimension(10,0)));
-        saveSong = new JButton("Save Song");
+        saveSong = new JButton("Add Song");
         saveSong.setFont(new Font("Arial", Font.PLAIN, 22));
         saveSong.setForeground(Color.white);
         saveSong.setBackground(new Color(1,121,150));
