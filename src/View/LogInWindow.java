@@ -143,7 +143,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
             //open main screen (logged in)
         }
         else if(e.getActionCommand().equals("Cancel")){
-            MainScreen ums = new MainScreen();
+            //MainScreen ums = new MainScreen();
             dispose();
         }
     }

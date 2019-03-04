@@ -339,43 +339,59 @@ public class ControlPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //test 2D arraylist only
+        int var = 0;
         ArrayList<Object> miniRow = new ArrayList<Object>();
         ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
-        for(int i=0;i<5;i++){
-            for(int j=0;j<2;j++){
-                miniRow.add(i+j);
+        for(int i=0;i<20;i++){
+            for(int j=0;j<5;j++){
+                miniRow.add(var);
+                var++;
             }
             rowsInput.add(miniRow);
+            miniRow = new ArrayList<Object>();
         }
+        //test array
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("suboption 0");
+        list.add("suboption 1");
+        list.add("suboption 2");
+        list.add("suboption 3");
+        list.add("suboption 4");
+        list.add("suboption 5");
+        list.add("suboption 6");
+        list.add("suboption 7");
+        list.add("suboption 8");
+        list.add("suboption 9");
+        list.add("suboption 10");
+        list.add("suboption 11");
+        list.add("suboption 12");
 
         if(e.getSource() == mostFrqntlyPlyd){
             ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new SongPanel("Most Played", rowsInput));
         }
         if(e.getSource() == playlists){
             ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel("Playlists", rowsInput));
-            ms.showPlaylists();
-            System.out.println(1234);
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Playlist", list));
         }
         if(e.getSource() == artists){
             ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel("Artists", rowsInput));
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Artist", list));
         }
         if(e.getSource() == albums){
             ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel("Albums", rowsInput));
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Album", list));
         }
         if(e.getSource() == songs){
             ms.getDisplayPanel().removeAll();
-            //ms.getDisplayPanel().add(new SongPanel("Songs", rowsInput));
+            ms.getDisplayPanel().add(new SongPanel("Song", rowsInput));
         }
         if(e.getSource() == genres){
             ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel("Genres", rowsInput));
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Genre", list));
         }
         if(e.getSource() == addPlaylist){
             AddPlaylistWindow apw = new AddPlaylistWindow();
-
         }
         revalidate();
         repaint();

@@ -37,7 +37,7 @@ public class SongPanel extends JPanel implements ActionListener{
         headerName.setFont(new Font("Arial", Font.BOLD, 26));
         headerName.setForeground(Color.white);
         headerPnl.add(headerName);
-        headerPnl.add(Box.createRigidArea(new Dimension(300,0)));
+        headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
         String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
         sortOptions = new JComboBox(sort);
         sortOptions.setForeground(SystemColor.windowText);
