@@ -1,5 +1,7 @@
 package View;
 
+import sun.applet.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,19 +11,24 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class ControlPanel extends JPanel implements ActionListener {
     private JButton mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist;
+    private MainScreen ms;
+    private ArrayList<ArrayList<Object>> rowsInput; //test 2D arraylist only
 
-    public ControlPanel(){
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+    public ControlPanel(MainScreen mainscreen){
+        ms = mainscreen;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));
 
-        JPanel buttonsPnl = new JPanel();
-        buttonsPnl.setLayout(new BoxLayout(buttonsPnl, BoxLayout.Y_AXIS));
-        buttonsPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        buttonsPnl.setOpaque(false);
+//        JPanel buttonsPnl = new JPanel();
+//        buttonsPnl.setLayout(new BoxLayout(buttonsPnl, BoxLayout.Y_AXIS));
+//        buttonsPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        buttonsPnl.setOpaque(false);
         mostFrqntlyPlyd = new JButton();
         //mostFrqntlyPlyd.setAlignmentX(Component.LEFT_ALIGNMENT);
         mostFrqntlyPlyd.addActionListener(this);
@@ -58,7 +65,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 mostFrqntlyPlyd.setForeground(oldColor);
             }
         });
-        buttonsPnl.add(mostFrqntlyPlyd);
+        //buttonsPnl.add(mostFrqntlyPlyd);
+        add(mostFrqntlyPlyd);
         songs = new JButton();
         //songs.setAlignmentX(Component.LEFT_ALIGNMENT);
         songs.setForeground(Color.white);
@@ -95,7 +103,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 songs.setForeground(oldColor);
             }
         });
-        buttonsPnl.add(songs);
+        //buttonsPnl.add(songs);
+        add(songs);
         playlists = new JButton();
         //playlists.setAlignmentX(Component.LEFT_ALIGNMENT);
         playlists.setForeground(Color.white);
@@ -132,7 +141,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 playlists.setForeground(oldColor);
             }
         });
-        buttonsPnl.add(playlists);
+        //buttonsPnl.add(playlists);
+        add(playlists);
         artists = new JButton();
         //artists.setAlignmentX(Component.LEFT_ALIGNMENT);
         artists.setForeground(Color.white);
@@ -169,7 +179,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 artists.setForeground(oldColor);
             }
         });
-        buttonsPnl.add(artists);
+        //buttonsPnl.add(artists);
+        add(artists);
         albums = new JButton();
         //albums.setAlignmentX(Component.LEFT_ALIGNMENT);
         albums.setForeground(Color.white);
@@ -206,7 +217,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 albums.setForeground(oldColor);
             }
         });
-        buttonsPnl.add(albums);
+        //buttonsPnl.add(albums);
+        add(albums);
         genres = new JButton();
         //genres.setAlignmentX(Component.LEFT_ALIGNMENT);
         genres.setForeground(Color.white);
@@ -243,7 +255,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 genres.setForeground(oldColor);
             }
         });
-        buttonsPnl.add(genres);
+        //buttonsPnl.add(genres);
+        add(genres);
 //        JPanel addPlaylistPnl = new JPanel();
 //        addPlaylistPnl.setLayout(new BoxLayout(addPlaylistPnl, BoxLayout.X_AXIS));
 //        addPlaylistPnl.setOpaque(false);
@@ -283,18 +296,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 addPlaylist.setForeground(oldColor);
             }
         });
-//        addPlaylistPnl.setBorder(border);
-//        addPlaylistPnl.add(addPlaylist);
-        buttonsPnl.add(addPlaylist);
-        /*
-        years = new JButton("Years");
-        years.setForeground(Color.white);
-        years.addActionListener(this);
-        years.setOpaque(false);
-        years.setContentAreaFilled(false);
-        years.setBorderPainted(false);
-        add(years);
-        */
+        //buttonsPnl.add(addPlaylist);
+        add(addPlaylist);
 
         try{
             URL resource = getClass().getClassLoader().getResource("mostPlayed.png");
@@ -330,32 +333,49 @@ public class ControlPanel extends JPanel implements ActionListener {
         catch (Exception e) {
             e.printStackTrace();
         }
-        add(buttonsPnl);
+        //add(buttonsPnl);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == mostFrqntlyPlyd){
+        //test 2D arraylist only
+        ArrayList<Object> miniRow = new ArrayList<Object>();
+        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
+        for(int i=0;i<5;i++){
+            for(int j=0;j<2;j++){
+                miniRow.add(i+j);
+            }
+            rowsInput.add(miniRow);
+        }
 
+        if(e.getSource() == mostFrqntlyPlyd){
+            ms.getDisplayPanel().removeAll();
         }
         if(e.getSource() == playlists){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel("Playlists", rowsInput));
+            ms.showPlaylists();
+            System.out.println(1234);
         }
         if(e.getSource() == artists){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel("Artists", rowsInput));
         }
         if(e.getSource() == albums){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel("Albums", rowsInput));
         }
         if(e.getSource() == songs){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel("Songs", rowsInput));
         }
         if(e.getSource() == genres){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel("Genres", rowsInput));
         }
         if(e.getSource() == addPlaylist){
-
+            AddPlaylistWindow apw = new AddPlaylistWindow();
         }
     }
 }
