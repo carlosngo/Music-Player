@@ -1,5 +1,8 @@
 package View;
 
+import Controller.PlayerController;
+
+import javax.media.MediaLocator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -270,6 +273,14 @@ public class MainScreen extends JFrame implements ActionListener {
         //displayPanel.add(new CategoryPanel("Genres", rowsInput));
         displayPanel.add(new SongPanel("Songs", rowsInput));
 
+
+        JFileChooser fc = new JFileChooser();
+        fc.showOpenDialog(null);
+        PlayerController pc = new PlayerController();
+        try{
+            pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song1", "Artist1");
+            p.add(pc.getPlayerPanel());
+        }catch(Exception e){}
 //        JPanel p5 = new JPanel();
 //        p5.setLayout(new BoxLayout(p5, BoxLayout.X_AXIS));
 //        p5.setOpaque(false);

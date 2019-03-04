@@ -43,7 +43,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = mostFrqntlyPlyd.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanMostPlayed.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanMostPlayed.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     mostFrqntlyPlyd.setText("Most Played");
@@ -54,7 +54,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("mostPlayed.png");
+                    URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     mostFrqntlyPlyd.setText("Most Played");
@@ -81,7 +81,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = songs.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanSongs.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanSongs.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     songs.setText("Songs");
@@ -92,7 +92,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("songs.png");
+                    URL resource = getClass().getClassLoader().getResource("images/songs.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     songs.setText("Songs");
@@ -119,7 +119,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = playlists.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanPlaylists.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanPlaylists.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     playlists.setText("Playlists");
@@ -130,7 +130,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("playlists.png");
+                    URL resource = getClass().getClassLoader().getResource("images/playlists.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     playlists.setText("Playlists");
@@ -157,7 +157,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = artists.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanArtist.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanArtist.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     artists.setText("Artists");
@@ -168,7 +168,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("artists.png");
+                    URL resource = getClass().getClassLoader().getResource("images/artists.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     artists.setText("Artists");
@@ -195,7 +195,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = albums.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanAlbums.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAlbums.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     albums.setText("Albums");
@@ -206,7 +206,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("albums.png");
+                    URL resource = getClass().getClassLoader().getResource("images/albums.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     albums.setText("Albums");
@@ -233,7 +233,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = genres.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanGenre.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanGenre.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     genres.setText("Genres");
@@ -244,7 +244,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("genre.png");
+                    URL resource = getClass().getClassLoader().getResource("images/genre.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     genres.setText("Genres");
@@ -274,7 +274,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = addPlaylist.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanAddPlaylist.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAddPlaylist.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     addPlaylist.setText("Add Playlist");
@@ -285,7 +285,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("addPlaylist.png");
+                    URL resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     addPlaylist.setText("Add Playlist");
@@ -299,31 +299,31 @@ public class ControlPanel extends JPanel implements ActionListener {
         add(addPlaylist);
 
         try{
-            URL resource = getClass().getClassLoader().getResource("mostPlayed.png");
+            URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
             File img = Paths.get(resource.toURI()).toFile();
             mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             mostFrqntlyPlyd.setText("Most Played");
-            resource = getClass().getClassLoader().getResource("songs.png");
+            resource = getClass().getClassLoader().getResource("images/songs.png");
             img = Paths.get(resource.toURI()).toFile();
             songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             songs.setText("Songs");
-            resource = getClass().getClassLoader().getResource("playlists.png");
+            resource = getClass().getClassLoader().getResource("images/playlists.png");
             img = Paths.get(resource.toURI()).toFile();
             playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             playlists.setText("Playlists");
-            resource = getClass().getClassLoader().getResource("artists.png");
+            resource = getClass().getClassLoader().getResource("images/artists.png");
             img = Paths.get(resource.toURI()).toFile();
             artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             artists.setText("Artists");
-            resource = getClass().getClassLoader().getResource("albums.png");
+            resource = getClass().getClassLoader().getResource("images/albums.png");
             img = Paths.get(resource.toURI()).toFile();
             albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             albums.setText("Albums");
-            resource = getClass().getClassLoader().getResource("genre.png");
+            resource = getClass().getClassLoader().getResource("images/genre.png");
             img = Paths.get(resource.toURI()).toFile();
             genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             genres.setText("Genres");
-            resource = getClass().getClassLoader().getResource("addPlaylist.png");
+            resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
             img = Paths.get(resource.toURI()).toFile();
             addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             addPlaylist.setText("Add Playlist");
@@ -367,7 +367,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == songs){
             ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel("Songs", rowsInput));
+            //ms.getDisplayPanel().add(new SongPanel("Songs", rowsInput));
         }
         if(e.getSource() == genres){
             ms.getDisplayPanel().removeAll();
@@ -377,5 +377,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             AddPlaylistWindow apw = new AddPlaylistWindow();
 
         }
+        revalidate();
+        repaint();
     }
 }

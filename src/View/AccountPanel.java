@@ -23,7 +23,7 @@ public class AccountPanel extends JPanel implements ActionListener {
         title.setForeground(Color.white);
         add(title);
         try{
-            URL resource = getClass().getClassLoader().getResource("imgLogoWhite.png");
+            URL resource = getClass().getClassLoader().getResource("images/imgLogoWhite.png");
             File img = Paths.get(resource.toURI()).toFile();
             title.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 55, 55)));
             title.setText("iPL4YER");

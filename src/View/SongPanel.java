@@ -226,6 +226,8 @@ public class SongPanel extends JPanel implements ActionListener{
                     System.out.println(5);
                     break;
             }
+            revalidate();
+            repaint();
         }
     }
 }

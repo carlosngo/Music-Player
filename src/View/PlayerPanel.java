@@ -26,7 +26,8 @@ public class PlayerPanel extends JPanel implements ActionListener {
         isShuffle = false;
         isRepeat = false;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-//        setOpaque(false);
+        setOpaque(true);
+        setBackground(Color.BLACK);
         add(Box.createRigidArea(new Dimension(7,0)));
 
         albumCover = new JLabel();
@@ -36,31 +37,31 @@ public class PlayerPanel extends JPanel implements ActionListener {
 
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-//        p1.setOpaque(false);
+        p1.setOpaque(false);
         titleLbl = new JLabel();
         titleLbl.setFont(new Font("Arial", Font.PLAIN, 14));
-//        titleLbl.setForeground(Color.white);
+        titleLbl.setForeground(Color.white);
         p1.add(titleLbl);
         p1.add(Box.createRigidArea(new Dimension(0, 5)));
         artistLbl = new JLabel();
         artistLbl.setFont(new Font("Arial", Font.PLAIN, 12));
-//        artistLbl.setForeground(Color.white);
+        artistLbl.setForeground(Color.white);
         p1.add(artistLbl);
         add(p1);
 
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
-//        p2.setOpaque(false);
+        p2.setOpaque(false);
 
         prev = new JButton("Prev");
-//        rewind.setOpaque(false);
+        prev.setOpaque(false);
         prev.setContentAreaFilled(false);
         prev.setBorderPainted(false);
         add(prev);
         add(Box.createRigidArea(new Dimension(5,0)));
 
         next = new JButton("Next");
-//        rewind.setOpaque(false);
+        next.setOpaque(false);
         next.setContentAreaFilled(false);
         next.setBorderPainted(false);
         add(next);
@@ -76,7 +77,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         add(p3);
 
         repeat = new JButton("Repeat");
-//        repeat.setOpaque(false);
+        repeat.setOpaque(false);
         repeat.setContentAreaFilled(false);
         repeat.setBorderPainted(false);
         repeat.addActionListener(this);
@@ -84,7 +85,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         add(Box.createRigidArea(new Dimension(8,0)));
 
         shuffle = new JButton("Shuffle");
-//        shuffle.setOpaque(false);
+        shuffle.setOpaque(false);
         shuffle.setContentAreaFilled(false);
         shuffle.setBorderPainted(false);
         shuffle.addActionListener(this);
@@ -94,21 +95,21 @@ public class PlayerPanel extends JPanel implements ActionListener {
         try{
             URL resource;
             File img;
-//            URL resource = getClass().getClassLoader().getResource("imgRepeatBtn.png");
-//            File img = Paths.get(resource.toURI()).toFile();
-//            repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//            resource = getClass().getClassLoader().getResource("imgBackBtn.png");
-//            img = Paths.get(resource.toURI()).toFile();
-//            rewind.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//            resource = getClass().getClassLoader().getResource("imgPlayBtn.png");
+            resource = getClass().getClassLoader().getResource("images/imgRepeatBtn.png");
+            img = Paths.get(resource.toURI()).toFile();
+            repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgBackBtn.png");
+            img = Paths.get(resource.toURI()).toFile();
+            prev.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
 //            img = Paths.get(resource.toURI()).toFile();
 //            playOrPause.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 20, 20)));
-//            resource = getClass().getClassLoader().getResource("imgNextBtn.png");
-//            img = Paths.get(resource.toURI()).toFile();
-//            fastforward.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//            resource = getClass().getClassLoader().getResource("imgShuffleBtn.png");
-//            img = Paths.get(resource.toURI()).toFile();
-//            shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgNextBtn.png");
+            img = Paths.get(resource.toURI()).toFile();
+            next.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgShuffleBtn.png");
+            img = Paths.get(resource.toURI()).toFile();
+            shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
             img = Paths.get(resource.toURI()).toFile();
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
