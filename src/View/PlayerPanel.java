@@ -30,7 +30,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
         add(Box.createRigidArea(new Dimension(7,0)));
 
-        albumCover = new JLabel();
+        albumCover = new JLabel("test album");
         albumCover.setOpaque(true);
         add(albumCover);
         add(Box.createRigidArea(new Dimension(10,0)));
@@ -38,12 +38,12 @@ public class PlayerPanel extends JPanel implements ActionListener {
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
         p1.setOpaque(false);
-        titleLbl = new JLabel();
+        titleLbl = new JLabel("test title");
         titleLbl.setFont(new Font("Arial", Font.PLAIN, 14));
         titleLbl.setForeground(Color.white);
         p1.add(titleLbl);
         p1.add(Box.createRigidArea(new Dimension(0, 5)));
-        artistLbl = new JLabel();
+        artistLbl = new JLabel("test artist");
         artistLbl.setFont(new Font("Arial", Font.PLAIN, 12));
         artistLbl.setForeground(Color.white);
         p1.add(artistLbl);
@@ -53,14 +53,14 @@ public class PlayerPanel extends JPanel implements ActionListener {
         p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
         p2.setOpaque(false);
 
-        prev = new JButton("Prev");
+        prev = new JButton();
         prev.setOpaque(false);
         prev.setContentAreaFilled(false);
         prev.setBorderPainted(false);
         add(prev);
         add(Box.createRigidArea(new Dimension(5,0)));
 
-        next = new JButton("Next");
+        next = new JButton();
         next.setOpaque(false);
         next.setContentAreaFilled(false);
         next.setBorderPainted(false);
@@ -76,7 +76,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         p3.setMaximumSize(new Dimension(220, 25));
         add(p3);
 
-        repeat = new JButton("Repeat");
+        repeat = new JButton();
         repeat.setOpaque(false);
         repeat.setContentAreaFilled(false);
         repeat.setBorderPainted(false);
@@ -84,7 +84,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         add(repeat);
         add(Box.createRigidArea(new Dimension(8,0)));
 
-        shuffle = new JButton("Shuffle");
+        shuffle = new JButton();
         shuffle.setOpaque(false);
         shuffle.setContentAreaFilled(false);
         shuffle.setBorderPainted(false);
