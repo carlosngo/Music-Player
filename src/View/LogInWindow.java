@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -144,7 +143,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
             //open main screen (logged in)
         }
         else if(e.getActionCommand().equals("Cancel")){
-            UnregisteredMainScreen ums = new UnregisteredMainScreen();
+            MainScreen ums = new MainScreen();
             dispose();
         }
     }
