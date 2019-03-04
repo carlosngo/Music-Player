@@ -94,6 +94,10 @@ public class CategoryPanel extends JPanel {
                 subOptionButton.setContentAreaFilled(false);
                 subOptionButton.setBorderPainted(false);
                 subOptionButton.setForeground(Color.white);
+                JButton play = new JButton();
+                play.setOpaque(false);
+                play.setContentAreaFilled(false);
+                play.setBorderPainted(false);
                 JButton remove = new JButton();
                 //remove.setVisible(false);
                 remove.setOpaque(false);
@@ -104,10 +108,6 @@ public class CategoryPanel extends JPanel {
                 edit.setOpaque(false);
                 edit.setContentAreaFilled(false);
                 edit.setBorderPainted(false);
-                JButton settings = new JButton();
-                settings.setOpaque(false);
-                settings.setContentAreaFilled(false);
-                settings.setBorderPainted(false);
 
                 try {
                     URL resource = getClass().getClassLoader().getResource("images/delete.png");
@@ -116,6 +116,9 @@ public class CategoryPanel extends JPanel {
                     resource = getClass().getClassLoader().getResource("images/edit.png");
                     img = Paths.get(resource.toURI()).toFile();
                     edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+                    img = Paths.get(resource.toURI()).toFile();
+                    play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -178,19 +181,27 @@ public class CategoryPanel extends JPanel {
                             subOptionButton.setText(ecw.getNewName());
                     }
                 });
+                play.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //play te song
+                    }
+                });
                 cons.insets = new Insets(5, 10, 0, 0);
                 cons.gridx = 0;
                 cons.gridy = i;
                 cons.gridwidth = 1;
-                //block.add(titleLabel, cons);
                 block.add(subOptionButton, cons);
                 cons.insets = new Insets(5, 0, 0, 0);
-                cons.gridx = 2;
+                cons.gridx = 4;
                 cons.gridwidth = 1;
                 block.add(edit, cons);
                 cons.insets = new Insets(5, 0, 0, 10);
-                cons.gridx = 3;
+                cons.gridx = 5;
                 block.add(remove, cons);
+                cons.insets = new Insets(5, 0, 0, 10);
+                cons.gridx = 2;
+                block.add(play, cons);
             }
             add(scroll);
         }
