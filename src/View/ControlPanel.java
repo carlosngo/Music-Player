@@ -1,7 +1,6 @@
 package View;
 
 import sun.applet.Main;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -376,6 +375,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == addPlaylist){
             AddPlaylistWindow apw = new AddPlaylistWindow();
+
         }
     }
 }

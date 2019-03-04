@@ -12,6 +12,18 @@ public interface SongDAO {
 
     ArrayList<Song> findByYear();
 
+    // list all songs of a genre for a user
+    ArrayList<Song> listByGenre(int genreId, int userId);
+
+    // list all songs of a playlist for a user
+    ArrayList<Song> listByPlaylist(int playlistId, int userId);
+
+    // list all songs of an album for a user
+    ArrayList<Song> listByAlbum(int albumId, int userId);
+
+    // list favorite songs of a user
+    ArrayList<Song> listFavorites(int userId);
+
     void create(Song song);
 
     void delete(Song song);
