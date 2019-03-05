@@ -77,7 +77,7 @@ public class AccountController {
 		}
 		accountPanel = new AccountPanel(this, user);
     	accountPanel.update();
-		mc.getDashboard().update();
+//		mc.getDashboard().update();
         return true;
     }
 
@@ -87,14 +87,14 @@ public class AccountController {
     	
     	
     	try {
-    		if(!MainController.userDAO.existUserName(username)){
+    		if(mc.getUserDAO().existUserName(username)){
     			user.setUserName(username);
     	    	user.setPassword(password);
     	    	user.setFirstName(firstName);
     	    	user.setLastName(lastName);
     	    	user.setGender(gender);
     	    	user.setBirthday(birthday);
-    			MainController.userDAO.create(user);
+    			mc.getUserDAO().create(user);
     		} else {
     			return false;
     		}
@@ -108,7 +108,7 @@ public class AccountController {
     // logs out the user. clear the cache
     public void logOut() {
     	user = null;
-    	mc.clearCache();
+    	mc.getSongController().clearCache();
     }
 
 }

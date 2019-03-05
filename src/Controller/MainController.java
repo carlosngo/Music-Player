@@ -21,18 +21,25 @@ public class MainController {
     private GenreDAO genreDAO;
 
     // views
-    private static MainScreen dashboard;
+    private static Dashboard dashboard;
 
     public MainController() {
         DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
+        ac = new AccountController(this);
+        pc = new PlayerController();
+        sc = new SongController(this);
         userDAO = db.getUserDAO();
         songDAO = db.getSongDAO();
         albumDAO = db.getAlbumDAO();
         playlistDAO = db.getPlaylistDAO();
         playlistSongDAO = db.getPlaylistSongDAO();
         genreDAO = db.getGenreDAO();
+        openDashboard();
     }
 
+    public void openDashboard() {
+        dashboard = new Dashboard(this);
+    }
 
     public AccountController getAccountController() {
         return ac;
@@ -70,7 +77,7 @@ public class MainController {
         return genreDAO;
     }
 
-    public MainScreen getDashboard() {
+    public Dashboard getDashboard() {
         return dashboard;
     }
 
@@ -80,11 +87,4 @@ public class MainController {
 
     }
 
-    // clears the cache
-    public void clearCache() {
-        songs = new ArrayList<>();
-        albums = new ArrayList<>();
-        playlists = new ArrayList<>();
-        genres = new ArrayList<>();
-    }
 }

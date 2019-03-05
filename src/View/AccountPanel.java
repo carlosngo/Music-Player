@@ -194,7 +194,7 @@ public class AccountPanel extends JPanel {
         viewAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ac.openCreateAccountWindow();
+                ac.openViewAccountWindow();
             }
         });
         add(viewAccount);

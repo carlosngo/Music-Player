@@ -1,15 +1,20 @@
 package View;
+import Controller.AccountController;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Calendar;
 
 public class CreateAccountWindow extends JFrame implements ActionListener, DocumentListener {
+    private AccountController controller;
     private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
     private JComboBox mon, day, yr, gender;
     private JButton cancel, createAccount;
 
-    public CreateAccountWindow(){
+    public CreateAccountWindow(AccountController controller){
+        this.controller = controller;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setBackground(new Color(0,0,0));
@@ -213,10 +218,18 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         }
 
         if (e.getSource() == createAccount){
-            //create account
+            Calendar c = Calendar.getInstance();
+            c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
+            boolean success = controller.register(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(),
+                    lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Username already exists.",
+                        "Registration Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            dispose();
         }
         if (e.getSource() == cancel){
-            //MainScreen caw = new MainScreen();
             dispose();
         }
     }
@@ -251,8 +264,8 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
             createAccount.setEnabled(true);
     }
 
-    public static void main(String[] args){
-        CreateAccountWindow caw = new CreateAccountWindow();
-    }
+//    public static void main(String[] args){
+//        CreateAccountWindow caw = new CreateAccountWindow();
+//    }
 }
 

@@ -1,5 +1,7 @@
 package View;
 
+import Controller.*;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -10,12 +12,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class AddSongWindow extends JFrame implements ActionListener, DocumentListener {
+    SongController controller;
     JTextField songTitleInput, genreInput, artistInput, yearInput;
     JButton selectFile, cancel, saveSong;
     JPanel fileReaderPnl;
     JLabel selectedFileName;
 
-    public AddSongWindow(){
+    public AddSongWindow(SongController controller){
+        this.controller = controller;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -242,7 +246,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
             selectFile.setEnabled(true);
     }
 
-    public static void main(String[] args){
-        AddSongWindow asw = new AddSongWindow();
-    }
+//    public static void main(String[] args){
+//        AddSongWindow asw = new AddSongWindow();
+//    }
 }

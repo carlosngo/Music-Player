@@ -1,4 +1,7 @@
 package View;
+
+import Controller.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -8,11 +11,13 @@ import java.util.Calendar;
 import Model.*;
 
 public class EditAccountWindow extends JFrame implements ActionListener, DocumentListener {
+    private AccountController controller;
     private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
     private JComboBox mon, day, yr, gender;
     private JButton cancel, save;
 
-    public EditAccountWindow(User user){
+    public EditAccountWindow(AccountController controller){
+        this.controller = controller;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setBackground(new Color(0,0,0));
@@ -36,7 +41,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p1.add(firstNameLabel);
         firstNameInput = new JTextField("" , 10);
         firstNameInput.addActionListener(this);
-        firstNameInput.setText(user.getFirstName());
+        firstNameInput.setText(controller.getUser().getFirstName());
         //firstNameInput.setEditable(false);
         firstNameInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
@@ -55,7 +60,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p2.add(lastNameLabel);
         lastNameInput = new JTextField("" , 10);
         lastNameInput.addActionListener(this);
-        lastNameInput.setText(user.getLastName());
+        lastNameInput.setText(controller.getUser().getLastName());
         //lastNameInput.setEditable(false);
         lastNameInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
@@ -78,7 +83,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         mon = new JComboBox(months);
         mon.setFont(new Font("Arial", Font.PLAIN, 16));
         Calendar c = Calendar.getInstance();
-        c.setTime(user.getBirthday());
+        c.setTime(controller.getUser().getBirthday());
         int month = c.get(Calendar.MONTH) + 1;
         mon.setSelectedIndex(month);
         //mon.setBackground(new Color(152,251,152));
@@ -127,7 +132,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         gender.setFont(new Font("Arial", Font.PLAIN, 16));
         //gender.setEnabled(false);
         //gender.setBackground(new Color(152,251,152));
-        gender.setSelectedItem(user.getGender());
+        gender.setSelectedItem(controller.getUser().getGender());
         gender.addActionListener(this);
         p4.add(gender);
         p4.add(Box.createRigidArea(new Dimension(15,0))); // add space
@@ -143,7 +148,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p5.add(usernameLabel);
         usernameInput = new JTextField("" , 10);
-        usernameInput.setText(user.getUserName());
+        usernameInput.setText(controller.getUser().getUserName());
         usernameInput.addActionListener(this);
         //usernameInput.setEditable(false);
         usernameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -161,7 +166,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p6.add(passwordLabel);
         passwordInput = new JTextField("" , 10);
-        passwordInput.setText(user.getPassword());
+        passwordInput.setText(controller.getUser().getPassword());
         passwordInput.addActionListener(this);
         //passwordInput.setEditable(false);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));

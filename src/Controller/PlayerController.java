@@ -59,6 +59,7 @@ public class PlayerController {
     public void attach(PlayerThread pt) {
         if (this.pt != null) {
             player.removeControllerListener(this.pt);
+            this.pt.terminate();
         }
         this.pt = pt;
         player.addControllerListener(pt);

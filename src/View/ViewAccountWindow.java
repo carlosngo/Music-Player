@@ -24,7 +24,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         this.ac = ac;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBackground(new Color(0,0,0));]
+        p.setBackground(new Color(0,0,0));
         p.add(Box.createRigidArea(new Dimension(0,15))); // add space
         JLabel title = new JLabel("Account");
         title.setForeground(Color.white);

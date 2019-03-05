@@ -1,5 +1,6 @@
 package View;
 
+import Controller.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class SongPanel extends JPanel implements ActionListener{
+    SongController controller;
     private JLabel headerName;
     private JScrollPane scroll;
     private JComboBox sortOptions;
@@ -20,7 +22,11 @@ public class SongPanel extends JPanel implements ActionListener{
 
     ArrayList<ArrayList<Object>> testList; //testing
 
-    public SongPanel(String header, ArrayList<ArrayList<Object>> rowsInput){
+    public SongPanel(SongController controller, String header) {
+        this.controller = controller;
+//    public SongPanel(String header, ArrayList<ArrayList<Object>> rowsInput){
+
+        ArrayList<ArrayList<Object>> rowsInput = null;
         testList = rowsInput;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
