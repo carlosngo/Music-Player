@@ -30,7 +30,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
         add(Box.createRigidArea(new Dimension(7,0)));
 
-        albumCover = new JLabel("test album");
+        albumCover = new JLabel("");
         albumCover.setOpaque(true);
         add(albumCover);
         add(Box.createRigidArea(new Dimension(10,0)));
@@ -38,12 +38,12 @@ public class PlayerPanel extends JPanel implements ActionListener {
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
         p1.setOpaque(false);
-        titleLbl = new JLabel("test title");
+        titleLbl = new JLabel("");
         titleLbl.setFont(new Font("Arial", Font.PLAIN, 14));
         titleLbl.setForeground(Color.white);
         p1.add(titleLbl);
         p1.add(Box.createRigidArea(new Dimension(0, 5)));
-        artistLbl = new JLabel("test artist");
+        artistLbl = new JLabel("");
         artistLbl.setFont(new Font("Arial", Font.PLAIN, 12));
         artistLbl.setForeground(Color.white);
         p1.add(artistLbl);
@@ -124,8 +124,8 @@ public class PlayerPanel extends JPanel implements ActionListener {
     public void update(String title, String artist, Component controlPnl) {
         titleLbl.setText(title);
         artistLbl.setText(artist);
-        p3.remove(this.controlPnl);
-        p3.add(controlPnl);
+        if (this.controlPnl != null) p3.remove(this.controlPnl);
+        if (controlPnl != null) p3.add(controlPnl);
         this.controlPnl = controlPnl;
         revalidate();
         repaint();
