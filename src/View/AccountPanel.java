@@ -202,5 +202,12 @@ public class AccountPanel extends JPanel implements ActionListener {
         if(e.getSource() == signUp){
             CreateAccountWindow caw = new CreateAccountWindow();
         }
+        if(e.getSource() == logOut){
+            MainScreen ms2 = new MainScreen();
+            ms.dispose();
+        }
+        if(e.getSource() == viewAccount){
+            ViewAccountWindow caw = new ViewAccountWindow(new User());
+        }
     }
 }
