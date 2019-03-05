@@ -120,7 +120,7 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
 
 
     public static void main(String[] args){
-        EditCategoryWindow epw = new EditCategoryWindow("sample cat");
+        EditCategoryWindow epw = new EditCategoryWindow("[sub category]");
     }
 
 }

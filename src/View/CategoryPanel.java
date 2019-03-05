@@ -153,9 +153,8 @@ public class CategoryPanel extends JPanel {
                         }
                         ms.getDisplayPanel().removeAll();
                         ms.getDisplayPanel().add(new SongPanel(category + " Songs", rowsInput));
-                        //System.out.println(12345);
-                        revalidate();
-                        repaint();
+                        ms.getDisplayPanel().revalidate();
+                        ms.getDisplayPanel().repaint();
                     }
                 });
                 remove.addActionListener(new ActionListener() {
@@ -184,7 +183,23 @@ public class CategoryPanel extends JPanel {
                 play.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //play te song
+                        //test 2D arraylist only
+                        int var = 0;
+                        ArrayList<Object> miniRow = new ArrayList<Object>();
+                        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
+                        for(int i=0;i<5;i++){
+                            for(int j=0;j<5;j++){
+                                miniRow.add(var);
+                                var++;
+                            }
+                            rowsInput.add(miniRow);
+                            miniRow = new ArrayList<Object>();
+                        }
+                        ms.getDisplayPanel().removeAll();
+                        ms.getDisplayPanel().add(new SongPanel(category + " Songs", rowsInput));
+                        //System.out.println(12345);
+                        ms.getDisplayPanel().revalidate();
+                        ms.getDisplayPanel().repaint();
                     }
                 });
                 cons.insets = new Insets(5, 10, 0, 0);
