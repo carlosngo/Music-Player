@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Album;
 import Model.Song;
+import static DAO.DAOUtil.*;
 
 import java.util.*;
 import java.io.*;
@@ -10,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class SongDAOJDBC implements SongDAO {
 	private DAOFactory db;
@@ -22,7 +24,6 @@ public class SongDAOJDBC implements SongDAO {
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY FK_AlbumID";
 	private static final String SQL_FIND_BY_YEAR = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY year";
-	private static final String SQL_GET_FILE_BY_ID = "";
 	private static final String SQL_INSERT = 
 			"INSERT INTO " + DAOFactory.SONG_TABLE + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE = 
@@ -35,8 +36,10 @@ public class SongDAOJDBC implements SongDAO {
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE FK_AlbumID = ? AND FK_UserID = ?";
 	private static final String SQL_LIST_BY_FAVORITE =
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE Favorite = ? AND FK_UserID = ?";
-	
-	private static final String PATH =
+	private static final String SQL_LIST_BY_PLAYLIST =
+            "SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " INNER JOIN " + DAOFactory.PLAYLISTSONG_TABLE + " ON " + DAOFactory.SONG_TABLE + ".PK_SongID = " + DAOFactory.PLAYLISTSONG_TABLE + ".FK_SongID " +
+                    "INNER JOIN " + DAOFactory.PLAYLIST_TABLE + " ON " + DAOFactory.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + DAOFactory.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + DAOFactory.SONG_TABLE + ".FK_UserID = ? AND " + DAOFactory.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
+ 	private static final String PATH =
 			"resources/music/";
 
 	public SongDAOJDBC(DAOFactory db) { this.db = db; }
@@ -143,11 +146,91 @@ public class SongDAOJDBC implements SongDAO {
 		return null;    
 	}
 
-	public File getFileById(int songId) {
-		return null;
-	}
+    @Override
+    public ArrayList<Song> listByGenre(int genreId, int userId) {
+        ArrayList<Song> songs = new ArrayList<>();
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_GENRE);
+            statement.setInt(1, genreId);
+            statement.setInt(2, userId);
+            ResultSet rs = statement.executeQuery();
 
-	@Override
+            while(rs.next()) {
+                songs.add(map(rs));
+            }
+
+            return songs;
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Song> listByPlaylist(int playlistId, int userId) {
+        // TODO Auto-generated method stub
+        Object[] values = {
+                userId,
+                playlistId
+        };
+        ArrayList<Song> songs = new ArrayList<>();
+        try {
+            Connection con = db.getConnection();
+            PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_PLAYLIST, false, values);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                songs.add(map(rs));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+    @Override
+    public ArrayList<Song> listByAlbum(int albumId, int userId) {
+        ArrayList<Song> songs = new ArrayList<>();
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ALBUM);
+            statement.setInt(1, albumId);
+            statement.setInt(2, userId);
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()) {
+                songs.add(map(rs));
+            }
+
+            return songs;
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Song> listFavorites(int userId) {
+        ArrayList<Song> songs = new ArrayList<>();
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_FAVORITE);
+            statement.setBoolean(1, true);
+            statement.setInt(2, userId);
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()) {
+                songs.add(map(rs));
+            }
+
+            return songs;
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
 	public void create(Song song) {
 		try {
 			Connection connection = db.getConnection();
@@ -215,75 +298,7 @@ public class SongDAOJDBC implements SongDAO {
 		}
 	}
 	
-	@Override
-	public ArrayList<Song> listByGenre(int genreId, int userId) {
-		ArrayList<Song> songs = new ArrayList<>();
-		try {
-			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_GENRE);
-			statement.setInt(1, genreId);
-			statement.setInt(2, userId);
-			ResultSet rs = statement.executeQuery();
-			
-			while(rs.next()) {
-				songs.add(map(rs));
-			}
-			
-			return songs;
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 
-	@Override
-	public ArrayList<Song> listByPlaylist(int playlistId, int userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Song> listByAlbum(int albumId, int userId) {
-		ArrayList<Song> songs = new ArrayList<>();
-		try {
-			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ALBUM);
-			statement.setInt(1, albumId);
-			statement.setInt(2, userId);
-			ResultSet rs = statement.executeQuery();
-			
-			while(rs.next()) {
-				songs.add(map(rs));
-			}
-			
-			return songs;
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public ArrayList<Song> listFavorites(int userId) {
-		ArrayList<Song> songs = new ArrayList<>();
-		try {
-			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_FAVORITE);
-			statement.setBoolean(1, true);
-			statement.setInt(2, userId);
-			ResultSet rs = statement.executeQuery();
-			
-			while(rs.next()) {
-				songs.add(map(rs));
-			}
-			
-			return songs;
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public static void main(String[] args) {
 		  DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "zerovit098");
 	      SongDAO songDAO = db.getSongDAO();
