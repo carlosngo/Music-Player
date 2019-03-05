@@ -6,32 +6,82 @@ import View.*;
 import java.sql.SQLException;
 import java.util.*;
 
-import DAO.DAOFactory;
-import DAO.DriverManagerDAOFactory;
-import DAO.UserDAO;
-
 public class AccountController {
     private User user;
+    private MainController mc;
     private AccountPanel accountPanel;
+    private LogInWindow liw;
+    private CreateAccountWindow caw;
+    private ViewAccountWindow vaw;
+    private EditAccountWindow eaw;
 
+    public AccountController(MainController mc) {
+        this.mc = mc;
+    	user = null;
+    	accountPanel = new AccountPanel(this);
+    }
 
-    public AccountController() {
-    	user = new User();
+    public User getUser() {
+        return user;
+    }
+
+    public MainController getMc() {
+        return mc;
+    }
+
+    public AccountPanel getAccountPanel() {
+        return accountPanel;
+    }
+
+    public LogInWindow getLiw() {
+        return liw;
+    }
+
+    public CreateAccountWindow getCaw() {
+        return caw;
+    }
+
+    public ViewAccountWindow getVaw() {
+        return vaw;
+    }
+
+    public void openLogInWindow() {
+        liw = new LogInWindow(this);
+    }
+
+    public void openCreateAccountWindow() {
+        caw = new CreateAccountWindow(this);
+    }
+
+    public void openViewAccountWindow() {
+        vaw = new ViewAccountWindow(this);
+    }
+
+    public void openEditAccountWindow() {
+        eaw = new EditAccountWindow(this);
+    }
+
+    public void openAddSongWindow() {
+        mc.getSongController().openAddSongWindow();
     }
 
     // logs in the user. check for errors.
-    public void logIn(String username, String password) {
+    public boolean logIn(String username, String password) {
     
     	try {
-    		user = MainController.userDAO.find(username, password);
+    		user = mc.getUserDAO().find(username, password);
+    		if (user == null) return false;
     	} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
-    
+		accountPanel = new AccountPanel(this, user);
+		mc.getDashboard().update();
+        return true;
     }
 
     // registers the user. check for errors.
-    public void register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
+    public boolean register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
     	
     	user.setUserName(username);
     	user.setPassword(password);
@@ -41,15 +91,19 @@ public class AccountController {
     	user.setBirthday(birthday);
     	
     	try {
-			MainController.userDAO.create(user);
+    	    if (mc.getUserDAO().existUserName(username)) return false;
+			mc.getUserDAO().create(user);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
     }
 
     // logs out the user. clear the cache
     public void logOut() {
     	user = null;
-    	MainController.clearCache();
+    	mc.clearCache();
     }
+
 }

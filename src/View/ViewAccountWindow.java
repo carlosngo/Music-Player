@@ -1,23 +1,25 @@
 package View;
 
+import Controller.*;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Model.*;
 
 public class ViewAccountWindow extends JFrame implements ActionListener {
+    private AccountController ac;
     private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
     private JComboBox mon, day ,yr, gender;
     private JButton back, editAccount;
 
-    public ViewAccountWindow(){
+    public ViewAccountWindow(AccountController ac){
+        this.ac = ac;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setBackground(new Color(0,0,0));
-
+        p.setBackground(new Color(0,0,0));]
         p.add(Box.createRigidArea(new Dimension(0,15))); // add space
         JLabel title = new JLabel("Account");
         title.setForeground(Color.white);
@@ -35,7 +37,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         firstNameLabel.setForeground(Color.white);
         firstNameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p1.add(firstNameLabel);
-        firstNameInput = new JTextField("" , 20);
+        firstNameInput = new JTextField(ac.getUser().getFirstName(), 20);
         firstNameInput.addActionListener(this);
         firstNameInput.setEditable(false);
         firstNameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -53,7 +55,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         lastNameLabel.setForeground(Color.white);
         lastNameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(lastNameLabel);
-        lastNameInput = new JTextField("" , 15);
+        lastNameInput = new JTextField(ac.getUser().getLastName(), 15);
         lastNameInput.addActionListener(this);
         lastNameInput.setEditable(false);
         lastNameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -190,15 +192,15 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Edit Account")){
-            EditAccountWindow eaw = new EditAccountWindow();
+            ac.openEditAccountWindow();
         }
         if (e.getActionCommand().equals("Back")){
             dispose();
         }
     }
 
-    public static void main(String[] args){
-        ViewAccountWindow vaw = new ViewAccountWindow();
-    }
+//    public static void main(String[] args){
+//        ViewAccountWindow vaw = new ViewAccountWindow();
+//    }
 }
 
