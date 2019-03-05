@@ -13,8 +13,10 @@ import java.nio.file.Paths;
 //icon, and header buttons
 public class AccountPanel extends JPanel implements ActionListener {
     private JButton addSongs, logIn, signUp;
+    private MainScreen ms;
 
-    public AccountPanel(){
+    public AccountPanel(MainScreen ms){
+        this.ms = ms;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));
