@@ -14,10 +14,10 @@ public class CategoryPanel extends JPanel {
     private JLabel headerName;
     private JScrollPane scroll;
     private JPanel block;
-    private MainScreen ms;
+    private Dashboard ms;
 
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
-    public CategoryPanel(MainScreen mainscreen, String category, ArrayList<String> subCategoryList){
+    public CategoryPanel(Dashboard mainscreen, String category, ArrayList<String> subCategoryList){
         ms = mainscreen;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);

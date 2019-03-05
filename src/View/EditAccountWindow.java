@@ -231,7 +231,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
             //create account
         }
         if (e.getSource() == cancel){
-            //MainScreen caw = new MainScreen();
+            //Dashboard caw = new Dashboard();
             dispose();
         }
     }

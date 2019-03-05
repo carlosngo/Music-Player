@@ -76,6 +76,7 @@ public class AccountController {
 			return false;
 		}
 		accountPanel = new AccountPanel(this, user);
+    	accountPanel.update();
 		mc.getDashboard().update();
         return true;
     }

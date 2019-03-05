@@ -50,7 +50,7 @@ public class AccountPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ac.openAddSongWindow();
             }
         });
         addSongs.addMouseListener(new MouseAdapter() {
@@ -157,7 +157,7 @@ public class AccountPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ac.openAddSongWindow();
             }
         });
         addSongs.addMouseListener(new MouseAdapter() {

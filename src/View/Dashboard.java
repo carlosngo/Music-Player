@@ -9,15 +9,14 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
-import Model.*;
 
-public class MainScreen extends JFrame implements ActionListener {
+public class Dashboard extends JFrame implements ActionListener {
     private JPanel displayPanel;
 
     //sample arraylist
     private ArrayList<String> samplelist;
 
-    public MainScreen(){
+    public Dashboard(){
         samplelist = new ArrayList<String>(5);
         samplelist.add("suboption 0");
         samplelist.add("suboption 1");
@@ -99,6 +98,6 @@ public class MainScreen extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args){
-        MainScreen caw = new MainScreen();
+        Dashboard caw = new Dashboard();
     }
 }
