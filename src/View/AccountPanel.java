@@ -230,5 +230,6 @@ public class AccountPanel extends JPanel {
     public void update() {
         revalidate();
         repaint();
+
     }
 }

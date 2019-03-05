@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+import Model.*;
 
 public class MainScreen extends JFrame implements ActionListener {
     private JPanel displayPanel;
@@ -16,7 +17,7 @@ public class MainScreen extends JFrame implements ActionListener {
     //sample arraylist
     private ArrayList<String> samplelist;
 
-    public MainScreen(boolean isRegistered){
+    public MainScreen(){
         samplelist = new ArrayList<String>(5);
         samplelist.add("suboption 0");
         samplelist.add("suboption 1");
@@ -31,14 +32,10 @@ public class MainScreen extends JFrame implements ActionListener {
         p.setBackground(new Color(0,0,0));
         p.add(Box.createRigidArea(new Dimension(0,10)));
 
-        if (isRegistered){
-            RegisteredAccountPanel raccntPnl = new RegisteredAccountPanel(this);
-            p.add(raccntPnl);
-        }
-        else{
+
+            //AccountPanel acntPnl = new AccountPanel(this, new User());
             AccountPanel acntPnl = new AccountPanel(this);
             p.add(acntPnl);
-        }
 
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
@@ -102,6 +99,6 @@ public class MainScreen extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args){
-        MainScreen caw = new MainScreen(true);
+        MainScreen caw = new MainScreen();
     }
 }

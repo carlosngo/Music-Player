@@ -161,38 +161,21 @@ public class PlayerPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	
-    	URL resource;
-    	File img;
-    	
-    	try {
-    		 if (e.getActionCommand().equals("Repeat")) {
- 	            isRepeat = !isRepeat;
- 	            System.out.println("Pressed Repeat");
- 	            if (isRepeat) {
- 	            	resource = getClass().getClassLoader().getResource("images/imgRepeatBtnPressed.png");
- 	            	img = Paths.get(resource.toURI()).toFile();
- 	            	repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
- 	            	
- 	            } else {
- 	            	resource = getClass().getClassLoader().getResource("images/imgRepeatBtn.png");
- 	            	img = Paths.get(resource.toURI()).toFile();
- 	            	repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
- 	            }
- 	        } else if (e.getActionCommand().equals("Shuffle")) {
- 	            isShuffle = !isShuffle;
- 	            if (isShuffle) {
- 	            	resource = getClass().getClassLoader().getResource("images/imgShuffleBtnPressed.png");
- 	            	img = Paths.get(resource.toURI()).toFile();
- 	            	shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
- 	            } else {
- 	            	resource = getClass().getClassLoader().getResource("images/imgShuffleBtn.png");
- 	            	img = Paths.get(resource.toURI()).toFile();
- 	            	shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
- 	            }
- 	        }
-    	}catch (URISyntaxException ex) {
-            System.out.println("File not found");
+        if (e.getActionCommand().equals("Repeat")) {
+            isRepeat = !isRepeat;
+            System.out.println("Pressed Repeat");
+            if (isRepeat) {
+                // set image to repeat pressed
+            } else {
+                // set image to repeat not pressed
+            }
+        } else if (e.getActionCommand().equals("Shuffle")) {
+            isShuffle = !isShuffle;
+            if (isShuffle) {
+                // set image to shuffle pressed
+            } else {
+                // set image to shuffle not pressed
+            }
         }
     }
 }

@@ -83,17 +83,21 @@ public class AccountController {
     // registers the user. check for errors.
     public boolean register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
     	
-    	user.setUserName(username);
-    	user.setPassword(password);
-    	user.setFirstName(firstName);
-    	user.setLastName(lastName);
-    	user.setGender(gender);
-    	user.setBirthday(birthday);
+    	
     	
     	try {
-    	    if (mc.getUserDAO().existUserName(username)) return false;
-			mc.getUserDAO().create(user);
-		} catch (SQLException e) {
+    		if(!MainController.userDAO.existUserName(username)){
+    			user.setUserName(username);
+    	    	user.setPassword(password);
+    	    	user.setFirstName(firstName);
+    	    	user.setLastName(lastName);
+    	    	user.setGender(gender);
+    	    	user.setBirthday(birthday);
+    			MainController.userDAO.create(user);
+    		} else {
+    			return false;
+    		}
+		} catch (SQLException | IllegalArgumentException e) {
 			e.printStackTrace();
 			return false;
 		}
