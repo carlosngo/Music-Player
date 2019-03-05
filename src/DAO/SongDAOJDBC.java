@@ -4,13 +4,13 @@ import Model.Album;
 import Model.Song;
 import static DAO.DAOUtil.*;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 
 public class SongDAOJDBC implements SongDAO {
@@ -25,11 +25,11 @@ public class SongDAOJDBC implements SongDAO {
 	private static final String SQL_FIND_BY_YEAR = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY year";
 	private static final String SQL_INSERT = 
-			"INSERT INTO " + DAOFactory.SONG_TABLE + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"INSERT INTO " + DAOFactory.SONG_TABLE + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE = 
 			"DELETE FROM " + DAOFactory.SONG_TABLE + " WHERE PK_SongID = ?";
 	private static final String SQL_UPDATE = 
-			"UPDATE " + DAOFactory.SONG_TABLE + " SET FK_UserID = ?, FK_AlbumID = ?, FK_GenreID = ?, Name = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ?, File = ? WHERE PK_SongID = ?";
+			"UPDATE " + DAOFactory.SONG_TABLE + " SET FK_UserID = ?, FK_AlbumID = ?, FK_GenreID = ?, Name = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
 	private static final String SQL_LIST_BY_GENRE =
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_UserID = ?";
 	private static final String SQL_LIST_BY_ALBUM =
@@ -232,29 +232,38 @@ public class SongDAOJDBC implements SongDAO {
 
     @Override
 	public void create(Song song) {
+        if (song.getSongId() != -1) {
+            throw new IllegalArgumentException("Song is already created, the song ID is not null.");
+        }
 		try {
 			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+			PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			statement.setInt(1, song.getSongId());
-			statement.setInt(2, song.getUserId());
-			statement.setInt(3, song.getAlbumId());
-			statement.setInt(4, song.getGenreId());
-			statement.setString(5, song.getName());
-			statement.setInt(6, song.getYear());
-			statement.setBoolean(7, song.isFavorite());
-			statement.setLong(8, song.getPlayTime());
-			statement.setDate(9, (Date) song.getLastPlayed());
-			statement.setBinaryStream(10, new FileInputStream(new File(PATH + song.getFileName())));
-
+			statement.setInt(1, song.getUserId());
+			statement.setInt(2, song.getAlbumId());
+			statement.setInt(3, song.getGenreId());
+			statement.setString(4, song.getName());
+			statement.setInt(5, song.getYear());
+			statement.setBoolean(6, song.isFavorite());
+			statement.setLong(7, song.getPlayTime());
+			statement.setDate(8, (Date) song.getLastPlayed());
+            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
+            File wav = Paths.get(resource.toURI()).toFile();
+			statement.setBinaryStream(9, new FileInputStream(wav));
 			statement.executeUpdate();
-
-			statement.close();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                song.setSongId(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("Creating user failed, no generated key obtained.");
+            }
 
 		}catch(SQLException | FileNotFoundException e) {
 			e.printStackTrace();
-		}
-	}
+		} catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void delete(Song song) {
@@ -275,6 +284,9 @@ public class SongDAOJDBC implements SongDAO {
 	@Override
 	public void update(Song song) {
 		try {
+            if (song.getSongId() == -1) {
+                throw new IllegalArgumentException("User is not created yet, the user ID is null.");
+            }
 			Connection connection = db.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
@@ -286,14 +298,13 @@ public class SongDAOJDBC implements SongDAO {
 			statement.setBoolean(6, song.isFavorite());
 			statement.setLong(7, song.getPlayTime());
 			statement.setDate(8, (Date) song.getLastPlayed());
-			statement.setBinaryStream(9, new FileInputStream(new File(PATH + song.getFileName())));
-			statement.setInt(10, song.getSongId());
+			statement.setInt(9, song.getSongId());
 
 			statement.executeUpdate();
 
 			statement.close();
 
-		}catch(SQLException | FileNotFoundException e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}

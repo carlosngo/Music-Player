@@ -6,10 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.sql.*;
 import java.util.ArrayList;
 
 import Model.Album;
@@ -20,7 +20,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
     private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
     private static final String SQL_INSERT = "INSERT INTO album VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
-    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, name = ?, artist = ?, cover = ? WHERE PK_AlbumID = ?";
+    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, name = ?, artist = ? WHERE PK_AlbumID = ?";
     private static final String SQL_LIST_BY_ID = "SELECT * FROM " + DAOFactory.ALBUM_TABLE + " WHERE FK_UserID = ?";
     private static final String SQL_EXIST_ALBUM = "SELECT COUNT(*) FROM " + DAOFactory.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
     
@@ -71,23 +71,34 @@ public class AlbumDAOJDBC implements AlbumDAO {
 
     @Override
     public void create(Album album) {
+        if (album.getAlbumId() != -1) {
+            throw new IllegalArgumentException("Song is already created, the song ID is not null.");
+        }
     	try {
-    		File file = new File(album.getCoverPath());
+            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
+            File img = Paths.get(resource.toURI()).toFile();
     		Connection connection = db.getConnection();
-    		PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+    		PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
     		
     		statement.setInt(1, album.getAlbumId());
     		statement.setInt(2, album.getUserId());
     		statement.setString(3, album.getName());
     		statement.setString(4, album.getArtist());
-    		statement.setBinaryStream(5, new FileInputStream(file));
+    		statement.setBinaryStream(5, new FileInputStream(img));
     		statement.executeUpdate();
-    		
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                album.setAlbumId(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("Creating user failed, no generated key obtained.");
+            }
     		statement.close();
     		connection.close();
     	}catch(SQLException | FileNotFoundException e) {
     		e.printStackTrace();
-    	}
+    	} catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -110,6 +121,9 @@ public class AlbumDAOJDBC implements AlbumDAO {
     @Override
     public void update(Album album) {
     	try {
+            if (album.getAlbumId() == -1) {
+                throw new IllegalArgumentException("User is not created yet, the user ID is null.");
+            }
     		File file = new File(album.getCoverPath());
 			Connection connection = db.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
@@ -117,13 +131,12 @@ public class AlbumDAOJDBC implements AlbumDAO {
 			statement.setInt(1, album.getUserId());
 			statement.setString(2, album.getName());
 			statement.setString(3, album.getArtist());
-			statement.setBinaryStream(4, new FileInputStream(file));
-			statement.setInt(5, album.getAlbumId());
+			statement.setInt(4, album.getAlbumId());
 			statement.executeUpdate();
 			
 			statement.close();
 			connection.close();
-		} catch (SQLException | FileNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     }

@@ -1,9 +1,6 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 import com.mysql.cj.xdevapi.Result;
@@ -67,15 +64,24 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
 
     @Override
     public void create(Playlist playlist) {
+        if (playlist.getPlaylistId() != -1) {
+            throw new IllegalArgumentException("Song is already created, the song ID is not null.");
+        }
     	try {
     		Connection connection = db.getConnection();
-    		PreparedStatement statement = connection.prepareStatement(SQL_INSERT);    		
+    		PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
     		statement.setInt(1, playlist.getPlaylistId());
     		statement.setInt(2, playlist.getUserId());
     		statement.setString(3, playlist.getName());
     		statement.setBoolean(4, playlist.isFavorite());
     		
     		statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                playlist.setPlaylistId(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("Creating user failed, no generated key obtained.");
+            }
     		statement.close();
     	}catch(SQLException e) {
     		e.printStackTrace();
@@ -100,6 +106,9 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     @Override
     public void update(Playlist playlist) {
     	try {
+            if (playlist.getPlaylistId() == -1) {
+                throw new IllegalArgumentException("User is not created yet, the user ID is null.");
+            }
     		Connection connection = db.getConnection();
     		PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);    		
     		statement.setInt(1, playlist.getUserId());
