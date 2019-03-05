@@ -1,15 +1,20 @@
 package Controller;
 
+import DAO.*;
+import Model.*;
 import View.*;
+
 import javax.media.*;
 import java.io.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class PlayerController {
     private Player player = null;
     private PlayerPanel pp;
     private PlayerThread pt;
+
 
     public PlayerController() {
         pp = new PlayerPanel(this);
@@ -31,7 +36,6 @@ public class PlayerController {
         // create a new player with the new locator.  This will effectively
         // stop and discard any current player.
         setPlayer(Manager.createRealizedPlayer(locator), title, artist);
-
     }
     /**
      * Sets the player reference.  Setting this to a new value will discard
@@ -45,6 +49,7 @@ public class PlayerController {
         closeCurrentPlayer();
 
         player = newPlayer;
+        if (pt != null) attach(pt);
         // refresh the tabbed pane.\
         pp.update(title, artist, player.getControlPanelComponent());
         player.start();
@@ -81,20 +86,29 @@ public class PlayerController {
         return pp.isShuffle();
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public static void main(String[] args) throws Exception {
-        JFrame frm = new JFrame();
+
         PlayerController pc = new PlayerController();
-        JFileChooser fc = new JFileChooser();
-        fc.showOpenDialog(null);
-        File wav = fc.getSelectedFile();
-        if (wav != null) {
-            pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song1", "Artist1");
-        } else {
-
-        }
-
+        DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
+        SongDAO songDAO = db.getSongDAO();
+        ArrayList<Song> queue = new ArrayList<>();
+        queue.add(songDAO.find(4));
+        queue.add(songDAO.find(5));
+        PlayerThread pt = new PlayerThread(pc, queue);
+        new Thread(pt).start();
+//        JFileChooser fc = new JFileChooser();
 //        fc.showOpenDialog(null);
-//        pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song2", "Artist2");
+//        File wav = fc.getSelectedFile();
+//        if (wav != null) {
+//            pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song1", "Artist1");
+//        } else {
+//
+//        }
+        JFrame frm = new JFrame();
         frm.setContentPane(pc.getPlayerPanel());
         frm.pack();
         frm.setVisible(true);

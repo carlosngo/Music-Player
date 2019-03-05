@@ -320,27 +320,26 @@ public class SongDAOJDBC implements SongDAO {
 	      SongDAO songDAO = db.getSongDAO();
 	      
 	      //create song
-//        JFileChooser fc = new JFileChooser();
-//        fc.showOpenDialog(null);
-//        File wav = fc.getSelectedFile();
-//
+        JFileChooser fc = new JFileChooser();
+        fc.showOpenDialog(null);
+        File wav = fc.getSelectedFile();
+
 //        System.out.println(wav.getName());
 	      Song song = new Song();
-//	      PlaylistSongDAO psDAO = db.getPlaylistSongDAO();
-//	      PlaylistDAO playlistDAO = db.getPlaylistDAO();
-//	      Playlist playlist = playlistDAO.find(2);
-//	      psDAO.join(playlist, song);
-//        song.setSongId(4);
-//         song.setUserId(12);
-//	      song.setAlbumId(1);
-//	      song.setGenreId(3);
-//	      song.setName("Piano");
-//	      song.setYear(2019);
-//	      song.setFavorite(true);
-//	      song.setPlayTime(123);
-//	      song.setLastPlayed(new Date(109, 2, 2));
-//	      song.setFileName(wav.getName());
-//	      songDAO.create(song);
+	      PlaylistSongDAO psDAO = db.getPlaylistSongDAO();
+	      PlaylistDAO playlistDAO = db.getPlaylistDAO();
+	      Playlist playlist = playlistDAO.find(2);
+         song.setUserId(12);
+	      song.setAlbumId(1);
+	      song.setGenreId(1);
+	      song.setName("Guitar");
+	      song.setYear(2017);
+	      song.setFavorite(false);
+	      song.setPlayTime(123);
+	      song.setLastPlayed(new Date(109, 2, 2));
+	      song.setFileName(wav.getName());
+	      songDAO.create(song);
+		psDAO.join(playlist, song);
 	      
 	      //find song
 //	      Song songFind = songDAO.find(1);
@@ -355,13 +354,13 @@ public class SongDAOJDBC implements SongDAO {
 //	      songDAO.update(song);
 	      
 	      //find by album
-	      ArrayList<Song> songs;
+//	      ArrayList<Song> songs;
 //	      songs = songDAO.listByAlbum(1, 12);
 //        System.out.println(songs.size());
 
 	      //find by genre
-	      songs = songDAO.listFavorites(12);
-    System.out.println(songs.size());
+//	      songs = songDAO.listFavorites(12);
+//    System.out.println(songs.size());
 	      
 	      //find by year
 //	      songs = songDAO.findByYear();

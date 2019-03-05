@@ -47,6 +47,9 @@ public class PlayerPanel extends JPanel implements ActionListener {
         artistLbl.setFont(new Font("Arial", Font.PLAIN, 12));
         artistLbl.setForeground(Color.white);
         p1.add(artistLbl);
+        p1.setMinimumSize(new Dimension(125, 40));
+        p1.setPreferredSize(new Dimension(125, 40));
+        p1.setMaximumSize(new Dimension(125, 40));
         add(p1);
 
         JPanel p2 = new JPanel();
@@ -54,6 +57,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         p2.setOpaque(false);
 
         prev = new JButton();
+        prev.setActionCommand("Prev");
         prev.setOpaque(false);
         prev.setContentAreaFilled(false);
         prev.setBorderPainted(false);
@@ -61,6 +65,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         add(Box.createRigidArea(new Dimension(5,0)));
 
         next = new JButton();
+        next.setActionCommand("Next");
         next.setOpaque(false);
         next.setContentAreaFilled(false);
         next.setBorderPainted(false);
@@ -77,6 +82,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         add(p3);
 
         repeat = new JButton();
+        repeat.setActionCommand("Repeat");
         repeat.setOpaque(false);
         repeat.setContentAreaFilled(false);
         repeat.setBorderPainted(false);
@@ -85,6 +91,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         add(Box.createRigidArea(new Dimension(8,0)));
 
         shuffle = new JButton();
+        shuffle.setActionCommand("Shuffle");
         shuffle.setOpaque(false);
         shuffle.setContentAreaFilled(false);
         shuffle.setBorderPainted(false);
@@ -116,9 +123,9 @@ public class PlayerPanel extends JPanel implements ActionListener {
         }catch (URISyntaxException e) {
             System.out.println("File not found");
         }
-        setMinimumSize(new Dimension(600, 45));
-        setPreferredSize(new Dimension(600, 45));
-        setMaximumSize(new Dimension(600, 45));
+        setMinimumSize(new Dimension(650, 55));
+        setPreferredSize(new Dimension(650, 55));
+        setMaximumSize(new Dimension(650, 55));
     }
 
     public void update(String title, String artist, Component controlPnl) {
@@ -156,6 +163,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Repeat")) {
             isRepeat = !isRepeat;
+            System.out.println("Pressed Repeat");
             if (isRepeat) {
                 // set image to repeat pressed
             } else {

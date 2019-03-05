@@ -15,8 +15,8 @@ public class BlobParser {
         BlobParser.bs = bs;
     }
     
-    public static File executeStrategy(Blob blob) {
-        return bs.execute(blob);
+    public static void executeStrategy(Blob blob, File file) {
+        bs.execute(blob, file);
     }
     
     
@@ -25,7 +25,7 @@ public class BlobParser {
         SongDAO songDAO = db.getSongDAO();
         
         Song song = songDAO.find(1);
-        BlobParser.setStrategy(new BlobToFile("resources/music/", song.getFileName(), ".wav"));
-        BlobParser.executeStrategy(song.getFile());
+//        BlobParser.setStrategy(new BlobToFile("resources/music/", song.getFileName(), ".wav"));
+//        BlobParser.executeStrategy(song.getFile());
     }
 }
