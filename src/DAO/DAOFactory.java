@@ -43,4 +43,7 @@ public abstract class DAOFactory {
 
     public abstract AlbumDAO getAlbumDAO();
 
+    public abstract PlaylistSongDAO getPlaylistSongDAO();
+
+
 }

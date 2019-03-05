@@ -15,7 +15,7 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     private static final String SQL_FIND_BY_ID = 
     		"SELECT " + DAOFactory.PLAYLIST_COLUMNS +" FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
     private static final String SQL_INSERT = 
-    		"INSERT INTO " + DAOFactory.PLAYLIST_TABLE + " VALUES (?, ?, ?, ?)";
+    		"INSERT INTO " + DAOFactory.PLAYLIST_TABLE + " (FK_UserID, Name, Favorite) VALUES (?, ?, ?)";
     private static final String SQL_DELETE = 
     		"DELETE FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
     private static final String SQL_UPDATE = 
@@ -25,7 +25,8 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     private static final String SQL_LIST_FAVORITES =
     		"SELECT " + DAOFactory.PLAYLIST_COLUMNS + " FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Favorite = ?";
     private static final String SQL_EXIST_PLAYLIST =
-    		"SELECT COUNT(*) FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Name = ?"; 
+    		"SELECT * FROM " + DAOFactory.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Name = ?";
+
     public PlaylistDAOJDBC(DAOFactory db) {
         this.db = db;
     }
@@ -54,12 +55,11 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     		}
     		rs.close();
     		statement.close();
-    		
-    		return playlist;
+
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
-		return null;
+		return playlist;
     }
 
     @Override
@@ -70,10 +70,9 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     	try {
     		Connection connection = db.getConnection();
     		PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-    		statement.setInt(1, playlist.getPlaylistId());
-    		statement.setInt(2, playlist.getUserId());
-    		statement.setString(3, playlist.getName());
-    		statement.setBoolean(4, playlist.isFavorite());
+    		statement.setInt(1, playlist.getUserId());
+    		statement.setString(2, playlist.getName());
+    		statement.setBoolean(3, playlist.isFavorite());
     		
     		statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -165,9 +164,9 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
 	}
 
 	@Override
-	public boolean existPlaylist(String playlistName, int userId) {
-		int count = 0;
-		try{
+	public Playlist findByName(String playlistName, int userId) {
+        Playlist playlist = null;
+        try{
 			Connection connection = db.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_EXIST_PLAYLIST);
 			statement.setString(1, playlistName);
@@ -175,15 +174,13 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
 			ResultSet rs = statement.executeQuery();
 			
 			if(rs.next()) {
-				if(rs.getInt(1) > 0) {
-					return true;
-				}
+				playlist = map(rs);
 			}
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return playlist;
 	}
     
     public static void main(String[] args) {
@@ -193,27 +190,28 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
         
         //create playlist
         Playlist playlist1 = new Playlist();
-    	playlist1.setPlaylistId(1);
-    	playlist1.setUserId(1);
+    	playlist1.setUserId(12);
     	playlist1.setName("Playlist#1");
     	playlist1.setFavorite(true);
-    	playlistDAO.create(playlist1);
-    	
-    	
-    	
+//    	playlistDAO.create(playlist1);
+//
+//        ArrayList<Playlist> list = playlistDAO.listFavorites(12);
+//        System.out.println("List of users successfully queried: " + list);
+
+
     	//find playlist
-    	Playlist playlist2 = playlistDAO.find(1);
+//    	Playlist playlist2 = playlistDAO.find(1);
     	
     	//update playlist
-    	playlist1.setPlaylistId(1);
-    	playlist1.setUserId(1);
-    	playlist1.setName("Playlist#1Updated");
-    	playlist1.setFavorite(false);
-    	playlistDAO.update(playlist1);
-    	Playlist playlist1updated = playlistDAO.find(1);
+//    	playlist1.setPlaylistId(1);
+//    	playlist1.setUserId(12);
+//    	playlist1.setName("Playlist#1Updated");
+//    	playlist1.setFavorite(false);
+//    	playlistDAO.update(playlist1);
+//    	Playlist playlist1updated = playlistDAO.find(1);
     	
     	//delete playlist
-    	playlistDAO.delete(playlist1updated);
+//    	playlistDAO.delete(playlist1);
     }
 
 	

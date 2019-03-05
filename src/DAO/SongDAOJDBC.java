@@ -1,7 +1,7 @@
 package DAO;
 
 import Model.Album;
-import Model.Song;
+import Model.*;
 import static DAO.DAOUtil.*;
 
 import java.net.URISyntaxException;
@@ -11,6 +11,7 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
 
 
 public class SongDAOJDBC implements SongDAO {
@@ -19,13 +20,13 @@ public class SongDAOJDBC implements SongDAO {
 	private static final String SQL_FIND_BY_ID = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE PK_SongID = ?";
 	private static final String SQL_FIND_BY_GENRE = 
-			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY FK_GenreID";
+			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY FK_GenreID";
 	private static final String SQL_FIND_BY_ALBUM = 
-			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY FK_AlbumID";
+			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY FK_AlbumID";
 	private static final String SQL_FIND_BY_YEAR = 
-			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY year";
+			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY year";
 	private static final String SQL_INSERT = 
-			"INSERT INTO " + DAOFactory.SONG_TABLE + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"INSERT INTO " + DAOFactory.SONG_TABLE + " (FK_UserID, FK_AlbumID, FK_GenreID, Name, Year, Favorite, PlayTime, LastPlayed, File) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_DELETE = 
 			"DELETE FROM " + DAOFactory.SONG_TABLE + " WHERE PK_SongID = ?";
 	private static final String SQL_UPDATE = 
@@ -39,6 +40,8 @@ public class SongDAOJDBC implements SongDAO {
 	private static final String SQL_LIST_BY_PLAYLIST =
             "SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " INNER JOIN " + DAOFactory.PLAYLISTSONG_TABLE + " ON " + DAOFactory.SONG_TABLE + ".PK_SongID = " + DAOFactory.PLAYLISTSONG_TABLE + ".FK_SongID " +
                     "INNER JOIN " + DAOFactory.PLAYLIST_TABLE + " ON " + DAOFactory.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + DAOFactory.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + DAOFactory.SONG_TABLE + ".FK_UserID = ? AND " + DAOFactory.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
+	private static final String SQL_LIST_BY_YEAR =
+            "SELECT * FROM " + DAOFactory.SONG_TABLE + " WHERE Year = ? AND FK_UserID = ?";
  	private static final String PATH =
 			"resources/music/";
 
@@ -80,16 +83,17 @@ public class SongDAOJDBC implements SongDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return song;
 	}
 
 	@Override
-	public ArrayList<Song> findByGenre() {
+	public ArrayList<Song> findByGenre(int userId) {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_GENRE);
 
+			statement.setInt(1, userId);
 
 			ResultSet rs = statement.executeQuery();
 
@@ -105,13 +109,13 @@ public class SongDAOJDBC implements SongDAO {
 	}
 
 	@Override
-	public ArrayList<Song> findByAlbum() {
+	public ArrayList<Song> findByAlbum(int userId) {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ALBUM);
 
-
+            statement.setInt(1, userId);
 			ResultSet rs = statement.executeQuery();
 
 			while(rs.next()) {
@@ -126,12 +130,12 @@ public class SongDAOJDBC implements SongDAO {
 	}
 
 	@Override
-	public ArrayList<Song> findByYear() {
+	public ArrayList<Song> findByYear(int userId) {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_YEAR);
-
+            statement.setInt(1, userId);
 
 			ResultSet rs = statement.executeQuery();
 
@@ -311,47 +315,61 @@ public class SongDAOJDBC implements SongDAO {
 	
 
 	public static void main(String[] args) {
-		  DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "zerovit098");
+		  DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
 	      SongDAO songDAO = db.getSongDAO();
 	      
 	      //create song
+//        JFileChooser fc = new JFileChooser();
+//        fc.showOpenDialog(null);
+//        File wav = fc.getSelectedFile();
+//
+//        System.out.println(wav.getName());
 	      Song song = new Song();
-	      song.setSongId(1);
-	      song.setUserId(1);
-	      song.setAlbumId(1);
-	      song.setGenreId(1);
-	      song.setName("Song#1");
-	      song.setYear(2019);
-	      song.setFavorite(true);
-	      song.setPlayTime(123);
-	      song.setLastPlayed(new Date(109, 2, 2));
-	      song.setFileName("/hello.wav");
-	      songDAO.create(song);
+//	      PlaylistSongDAO psDAO = db.getPlaylistSongDAO();
+//	      PlaylistDAO playlistDAO = db.getPlaylistDAO();
+//	      Playlist playlist = playlistDAO.find(2);
+//	      psDAO.join(playlist, song);
+//        song.setSongId(4);
+//         song.setUserId(12);
+//	      song.setAlbumId(1);
+//	      song.setGenreId(3);
+//	      song.setName("Piano");
+//	      song.setYear(2019);
+//	      song.setFavorite(true);
+//	      song.setPlayTime(123);
+//	      song.setLastPlayed(new Date(109, 2, 2));
+//	      song.setFileName(wav.getName());
+//	      songDAO.create(song);
 	      
 	      //find song
-	      Song songFind = songDAO.find(1);
+//	      Song songFind = songDAO.find(1);
 	      
 	      //update song
-	      song.setName("Song#1Updated");
-	      song.setYear(2012);
-	      song.setFavorite(false);
-	      song.setPlayTime(521);
-	      song.setLastPlayed(new Date(119, 2, 2));
-	      songDAO.update(song);
+//	      song.setName("Song#1Updated");
+//	      song.setYear(2012);
+//	      song.setFavorite(false);
+//	      song.setPlayTime(521);
+//	      song.s
+// etLastPlayed(new Date(119, 2, 2));
+//	      songDAO.update(song);
 	      
 	      //find by album
 	      ArrayList<Song> songs;
-	      songs = songDAO.findByAlbum();
-	      
+//	      songs = songDAO.listByAlbum(1, 12);
+//        System.out.println(songs.size());
+
 	      //find by genre
-	      songs = songDAO.findByGenre();
+	      songs = songDAO.listFavorites(12);
+    System.out.println(songs.size());
 	      
 	      //find by year
-	      songs = songDAO.findByYear();
+//	      songs = songDAO.findByYear();
 	      
 	      //delete song
-	      songDAO.delete(song);
+//	      songDAO.delete(song);
 	}
 
 	
 }
+
+
