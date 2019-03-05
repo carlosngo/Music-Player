@@ -16,11 +16,11 @@ public class SongDAOJDBC implements SongDAO {
 
 	private static final String SQL_FIND_BY_ID = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE PK_SongID = ?";
-	private static final String SQL_FIND_BY_GENRE = 
+	private static final String SQL_ORDER_BY_GENRE = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY FK_GenreID";
-	private static final String SQL_FIND_BY_ALBUM = 
+	private static final String SQL_ORDER_BY_ALBUM = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY FK_AlbumID";
-	private static final String SQL_FIND_BY_YEAR = 
+	private static final String SQL_ORDER_BY_YEAR = 
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " ORDER BY year";
 	private static final String SQL_GET_FILE_BY_ID = "";
 	private static final String SQL_INSERT = 
@@ -85,7 +85,7 @@ public class SongDAOJDBC implements SongDAO {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_GENRE);
+			PreparedStatement statement = connection.prepareStatement(SQL_ORDER_BY_GENRE);
 
 
 			ResultSet rs = statement.executeQuery();
@@ -106,7 +106,7 @@ public class SongDAOJDBC implements SongDAO {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ALBUM);
+			PreparedStatement statement = connection.prepareStatement(SQL_ORDER_BY_ALBUM);
 
 
 			ResultSet rs = statement.executeQuery();
@@ -127,7 +127,7 @@ public class SongDAOJDBC implements SongDAO {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_YEAR);
+			PreparedStatement statement = connection.prepareStatement(SQL_ORDER_BY_YEAR);
 
 
 			ResultSet rs = statement.executeQuery();
