@@ -6,14 +6,19 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
 import Model.*;
 
 public class ViewAccountWindow extends JFrame implements ActionListener {
     private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
     private JComboBox mon, day ,yr, gender;
     private JButton back, editAccount;
+    private User user;
 
-    public ViewAccountWindow(){
+    public ViewAccountWindow(User user){
+        this.user = user;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setBackground(new Color(0,0,0));
@@ -36,6 +41,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         firstNameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p1.add(firstNameLabel);
         firstNameInput = new JTextField("" , 20);
+        firstNameInput.setText(user.getFirstName());
         firstNameInput.addActionListener(this);
         firstNameInput.setEditable(false);
         firstNameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -54,6 +60,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         lastNameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(lastNameLabel);
         lastNameInput = new JTextField("" , 15);
+        lastNameInput.setText(user.getLastName());
         lastNameInput.addActionListener(this);
         lastNameInput.setEditable(false);
         lastNameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -75,7 +82,13 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
                 "May", "June", "July", "August", "September",
                 "October", "November", "December"};
         mon = new JComboBox(months);
-        //mon.setBackground(new Color(152,251,152));
+//        //mon.setBackground(new Color(152,251,152));
+//        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM"); // two digit numerical represenation
+//        mon.setSelectedIndex(Integer.parseInt(simpleDateformat.format(user.getBirthday())));
+        Calendar c = Calendar.getInstance();
+        c.setTime(user.getBirthday());
+        int month = c.get(Calendar.MONTH) + 1;
+        mon.setSelectedIndex(month);
         mon.setEnabled(false);
         mon.addActionListener(this);
         p3.add(mon);
@@ -87,6 +100,8 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         day = new JComboBox(days);
         day.setEnabled(false);
         //day.setBackground(new Color(152,251,152));
+        int nDate = c.get(Calendar.DAY_OF_MONTH) + 1;
+        day.setSelectedIndex(nDate);
         day.addActionListener(this);
         p3.add(day);
         String[] years = new String[101];
@@ -95,6 +110,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
             years[i] = Integer.toString(1999 + i);
         }
         yr = new JComboBox(years);
+        yr.setSelectedItem("" + c.get(Calendar.YEAR));
         yr.setEnabled(false);
         //yr.setBackground(new Color(152,251,152));
         yr.addActionListener(this);
@@ -113,6 +129,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         p4.add(birthdayLbl);
         String[] genderList = {"Male", "Female"};
         gender = new JComboBox(genderList);
+        gender.setSelectedItem(user.getGender());
         gender.setEnabled(false);
         //gender.setBackground(new Color(152,251,152));
         gender.addActionListener(this);
@@ -131,6 +148,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         p5.add(usernameLabel);
         usernameInput = new JTextField("" , 20);
         usernameInput.addActionListener(this);
+        usernameInput.setText(user.getUserName());
         usernameInput.setEditable(false);
         usernameInput.setFont(new Font("Arial", Font.BOLD, 22));
         p5.add(usernameInput);
@@ -148,6 +166,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
         p6.add(passwordLabel);
         passwordInput = new JTextField("" , 20);
         passwordInput.addActionListener(this);
+        passwordInput.setText(user.getPassword());
         passwordInput.setEditable(false);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
@@ -190,7 +209,7 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Edit Account")){
-            EditAccountWindow eaw = new EditAccountWindow();
+            EditAccountWindow eaw = new EditAccountWindow(user);
         }
         if (e.getActionCommand().equals("Back")){
             dispose();
@@ -198,7 +217,8 @@ public class ViewAccountWindow extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args){
-        ViewAccountWindow vaw = new ViewAccountWindow();
+
+        //ViewAccountWindow vaw = new ViewAccountWindow();
     }
 }
 
