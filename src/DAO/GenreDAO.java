@@ -10,7 +10,7 @@ public interface GenreDAO {
 
     ArrayList<Genre> listById(int userId) throws SQLException;
 
-    boolean existGenre(String name, int userId) throws SQLException;
+    Genre findByName(String name, int userId) throws SQLException;
 
     void create(Genre genre) throws SQLException;
 

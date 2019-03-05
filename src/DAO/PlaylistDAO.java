@@ -14,7 +14,7 @@ public interface PlaylistDAO {
     ArrayList<Playlist> listFavorites(int userId);
 
     // checks if a playlist already exists for a user
-    boolean existPlaylist(String playlistName, int userId);
+    Playlist findByName(String playlistName, int userId);
 
     void create(Playlist playlist);
 

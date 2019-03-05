@@ -86,7 +86,13 @@ public class PlayerController {
         PlayerController pc = new PlayerController();
         JFileChooser fc = new JFileChooser();
         fc.showOpenDialog(null);
-        pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song1", "Artist1");
+        File wav = fc.getSelectedFile();
+        if (wav != null) {
+            pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song1", "Artist1");
+        } else {
+
+        }
+
 //        fc.showOpenDialog(null);
 //        pc.setMediaLocator(new MediaLocator(fc.getSelectedFile().toURI().toURL()), "Song2", "Artist2");
         frm.setContentPane(pc.getPlayerPanel());

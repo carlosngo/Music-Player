@@ -1,5 +1,6 @@
 package View;
 
+import sun.applet.Main;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,11 +10,15 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class ControlPanel extends JPanel implements ActionListener {
     private JButton mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist;
+    private MainScreen ms;
+    private ArrayList<ArrayList<Object>> rowsInput; //test 2D arraylist only
 
-    public ControlPanel(){
+    public ControlPanel(MainScreen mainscreen){
+        ms = mainscreen;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
@@ -38,7 +43,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = mostFrqntlyPlyd.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanMostPlayed.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanMostPlayed.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     mostFrqntlyPlyd.setText("Most Played");
@@ -49,7 +54,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("mostPlayed.png");
+                    URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     mostFrqntlyPlyd.setText("Most Played");
@@ -76,7 +81,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = songs.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanSongs.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanSongs.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     songs.setText("Songs");
@@ -87,7 +92,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("songs.png");
+                    URL resource = getClass().getClassLoader().getResource("images/songs.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     songs.setText("Songs");
@@ -114,7 +119,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = playlists.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanPlaylists.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanPlaylists.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     playlists.setText("Playlists");
@@ -125,7 +130,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("playlists.png");
+                    URL resource = getClass().getClassLoader().getResource("images/playlists.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     playlists.setText("Playlists");
@@ -152,7 +157,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = artists.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanArtist.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanArtist.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     artists.setText("Artists");
@@ -163,7 +168,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("artists.png");
+                    URL resource = getClass().getClassLoader().getResource("images/artists.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     artists.setText("Artists");
@@ -190,7 +195,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = albums.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanAlbums.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAlbums.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     albums.setText("Albums");
@@ -201,7 +206,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("albums.png");
+                    URL resource = getClass().getClassLoader().getResource("images/albums.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     albums.setText("Albums");
@@ -228,7 +233,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = genres.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanGenre.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanGenre.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     genres.setText("Genres");
@@ -239,7 +244,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("genre.png");
+                    URL resource = getClass().getClassLoader().getResource("images/genre.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     genres.setText("Genres");
@@ -269,7 +274,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = addPlaylist.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("cyanAddPlaylist.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAddPlaylist.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     addPlaylist.setText("Add Playlist");
@@ -280,7 +285,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("addPlaylist.png");
+                    URL resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     addPlaylist.setText("Add Playlist");
@@ -294,31 +299,31 @@ public class ControlPanel extends JPanel implements ActionListener {
         add(addPlaylist);
 
         try{
-            URL resource = getClass().getClassLoader().getResource("mostPlayed.png");
+            URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
             File img = Paths.get(resource.toURI()).toFile();
             mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             mostFrqntlyPlyd.setText("Most Played");
-            resource = getClass().getClassLoader().getResource("songs.png");
+            resource = getClass().getClassLoader().getResource("images/songs.png");
             img = Paths.get(resource.toURI()).toFile();
             songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             songs.setText("Songs");
-            resource = getClass().getClassLoader().getResource("playlists.png");
+            resource = getClass().getClassLoader().getResource("images/playlists.png");
             img = Paths.get(resource.toURI()).toFile();
             playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             playlists.setText("Playlists");
-            resource = getClass().getClassLoader().getResource("artists.png");
+            resource = getClass().getClassLoader().getResource("images/artists.png");
             img = Paths.get(resource.toURI()).toFile();
             artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             artists.setText("Artists");
-            resource = getClass().getClassLoader().getResource("albums.png");
+            resource = getClass().getClassLoader().getResource("images/albums.png");
             img = Paths.get(resource.toURI()).toFile();
             albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             albums.setText("Albums");
-            resource = getClass().getClassLoader().getResource("genre.png");
+            resource = getClass().getClassLoader().getResource("images/genre.png");
             img = Paths.get(resource.toURI()).toFile();
             genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             genres.setText("Genres");
-            resource = getClass().getClassLoader().getResource("addPlaylist.png");
+            resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
             img = Paths.get(resource.toURI()).toFile();
             addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             addPlaylist.setText("Add Playlist");
@@ -333,26 +338,62 @@ public class ControlPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == mostFrqntlyPlyd){
+        //test 2D arraylist only
+        int var = 0;
+        ArrayList<Object> miniRow = new ArrayList<Object>();
+        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
+        for(int i=0;i<20;i++){
+            for(int j=0;j<5;j++){
+                miniRow.add(var);
+                var++;
+            }
+            rowsInput.add(miniRow);
+            miniRow = new ArrayList<Object>();
+        }
+        //test array
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("suboption 0");
+        list.add("suboption 1");
+        list.add("suboption 2");
+        list.add("suboption 3");
+        list.add("suboption 4");
+        list.add("suboption 5");
+        list.add("suboption 6");
+        list.add("suboption 7");
+        list.add("suboption 8");
+        list.add("suboption 9");
+        list.add("suboption 10");
+        list.add("suboption 11");
+        list.add("suboption 12");
 
+        if(e.getSource() == mostFrqntlyPlyd){
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new SongPanel("Most Played", rowsInput));
         }
         if(e.getSource() == playlists){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Playlist", list));
         }
         if(e.getSource() == artists){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Artist", list));
         }
         if(e.getSource() == albums){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Album", list));
         }
         if(e.getSource() == songs){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new SongPanel("Song", rowsInput));
         }
         if(e.getSource() == genres){
-
+            ms.getDisplayPanel().removeAll();
+            ms.getDisplayPanel().add(new CategoryPanel(ms,"Genre", list));
         }
         if(e.getSource() == addPlaylist){
-
+            AddPlaylistWindow apw = new AddPlaylistWindow();
         }
+        revalidate();
+        repaint();
     }
 }

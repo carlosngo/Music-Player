@@ -31,4 +31,6 @@ public class DriverManagerDAOFactory extends DAOFactory {
 
     @Override
     public AlbumDAO getAlbumDAO() { return new AlbumDAOJDBC(this); }
+
+    public PlaylistSongDAO getPlaylistSongDAO() { return new PlaylistSongDAOJDBC(this); }
 }

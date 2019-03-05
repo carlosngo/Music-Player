@@ -55,15 +55,17 @@ public class GenreDAOJDBC implements GenreDAO {
     }
 
     @Override
-    public boolean existGenre(String name, int userId) throws SQLException {
+    public Genre findByName(String name, int userId) throws SQLException {
         Object[] values = {
                 name,
                 userId
         };
+        Genre genre = null;
         Connection con = db.getConnection();
         PreparedStatement stmt = prepareStatement(con, SQL_EXIST_GENRE, false, values);
         ResultSet rs = stmt.executeQuery();
-        return rs.next();
+        if (rs.next()) genre = map(rs);
+        return genre;
     }
 
 

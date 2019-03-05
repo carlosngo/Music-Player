@@ -11,7 +11,7 @@ public interface AlbumDAO {
     ArrayList<Album> listById(int userId);
 
     // check if album name exists for a certain user
-    boolean existAlbum(String albumName, int userId);
+    Album findByName(String albumName, int userId);
 
     void create(Album album);
 

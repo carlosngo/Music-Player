@@ -158,7 +158,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
             //create account
         }
         if (e.getActionCommand().equals("Cancel")){
-            UnregisteredMainScreen caw = new UnregisteredMainScreen();
+            //MainScreen caw = new MainScreen();
             dispose();
         }
     }

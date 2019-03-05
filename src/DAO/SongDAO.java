@@ -6,11 +6,11 @@ import java.util.*;
 public interface SongDAO {
     Song find(int id);
 
-    ArrayList<Song> findByGenre();
+    ArrayList<Song> findByGenre(int userId);
 
-    ArrayList<Song> findByAlbum();
+    ArrayList<Song> findByAlbum(int userId);
 
-    ArrayList<Song> findByYear();
+    ArrayList<Song> findByYear(int userId);
 
     // list all songs of a genre for a user
     ArrayList<Song> listByGenre(int genreId, int userId);
@@ -23,6 +23,7 @@ public interface SongDAO {
 
     // list favorite songs of a user
     ArrayList<Song> listFavorites(int userId);
+
 
     void create(Song song);
 
