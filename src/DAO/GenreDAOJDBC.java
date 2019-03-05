@@ -27,50 +27,61 @@ public class GenreDAOJDBC implements GenreDAO {
     }
 
     @Override
-    public Genre find(int genreId) throws SQLException {
+    public Genre find(int genreId) {
         Genre genre = null;
-        Connection con = db.getConnection();
-        PreparedStatement stmt = prepareStatement(con, SQL_FIND_BY_ID, false, genreId);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            genre = map(rs);
+        try (Connection con = db.getConnection();
+             PreparedStatement stmt = prepareStatement(con, SQL_FIND_BY_ID, false, genreId);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                genre = map(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return genre;
     }
 
     @Override
-    public ArrayList<Genre> listById(int userId) throws SQLException {
+    public ArrayList<Genre> listById(int userId) {
         Object[] values = {
             userId,
             userId
         };
         ArrayList<Genre> genres = new ArrayList<>();
-        Connection con = db.getConnection();
+
+        try (Connection con = db.getConnection();
         PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ID, false, values);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            genres.add(map(rs));
+        ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                genres.add(map(rs));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
         }
         return genres;
     }
 
     @Override
-    public Genre findByName(String name, int userId) throws SQLException {
+    public Genre findByName(String name, int userId) {
         Object[] values = {
                 name,
                 userId
         };
         Genre genre = null;
-        Connection con = db.getConnection();
+        try (Connection con = db.getConnection();
         PreparedStatement stmt = prepareStatement(con, SQL_EXIST_GENRE, false, values);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) genre = map(rs);
+        ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) genre = map(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return genre;
     }
 
 
     @Override
-    public void create(Genre genre) throws SQLException {
+    public void create(Genre genre) throws IllegalArgumentException {
         if (genre.getGenreId() != -1) {
             throw new IllegalArgumentException("Genre is already created, the genre ID is not null.");
         }
@@ -79,31 +90,38 @@ public class GenreDAOJDBC implements GenreDAO {
                 genre.getName()
         };
 
-        Connection connection = db.getConnection();
+        try(Connection connection = db.getConnection();
         PreparedStatement statement = prepareStatement(connection, SQL_INSERT, true, values);
-        statement.executeUpdate();
-        ResultSet generatedKeys = statement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            genre.setGenreId(generatedKeys.getInt(1));
-        } else {
-            throw new SQLException("Creating genre failed, no generated key obtained.");
+        ) {
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                genre.setGenreId(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("Creating genre failed, no generated key obtained.");
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Genre genre) throws SQLException {
-        Connection con = db.getConnection();
-        PreparedStatement stmt = prepareStatement(con, SQL_DELETE, false, genre.getGenreId());
-        int affectedRows = stmt.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Deleting genre failed, no rows affected.");
-        } else {
-            genre.setUserId(-1);
+    public void delete(Genre genre) {
+        try (Connection con = db.getConnection();
+        PreparedStatement stmt = prepareStatement(con, SQL_DELETE, false, genre.getGenreId());) {
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Deleting genre failed, no rows affected.");
+            } else {
+                genre.setUserId(-1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void update(Genre genre) throws SQLException {
+    public void update(Genre genre) throws IllegalArgumentException {
         if (genre.getGenreId() == -1) {
             throw new IllegalArgumentException("User is not created yet, the user ID is null.");
         }
@@ -111,23 +129,31 @@ public class GenreDAOJDBC implements GenreDAO {
             genre.getName(),
                 genre.getGenreId()
         };
-        Connection con = db.getConnection();
+        try (Connection con = db.getConnection();
         PreparedStatement stmt = prepareStatement(con, SQL_UPDATE, false, values);
-        int affectedRows = stmt.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Updating genre failed, no rows affected.");
+        ) {
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating genre failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private static Genre map(ResultSet rs) throws SQLException {
+    private static Genre map(ResultSet rs) {
         Genre genre = new Genre();
-        genre.setGenreId(rs.getInt("PK_GenreID"));
-        genre.setUserId(rs.getInt("FK_UserID"));
-        genre.setName(rs.getString("Name"));
+        try {
+            genre.setGenreId(rs.getInt("PK_GenreID"));
+            genre.setUserId(rs.getInt("FK_UserID"));
+            genre.setName(rs.getString("Name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return genre;
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
         GenreDAO genreDAO = db.getGenreDAO();
 //        // Create genre.

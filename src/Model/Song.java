@@ -3,7 +3,7 @@ package Model;
 import java.sql.Blob;
 import java.util.*;
 
-public class Song {
+public class Song implements Comparable<Song> {
     private int songId;
     private int userId;
     private int albumId;
@@ -114,4 +114,10 @@ public class Song {
 	public void setFile(Blob file) {
 		this.file = file;
 	}
+
+
+    @Override
+    public int compareTo(Song o) {
+        return Integer.compare(songId, o.getSongId());
+    }
 }

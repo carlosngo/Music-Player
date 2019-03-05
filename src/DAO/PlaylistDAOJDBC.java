@@ -63,7 +63,7 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     }
 
     @Override
-    public void create(Playlist playlist) {
+    public void create(Playlist playlist) throws IllegalArgumentException {
         if (playlist.getPlaylistId() != -1) {
             throw new IllegalArgumentException("Song is already created, the song ID is not null.");
         }
@@ -103,7 +103,7 @@ public class PlaylistDAOJDBC implements PlaylistDAO {
     }
 
     @Override
-    public void update(Playlist playlist) {
+    public void update(Playlist playlist) throws IllegalArgumentException {
     	try {
             if (playlist.getPlaylistId() == -1) {
                 throw new IllegalArgumentException("User is not created yet, the user ID is null.");

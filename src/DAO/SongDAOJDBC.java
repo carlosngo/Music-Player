@@ -31,6 +31,8 @@ public class SongDAOJDBC implements SongDAO {
 			"DELETE FROM " + DAOFactory.SONG_TABLE + " WHERE PK_SongID = ?";
 	private static final String SQL_UPDATE = 
 			"UPDATE " + DAOFactory.SONG_TABLE + " SET FK_UserID = ?, FK_AlbumID = ?, FK_GenreID = ?, Name = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
+	private static final String SQL_LIST_BY_ID =
+			"SELECT * FROM " + DAOFactory.SONG_TABLE + " WHERE FK_UserID = ?";
 	private static final String SQL_LIST_BY_GENRE =
 			"SELECT " + DAOFactory.SONG_COLUMNS + " FROM " + DAOFactory.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_UserID = ?";
 	private static final String SQL_LIST_BY_ALBUM =
@@ -151,7 +153,25 @@ public class SongDAOJDBC implements SongDAO {
 		return null;    
 	}
 
-    @Override
+	@Override
+	public ArrayList<Song> listById(int userId) {
+		ArrayList<Song> songs = new ArrayList<>();
+		try {
+			Connection connection = db.getConnection();
+			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_GENRE);
+			statement.setInt(1, userId);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				songs.add(map(rs));
+			}
+			return songs;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
     public ArrayList<Song> listByGenre(int genreId, int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
@@ -236,7 +256,7 @@ public class SongDAOJDBC implements SongDAO {
     }
 
     @Override
-	public void create(Song song) {
+	public void create(Song song) throws IllegalArgumentException {
         if (song.getSongId() != -1) {
             throw new IllegalArgumentException("Song is already created, the song ID is not null.");
         }
@@ -287,7 +307,7 @@ public class SongDAOJDBC implements SongDAO {
 	}
 
 	@Override
-	public void update(Song song) {
+	public void update(Song song) throws IllegalArgumentException {
 		try {
             if (song.getSongId() == -1) {
                 throw new IllegalArgumentException("User is not created yet, the user ID is null.");

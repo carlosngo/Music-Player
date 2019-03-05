@@ -6,20 +6,20 @@ import java.util.*;
 
 public interface UserDAO {
 
-    User find(long userId) throws SQLException;
+    User find(long userId);
 
-    User find(String username, String password) throws SQLException;
+    User find(String username, String password);
 
-    ArrayList<User> listById() throws SQLException;
+    ArrayList<User> listById();
 
-    void create(User user) throws SQLException;
+    void create(User user) throws IllegalArgumentException;
 
-    void delete(User user) throws SQLException;
+    void delete(User user);
 
-    void update(User user) throws SQLException;
+    void update(User user) throws IllegalArgumentException;
 
-    boolean existUserName(String username) throws SQLException;
+    boolean existUserName(String username);
 
-    public void changePassword(User user) throws SQLException;
+    public void changePassword(User user);
 
 }

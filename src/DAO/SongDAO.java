@@ -12,6 +12,7 @@ public interface SongDAO {
 
     ArrayList<Song> findByYear(int userId);
 
+    ArrayList<Song> listById(int userId);
     // list all songs of a genre for a user
     ArrayList<Song> listByGenre(int genreId, int userId);
 
@@ -25,10 +26,10 @@ public interface SongDAO {
     ArrayList<Song> listFavorites(int userId);
 
 
-    void create(Song song);
+    void create(Song song) throws IllegalArgumentException;
 
     void delete(Song song);
 
-    void update(Song song);
+    void update(Song song) throws IllegalArgumentException;
 
 }

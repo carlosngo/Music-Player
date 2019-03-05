@@ -20,14 +20,13 @@ public class SongPanel extends JPanel implements ActionListener{
     private String[] rowheader;
     private String[][] rows;
 
-    ArrayList<ArrayList<Object>> testList; //testing
+    ArrayList<ArrayList<Object>> data; //testing
 
-    public SongPanel(SongController controller, String header) {
+    public SongPanel(String header, ArrayList<ArrayList<Object>> _data) {
         this.controller = controller;
-//    public SongPanel(String header, ArrayList<ArrayList<Object>> rowsInput){
+//    public SongPanel(String header, ArrayList<ArrayList<Object>> data){
 
-        ArrayList<ArrayList<Object>> rowsInput = null;
-        testList = rowsInput;
+        data = _data;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -60,10 +59,10 @@ public class SongPanel extends JPanel implements ActionListener{
         tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
         tablePnl.setOpaque(false);
         String[] rowheader = {"Title", "Artist", "Album", "Year", "Genre"};
-        String[][] rows = new String[rowsInput.size()][5];
-        for(int i=0;i<rowsInput.size();i++){
+        String[][] rows = new String[data.size()][5];
+        for(int i=0;i<data.size();i++){
             for(int j=0;j<5;j++){
-                rows[i][j] = rowsInput.get(i).get(j).toString();
+                rows[i][j] = data.get(i).get(j).toString();
             }
         }
         categoryTable = new JTable(rows, rowheader);
@@ -103,10 +102,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "Artist":
                     tablePnl.removeAll();
                     String[] rowheader = {"Title", "Artist", "Album", "Year", "Genre"};
-                    String[][] rows = new String[testList.size()][5];
-                    for(int i=0;i<testList.size();i+=2){
+                    String[][] rows = new String[data.size()][5];
+                    for(int i = 0; i< data.size(); i+=2){
                         for(int j=0;j<5;j++){
-                            rows[i][j] = testList.get(i).get(j).toString();
+                            rows[i][j] = data.get(i).get(j).toString();
                         }
                     }
                     categoryTable = new JTable(rows, rowheader);
@@ -130,10 +129,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "Album":
                     tablePnl.removeAll();
                     String[] rowheader1 = {"Title", "Artist", "Album", "Year", "Genre"};
-                    String[][] rows1 = new String[testList.size()][5];
-                    for(int i=0;i<testList.size();i+=3){
+                    String[][] rows1 = new String[data.size()][5];
+                    for(int i = 0; i< data.size(); i+=3){
                         for(int j=0;j<5;j++){
-                            rows1[i][j] = testList.get(i).get(j).toString();
+                            rows1[i][j] = data.get(i).get(j).toString();
                         }
                     }
                     JTable categoryTable = new JTable(rows1, rowheader1);
@@ -156,10 +155,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "Year":
                     tablePnl.removeAll();
                     String[] rowheader3 = {"Title", "Artist", "Album", "Year", "Genre"};
-                    String[][] rows3 = new String[testList.size()][5];
-                    for(int i=0;i<testList.size();i+=4){
+                    String[][] rows3 = new String[data.size()][5];
+                    for(int i = 0; i< data.size(); i+=4){
                         for(int j=0;j<5;j++){
-                            rows3[i][j] = testList.get(i).get(j).toString();
+                            rows3[i][j] = data.get(i).get(j).toString();
                         }
                     }
                     categoryTable = new JTable(rows3, rowheader3);
@@ -182,10 +181,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "Genre":
                     tablePnl.removeAll();
                     String[] rowheader4 = {"Title", "Artist", "Album", "Year", "Genre"};
-                    String[][] rows4 = new String[testList.size()][5];
-                    for(int i=0;i<testList.size();i+=5){
+                    String[][] rows4 = new String[data.size()][5];
+                    for(int i = 0; i< data.size(); i+=5){
                         for(int j=0;j<5;j++){
-                            rows4[i][j] = testList.get(i).get(j).toString();
+                            rows4[i][j] = data.get(i).get(j).toString();
                         }
                     }
                     categoryTable = new JTable(rows4, rowheader4);
@@ -208,10 +207,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "None":
                     tablePnl.removeAll();
                     String[] rowheader5 = {"Title", "Artist", "Album", "Year", "Genre"};
-                    String[][] rows5 = new String[testList.size()][5];
-                    for(int i=0;i<testList.size();i++){
+                    String[][] rows5 = new String[data.size()][5];
+                    for(int i = 0; i< data.size(); i++){
                         for(int j=0;j<5;j++){
-                            rows5[i][j] = testList.get(i).get(j).toString();
+                            rows5[i][j] = data.get(i).get(j).toString();
                         }
                     }
                     categoryTable = new JTable(rows5, rowheader5);

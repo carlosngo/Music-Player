@@ -67,14 +67,10 @@ public class AccountController {
 
     // logs in the user. check for errors.
     public boolean logIn(String username, String password) {
-    
-    	try {
-    		user = mc.getUserDAO().find(username, password);
-    		if (user == null) return false;
-    	} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
+
+        user = mc.getUserDAO().find(username, password);
+        if (user == null) return false;
+
 		accountPanel = new AccountPanel(this, user);
     	accountPanel.update();
 //		mc.getDashboard().update();
@@ -98,7 +94,7 @@ public class AccountController {
     		} else {
     			return false;
     		}
-		} catch (SQLException | IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -108,7 +104,7 @@ public class AccountController {
     // logs out the user. clear the cache
     public void logOut() {
     	user = null;
-    	mc.getSongController().clearCache();
+    	mc.clearCache();
     }
 
 }

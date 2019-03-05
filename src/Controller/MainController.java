@@ -1,11 +1,18 @@
 package Controller;
 
+import Model.*;
 import DAO.*;
 import View.*;
 
 import java.util.*;
 
 public class MainController {
+
+    // cache
+    private TreeSet<Genre> genres;
+    private TreeSet<Song> songs;
+    private TreeSet<Album> albums;
+    private TreeSet<Playlist> playlists;
 
     // controllers
     private AccountController ac;
@@ -81,10 +88,52 @@ public class MainController {
         return dashboard;
     }
 
-    // saves all the cached data in the database. only used when guest logs in and chooses to save his data.
-    // therefore, assign the newly logged in user's id to all the cached data.
+    // saves all the cached data in the database.
     public void save() {
+        for (Song s : songs) {
+            try {
+                songDAO.create(s);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Genre g : genres) {
+            try {
+                genreDAO.create(g);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Playlist p : playlists) {
+            try {
+                playlistDAO.create(p);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Album a : albums) {
+            try {
+                albumDAO.create(a);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
 
+    }
+
+    public void load() {
+        genres = new TreeSet(genreDAO.listById(ac.getUser().getUserId()));
+        playlists = new TreeSet(playlistDAO.listById(ac.getUser().getUserId()));
+        albums = new TreeSet(albumDAO.listById(ac.getUser().getUserId()));
+        songs = new TreeSet(songDAO.listById(ac.getUser().getUserId()));
+    }
+
+    // clears the cache
+    public void clearCache() {
+        songs = new TreeSet<>();
+        albums = new TreeSet<>();
+        playlists = new TreeSet<>();
+        genres = new TreeSet<>();
     }
 
 }

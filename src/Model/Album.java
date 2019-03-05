@@ -2,7 +2,7 @@ package Model;
 
 import java.sql.Blob;
 
-public class Album {
+public class Album implements Comparable<Album> {
     private int albumId;
     private int userId;
     private String name;
@@ -49,5 +49,10 @@ public class Album {
 	}
 	public void setFile(Blob file) {
 		this.file = file;
+	}
+
+	@Override
+	public int compareTo(Album o) {
+		return name.compareTo(o.getName());
 	}
 }

@@ -3,16 +3,11 @@ package Controller;
 import Model.*;
 import View.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class SongController {
 
     private MainController mc;
-
-    private ArrayList<Genre> genres;
-    private ArrayList<Song> songs;
-    private ArrayList<Album> albums;
-    private ArrayList<Playlist> playlists;
 
     private AddSongWindow asw;
     private EditSongProfileWindow espw;
@@ -88,7 +83,7 @@ public class SongController {
         return subCategories;
     }
 
-    public ArrayList<ArrayList<Object>> getData(String category) {
+    public ArrayList<ArrayList<Object>> getData(String genreName) {
         ArrayList<ArrayList<Object>> data = new ArrayList<>();
         switch(category) {
             case "Genres":
@@ -100,6 +95,30 @@ public class SongController {
                 break;
         }
         return data;
+    }
+
+    public ArrayList<Song> getSongsByGenre(String genreName) {
+
+    }
+
+    public ArrayList<Song> getSongsByAlbum(String albumName) {
+        return null;
+    }
+
+    public ArrayList<Song> getSongsByPlaylist(String playlistName) {
+
+    }
+
+    public void removeGenre(String name) {
+
+    }
+
+    public void removeAlbum(String name) {
+
+    }
+
+    public void removePlaylist(String name) {
+
     }
 
     public void remove(String category, String name) {
@@ -115,11 +134,5 @@ public class SongController {
         }
     }
 
-    // clears the cache
-    public void clearCache() {
-        songs = new ArrayList<>();
-        albums = new ArrayList<>();
-        playlists = new ArrayList<>();
-        genres = new ArrayList<>();
-    }
+
 }
