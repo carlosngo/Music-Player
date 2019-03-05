@@ -33,16 +33,19 @@ public class AccountController {
     // registers the user. check for errors.
     public void register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
     	
-    	user.setUserName(username);
-    	user.setPassword(password);
-    	user.setFirstName(firstName);
-    	user.setLastName(lastName);
-    	user.setGender(gender);
-    	user.setBirthday(birthday);
+    	
     	
     	try {
-			MainController.userDAO.create(user);
-		} catch (SQLException e) {
+    		if(!MainController.userDAO.existUserName(username)){
+    			user.setUserName(username);
+    	    	user.setPassword(password);
+    	    	user.setFirstName(firstName);
+    	    	user.setLastName(lastName);
+    	    	user.setGender(gender);
+    	    	user.setBirthday(birthday);
+    			MainController.userDAO.create(user);
+    		}
+		} catch (SQLException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
     }
