@@ -16,8 +16,8 @@ public class SongController {
 
     public SongController(MainController mc) {
         this.mc = mc;
-        sp = new SongPanel(this, "Songs");
-        cp = null;
+        showAllSongs();
+        showPlaylists();
     }
     public SongPanel getSongPanel() {
         return sp;
@@ -39,22 +39,6 @@ public class SongController {
         return mc;
     }
 
-    public ArrayList<Genre> getGenres() {
-        return genres;
-    }
-
-    public ArrayList<Song> getSongs() {
-        return songs;
-    }
-
-    public ArrayList<Album> getAlbums() {
-        return albums;
-    }
-
-    public ArrayList<Playlist> getPlaylists() {
-        return playlists;
-    }
-
     public AddSongWindow getAddSongWindow() {
         return asw;
     }
@@ -68,45 +52,103 @@ public class SongController {
         asw = new AddSongWindow(this);
     }
 
-    public ArrayList<String> getSubCategories(String category) {
+    public void showMostFrequentlyPlayed() {}
+
+    public void showGenres() {
         ArrayList<String> subCategories = new ArrayList<>();
-        switch(category) {
-            case "Genres":
-//                for (Song s : )
-                break;
-            case "Playlists":
-                break;
-            case "Albums":
-                break;
-
+        for (Genre g : mc.getGenres()) {
+            subCategories.add(g.getName());
         }
-        return subCategories;
+        cp = new CategoryPanel(this, "Genres", subCategories);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.CATEGORY_PANEL);
     }
 
-    public ArrayList<ArrayList<Object>> getData(String genreName) {
-        ArrayList<ArrayList<Object>> data = new ArrayList<>();
-        switch(category) {
-            case "Genres":
-//                for (Song s : )
-                break;
-            case "Playlists":
-                break;
-            case "Albums":
-                break;
+    public void showPlaylists() {
+        ArrayList<String> subCategories = new ArrayList<>();
+        for (Playlist p: mc.getPlaylists()) {
+            subCategories.add(p.getName());
         }
-        return data;
+        cp = new CategoryPanel(this, "Playlists", subCategories);
+
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.CATEGORY_PANEL);
     }
 
-    public ArrayList<Song> getSongsByGenre(String genreName) {
-
+    public void showAlbums() {
+        ArrayList<String> subCategories = new ArrayList<>();
+        for (Album a : mc.getAlbums()) {
+            subCategories.add(a.getName());
+        }
+        cp = new CategoryPanel(this, "Albums", subCategories);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.CATEGORY_PANEL);
     }
 
-    public ArrayList<Song> getSongsByAlbum(String albumName) {
-        return null;
+    public void showAllSongs() {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        for (Song s : mc.getSongs()) {
+            data.add(map(s));
+        }
+        sp = new SongPanel(this, "All Songs", data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
     }
 
-    public ArrayList<Song> getSongsByPlaylist(String playlistName) {
+    public void showSongsByAlbum(String name) {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        Album temp = new Album();
+        temp.setName(name);
+        Album a = mc.getAlbums().floor(temp);
+        for (Song s : mc.getSongs()) {
+            if (s.getAlbumId() == a.getAlbumId()) data.add(map(s));
+        }
+        sp = new SongPanel(this, "Songs by " + name, data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+    }
 
+    public void showSongsByPlaylist(String name) {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        Playlist temp = new Playlist();
+        temp.setName(name);
+        Playlist p = mc.getPlaylists().floor(temp);
+        PlaylistSong ps = new PlaylistSong();
+        ps.setPlaylistId(p.getPlaylistId());
+        for (PlaylistSong psong : mc.getBridges()) {
+            for (Song s : mc.getSongs()) {
+                if (s.getSongId() == psong.getSongId()) data.add(map(s));
+            }
+        }
+        sp = new SongPanel(this, "Songs in " + name, data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+    }
+
+    public void showSongsByGenre(String name) {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        Genre temp = new Genre();
+        temp.setName(name);
+        Genre g = mc.getGenres().floor(temp);
+        for (Song s : mc.getSongs()) {
+            if (s.getGenreId() == g.getGenreId()) data.add(map(s));
+        }
+        sp = new SongPanel(this, name + " Songs", data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+    }
+
+    public void showFavoriteSongs() {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        for (Song s : mc.getSongs()) {
+            if (s.isFavorite()) data.add(map(s));
+        }
+        sp = new SongPanel(this, "Favorite Songs", data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+    }
+
+    public ArrayList<String> map (Song s) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(s.getName());
+        Album a = mc.getAlbumDAO().find(s.getAlbumId());
+        list.add(a.getArtist());
+        list.add(a.getName());
+        list.add(s.getYear() + "");
+        list.add(mc.getGenreDAO().find(s.getGenreId()).getName());
+        return list;
     }
 
     public void removeGenre(String name) {

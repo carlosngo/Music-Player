@@ -345,60 +345,27 @@ public class ControlPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //test 2D arraylist only
-        int var = 0;
-        ArrayList<Object> miniRow = new ArrayList<Object>();
-        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
-        for(int i=0;i<20;i++){
-            for(int j=0;j<5;j++){
-                miniRow.add(var);
-                var++;
-            }
-            rowsInput.add(miniRow);
-            miniRow = new ArrayList<Object>();
-        }
-        //test array
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("suboption 0");
-        list.add("suboption 1");
-        list.add("suboption 2");
-        list.add("suboption 3");
-        list.add("suboption 4");
-        list.add("suboption 5");
-        list.add("suboption 6");
-        list.add("suboption 7");
-        list.add("suboption 8");
-        list.add("suboption 9");
-        list.add("suboption 10");
-        list.add("suboption 11");
-        list.add("suboption 12");
 
         if(e.getSource() == mostFrqntlyPlyd){
-            controller.setSongPanel(new SongPanel(controller, "Most Frequently Played Songs"));
-            controller.getMainController().getDashboard().update(Dashboard.SONG_PANEL);
+            controller.showMostFrequentlyPlayed();
         }
         if(e.getSource() == playlists){
-            controller.setCategoryPanel(new CategoryPanel(controller, "Playlists"));
-            controller.getMainController().getDashboard().update(Dashboard.CATEGORY_PANEL);
+            controller.showPlaylists();
         }
         if(e.getSource() == artists){
-            controller.setCategoryPanel(new CategoryPanel(controller, "Artists"));
-            controller.getMainController().getDashboard().update(Dashboard.CATEGORY_PANEL);
+//            controller.show
         }
         if(e.getSource() == albums){
-            controller.setCategoryPanel(new CategoryPanel(controller, "Albums"));
-            controller.getMainController().getDashboard().update(Dashboard.CATEGORY_PANEL);
+            controller.showAlbums();
         }
         if(e.getSource() == songs){
-            controller.setSongPanel(new SongPanel(controller, "All Songs"));
-            controller.getMainController().getDashboard().update(Dashboard.SONG_PANEL);
+            controller.showAllSongs();
         }
         if(e.getSource() == genres){
-            controller.setCategoryPanel(new CategoryPanel(controller, "Genres"));
-            controller.getMainController().getDashboard().update(Dashboard.CATEGORY_PANEL);
+            controller.showGenres();
         }
         if(e.getSource() == addPlaylist){
-            AddPlaylistWindow apw = new AddPlaylistWindow();
+            controller.showPlaylists();
         }
     }
 }

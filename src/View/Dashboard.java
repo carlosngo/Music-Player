@@ -56,11 +56,17 @@ public class Dashboard extends JFrame {
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
-    public void update(String panelToShow) {
+    public void changeCard(String panelToShow) {
         CardLayout cl = (CardLayout)(centerPanel.getLayout());
         cl.show(centerPanel, panelToShow);
+        System.out.println("Changed card to " + panelToShow);
+        update();
+    }
+    public void update() {
         contentPane.revalidate();
         contentPane.repaint();
+//        centerPanel.revalidate();
+//        centerPanel.repaint();
     }
 
 //    public static void main(String[] args){

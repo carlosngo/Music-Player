@@ -20,9 +20,9 @@ public class SongPanel extends JPanel implements ActionListener{
     private String[] rowheader;
     private String[][] rows;
 
-    ArrayList<ArrayList<Object>> data; //testing
+    ArrayList<ArrayList<String>> data; //testing
 
-    public SongPanel(String header, ArrayList<ArrayList<Object>> _data) {
+    public SongPanel(SongController controller, String header, ArrayList<ArrayList<String>> _data) {
         this.controller = controller;
 //    public SongPanel(String header, ArrayList<ArrayList<Object>> data){
 

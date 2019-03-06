@@ -20,9 +20,8 @@ public class CategoryPanel extends JPanel {
     private JPanel block;
     private int i;
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
-    public CategoryPanel(SongController controller, String category){
+    public CategoryPanel(SongController controller, String category, ArrayList<String> subCategoryList){
         this.controller = controller;
-        ArrayList<String> subCategoryList = controller.getSubCategories(category);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);

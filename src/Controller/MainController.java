@@ -13,6 +13,7 @@ public class MainController {
     private TreeSet<Song> songs;
     private TreeSet<Album> albums;
     private TreeSet<Playlist> playlists;
+    private TreeSet<PlaylistSong> bridges;
 
     // controllers
     private AccountController ac;
@@ -32,16 +33,49 @@ public class MainController {
 
     public MainController() {
         DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
+        clearCache();
         ac = new AccountController(this);
         pc = new PlayerController();
         sc = new SongController(this);
+        openDashboard();
         userDAO = db.getUserDAO();
         songDAO = db.getSongDAO();
         albumDAO = db.getAlbumDAO();
         playlistDAO = db.getPlaylistDAO();
         playlistSongDAO = db.getPlaylistSongDAO();
         genreDAO = db.getGenreDAO();
-        openDashboard();
+    }
+
+    public TreeSet<PlaylistSong> getBridges() {
+        return bridges;
+    }
+
+    public TreeSet<Genre> getGenres() {
+        return genres;
+    }
+
+    public TreeSet<Song> getSongs() {
+        return songs;
+    }
+
+    public TreeSet<Album> getAlbums() {
+        return albums;
+    }
+
+    public TreeSet<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public AccountController getAc() {
+        return ac;
+    }
+
+    public PlayerController getPc() {
+        return pc;
+    }
+
+    public SongController getSc() {
+        return sc;
     }
 
     public void openDashboard() {
