@@ -73,7 +73,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
     }
 
     @Override
-    public void create(Album album) {
+    public void create(Album album) throws IllegalArgumentException{
         if (album.getAlbumId() != -1) {
             throw new IllegalArgumentException("Song is already created, the song ID is not null.");
         }
@@ -121,7 +121,7 @@ public class AlbumDAOJDBC implements AlbumDAO {
     }
 
     @Override
-    public void update(Album album) {
+    public void update(Album album) throws IllegalArgumentException {
     	try {
             if (album.getAlbumId() == -1) {
                 throw new IllegalArgumentException("User is not created yet, the user ID is null.");

@@ -11,11 +11,11 @@ import javax.media.*;
 import java.io.*;
 
 public class PlayerThread implements ControllerListener, Runnable, ActionListener {
-    PlayerController pc;
-    ArrayList<Song> songs;
-    Stack<Song> played;
-    ArrayList<Song> unplayed;
-    boolean isFinished = false;
+    private PlayerController pc;
+    private ArrayList<Song> songs;
+    private Stack<Song> played;
+    private ArrayList<Song> unplayed;
+    private boolean isFinished = false;
 
     public PlayerThread(PlayerController pc, ArrayList<Song> songs) {
         this.songs = songs;
@@ -57,6 +57,7 @@ public class PlayerThread implements ControllerListener, Runnable, ActionListene
         while (!isFinished);
     }
 
+    public void terminate() { isFinished = true; }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Next")) {

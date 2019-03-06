@@ -30,40 +30,46 @@ public class UserDAOJDBC implements UserDAO {
     }
 
     @Override
-    public User find(long userId) throws SQLException {
+    public User find(long userId) {
         return find(SQL_FIND_BY_ID, userId);
     }
 
     @Override
-    public User find(String email, String password) throws SQLException {
+    public User find(String email, String password) {
         return find(SQL_FIND_BY_EMAIL_AND_PASSWORD, email, password);
     }
 
-    private User find(String sql, Object... values) throws SQLException {
+    private User find(String sql, Object... values) {
         User user = null;
-        Connection connection = db.getConnection();
+        try (Connection connection = db.getConnection();
         PreparedStatement statement = prepareStatement(connection, sql, false, values);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            user = map(resultSet);
+        ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                user = map(resultSet);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
         }
         return user;
     }
 
     @Override
-    public ArrayList<User> listById() throws SQLException {
+    public ArrayList<User> listById() {
         ArrayList<User> users = new ArrayList<>();
-        Connection connection = db.getConnection();
+        try (Connection connection = db.getConnection();
         PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            users.add(map(resultSet));
+        ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                users.add(map(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return users;
     }
 
     @Override
-    public void create(User user) throws IllegalArgumentException, SQLException {
+    public void create(User user) throws IllegalArgumentException {
         if (user.getUserId() != -1) {
             throw new IllegalArgumentException("User is already created, the user ID is not null.");
         }
@@ -77,20 +83,23 @@ public class UserDAOJDBC implements UserDAO {
                 user.getBirthday()
         };
 
-        Connection connection = db.getConnection();
-        PreparedStatement statement = prepareStatement(connection, SQL_INSERT, true, values);
-        statement.executeUpdate();
-        ResultSet generatedKeys = statement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            user.setUserId(generatedKeys.getInt(1));
-        } else {
-            throw new SQLException("Creating user failed, no generated key obtained.");
+        try (Connection connection = db.getConnection();
+        PreparedStatement statement = prepareStatement(connection, SQL_INSERT, true, values);) {
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                user.setUserId(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("Creating user failed, no generated key obtained.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
 
     @Override
-    public void update(User user) throws SQLException {
+    public void update(User user) throws IllegalArgumentException {
         if (user.getUserId() == -1) {
             throw new IllegalArgumentException("User is not created yet, the user ID is null.");
         }
@@ -105,61 +114,75 @@ public class UserDAOJDBC implements UserDAO {
                 user.getUserId()
         };
 
-        Connection connection = db.getConnection();
-        PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values);
-        int affectedRows = statement.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Updating user failed, no rows affected.");
+        try (Connection connection = db.getConnection();
+        PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values)) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating user failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
 
     @Override
-    public void delete(User user) throws SQLException {
+    public void delete(User user) {
         Object[] values = {
                 user.getUserId()
         };
-        Connection connection = db.getConnection();
-        PreparedStatement statement = prepareStatement(connection, SQL_DELETE, false, values);
-        int affectedRows = statement.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Deleting user failed, no rows affected.");
-        } else {
-            user.setUserId(-1);
+
+        try (Connection connection = db.getConnection();
+        PreparedStatement statement = prepareStatement(connection, SQL_DELETE, false, values);) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Deleting user failed, no rows affected.");
+            } else {
+                user.setUserId(-1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public boolean existUserName(String userName) throws SQLException {
+    public boolean existUserName(String userName) {
         Object[] values = {
                 userName
         };
-        boolean exist;
-        Connection connection = db.getConnection();
+        boolean exist = false;
+        try (Connection connection = db.getConnection();
         PreparedStatement statement = prepareStatement(connection, SQL_EXIST_USERNAME, false, values);
-        ResultSet resultSet = statement.executeQuery();
-        exist = resultSet.next();
+        ResultSet resultSet = statement.executeQuery()) {
+            exist = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return exist;
     }
 
     @Override
-    public void changePassword(User user) throws SQLException {
+    public void changePassword(User user) {
 
     }
 
-    private static User map(ResultSet rs) throws SQLException {
+    private static User map(ResultSet rs) {
         User user = new User();
-        user.setUserId(rs.getInt("PK_UserID"));
-        user.setUserName(rs.getString("UserName"));
-        user.setPassword(rs.getString("Password"));
-        user.setFirstName(rs.getString("FirstName"));
-        user.setLastName(rs.getString("LastName"));
-        user.setGender(rs.getString("Gender"));
-        user.setBirthday(rs.getDate("Birthday"));
+        try {
+            user.setUserId(rs.getInt("PK_UserID"));
+            user.setUserName(rs.getString("UserName"));
+            user.setPassword(rs.getString("Password"));
+            user.setFirstName(rs.getString("FirstName"));
+            user.setLastName(rs.getString("LastName"));
+            user.setGender(rs.getString("Gender"));
+            user.setBirthday(rs.getDate("Birthday"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return user;
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
         UserDAO userDAO = db.getUserDAO();
 

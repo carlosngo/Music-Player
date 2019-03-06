@@ -13,10 +13,10 @@ public interface AlbumDAO {
     // check if album name exists for a certain user
     Album findByName(String albumName, int userId);
 
-    void create(Album album);
+    void create(Album album) throws IllegalArgumentException;
 
     void delete(Album album);
 
-    void update(Album album);
+    void update(Album album) throws IllegalArgumentException;
 
 }

@@ -1,5 +1,8 @@
 package View;
 
+import Controller.*;
+import Model.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,61 +14,31 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class CategoryPanel extends JPanel {
+    private SongController controller;
     private JLabel headerName;
     private JScrollPane scroll;
     private JPanel block;
-    private MainScreen ms;
-
+    private int i;
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
-    public CategoryPanel(MainScreen mainscreen, String category, ArrayList<String> subCategoryList){
-        ms = mainscreen;
+    public CategoryPanel(SongController controller, String category, ArrayList<String> subCategoryList){
+        this.controller = controller;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
 
+        if(subCategoryList.size() == 0){
+
+        }
+        else{
+
+        }
         add(Box.createRigidArea(new Dimension(0,7)));
-//        JPanel headerPnl = new JPanel();
-//        headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.Y_AXIS));
-//        headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        headerName = new JLabel((category+"s").toUpperCase());
+        headerName = new JLabel((category).toUpperCase());
         headerName.setFont(new Font("Arial", Font.BOLD, 26));
         headerName.setForeground(Color.white);
         add(headerName);
-//        headerPnl.add(headerName);
-//        add(headerPnl);
         add(Box.createRigidArea(new Dimension(0,10)));
-
-//        String[] rowheader = {header, "Number of songs"};
-//        String[][] rows = new String[rowsInput.size()][2];
-//        for(int i=0;i<rowsInput.size();i++){
-//            for(int j=0;j<2;j++){
-//                rows[i][j] = rowsInput.get(i).get(j).toString();
-//            }
-//        }
-//        JTable categoryTable = new JTable(rows, rowheader);
-//        categoryTable.setForeground(Color.white);
-//        JTableHeader tableHeader = categoryTable.getTableHeader();
-//        tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-//        tableHeader.setForeground(Color.WHITE);
-//        tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-////        categoryTable.setPreferredSize(new Dimension(50,100));
-////        categoryTable.setMinimumSize(new Dimension(50,100));
-////        categoryTable.setMaximumSize(new Dimension(50,100));
-//        categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-//        categoryTable.setOpaque(false);
-//        categoryTable.setRowHeight(30);
-//        //categoryTable.getColumn(0).setPreferredWidth(50);
-//        //categoryTable.getColumn(1).setPreferredWidth(50);
-//        categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{
-//            setOpaque(false);
-//        }});
-//        //((DefaultTableCellRenderer)categoryTable.getDefaultRenderer(Object.class)).setOpaque(false);
-//        //categoryTable.setShowGrid(false);
-//        scroll = new JScrollPane(categoryTable);
-//        scroll.getViewport().setOpaque(false);
-//        scroll.setOpaque(false);
-//        scroll.setPreferredSize(new Dimension(50,100));
-//        add(scroll);
 
         block = new JPanel();
         block.setLayout(new GridBagLayout());
@@ -88,7 +61,7 @@ public class CategoryPanel extends JPanel {
             block.add(emptyLabel, cons);
         }
         else{
-            for(int i=0; i<subCategoryList.size(); i++){
+            for(i=0; i<subCategoryList.size(); i++){
                 JButton subOptionButton = new JButton();
                 subOptionButton.setOpaque(false);
                 subOptionButton.setContentAreaFilled(false);
@@ -136,25 +109,22 @@ public class CategoryPanel extends JPanel {
 
                 String chosenSubOption = subCategoryList.get(i);
                 subOptionButton.setText(chosenSubOption);
+
                 subOptionButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //test 2D arraylist only
-                        int var = 0;
-                        ArrayList<Object> miniRow = new ArrayList<Object>();
-                        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
-                        for(int i=0;i<20;i++){
-                            for(int j=0;j<5;j++){
-                                miniRow.add(var);
-                                var++;
-                            }
-                            rowsInput.add(miniRow);
-                            miniRow = new ArrayList<Object>();
+                        switch (category) {
+                            case "Genres":
+                                controller.showSongsByGenre(chosenSubOption);
+                                break;
+                            case "Albums":
+                                controller.showSongsByAlbum(chosenSubOption);
+                                break;
+                            case "Playlists":
+                                controller.showSongsByPlaylist(chosenSubOption);
+                                break;
+
                         }
-                        ms.getDisplayPanel().removeAll();
-                        ms.getDisplayPanel().add(new SongPanel(category + " Songs", rowsInput));
-                        ms.getDisplayPanel().revalidate();
-                        ms.getDisplayPanel().repaint();
                     }
                 });
                 remove.addActionListener(new ActionListener() {
@@ -164,6 +134,7 @@ public class CategoryPanel extends JPanel {
                                 "Are you sure you want to remove this " + category.toLowerCase() + "?",
                                 "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
+                            controller.remove(category, subCategoryList.get(i));
                             System.out.println(category.toLowerCase() + "removed."); //test
                         }
                     }
@@ -183,23 +154,11 @@ public class CategoryPanel extends JPanel {
                 play.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //test 2D arraylist only
-                        int var = 0;
-                        ArrayList<Object> miniRow = new ArrayList<Object>();
-                        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
-                        for(int i=0;i<5;i++){
-                            for(int j=0;j<5;j++){
-                                miniRow.add(var);
-                                var++;
-                            }
-                            rowsInput.add(miniRow);
-                            miniRow = new ArrayList<Object>();
-                        }
-                        ms.getDisplayPanel().removeAll();
-                        ms.getDisplayPanel().add(new SongPanel(category + " Songs", rowsInput));
-                        //System.out.println(12345);
-                        ms.getDisplayPanel().revalidate();
-                        ms.getDisplayPanel().repaint();
+
+                        ArrayList<Song> queue = null;
+                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
+                        new Thread(pt).start();
+
                     }
                 });
                 cons.insets = new Insets(5, 10, 0, 0);

@@ -6,50 +6,109 @@ import View.*;
 import java.sql.SQLException;
 import java.util.*;
 
-import DAO.DAOFactory;
-import DAO.DriverManagerDAOFactory;
-import DAO.UserDAO;
-
 public class AccountController {
     private User user;
+    private MainController mc;
     private AccountPanel accountPanel;
+    private LogInWindow liw;
+    private CreateAccountWindow caw;
+    private ViewAccountWindow vaw;
+    private EditAccountWindow eaw;
 
-
-    public AccountController() {
+    public AccountController(MainController mc) {
+        this.mc = mc;
     	user = new User();
+    	accountPanel = new AccountPanel(this);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public MainController getMc() {
+        return mc;
+    }
+
+    public AccountPanel getAccountPanel() {
+        return accountPanel;
+    }
+
+    public LogInWindow getLiw() {
+        return liw;
+    }
+
+    public CreateAccountWindow getCaw() {
+        return caw;
+    }
+
+    public ViewAccountWindow getVaw() {
+        return vaw;
+    }
+
+    public void openLogInWindow() {
+        liw = new LogInWindow(this);
+    }
+
+    public void openCreateAccountWindow() {
+        caw = new CreateAccountWindow(this);
+    }
+
+    public void openViewAccountWindow() {
+        vaw = new ViewAccountWindow(this);
+    }
+
+    public void openEditAccountWindow() {
+        eaw = new EditAccountWindow(this);
+    }
+
+    public void openAddSongWindow() {
+        mc.getSongController().openAddSongWindow();
     }
 
     // logs in the user. check for errors.
-    public void logIn(String username, String password) {
-    
-    	try {
-    		user = MainController.userDAO.find(username, password);
-    	} catch (SQLException e) {
-			e.printStackTrace();
-		}
-    
+    public boolean logIn(String username, String password) {
+
+        user = mc.getUserDAO().find(username, password);
+        if (user == null) return false;
+        System.out.println("Hi, " + user.getFirstName());
+		mc.getDashboard().setAccountPanel(new AccountPanel(this, user));
+    	mc.load();
+    	mc.getSongController().showAllSongs();
+        mc.getDashboard().update();
+        return true;
     }
 
     // registers the user. check for errors.
-    public void register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
+    public boolean register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
     	try {
-    		if(!MainController.userDAO.existUserName(username)){
+    		if(!mc.getUserDAO().existUserName(username)){
     			user.setUserName(username);
     	    	user.setPassword(password);
     	    	user.setFirstName(firstName);
     	    	user.setLastName(lastName);
     	    	user.setGender(gender);
     	    	user.setBirthday(birthday);
-    			MainController.userDAO.create(user);
+    			mc.getUserDAO().create(user);
+    			logIn(user.getUserName(), user.getPassword());
+    		} else {
+    			return false;
     		}
-		} catch (SQLException | IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
     }
 
     // logs out the user. clear the cache
     public void logOut() {
+        System.out.println("Goodbye, " + user.getFirstName());
+        mc.save();
     	user = new User();
-    	MainController.clearCache();
+        mc.getDashboard().setAccountPanel(new AccountPanel(this));
+    	mc.clearCache();
+        mc.getSongController().showAllSongs();
+        mc.getDashboard().update();
     }
+
 }

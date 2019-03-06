@@ -16,10 +16,10 @@ public interface PlaylistDAO {
     // checks if a playlist already exists for a user
     Playlist findByName(String playlistName, int userId);
 
-    void create(Playlist playlist);
+    void create(Playlist playlist) throws IllegalArgumentException;
 
     void delete(Playlist playlist);
 
-    void update(Playlist playlist);
+    void update(Playlist playlist) throws IllegalArgumentException;
 
 }

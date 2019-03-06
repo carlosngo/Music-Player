@@ -1,6 +1,7 @@
 package View;
 
-import sun.applet.Main;
+import Controller.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,12 +14,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ControlPanel extends JPanel implements ActionListener {
+    private SongController controller;
     private JButton mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist;
-    private MainScreen ms;
-    private ArrayList<ArrayList<Object>> rowsInput; //test 2D arraylist only
 
-    public ControlPanel(MainScreen mainscreen){
-        ms = mainscreen;
+    public ControlPanel(SongController controller){
+        this.controller = controller;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
@@ -29,6 +29,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 //        buttonsPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
 //        buttonsPnl.setOpaque(false);
         mostFrqntlyPlyd = new JButton();
+        mostFrqntlyPlyd.setActionCommand("Most Frequently Played");
         //mostFrqntlyPlyd.setAlignmentX(Component.LEFT_ALIGNMENT);
         mostFrqntlyPlyd.addActionListener(this);
         mostFrqntlyPlyd.setForeground(Color.white);
@@ -67,6 +68,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         //buttonsPnl.add(mostFrqntlyPlyd);
         add(mostFrqntlyPlyd);
         songs = new JButton();
+        songs.setActionCommand("Songs");
         //songs.setAlignmentX(Component.LEFT_ALIGNMENT);
         songs.setForeground(Color.white);
         songs.addActionListener(this);
@@ -105,6 +107,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         //buttonsPnl.add(songs);
         add(songs);
         playlists = new JButton();
+        playlists.setActionCommand("Playlists");
         //playlists.setAlignmentX(Component.LEFT_ALIGNMENT);
         playlists.setForeground(Color.white);
         playlists.addActionListener(this);
@@ -143,6 +146,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         //buttonsPnl.add(playlists);
         add(playlists);
         artists = new JButton();
+        artists.setActionCommand("Artists");
         //artists.setAlignmentX(Component.LEFT_ALIGNMENT);
         artists.setForeground(Color.white);
         artists.addActionListener(this);
@@ -181,6 +185,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         //buttonsPnl.add(artists);
         add(artists);
         albums = new JButton();
+        albums.setActionCommand("Albums");
         //albums.setAlignmentX(Component.LEFT_ALIGNMENT);
         albums.setForeground(Color.white);
         albums.addActionListener(this);
@@ -219,6 +224,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         //buttonsPnl.add(albums);
         add(albums);
         genres = new JButton();
+        genres.setActionCommand("Genres");
         //genres.setAlignmentX(Component.LEFT_ALIGNMENT);
         genres.setForeground(Color.white);
         genres.addActionListener(this);
@@ -260,6 +266,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 //        addPlaylistPnl.setLayout(new BoxLayout(addPlaylistPnl, BoxLayout.X_AXIS));
 //        addPlaylistPnl.setOpaque(false);
         addPlaylist = new JButton();
+        addPlaylist.setActionCommand("Add Playlist");
         //addPlaylist.setAlignmentX(Component.LEFT_ALIGNMENT);
         addPlaylist.setForeground(Color.white);
         addPlaylist.addActionListener(this);
@@ -338,62 +345,27 @@ public class ControlPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //test 2D arraylist only
-        int var = 0;
-        ArrayList<Object> miniRow = new ArrayList<Object>();
-        ArrayList<ArrayList<Object>> rowsInput = new ArrayList<ArrayList<Object>>();
-        for(int i=0;i<20;i++){
-            for(int j=0;j<5;j++){
-                miniRow.add(var);
-                var++;
-            }
-            rowsInput.add(miniRow);
-            miniRow = new ArrayList<Object>();
-        }
-        //test array
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("suboption 0");
-        list.add("suboption 1");
-        list.add("suboption 2");
-        list.add("suboption 3");
-        list.add("suboption 4");
-        list.add("suboption 5");
-        list.add("suboption 6");
-        list.add("suboption 7");
-        list.add("suboption 8");
-        list.add("suboption 9");
-        list.add("suboption 10");
-        list.add("suboption 11");
-        list.add("suboption 12");
 
         if(e.getSource() == mostFrqntlyPlyd){
-            ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new SongPanel("Most Played", rowsInput));
+            controller.showMostFrequentlyPlayed();
         }
         if(e.getSource() == playlists){
-            ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel(ms,"Playlist", list));
+            controller.showPlaylists();
         }
         if(e.getSource() == artists){
-            ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel(ms,"Artist", list));
+//            controller.show
         }
         if(e.getSource() == albums){
-            ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel(ms,"Album", list));
+            controller.showAlbums();
         }
         if(e.getSource() == songs){
-            ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new SongPanel("Song", rowsInput));
+            controller.showAllSongs();
         }
         if(e.getSource() == genres){
-            ms.getDisplayPanel().removeAll();
-            ms.getDisplayPanel().add(new CategoryPanel(ms,"Genre", list));
+            controller.showGenres();
         }
         if(e.getSource() == addPlaylist){
-            AddPlaylistWindow apw = new AddPlaylistWindow();
+            controller.showPlaylists();
         }
-        revalidate();
-        repaint();
     }
 }

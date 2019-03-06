@@ -1,6 +1,6 @@
 package Model;
 
-public class Playlist {
+public class Playlist implements Comparable<Playlist> {
     private int playlistId;
     private int userId;
     private String name;
@@ -46,5 +46,10 @@ public class Playlist {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    @Override
+    public int compareTo(Playlist o) {
+        return o.getName().compareTo(name);
     }
 }

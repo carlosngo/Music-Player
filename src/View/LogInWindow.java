@@ -1,5 +1,7 @@
 package View;
 
+import Controller.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -10,12 +12,12 @@ import java.awt.event.*;
  * @author User
  */
 public class LogInWindow extends JFrame implements ActionListener, DocumentListener {
-    //Controller controller;
+    AccountController controller;
     private JTextField usernameInput, passwordInput;
     private JButton logIn, cancel;
 
-    public LogInWindow(/*Controller controller*/) {
-        //this.controller = controller;
+    public LogInWindow(AccountController controller) {
+        this.controller = controller;
         initHomeScreen();
     }
 
@@ -122,28 +124,17 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
 
     public void actionPerformed (ActionEvent e){
         if(e.getActionCommand().equals("Log In")){
-            //usernameInput.getText() and check username
-            //passwordInput.getText() and check password
-            /*
-            //open joption window if username is unsused
-            boolean testingOnly = true;
-            if(testingOnly){
-                int choice = JOptionPane.showConfirmDialog(null, "This username is does not match any known accounts.\n"
-                        + "Do you want to create an account?", "New Username", JOptionPane.YES_NO_OPTION);
-                if (choice == JOptionPane.YES_OPTION) {
-                    CreateAccountWindow caw = new CreateAccountWindow();
-                    dispose();
-                } else if (choice == JOptionPane.NO_OPTION) {
-                    //open main screen (not logged in)
-                    dispose();
-                }
+            boolean success = controller.logIn(usernameInput.getText(), passwordInput.getText());
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Username and password do not match.",
+                        "Authentication Error", JOptionPane.ERROR_MESSAGE);
+                usernameInput.setText("");
+                passwordInput.setText("");
+                return;
             }
-            */
             dispose();
-            //open main screen (logged in)
         }
         else if(e.getActionCommand().equals("Cancel")){
-            //MainScreen ums = new MainScreen();
             dispose();
         }
     }
@@ -170,8 +161,8 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
     }
 
 
-   public static void main(String[] args){
-        LogInWindow l = new LogInWindow();
-   }
+//   public static void main(String[] args){
+//        LogInWindow l = new LogInWindow();
+//   }
 
 }
