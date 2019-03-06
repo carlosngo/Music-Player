@@ -32,9 +32,6 @@ public class AccountController {
 
     // registers the user. check for errors.
     public void register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
-    	
-    	
-    	
     	try {
     		if(!MainController.userDAO.existUserName(username)){
     			user.setUserName(username);
@@ -52,7 +49,7 @@ public class AccountController {
 
     // logs out the user. clear the cache
     public void logOut() {
-    	user = null;
+    	user = new User();
     	MainController.clearCache();
     }
 }
