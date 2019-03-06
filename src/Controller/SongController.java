@@ -60,7 +60,7 @@ public class SongController {
             subCategories.add(g.getName());
         }
         cp = new CategoryPanel(this, "Genres", subCategories);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.CATEGORY_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showPlaylists() {
@@ -70,7 +70,7 @@ public class SongController {
         }
         cp = new CategoryPanel(this, "Playlists", subCategories);
 
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.CATEGORY_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showAlbums() {
@@ -79,7 +79,7 @@ public class SongController {
             subCategories.add(a.getName());
         }
         cp = new CategoryPanel(this, "Albums", subCategories);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.CATEGORY_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showAllSongs() {
@@ -88,7 +88,7 @@ public class SongController {
             data.add(map(s));
         }
         sp = new SongPanel(this, "All Songs", data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showSongsByAlbum(String name) {
@@ -100,7 +100,7 @@ public class SongController {
             if (s.getAlbumId() == a.getAlbumId()) data.add(map(s));
         }
         sp = new SongPanel(this, "Songs by " + name, data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showSongsByPlaylist(String name) {
@@ -116,7 +116,7 @@ public class SongController {
             }
         }
         sp = new SongPanel(this, "Songs in " + name, data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showSongsByGenre(String name) {
@@ -128,7 +128,7 @@ public class SongController {
             if (s.getGenreId() == g.getGenreId()) data.add(map(s));
         }
         sp = new SongPanel(this, name + " Songs", data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showFavoriteSongs() {
@@ -137,15 +137,20 @@ public class SongController {
             if (s.isFavorite()) data.add(map(s));
         }
         sp = new SongPanel(this, "Favorite Songs", data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(Dashboard.SONG_PANEL);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();
         list.add(s.getName());
         Album a = mc.getAlbumDAO().find(s.getAlbumId());
-        list.add(a.getArtist());
-        list.add(a.getName());
+        if (a != null) {
+            list.add(a.getArtist());
+            list.add(a.getName());
+        } else {
+            list.add("");
+            list.add("");
+        }
         list.add(s.getYear() + "");
         list.add(mc.getGenreDAO().find(s.getGenreId()).getName());
         return list;

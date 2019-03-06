@@ -27,8 +27,14 @@ public class CategoryPanel extends JPanel {
         //setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
 
+        if(subCategoryList.size() == 0){
+
+        }
+        else{
+
+        }
         add(Box.createRigidArea(new Dimension(0,7)));
-        headerName = new JLabel((category+"s").toUpperCase());
+        headerName = new JLabel((category).toUpperCase());
         headerName.setFont(new Font("Arial", Font.BOLD, 26));
         headerName.setForeground(Color.white);
         add(headerName);
@@ -107,7 +113,18 @@ public class CategoryPanel extends JPanel {
                 subOptionButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        switch (category) {
+                            case "Genres":
+                                controller.showSongsByGenre(chosenSubOption);
+                                break;
+                            case "Albums":
+                                controller.showSongsByAlbum(chosenSubOption);
+                                break;
+                            case "Playlists":
+                                controller.showSongsByPlaylist(chosenSubOption);
+                                break;
 
+                        }
                     }
                 });
                 remove.addActionListener(new ActionListener() {

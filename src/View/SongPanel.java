@@ -32,64 +32,73 @@ public class SongPanel extends JPanel implements ActionListener{
         //setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
 
-        add(Box.createRigidArea(new Dimension(0,7)));
-        JPanel headerPnl = new JPanel();
-        headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.X_AXIS));
-        headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        headerPnl.setOpaque(false);
-        headerPnl.add(Box.createRigidArea(new Dimension(15,0)));
-        headerName = new JLabel(header.toUpperCase());
-        headerName.setFont(new Font("Arial", Font.BOLD, 26));
-        headerName.setForeground(Color.white);
-        headerPnl.add(headerName);
-        headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
-        String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
-        sortOptions = new JComboBox(sort);
-        sortOptions.setForeground(SystemColor.windowText);
-        sortOptions.addActionListener(this);
-        sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
-        sortOptions.setPreferredSize(new Dimension(100,15));
-        sortOptions.setMinimumSize(new Dimension(100,20));
-        sortOptions.setMaximumSize(new Dimension(100,20));
-        headerPnl.add(sortOptions);
-        add(headerPnl);
-        add(Box.createRigidArea(new Dimension(0,10)));
-
-        tablePnl = new JPanel();
-        tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
-        tablePnl.setOpaque(false);
-        String[] rowheader = {"Title", "Artist", "Album", "Year", "Genre"};
-        String[][] rows = new String[data.size()][5];
-        for(int i=0;i<data.size();i++){
-            for(int j=0;j<5;j++){
-                rows[i][j] = data.get(i).get(j).toString();
-            }
+        if(_data.size()==0){
+            JLabel blankMessage = new JLabel("No songs to show.");
+            blankMessage.setForeground(Color.white);
+            blankMessage.setFont(new Font("Arial", Font.BOLD, 26));
+            add(blankMessage);
         }
-        categoryTable = new JTable(rows, rowheader);
-        categoryTable.setForeground(Color.white);
-        tableHeader = categoryTable.getTableHeader();
-        tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-        tableHeader.setForeground(Color.WHITE);
-        tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+        else{
+            add(Box.createRigidArea(new Dimension(0,7)));
+            JPanel headerPnl = new JPanel();
+            headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.X_AXIS));
+            headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
+            headerPnl.setOpaque(false);
+            headerPnl.add(Box.createRigidArea(new Dimension(15,0)));
+            headerName = new JLabel(header.toUpperCase());
+            headerName.setFont(new Font("Arial", Font.BOLD, 26));
+            headerName.setForeground(Color.white);
+            headerPnl.add(headerName);
+            headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
+            String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
+            sortOptions = new JComboBox(sort);
+            sortOptions.setForeground(SystemColor.windowText);
+            sortOptions.addActionListener(this);
+            sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
+            sortOptions.setPreferredSize(new Dimension(100,15));
+            sortOptions.setMinimumSize(new Dimension(100,20));
+            sortOptions.setMaximumSize(new Dimension(100,20));
+            headerPnl.add(sortOptions);
+            add(headerPnl);
+            add(Box.createRigidArea(new Dimension(0,10)));
+
+            tablePnl = new JPanel();
+            tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
+            tablePnl.setOpaque(false);
+            String[] rowheader = {"Title", "Artist", "Album", "Year", "Genre"};
+            String[][] rows = new String[data.size()][5];
+            for(int i=0;i<data.size();i++){
+                for(int j=0;j<5;j++){
+                    rows[i][j] = data.get(i).get(j).toString();
+                }
+            }
+            categoryTable = new JTable(rows, rowheader);
+            categoryTable.setForeground(Color.white);
+            tableHeader = categoryTable.getTableHeader();
+            tableHeader.setBackground(new Color(65,15,225)); // change the Background color
+            tableHeader.setForeground(Color.WHITE);
+            tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
 //        categoryTable.setPreferredSize(new Dimension(50,100));
 //        categoryTable.setMinimumSize(new Dimension(50,100));
 //        categoryTable.setMaximumSize(new Dimension(50,100));
-        categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-        categoryTable.setOpaque(false);
-        categoryTable.setRowHeight(30);
-        //categoryTable.getColumn(0).setPreferredWidth(50);
-        //categoryTable.getColumn(1).setPreferredWidth(50);
-        categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{
-            setOpaque(false);
-        }});
-        //((DefaultTableCellRenderer)categoryTable.getDefaultRenderer(Object.class)).setOpaque(false);
-        //categoryTable.setShowGrid(false);
-        scroll = new JScrollPane(categoryTable);
-        scroll.getViewport().setOpaque(false);
-        scroll.setOpaque(false);
-        scroll.setPreferredSize(new Dimension(50,60));
-        tablePnl.add(scroll);
-        add(tablePnl);
+            categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+            categoryTable.setOpaque(false);
+            categoryTable.setRowHeight(30);
+            //categoryTable.getColumn(0).setPreferredWidth(50);
+            //categoryTable.getColumn(1).setPreferredWidth(50);
+            categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{
+                setOpaque(false);
+            }});
+            //((DefaultTableCellRenderer)categoryTable.getDefaultRenderer(Object.class)).setOpaque(false);
+            //categoryTable.setShowGrid(false);
+            scroll = new JScrollPane(categoryTable);
+            scroll.getViewport().setOpaque(false);
+            scroll.setOpaque(false);
+            scroll.setPreferredSize(new Dimension(50,60));
+            tablePnl.add(scroll);
+            add(tablePnl);
+        }
+
     }
 
 

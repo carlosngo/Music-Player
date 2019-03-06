@@ -45,6 +45,8 @@ public class Dashboard extends JFrame {
 
         centerPanel.add(songPanel, SONG_PANEL);
         centerPanel.add(categoryPanel, CATEGORY_PANEL);
+        centerPanel.setBackground(Color.BLACK);
+        contentPane.add(centerPanel, BorderLayout.CENTER);
 
         southPanel = controller.getPlayerController().getPlayerPanel();
         contentPane.add(southPanel, BorderLayout.SOUTH);
@@ -56,10 +58,53 @@ public class Dashboard extends JFrame {
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
-    public void changeCard(String panelToShow) {
+    public JPanel getCenterPanel() {
+        return centerPanel;
+    }
+
+    public MainController getController() {
+        return controller;
+    }
+
+    public AccountPanel getAccountPanel() {
+        return northPanel;
+    }
+
+    public void setAccountPanel(AccountPanel newPanel) {
+        contentPane.remove(northPanel);
+        contentPane.add(newPanel, BorderLayout.NORTH);
+        northPanel = newPanel;
+    }
+
+    public ControlPanel getControlPanel() {
+        return westPanel;
+    }
+
+    public SongPanel getSongPanel() {
+        return songPanel;
+    }
+
+    public CategoryPanel getCategoryPanel() {
+        return categoryPanel;
+    }
+
+    public PlayerPanel getPlayerPanel() {
+        return southPanel;
+    }
+
+    public void changeCard(Component panelToShow) {
         CardLayout cl = (CardLayout)(centerPanel.getLayout());
-        cl.show(centerPanel, panelToShow);
-        System.out.println("Changed card to " + panelToShow);
+        if (panelToShow instanceof SongPanel) {
+            SongPanel sp = (SongPanel)panelToShow;
+            centerPanel.remove(songPanel);
+            centerPanel.add(sp, SONG_PANEL);
+            cl.show(centerPanel, SONG_PANEL);
+        } else if (panelToShow instanceof CategoryPanel) {
+            CategoryPanel cp = (CategoryPanel)panelToShow;
+            centerPanel.remove(categoryPanel);
+            centerPanel.add(cp, CATEGORY_PANEL);
+            cl.show(centerPanel, CATEGORY_PANEL);
+        }
         update();
     }
     public void update() {

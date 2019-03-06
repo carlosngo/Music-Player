@@ -17,7 +17,7 @@ public class AccountController {
 
     public AccountController(MainController mc) {
         this.mc = mc;
-    	user = null;
+    	user = new User();
     	accountPanel = new AccountPanel(this);
     }
 
@@ -70,12 +70,11 @@ public class AccountController {
 
         user = mc.getUserDAO().find(username, password);
         if (user == null) return false;
-
-		accountPanel = new AccountPanel(this, user);
-    	accountPanel.update();
+        System.out.println("Hi, " + user.getFirstName());
+		mc.getDashboard().setAccountPanel(new AccountPanel(this, user));
     	mc.load();
-
-//		mc.getDashboard().update();
+    	mc.getSongController().showAllSongs();
+        mc.getDashboard().update();
         return true;
     }
 
@@ -85,7 +84,7 @@ public class AccountController {
     	
     	
     	try {
-    		if(mc.getUserDAO().existUserName(username)){
+    		if(!mc.getUserDAO().existUserName(username)){
     			user.setUserName(username);
     	    	user.setPassword(password);
     	    	user.setFirstName(firstName);
@@ -93,6 +92,7 @@ public class AccountController {
     	    	user.setGender(gender);
     	    	user.setBirthday(birthday);
     			mc.getUserDAO().create(user);
+    			logIn(user.getUserName(), user.getPassword());
     		} else {
     			return false;
     		}
@@ -105,8 +105,13 @@ public class AccountController {
 
     // logs out the user. clear the cache
     public void logOut() {
-    	user = null;
+        System.out.println("Goodbye, " + user.getFirstName());
+        mc.save();
+    	user = new User();
+        mc.getDashboard().setAccountPanel(new AccountPanel(this));
     	mc.clearCache();
+        mc.getSongController().showAllSongs();
+        mc.getDashboard().update();
     }
 
 }

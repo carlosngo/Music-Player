@@ -158,7 +158,7 @@ public class SongDAOJDBC implements SongDAO {
 		ArrayList<Song> songs = new ArrayList<>();
 		try {
 			Connection connection = db.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_GENRE);
+			PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
 			statement.setInt(1, userId);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {

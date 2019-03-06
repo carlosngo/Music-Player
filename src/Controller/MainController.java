@@ -160,6 +160,7 @@ public class MainController {
         playlists = new TreeSet(playlistDAO.listById(ac.getUser().getUserId()));
         albums = new TreeSet(albumDAO.listById(ac.getUser().getUserId()));
         songs = new TreeSet(songDAO.listById(ac.getUser().getUserId()));
+
     }
 
     // clears the cache
@@ -168,6 +169,7 @@ public class MainController {
         albums = new TreeSet<>();
         playlists = new TreeSet<>();
         genres = new TreeSet<>();
+        bridges = new TreeSet<>();
     }
 
 }

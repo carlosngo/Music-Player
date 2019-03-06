@@ -115,7 +115,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         genderLbl.setForeground(Color.white);
         genderLbl.setFont(new Font("Arial", Font.BOLD, 22));
         p4.add(genderLbl);
-        String[] genderList = {"Choose gender", "Male", "Female"};
+        String[] genderList = {"Choose gender", "M", "F"};
         gender = new JComboBox(genderList);
         gender.setFont(new Font("Arial", Font.PLAIN, 16));
         //gender.setEnabled(false);
