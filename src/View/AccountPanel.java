@@ -1,8 +1,5 @@
 package View;
 
-import Model.*;
-import Controller.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,14 +9,15 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
+import Model.*;
 
 //icon, and header buttons
-public class AccountPanel extends JPanel {
+public class AccountPanel extends JPanel implements ActionListener {
     private JButton addSongs, logIn, signUp, viewAccount, logOut;
-    private AccountController ac;
+    private MainScreen ms;
 
-    public AccountPanel(AccountController ac){
-        this.ac = ac;
+    public AccountPanel(MainScreen ms){
+        this.ms = ms;
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));
@@ -46,13 +44,7 @@ public class AccountPanel extends JPanel {
 //        addSongs.setMinimumSize(new Dimension(120, 40));
 //        addSongs.setPreferredSize(new Dimension(120, 40));
         addSongs.setFont(new Font("Arial", Font.BOLD, 14));
-        addSongs.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openAddSongWindow();
-            }
-        });
+        addSongs.addActionListener(this);
         addSongs.addMouseListener(new MouseAdapter() {
             Color oldColor = addSongs.getForeground();
             public void mouseEntered(MouseEvent e) {
@@ -84,13 +76,7 @@ public class AccountPanel extends JPanel {
                 logIn.setForeground(oldColor);
             }
         });
-        logIn.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openLogInWindow();
-            }
-        });
+        logIn.addActionListener(this);
         add(logIn);
         //add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -113,20 +99,14 @@ public class AccountPanel extends JPanel {
                 signUp.setForeground(oldColor);
             }
         });
-        signUp.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openCreateAccountWindow();
-            }
-        });
+        signUp.addActionListener(this);
         add(Box.createRigidArea(new Dimension(15,0)));
         add(signUp);
     }
 
-    public AccountPanel(AccountController ac, User user){
-        this.ac = ac;
-//        ms.setTitle(user.getUserName() + "'s iPl4yer");
+    public AccountPanel(MainScreen ms, User user){
+        this.ms = ms;
+        ms.setTitle(user.getUserName() + "'s iPl4yer");
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));
@@ -153,13 +133,7 @@ public class AccountPanel extends JPanel {
 //        addSongs.setMinimumSize(new Dimension(120, 40));
 //        addSongs.setPreferredSize(new Dimension(120, 40));
         addSongs.setFont(new Font("Arial", Font.BOLD, 14));
-        addSongs.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openAddSongWindow();
-            }
-        });
+        addSongs.addActionListener(this);
         addSongs.addMouseListener(new MouseAdapter() {
             Color oldColor = addSongs.getForeground();
             public void mouseEntered(MouseEvent e) {
@@ -191,12 +165,7 @@ public class AccountPanel extends JPanel {
                 viewAccount.setForeground(oldColor);
             }
         });
-        viewAccount.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openViewAccountWindow();
-            }
-        });
+        viewAccount.addActionListener(this);
         add(viewAccount);
 
         logOut = new JButton("Log Out");
@@ -218,18 +187,27 @@ public class AccountPanel extends JPanel {
                 logOut.setForeground(oldColor);
             }
         });
-        logOut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.logOut();
-            }
-        });
+        logOut.addActionListener(this);
         add(logOut);
     }
 
-    public void update() {
-        revalidate();
-        repaint();
-
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == addSongs){
+            AddSongWindow asw = new AddSongWindow();
+        }
+        if(e.getSource() == logIn){
+            LogInWindow l = new LogInWindow();
+        }
+        if(e.getSource() == signUp){
+            UserAccountWindow uaw = new UserAccountWindow();
+        }
+        if(e.getSource() == logOut){
+            MainScreen ms2 = new MainScreen();
+            ms.dispose();
+        }
+        if(e.getSource() == viewAccount){
+            UserAccountWindow caw = new UserAccountWindow(new User());
+        }
     }
 }
