@@ -13,7 +13,6 @@ public class MainController {
     private TreeSet<Song> songs;
     private TreeSet<Album> albums;
     private TreeSet<Playlist> playlists;
-    private TreeSet<PlaylistSong> bridges;
 
     // controllers
     private AccountController ac;
@@ -44,10 +43,6 @@ public class MainController {
         playlistDAO = db.getPlaylistDAO();
         playlistSongDAO = db.getPlaylistSongDAO();
         genreDAO = db.getGenreDAO();
-    }
-
-    public TreeSet<PlaylistSong> getBridges() {
-        return bridges;
     }
 
     public TreeSet<Genre> getGenres() {
@@ -128,28 +123,31 @@ public class MainController {
             try {
                 songDAO.create(s);
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+//                System.out.println("");
             }
         }
         for (Genre g : genres) {
             try {
                 genreDAO.create(g);
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         for (Playlist p : playlists) {
             try {
                 playlistDAO.create(p);
+                for (Song s : p.getSongs()) {
+                    playlistSongDAO.join(p, s);
+                }
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         for (Album a : albums) {
             try {
                 albumDAO.create(a);
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
 
@@ -160,6 +158,11 @@ public class MainController {
         playlists = new TreeSet(playlistDAO.listById(ac.getUser().getUserId()));
         albums = new TreeSet(albumDAO.listById(ac.getUser().getUserId()));
         songs = new TreeSet(songDAO.listById(ac.getUser().getUserId()));
+        for (Playlist p : playlists) {
+            for (Integer i : playlistSongDAO.listByPlaylistId(p.getPlaylistId())) {
+                p.getSongs().add(songDAO.find(i));
+            }
+        }
 
     }
 

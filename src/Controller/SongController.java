@@ -108,12 +108,8 @@ public class SongController {
         Playlist temp = new Playlist();
         temp.setName(name);
         Playlist p = mc.getPlaylists().floor(temp);
-        PlaylistSong ps = new PlaylistSong();
-        ps.setPlaylistId(p.getPlaylistId());
-        for (PlaylistSong psong : mc.getBridges()) {
-            for (Song s : mc.getSongs()) {
-                if (s.getSongId() == psong.getSongId()) data.add(map(s));
-            }
+        for (Song s : p.getSongs()) {
+            data.add(map(s));
         }
         sp = new SongPanel(this, "Songs in " + name, data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
