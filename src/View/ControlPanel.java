@@ -145,8 +145,45 @@ public class ControlPanel extends JPanel implements ActionListener {
         });
         //buttonsPnl.add(playlists);
         add(playlists);
-       
-     
+        artists = new JButton();
+        artists.setActionCommand("Artists");
+        //artists.setAlignmentX(Component.LEFT_ALIGNMENT);
+        artists.setForeground(Color.white);
+        artists.addActionListener(this);
+        artists.setOpaque(false);
+        artists.setContentAreaFilled(false);
+        artists.setBorderPainted(false);
+        artists.setMaximumSize(new Dimension(200, 40));
+        artists.setMinimumSize(new Dimension(200, 40));
+        artists.setPreferredSize(new Dimension(200, 40));
+        artists.setFont(new Font("Arial", Font.BOLD, 14));
+        artists.addMouseListener(new MouseAdapter() {
+            Color oldColor = artists.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanArtist.png");
+                    File img = Paths.get(resource.toURI()).toFile();
+                    artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    artists.setText("Artists");
+                } catch(Exception exception){
+
+                }
+                artists.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/artists.png");
+                    File img = Paths.get(resource.toURI()).toFile();
+                    artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    artists.setText("Artists");
+                } catch(Exception exception){
+
+                }
+                artists.setForeground(oldColor);
+            }
+        });
+        //buttonsPnl.add(artists);
+        add(artists);
         albums = new JButton();
         albums.setActionCommand("Albums");
         //albums.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -281,7 +318,10 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = Paths.get(resource.toURI()).toFile();
             playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             playlists.setText("Playlists");
-            
+            resource = getClass().getClassLoader().getResource("images/artists.png");
+            img = Paths.get(resource.toURI()).toFile();
+            artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            artists.setText("Artists");
             resource = getClass().getClassLoader().getResource("images/albums.png");
             img = Paths.get(resource.toURI()).toFile();
             albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
