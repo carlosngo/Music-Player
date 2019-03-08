@@ -111,6 +111,9 @@ public class MainController {
         return dashboard;
     }
 
+    public void playSongs(ArrayList<Song> songs) {
+//        new Thread(new PlayerThread(pc, songs)).start();
+    }
     // saves all the cached data in the database.
 
 }

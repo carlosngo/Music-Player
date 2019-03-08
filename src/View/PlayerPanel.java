@@ -61,6 +61,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         prev.setOpaque(false);
         prev.setContentAreaFilled(false);
         prev.setBorderPainted(false);
+        prev.addActionListener(pc);
         add(prev);
         add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -69,6 +70,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         next.setOpaque(false);
         next.setContentAreaFilled(false);
         next.setBorderPainted(false);
+        next.addActionListener(pc);
         add(next);
         add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -144,19 +146,6 @@ public class PlayerPanel extends JPanel implements ActionListener {
 
     public boolean isShuffle() {
         return isShuffle;
-    }
-
-    public void addControlListener(ActionListener listener) {
-        for( ActionListener al : next.getActionListeners() ) {
-            next.removeActionListener( al );
-        }
-        next.addActionListener(listener);
-
-        for( ActionListener al : prev.getActionListeners() ) {
-            prev.removeActionListener( al );
-        }
-        prev.addActionListener(listener);
-
     }
 
     @Override

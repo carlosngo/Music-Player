@@ -156,8 +156,8 @@ public class CategoryPanel extends JPanel {
                     public void actionPerformed(ActionEvent e) {
 
                         ArrayList<Song> queue = null;
-                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
-                        new Thread(pt).start();
+//                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
+//                        new Thread(pt).start();
 
                     }
                 });

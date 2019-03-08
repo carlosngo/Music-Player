@@ -11,16 +11,21 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class PlayerController {
+public class PlayerController implements ControllerListener, ActionListener {
     private MainController mc;
-    private Player player = null;
-    private PlayerPanel pp;
-    private PlayerThread pt;
 
+    private Player player = null;
+    private ArrayList<Song> songs;
+    private Stack<Song> played;
+    private ArrayList<Song> unplayed;
+    private boolean isFinished = false;
+
+    private PlayerPanel pp;
 
     public PlayerController(MainController mc)
     {
         this.mc = mc;
+        clearQueue();
         pp = new PlayerPanel(this);
     }
 
@@ -28,6 +33,128 @@ public class PlayerController {
         return mc;
     }
 
+    public void setSongs(ArrayList<Song> songs) {
+        this.songs = songs;
+        unplayed = (ArrayList<Song>)songs.clone();
+        played = new Stack<>();
+    }
+
+    public void addSong(Song song) {
+
+        songs.add(song);
+        unplayed.add(song);
+    }
+
+    public void startPlayer() {
+        if (!unplayed.isEmpty()) {
+            isFinished = false;
+            playSong(getNextSong());
+        }
+    }
+
+    public void terminate() {
+        pp.update("", "", new JLabel());
+        System.out.println("Terminating");
+        isFinished = true;
+        clearQueue();
+    }
+
+    @Override
+    public void controllerUpdate(ControllerEvent controllerEvent) {
+        if (controllerEvent instanceof EndOfMediaEvent) {
+            // end of media actions here
+            System.out.println("End of media");
+            Song nextSong = getNextSong();
+            System.out.println("Next song = " + nextSong);
+            playSong(nextSong);
+        }
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Next")) {
+            Song nextSong = getNextSong();
+            if (nextSong != null) {
+//                System.out.println("Next song not null");
+                playSong(nextSong);
+            }
+        } else if (e.getActionCommand().equals("Prev")) {
+            if (played.size() < 2) return;
+            Song currentSong = played.pop();
+            unplayed.add(currentSong);
+            Song prevSong = played.pop();
+            unplayed.add(prevSong);
+            playSong(prevSong);
+        }
+    }
+
+    public void removeSong(Song song) {
+        if (played.peek().equals(song)) { // if the song is currently playing
+            Song nextSong = getNextSong();
+            playSong(nextSong);
+        }
+        songs.remove(song);
+        unplayed.remove(song);
+        played.remove(song);
+    }
+
+    private Song getNextSong() {
+        Song nextSong = null;
+        if (unplayed.isEmpty()) {
+            if (isRepeat()) {
+                System.out.println("Repeating...");
+                played = new Stack<>();
+                unplayed = (ArrayList<Song>)songs.clone();
+            }
+            else {
+                return null;
+            }
+        }
+        if (!isFinished) {
+            int nextIndex = 0;
+            if (isShuffle()) nextIndex = (int)(Math.random() * unplayed.size());
+            nextSong = unplayed.get(nextIndex);
+            System.out.println("Next song is " + nextSong.getName());
+        }
+        return nextSong;
+    }
+
+    private void playSong(Song song) {
+//        System.out.println("Playing song " + song.getName());
+
+        if (song == null) {
+            terminate();
+            return;
+        }
+        unplayed.remove(song);
+        played.push(song);
+        BlobParser.setStrategy(new BlobToFile());
+        File dir = new File("resources/songs");
+        dir.mkdirs();
+        File wav = new File(dir,song.getSongId() + "");
+        try {
+            wav.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BlobParser.executeStrategy(song.getFile(), wav);
+        AlbumDAO albumDAO = mc.getAlbumDAO();
+        String coverName = albumDAO.find(song.getAlbumId()).getName();
+        try {
+
+            setMediaLocator(new MediaLocator(wav.toURI().toURL()), song.getName(), coverName);
+        } catch (CannotRealizeException e) {
+
+            e.printStackTrace();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        } catch (NoPlayerException e) {
+            e.printStackTrace();
+        }
+
+    }
     /**
      * Sets the media locator.  Setting this to a new value effectively
      * discards any Player which may have already existed.
@@ -57,20 +184,12 @@ public class PlayerController {
         closeCurrentPlayer();
 
         player = newPlayer;
-        if (pt != null) attach(pt);
+        player.addControllerListener(this);
+//        if (pt != null) attach(pt);
         // refresh the tabbed pane.\
         pp.update(title, artist, player.getControlPanelComponent());
         player.start();
         if (player == null) return;
-    }
-
-    public void attach(PlayerThread pt) {
-        if (this.pt != null) {
-            player.removeControllerListener(this.pt);
-            this.pt.terminate();
-        }
-        this.pt = pt;
-        player.addControllerListener(pt);
     }
 
     /**
@@ -99,14 +218,21 @@ public class PlayerController {
         return player;
     }
 
+    public void clearQueue() {
+        songs = new ArrayList<>();
+        unplayed = new ArrayList<>();
+        played = new Stack<>();
+    }
     public static void main(String[] args) throws Exception {
 
-//        PlayerController pc = new PlayerController();
-//        DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
-//        SongDAO songDAO = db.getSongDAO();
-//        ArrayList<Song> queue = new ArrayList<>();
-//        queue.add(songDAO.find(4));
-//        queue.add(songDAO.find(5));
+        PlayerController pc = new PlayerController(new MainController());
+
+        SongDAO songDAO = (SongDAO) new SongDAOFactory().getDAO();
+        ArrayList<Song> queue = new ArrayList<>();
+        queue.add(songDAO.find(4));
+        queue.add(songDAO.find(5));
+        pc.setSongs(queue);
+        pc.startPlayer();
 //        PlayerThread pt = new PlayerThread(pc, queue);
 //        new Thread(pt).start();
 //        JFileChooser fc = new JFileChooser();
@@ -117,10 +243,10 @@ public class PlayerController {
 //        } else {
 //
 //        }
-//        JFrame frm = new JFrame();
-//        frm.setContentPane(pc.getPlayerPanel());
-//        frm.pack();
-//        frm.setVisible(true);
-//        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frm = new JFrame();
+        frm.setContentPane(pc.getPlayerPanel());
+        frm.pack();
+        frm.setVisible(true);
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
