@@ -172,7 +172,6 @@ public class MainController {
         albums = new TreeSet<>();
         playlists = new TreeSet<>();
         genres = new TreeSet<>();
-        bridges = new TreeSet<>();
     }
 
 }

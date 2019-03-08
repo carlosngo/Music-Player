@@ -2,7 +2,7 @@ package DAO;
 
 import java.sql.*;
 
-public class DriverManagerDAOFactory extends DAOFactory {
+public class DriverManagerDAOFactory implements DAOFactory {
     private String url;
     private String username;
     private String password;
