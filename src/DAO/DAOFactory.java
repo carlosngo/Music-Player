@@ -32,22 +32,13 @@ public abstract class DAOFactory {
     public static final String ALBUM_COLUMNS =
             "PK_AlbumID, FK_UserID, Name, Artist, Cover";
 
-    public static DAOFactory getInstance() {
-        return null;
+    protected abstract DataAccessObject createDAO();
+
+    public DataAccessObject getDAO() {
+        return createDAO();
     }
-    public abstract Connection getConnection() throws SQLException;
 
-    public abstract UserDAO getUserDAO();
-
-    public abstract SongDAO getSongDAO();
-
-    public abstract GenreDAO getGenreDAO();
-
-    public abstract PlaylistDAO getPlaylistDAO();
-
-    public abstract AlbumDAO getAlbumDAO();
-
-    public abstract PlaylistSongDAO getPlaylistSongDAO();
-
-
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
+    }
 }

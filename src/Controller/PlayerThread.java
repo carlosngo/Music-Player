@@ -90,8 +90,7 @@ public class PlayerThread implements ControllerListener, Runnable, ActionListene
             e.printStackTrace();
         }
         BlobParser.executeStrategy(song.getFile(), wav);
-        DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
-        AlbumDAO albumDAO = db.getAlbumDAO();
+        AlbumDAO albumDAO = pc.getMainController().getAlbumDAO();
         String coverName = albumDAO.find(song.getAlbumId()).getName();
         try {
 

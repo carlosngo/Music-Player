@@ -4,7 +4,6 @@ import java.io.*;
 import java.sql.*;
 
 import DAO.DAOFactory;
-import DAO.DriverManagerDAOFactory;
 import DAO.SongDAO;
 import Model.Song;
 
@@ -21,10 +20,10 @@ public class BlobParser {
     
     
     public static void main(String[] args) {
-        DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "zerovit098");
-        SongDAO songDAO = db.getSongDAO();
-        
-        Song song = songDAO.find(1);
+//        DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "zerovit098");
+//        SongDAO songDAO = db.getSongDAO();
+//
+//        Song song = songDAO.find(1);
 //        BlobParser.setStrategy(new BlobToFile("resources/music/", song.getFileName(), ".wav"));
 //        BlobParser.executeStrategy(song.getFile());
     }

@@ -8,57 +8,51 @@ import java.util.*;
 
 public class MainController {
 
-    // cache
-    private TreeSet<Genre> genres;
-    private TreeSet<Song> songs;
-    private TreeSet<Album> albums;
-    private TreeSet<Playlist> playlists;
-
     // controllers
     private AccountController ac;
     private PlayerController pc;
     private SongController sc;
 
     // daos
-    private UserDAO userDAO;
-    private SongDAO songDAO;
-    private AlbumDAO albumDAO;
-    private PlaylistDAO playlistDAO;
-    private PlaylistSongDAO playlistSongDAO;
-    private GenreDAO genreDAO;
+    private UserDAOFactory userDAOFactory;
+    private SongDAOFactory songDAOFactory;
+    private AlbumDAOFactory albumDAOFactory;
+    private PlaylistDAOFactory playlistDAOFactory;
+    private PlaylistSongDAOFactory playlistSongDAOFactory;
+    private GenreDAOFactory genreDAOFactory;
 
     // views
     private static Dashboard dashboard;
 
     public MainController() {
-        DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
-        clearCache();
+        userDAOFactory = new UserDAOFactory();
+        songDAOFactory = new SongDAOFactory();
+        albumDAOFactory = new AlbumDAOFactory();
+        playlistDAOFactory = new PlaylistDAOFactory();
+        playlistSongDAOFactory = new PlaylistSongDAOFactory();
+        genreDAOFactory = new GenreDAOFactory();
         ac = new AccountController(this);
-        pc = new PlayerController();
+        pc = new PlayerController(this);
         sc = new SongController(this);
         openDashboard();
-        userDAO = db.getUserDAO();
-        songDAO = db.getSongDAO();
-        albumDAO = db.getAlbumDAO();
-        playlistDAO = db.getPlaylistDAO();
-        playlistSongDAO = db.getPlaylistSongDAO();
-        genreDAO = db.getGenreDAO();
+
+
     }
 
     public TreeSet<Genre> getGenres() {
-        return genres;
+        return ac.getGenres();
     }
 
     public TreeSet<Song> getSongs() {
-        return songs;
+        return ac.getSongs();
     }
 
     public TreeSet<Album> getAlbums() {
-        return albums;
+        return ac.getAlbums();
     }
 
     public TreeSet<Playlist> getPlaylists() {
-        return playlists;
+        return ac.getPlaylists();
     }
 
     public AccountController getAc() {
@@ -90,27 +84,27 @@ public class MainController {
     }
 
     public UserDAO getUserDAO() {
-        return userDAO;
+        return (UserDAO) userDAOFactory.getDAO();
     }
 
     public SongDAO getSongDAO() {
-        return songDAO;
+        return (SongDAO) songDAOFactory.getDAO();
     }
 
     public AlbumDAO getAlbumDAO() {
-        return albumDAO;
+        return (AlbumDAO) albumDAOFactory.getDAO();
     }
 
     public PlaylistDAO getPlaylistDAO() {
-        return playlistDAO;
+        return (PlaylistDAO) playlistDAOFactory.getDAO();
     }
 
     public PlaylistSongDAO getPlaylistSongDAO() {
-        return playlistSongDAO;
+        return (PlaylistSongDAO) playlistSongDAOFactory.getDAO();
     }
 
     public GenreDAO getGenreDAO() {
-        return genreDAO;
+        return (GenreDAO) genreDAOFactory.getDAO();
     }
 
     public Dashboard getDashboard() {
@@ -118,61 +112,5 @@ public class MainController {
     }
 
     // saves all the cached data in the database.
-    public void save() {
-        for (Song s : songs) {
-            try {
-                songDAO.create(s);
-            } catch (IllegalArgumentException e) {
-//                System.out.println("");
-            }
-        }
-        for (Genre g : genres) {
-            try {
-                genreDAO.create(g);
-            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
-            }
-        }
-        for (Playlist p : playlists) {
-            try {
-                playlistDAO.create(p);
-                for (Song s : p.getSongs()) {
-                    playlistSongDAO.join(p, s);
-                }
-            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
-            }
-        }
-        for (Album a : albums) {
-            try {
-                albumDAO.create(a);
-            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
-            }
-        }
-
-    }
-
-    public void load() {
-        genres = new TreeSet(genreDAO.listById(ac.getUser().getUserId()));
-        playlists = new TreeSet(playlistDAO.listById(ac.getUser().getUserId()));
-        albums = new TreeSet(albumDAO.listById(ac.getUser().getUserId()));
-        songs = new TreeSet(songDAO.listById(ac.getUser().getUserId()));
-        for (Playlist p : playlists) {
-            for (Integer i : playlistSongDAO.listByPlaylistId(p.getPlaylistId())) {
-                p.getSongs().add(songDAO.find(i));
-            }
-        }
-
-    }
-
-    // clears the cache
-    public void clearCache() {
-        songs = new TreeSet<>();
-        albums = new TreeSet<>();
-        playlists = new TreeSet<>();
-        genres = new TreeSet<>();
-        bridges = new TreeSet<>();
-    }
 
 }

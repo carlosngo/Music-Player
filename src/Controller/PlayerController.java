@@ -3,6 +3,7 @@ package Controller;
 import DAO.*;
 import Model.*;
 import View.*;
+import Controller.*;
 
 import javax.media.*;
 import java.io.*;
@@ -11,13 +12,20 @@ import java.awt.event.*;
 import java.util.*;
 
 public class PlayerController {
+    private MainController mc;
     private Player player = null;
     private PlayerPanel pp;
     private PlayerThread pt;
 
 
-    public PlayerController() {
+    public PlayerController(MainController mc)
+    {
+        this.mc = mc;
         pp = new PlayerPanel(this);
+    }
+
+    public MainController getMainController() {
+        return mc;
     }
 
     /**
@@ -93,14 +101,14 @@ public class PlayerController {
 
     public static void main(String[] args) throws Exception {
 
-        PlayerController pc = new PlayerController();
-        DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
-        SongDAO songDAO = db.getSongDAO();
-        ArrayList<Song> queue = new ArrayList<>();
-        queue.add(songDAO.find(4));
-        queue.add(songDAO.find(5));
-        PlayerThread pt = new PlayerThread(pc, queue);
-        new Thread(pt).start();
+//        PlayerController pc = new PlayerController();
+//        DAOFactory db = new DriverManagerDAOFactory(DAOFactory.DATABASE_URL, DAOFactory.DATABASE_USERNAME, DAOFactory.DATABASE_PASSWORD);
+//        SongDAO songDAO = db.getSongDAO();
+//        ArrayList<Song> queue = new ArrayList<>();
+//        queue.add(songDAO.find(4));
+//        queue.add(songDAO.find(5));
+//        PlayerThread pt = new PlayerThread(pc, queue);
+//        new Thread(pt).start();
 //        JFileChooser fc = new JFileChooser();
 //        fc.showOpenDialog(null);
 //        File wav = fc.getSelectedFile();
@@ -109,10 +117,10 @@ public class PlayerController {
 //        } else {
 //
 //        }
-        JFrame frm = new JFrame();
-        frm.setContentPane(pc.getPlayerPanel());
-        frm.pack();
-        frm.setVisible(true);
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JFrame frm = new JFrame();
+//        frm.setContentPane(pc.getPlayerPanel());
+//        frm.pack();
+//        frm.setVisible(true);
+//        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
