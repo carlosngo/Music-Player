@@ -91,8 +91,12 @@ public class AddPlaylistWindow extends JFrame implements ActionListener, Documen
             dispose();
         }
         if(e.getSource() == save){
-            String newPlaylist = nameInput.getText(); //for testing only
-            System.out.println(newPlaylist); //for testing only
+//             String newPlaylist = nameInput.getText(); //for testing only
+//             System.out.println(newPlaylist); //for testing only
+//             dispose();
+            Playlist newPlaylist = new Playlist();
+            newPlaylist.setName(nameInput.getText());
+            //add playlist to database
             dispose();
         }
     }
