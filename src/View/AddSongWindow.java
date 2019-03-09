@@ -211,10 +211,14 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
                 year = "Unknown";
 
             //update database with info
-            System.out.println("title:" + songTitle);
-            System.out.println("genre:" + genre);
-            System.out.println("artist:" + artist);
-            System.out.println("year:" + year);
+            //title = songTitle
+            //genre = genre
+            //artist = artist
+            // year = year
+//            System.out.println("title:" + songTitle);
+//            System.out.println("genre:" + genre);
+//            System.out.println("artist:" + artist);
+//            System.out.println("year:" + year);
             dispose();
         }
         if(e.getSource() == cancel){
