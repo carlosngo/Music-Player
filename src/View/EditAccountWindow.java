@@ -233,7 +233,16 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         }
 
         if (e.getSource() == save){
-            //create account
+            Calendar c = Calendar.getInstance();
+            c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
+            boolean success = controller.register(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(),
+                    lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "Username already exists.",
+                        "Registration Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            dispose();
         }
         if (e.getSource() == cancel){
             //Dashboard caw = new Dashboard();
