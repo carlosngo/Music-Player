@@ -1,5 +1,8 @@
 package View;
 
+import DAO.PlaylistDAO;
+import Model.Playlist;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -91,12 +94,10 @@ public class AddPlaylistWindow extends JFrame implements ActionListener, Documen
             dispose();
         }
         if(e.getSource() == save){
-//             String newPlaylist = nameInput.getText(); //for testing only
-//             System.out.println(newPlaylist); //for testing only
-//             dispose();
             Playlist newPlaylist = new Playlist();
             newPlaylist.setName(nameInput.getText());
             //add playlist to database
+            //PlaylistDAO playlistDAO = new PlaylistDAO();
             dispose();
         }
     }
