@@ -16,8 +16,11 @@ import javax.swing.event.DocumentListener;
 public class EditSongProfileWindow extends JFrame implements ActionListener, DocumentListener {
     private JTextField titleInput, albumInput, genreInput, yearInput;
     private JButton cancel, save;
+    private String title, album, genre, year;
+    private boolean choice;
 
     public EditSongProfileWindow(){
+        choice = false;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -164,7 +167,12 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             dispose();
         }
         if(e.getSource() == save){
-            //get texfield texts and update database
+            setTitle(titleInput.getText());
+            setAlbum(albumInput.getText());
+            setYear(yearInput.getText());
+            setGenre(genreInput.getText());
+            choice = true;
+            dispose();
         }
     }
 
@@ -192,6 +200,43 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             save.setEnabled(true);
     }
 
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public boolean isEdited(){
+        return choice;
+    }
     public static void main(String[] args){
         EditSongProfileWindow espw = new EditSongProfileWindow();
     }
