@@ -18,10 +18,13 @@ public class CategoryPanel extends JPanel {
     private JLabel headerName;
     private JScrollPane scroll;
     private JPanel block;
+    private ArrayList<String> data;
+
     private int i;
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
     public CategoryPanel(SongController controller, String category, ArrayList<String> subCategoryList){
         this.controller = controller;
+        data = subCategoryList;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -62,39 +65,47 @@ public class CategoryPanel extends JPanel {
         }
         else{
             for(i=0; i<subCategoryList.size(); i++){
-                JButton subOptionButton = new JButton();
-                subOptionButton.setOpaque(false);
-                subOptionButton.setContentAreaFilled(false);
-                subOptionButton.setBorderPainted(false);
-                subOptionButton.setForeground(Color.white);
-                JButton play = new JButton();
-                play.setOpaque(false);
-                play.setContentAreaFilled(false);
-                play.setBorderPainted(false);
-                JButton remove = new JButton();
-                //remove.setVisible(false);
-                remove.setOpaque(false);
-                remove.setContentAreaFilled(false);
-                remove.setBorderPainted(false);
-                JButton edit = new JButton();
-                //edit.setVisible(false);
-                edit.setOpaque(false);
-                edit.setContentAreaFilled(false);
-                edit.setBorderPainted(false);
+                addRow(category, subCategoryList.get(i));
+            }
+            add(scroll);
+        }
 
-                try {
-                    URL resource = getClass().getClassLoader().getResource("images/delete.png");
-                    File img = Paths.get(resource.toURI()).toFile();
-                    remove.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    resource = getClass().getClassLoader().getResource("images/edit.png");
-                    img = Paths.get(resource.toURI()).toFile();
-                    edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-                    img = Paths.get(resource.toURI()).toFile();
-                    play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
+    }
+
+    public void addRow(String category, String subCategoryName) {
+        JButton subOptionButton = new JButton();
+        subOptionButton.setOpaque(false);
+        subOptionButton.setContentAreaFilled(false);
+        subOptionButton.setBorderPainted(false);
+        subOptionButton.setForeground(Color.white);
+        JButton play = new JButton();
+        play.setOpaque(false);
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
+        JButton remove = new JButton();
+        //remove.setVisible(false);
+        remove.setOpaque(false);
+        remove.setContentAreaFilled(false);
+        remove.setBorderPainted(false);
+        JButton edit = new JButton();
+        //edit.setVisible(false);
+        edit.setOpaque(false);
+        edit.setContentAreaFilled(false);
+        edit.setBorderPainted(false);
+
+        try {
+            URL resource = getClass().getClassLoader().getResource("images/delete.png");
+            File img = Paths.get(resource.toURI()).toFile();
+            remove.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/edit.png");
+            img = Paths.get(resource.toURI()).toFile();
+            edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+            img = Paths.get(resource.toURI()).toFile();
+            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
 //                block.addMouseListener(new MouseAdapter() {
 //                    public void mouseEntered(MouseEvent e) {
@@ -107,78 +118,74 @@ public class CategoryPanel extends JPanel {
 //                    }
 //                });
 
-                String chosenSubOption = subCategoryList.get(i);
-                subOptionButton.setText(chosenSubOption);
+        subOptionButton.setText(subCategoryName);
 
-                subOptionButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        switch (category) {
-                            case "Genres":
-                                controller.showSongsByGenre(chosenSubOption);
-                                break;
-                            case "Albums":
-                                controller.showSongsByAlbum(chosenSubOption);
-                                break;
-                            case "Playlists":
-                                controller.showSongsByPlaylist(chosenSubOption);
-                                break;
+        subOptionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (category) {
+                    case "Genres":
+                        controller.showSongsByGenre(subCategoryName);
+                        break;
+                    case "Albums":
+                        controller.showSongsByAlbum(subCategoryName);
+                        break;
+                    case "Playlists":
+                        controller.showSongsByPlaylist(subCategoryName);
+                        break;
 
-                        }
-                    }
-                });
-                remove.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        int choice = JOptionPane.showConfirmDialog(null,
-                                "Are you sure you want to remove this " + category.toLowerCase() + "?",
-                                "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
-                        if (choice == JOptionPane.YES_OPTION) {
-                            controller.remove(category, subCategoryList.get(i));
-                            System.out.println(category.toLowerCase() + "removed."); //test
-                        }
-                    }
-                });
-                edit.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        EditCategoryWindow ecw = new EditCategoryWindow(category);
+                }
+            }
+        });
+        remove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int choice = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to remove this " + category.toLowerCase() + "?",
+                        "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    controller.remove(category, subCategoryName);
+                    System.out.println(category.toLowerCase() + "removed."); //test
+                }
+            }
+        });
+        edit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EditCategoryWindow ecw = new EditCategoryWindow(category);
 //                        if(ecw.getIsChanged()){
 //                            subOptionButton.setText(ecw.getNewName());
 //                            ecw.dispose();
 //                        }
-                        if((ecw.getNewName() != null) && (ecw.getIsChanged()))
-                            subOptionButton.setText(ecw.getNewName());
-                    }
-                });
-                play.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
+                if((ecw.getNewName() != null) && (ecw.getIsChanged()))
+                    subOptionButton.setText(ecw.getNewName());
+            }
+        });
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                        ArrayList<Song> queue = null;
+                ArrayList<Song> queue = null;
 //                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
 //                        new Thread(pt).start();
 
-                    }
-                });
-                cons.insets = new Insets(5, 10, 0, 0);
-                cons.gridx = 0;
-                cons.gridy = i;
-                cons.gridwidth = 1;
-                block.add(subOptionButton, cons);
-                cons.insets = new Insets(5, 0, 0, 0);
-                cons.gridx = 4;
-                cons.gridwidth = 1;
-                block.add(edit, cons);
-                cons.insets = new Insets(5, 0, 0, 10);
-                cons.gridx = 5;
-                block.add(remove, cons);
-                cons.insets = new Insets(5, 0, 0, 10);
-                cons.gridx = 2;
-                block.add(play, cons);
             }
-            add(scroll);
-        }
-
+        });
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.insets = new Insets(5, 10, 0, 0);
+        cons.gridx = 0;
+        cons.gridy = i;
+        cons.gridwidth = 1;
+        block.add(subOptionButton, cons);
+        cons.insets = new Insets(5, 0, 0, 0);
+        cons.gridx = 4;
+        cons.gridwidth = 1;
+        block.add(edit, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 5;
+        block.add(remove, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 2;
+        block.add(play, cons);
     }
 }

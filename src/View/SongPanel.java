@@ -21,6 +21,7 @@ import java.util.EventObject;
 
 public class SongPanel extends JPanel implements ActionListener{
     SongController controller;
+    private MyTableModel model;
     private JLabel headerName;
     private JScrollPane scroll;
     private JComboBox sortOptions;
@@ -83,7 +84,7 @@ public class SongPanel extends JPanel implements ActionListener{
 //                }
 //            }
 //            categoryTable = new JTable(rows, rowheader);
-            MyTableModel model = new MyTableModel();
+            model = new MyTableModel();
             for(int i=0 ; i<_data.size() ; i++){
                 model.add(_data.get(i));
             }
@@ -121,6 +122,11 @@ public class SongPanel extends JPanel implements ActionListener{
 
     }
 
+    public void addRow(ArrayList<String> data) {
+        model.add(data);
+        revalidate();
+        repaint();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
