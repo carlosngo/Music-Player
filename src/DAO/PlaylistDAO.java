@@ -130,12 +130,10 @@ public class PlaylistDAO implements DataAccessObject {
             while(rs.next()) {
                 playlists.add(map(rs));
             }
-
-            return playlists;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return playlists;
     }
 
     public ArrayList<Playlist> listFavorites(int userId) {
@@ -151,11 +149,10 @@ public class PlaylistDAO implements DataAccessObject {
             while(rs.next()) {
                 playlists.add(map(rs));
             }
-            return playlists;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return playlists;
     }
 
     public Playlist findByName(String playlistName, int userId) {

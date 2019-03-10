@@ -20,13 +20,14 @@ public class AccountPanel extends JPanel {
 
     public AccountPanel(AccountController ac){
         this.ac = ac;
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new BorderLayout());
+//        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(false);
-        add(Box.createRigidArea(new Dimension(15,0)));
+//        add(Box.createRigidArea(new Dimension(15,0)));
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
         title.setForeground(Color.white);
-        add(title);
+//        add(title);
         try{
             URL resource = getClass().getClassLoader().getResource("images/imgLogoWhite.png");
             File img = Paths.get(resource.toURI()).toFile();
@@ -35,7 +36,10 @@ public class AccountPanel extends JPanel {
         }
         catch(Exception e){}
 
-        add(Box.createRigidArea(new Dimension(220,0)));
+        add(title, BorderLayout.WEST);
+//        add(Box.createRigidArea(new Dimension(220,0)));
+        JPanel p = new JPanel(new BorderLayout());
+        p.setOpaque(false);
         addSongs = new JButton("Add Songs");
         //addSongs.setForeground(new Color(65,105,225));
         addSongs.setForeground(Color.white);
@@ -62,7 +66,8 @@ public class AccountPanel extends JPanel {
                 addSongs.setForeground(oldColor);
             }
         });
-        add(addSongs);
+//        add(addSongs);
+        p.add(addSongs, BorderLayout.EAST);
         //add(Box.createRigidArea(new Dimension(5,0)));
 
         logIn = new JButton("Log In");
@@ -91,7 +96,8 @@ public class AccountPanel extends JPanel {
                 ac.openLogInWindow();
             }
         });
-        add(logIn);
+//        add(logIn);
+        p.add(logIn, BorderLayout.CENTER);
         //add(Box.createRigidArea(new Dimension(5,0)));
 
         signUp = new JButton("Sign Up");
@@ -120,16 +126,22 @@ public class AccountPanel extends JPanel {
                 ac.openCreateAccountWindow();
             }
         });
-        add(Box.createRigidArea(new Dimension(15,0)));
-        add(signUp);
+//        add(Box.createRigidArea(new Dimension(15,0)));
+//        add(signUp);
+        p.add(signUp, BorderLayout.WEST);
+        add(p, BorderLayout.EAST);
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
 //        ms.setTitle(user.getUserName() + "'s iPl4yer");
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new BorderLayout());
+//        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(false);
-        add(Box.createRigidArea(new Dimension(15,0)));
+//        add(Box.createRigidArea(new Dimension(15,0)));
+        JPanel p = new JPanel(new BorderLayout());
+        p.setOpaque(false);
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
         title.setForeground(Color.white);
@@ -140,9 +152,10 @@ public class AccountPanel extends JPanel {
             title.setText("iPL4YER");
         }
         catch(Exception e){}
-        add(title);
+//        add(title);
+        add(title, BorderLayout.WEST);
 
-        add(Box.createRigidArea(new Dimension(220,0)));
+//        add(Box.createRigidArea(new Dimension(220,0)));
         addSongs = new JButton("Add Songs");
         //addSongs.setForeground(new Color(65,105,225));
         addSongs.setForeground(Color.white);
@@ -169,7 +182,8 @@ public class AccountPanel extends JPanel {
                 addSongs.setForeground(oldColor);
             }
         });
-        add(addSongs);
+//        add(addSongs);
+        p.add(addSongs, BorderLayout.WEST);
         //add(Box.createRigidArea(new Dimension(5,0)));
 
         viewAccount = new JButton("View Account");
@@ -197,8 +211,8 @@ public class AccountPanel extends JPanel {
                 ac.openViewAccountWindow();
             }
         });
-        add(viewAccount);
-
+//        add(viewAccount);
+        p.add(viewAccount, BorderLayout.CENTER);
         logOut = new JButton("Log Out");
         //logOut.setForeground(new Color(65,105,225));
         logOut.setForeground(Color.white);
@@ -224,7 +238,9 @@ public class AccountPanel extends JPanel {
                 ac.logOut();
             }
         });
-        add(logOut);
+//        add(logOut);
+        p.add(logOut, BorderLayout.EAST);
+        add(p, BorderLayout.EAST);
     }
 
     public void update() {

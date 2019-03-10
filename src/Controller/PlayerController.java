@@ -127,6 +127,7 @@ public class PlayerController implements ControllerListener, ActionListener {
             terminate();
             return;
         }
+        song.setPlayTime(song.getPlayTime() + 1); // increment play time
         unplayed.remove(song);
         played.push(song);
         BlobParser.setStrategy(new BlobToFile());

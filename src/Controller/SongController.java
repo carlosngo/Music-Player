@@ -52,7 +52,6 @@ public class SongController {
         asw = new AddSongWindow(this);
     }
 
-    public void showMostFrequentlyPlayed() {}
 
     public void showGenres() {
         ArrayList<String> subCategories = new ArrayList<>();
@@ -88,6 +87,22 @@ public class SongController {
             data.add(map(s));
         }
         sp = new SongPanel(this, "All Songs", data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+    }
+
+    public void showMostFrequentlyPlayed() {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>(mc.getSongs());
+        Collections.sort(songs, new Comparator<Song>() {
+            @Override
+            public int compare(Song a, Song b) {
+                return Long.compare(a.getPlayTime(), b.getPlayTime());
+            }
+        });
+        for (Song s : songs) {
+            data.add(map(s));
+        }
+        sp = new SongPanel(this, "Most Played Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 

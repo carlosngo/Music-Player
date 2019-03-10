@@ -115,7 +115,6 @@ public class Song implements Comparable<Song> {
 		this.file = file;
 	}
 
-
     @Override
     public int compareTo(Song o) {
         return Integer.compare(songId, o.getSongId());

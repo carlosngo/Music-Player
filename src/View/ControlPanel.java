@@ -312,9 +312,6 @@ public class ControlPanel extends JPanel implements ActionListener {
         if(e.getSource() == playlists){
             controller.showPlaylists();
         }
-        if(e.getSource() == artists){
-//            controller.show
-        }
         if(e.getSource() == albums){
             controller.showAlbums();
         }

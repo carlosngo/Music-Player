@@ -2,6 +2,7 @@ package View;
 
 import Controller.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
@@ -38,8 +39,8 @@ public class SongPanel extends JPanel implements ActionListener{
 //    public SongPanel(String header, ArrayList<ArrayList<Object>> data){
 
         data = _data;
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
+//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
 
@@ -47,31 +48,37 @@ public class SongPanel extends JPanel implements ActionListener{
             JLabel blankMessage = new JLabel("No songs to show.");
             blankMessage.setForeground(Color.white);
             blankMessage.setFont(new Font("Arial", Font.BOLD, 26));
-            add(blankMessage);
+//            add(blankMessage);
+            add(blankMessage, BorderLayout.NORTH);
         }
         else{
             add(Box.createRigidArea(new Dimension(0,7)));
             JPanel headerPnl = new JPanel();
-            headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.X_AXIS));
-            headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
+            headerPnl.setLayout(new BorderLayout());
+//            headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.X_AXIS));
+//            headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
             headerPnl.setOpaque(false);
-            headerPnl.add(Box.createRigidArea(new Dimension(15,0)));
+//            headerPnl.add(Box.createRigidArea(new Dimension(15,0)));
             headerName = new JLabel(header.toUpperCase());
             headerName.setFont(new Font("Arial", Font.BOLD, 26));
             headerName.setForeground(Color.white);
-            headerPnl.add(headerName);
-            headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
+
+            headerPnl.add(headerName, BorderLayout.WEST);
+//            headerPnl.add(headerName);
+//            headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
             String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
             sortOptions = new JComboBox(sort);
             sortOptions.setForeground(SystemColor.windowText);
             sortOptions.addActionListener(this);
             sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
-            sortOptions.setPreferredSize(new Dimension(100,15));
-            sortOptions.setMinimumSize(new Dimension(100,20));
-            sortOptions.setMaximumSize(new Dimension(100,20));
-            headerPnl.add(sortOptions);
-            add(headerPnl);
-            add(Box.createRigidArea(new Dimension(0,10)));
+//            sortOptions.setPreferredSize(new Dimension(100,15));
+//            sortOptions.setMinimumSize(new Dimension(100,20));
+//            sortOptions.setMaximumSize(new Dimension(100,20));
+//            headerPnl.add(sortOptions);
+            headerPnl.add(sortOptions, BorderLayout.EAST);
+            add(headerPnl, BorderLayout.NORTH);
+//            add(headerPnl);
+//            add(Box.createRigidArea(new Dimension(0,10)));
 
             tablePnl = new JPanel();
             tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
@@ -117,7 +124,8 @@ public class SongPanel extends JPanel implements ActionListener{
             scroll.setOpaque(false);
             scroll.setPreferredSize(new Dimension(50,60));
             tablePnl.add(scroll);
-            add(tablePnl);
+//            add(tablePnl);
+            add(tablePnl, BorderLayout.CENTER);
         }
 
     }

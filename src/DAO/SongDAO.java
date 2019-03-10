@@ -44,6 +44,8 @@ public class SongDAO implements DataAccessObject {
                     "INNER JOIN " + DAOFactory.PLAYLIST_TABLE + " ON " + DAOFactory.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + DAOFactory.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + DAOFactory.SONG_TABLE + ".FK_UserID = ? AND " + DAOFactory.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
     private static final String SQL_LIST_BY_YEAR =
             "SELECT * FROM " + DAOFactory.SONG_TABLE + " WHERE Year = ? AND FK_UserID = ?";
+    private static final String SQL_LIST_BY_PLAYTIME =
+            "SELECT * FROM " + DAOFactory.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY PlayTime DESC";
     private static final String PATH =
             "resources/music/";
 
@@ -101,11 +103,10 @@ public class SongDAO implements DataAccessObject {
                 songs.add(map(rs));
             }
 
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
     }
 
     public ArrayList<Song> findByAlbum(int userId) {
@@ -120,12 +121,10 @@ public class SongDAO implements DataAccessObject {
             while(rs.next()) {
                 songs.add(map(rs));
             }
-
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
     }
 
     public ArrayList<Song> findByYear(int userId) {
@@ -141,12 +140,10 @@ public class SongDAO implements DataAccessObject {
             while(rs.next()) {
                 songs.add(map(rs));
             }
-
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
     }
 
     public ArrayList<Song> listById(int userId) {
@@ -159,11 +156,10 @@ public class SongDAO implements DataAccessObject {
             while(rs.next()) {
                 songs.add(map(rs));
             }
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
     }
 
     public ArrayList<Song> listByGenre(int genreId, int userId) {
@@ -178,12 +174,10 @@ public class SongDAO implements DataAccessObject {
             while(rs.next()) {
                 songs.add(map(rs));
             }
-
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
     }
 
     public ArrayList<Song> listByPlaylist(int playlistId, int userId) {
@@ -218,12 +212,10 @@ public class SongDAO implements DataAccessObject {
             while(rs.next()) {
                 songs.add(map(rs));
             }
-
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
     }
 
     public ArrayList<Song> listFavorites(int userId) {
@@ -239,11 +231,27 @@ public class SongDAO implements DataAccessObject {
                 songs.add(map(rs));
             }
 
-            return songs;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return songs;
+    }
+
+    public ArrayList<Song> listByPlaytime(int userId) {
+        ArrayList<Song> songs = new ArrayList<>();
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_PLAYTIME);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()) {
+                songs.add(map(rs));
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return songs;
     }
 
     public void create(Song song) throws IllegalArgumentException {

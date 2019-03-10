@@ -156,12 +156,10 @@ public class AlbumDAO implements DataAccessObject {
             while(rs.next()) {
                 albums.add(map(rs));
             }
-
-            return albums;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return albums;
     }
 
     public Album findByName(String albumName, int userId) {

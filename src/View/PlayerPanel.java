@@ -3,6 +3,7 @@ package View;
 import Controller.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +26,17 @@ public class PlayerPanel extends JPanel implements ActionListener {
         this.pc = pc;
         isShuffle = false;
         isRepeat = false;
+//        setLayout(new BorderLayout());
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(true);
         setBackground(Color.BLACK);
         add(Box.createRigidArea(new Dimension(7,0)));
 
+//        JPanel p1 = new JPanel(new BorderLayout());
+
         albumCover = new JLabel("");
         albumCover.setOpaque(true);
+//        p1.add(albumCover, BorderLayout.WEST);
         add(albumCover);
         add(Box.createRigidArea(new Dimension(10,0)));
 
@@ -42,6 +47,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         titleLbl.setFont(new Font("Arial", Font.PLAIN, 14));
         titleLbl.setForeground(Color.white);
         p1.add(titleLbl);
+
         p1.add(Box.createRigidArea(new Dimension(0, 5)));
         artistLbl = new JLabel("");
         artistLbl.setFont(new Font("Arial", Font.PLAIN, 12));
