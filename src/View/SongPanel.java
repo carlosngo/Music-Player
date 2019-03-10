@@ -224,7 +224,7 @@ public class SongPanel extends JPanel implements ActionListener{
                     System.out.println(2);
                     break;
                 case "Year":
-//                    tablePnl.removeAll();
+                    tablePnl.removeAll();
 //                    String[] rowheader3 = {"Title", "Artist", "Album", "Year", "Genre"};
 //                    String[][] rows3 = new String[data.size()][5];
 //                    for(int i = 0; i< data.size(); i+=4){
