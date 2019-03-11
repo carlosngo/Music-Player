@@ -11,6 +11,7 @@ public class SongController {
     private MainController mc;
 
     private AddSongWindow asw;
+    private AddPlaylistWindow apw;
     private EditSongProfileWindow espw;
     private SongPanel sp;
     private CategoryPanel cp;
@@ -56,6 +57,14 @@ public class SongController {
         asw = new AddSongWindow(this);
     }
 
+    public void openAddPlaylistWindow() { apw = new AddPlaylistWindow(this); }
+
+    public void addPlaylist(String playlistName) {
+        Playlist p = new Playlist();
+        p.setName(playlistName);
+        mc.getPlaylists().add(p);
+        cp.addRow("Playlists", playlistName);
+    }
 
     public void addToPlaylist(int index) {
 

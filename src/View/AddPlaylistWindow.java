@@ -1,5 +1,6 @@
 package View;
 
+import Controller.*;
 import DAO.PlaylistDAO;
 import Model.Playlist;
 
@@ -14,13 +15,12 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class AddPlaylistWindow extends JFrame implements ActionListener, DocumentListener {
-    //Controller controller;
+    private SongController controller;
     private JTextField nameInput;
     private JButton save, cancel;
 
-    public AddPlaylistWindow(/*Controller controller*/) {
-        //this.controller = controller;
-
+    public AddPlaylistWindow(SongController controller) {
+        this.controller = controller;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -94,10 +94,7 @@ public class AddPlaylistWindow extends JFrame implements ActionListener, Documen
             dispose();
         }
         if(e.getSource() == save){
-            Playlist newPlaylist = new Playlist();
-            newPlaylist.setName(nameInput.getText());
-            //add playlist to database
-            //PlaylistDAO playlistDAO = new PlaylistDAO();
+            controller.addPlaylist(nameInput.getText());
             dispose();
         }
     }
@@ -124,8 +121,8 @@ public class AddPlaylistWindow extends JFrame implements ActionListener, Documen
     }
 
 
-    public static void main(String[] args){
-        AddPlaylistWindow apw = new AddPlaylistWindow();
-    }
+//    public static void main(String[] args){
+//        AddPlaylistWindow apw = new AddPlaylistWindow();
+//    }
 
 }
