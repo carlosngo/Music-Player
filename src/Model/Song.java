@@ -102,6 +102,6 @@ public class Song implements Comparable<Song> {
 
     @Override
     public int compareTo(Song o) {
-        return Integer.compare(songId, o.getSongId());
+        return name.compareTo(o.getName());
     }
 }

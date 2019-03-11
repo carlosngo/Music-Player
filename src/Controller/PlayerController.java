@@ -136,8 +136,12 @@ public class PlayerController implements ControllerListener, ActionListener {
         Album a = song.getAlbum();
 
         try {
+            if (a != null) {
+                setMediaLocator(new MediaLocator(wav.toURI().toURL()), a.getCover(), song.getName(), a.getName());
+            } else {
+                setMediaLocator(new MediaLocator(wav.toURI().toURL()), null, song.getName(), "No Album");
+            }
 
-            setMediaLocator(new MediaLocator(wav.toURI().toURL()), a.getCover(), song.getName(), a.getName());
         } catch (CannotRealizeException e) {
 
             e.printStackTrace();

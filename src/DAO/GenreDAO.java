@@ -82,7 +82,7 @@ public class GenreDAO implements DataAccessObject {
             throw new IllegalArgumentException("Genre is already created, the genre ID is not null.");
         }
         Object[] values = {
-                genre.getUserId(),
+                genre.getUser().getUserId(),
                 genre.getName()
         };
 
@@ -108,7 +108,7 @@ public class GenreDAO implements DataAccessObject {
             if (affectedRows == 0) {
                 throw new SQLException("Deleting genre failed, no rows affected.");
             } else {
-                genre.setUserId(-1);
+                genre.setGenreId(-1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,9 +137,12 @@ public class GenreDAO implements DataAccessObject {
 
     private static Genre map(ResultSet rs) {
         Genre genre = new Genre();
+        UserDAO userDAO = (UserDAO)new UserDAOFactory().createDAO();
+
         try {
             genre.setGenreId(rs.getInt("PK_GenreID"));
-            genre.setUserId(rs.getInt("FK_UserID"));
+            User u = userDAO.find(rs.getInt("FK_UserID"));
+            genre.setUser(u);
             genre.setName(rs.getString("Name"));
         } catch (SQLException e) {
             e.printStackTrace();

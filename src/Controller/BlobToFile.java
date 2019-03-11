@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class BlobToFile implements BlobStrategy {
 	@Override
 	public void execute(Blob blob, File file) {
+		if (blob == null) return;
 		try {
 			InputStream input = blob.getBinaryStream();
 			FileOutputStream output = new FileOutputStream(file);

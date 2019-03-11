@@ -5,7 +5,7 @@ import java.io.*;
 
 public class Album implements Comparable<Album> {
     private int albumId;
-    private int userId;
+    private User user;
     private String name;
     private String artist;
     private File cover;
@@ -19,12 +19,6 @@ public class Album implements Comparable<Album> {
 	public void setAlbumId(int albumId) {
 		this.albumId = albumId;
 	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 	public String getName() {
 		return name;
 	}
@@ -36,6 +30,14 @@ public class Album implements Comparable<Album> {
 	}
 	public void setArtist(String artist) {
 		this.artist = artist;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public File getCover() {

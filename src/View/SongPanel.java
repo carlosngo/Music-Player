@@ -2,10 +2,7 @@ package View;
 
 import Controller.*;
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellEditor;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +27,7 @@ public class SongPanel extends JPanel implements ActionListener{
     private String[] rowheader;
     private String[][] rows;
     private int currentRow;
+    private MyTableModel model;
 
     ArrayList<ArrayList<String>> data; //testing
 
@@ -84,7 +82,7 @@ public class SongPanel extends JPanel implements ActionListener{
 //                }
 //            }
 //            categoryTable = new JTable(rows, rowheader);
-            MyTableModel model = new MyTableModel();
+            model = new MyTableModel();
             for(int i=0 ; i<_data.size() ; i++){
                 model.add(_data.get(i));
             }
@@ -127,6 +125,12 @@ public class SongPanel extends JPanel implements ActionListener{
             add(tablePnl);
         }
 
+    }
+
+    public void addRow(ArrayList<String> data) {
+        model.add(data);
+        revalidate();
+        repaint();
     }
 
     public int getCurrentRow() {

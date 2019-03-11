@@ -136,22 +136,19 @@ public class AccountController {
     }
 
     public void save() {
-        for (Song s : songs) {
-            try {
-                mc.getSongDAO().create(s);
-            } catch (IllegalArgumentException e) {
-//                System.out.println("");
-            }
-        }
+
         for (Genre g : genres) {
             try {
-                mc.getGenreDAO().create(g);
+                g.setUser(user);
+//                if (mc.getGenreDAO().findByName(g.getName(), g.getUser().getUserId()) == null)
+                    mc.getGenreDAO().create(g);
             } catch (IllegalArgumentException e) {
 //                e.printStackTrace();
             }
         }
         for (Playlist p : playlists) {
             try {
+                p.setUser(user);
                 mc.getPlaylistDAO().create(p);
                 for (Song s : p.getSongs()) {
                     mc.getPlaylistSongDAO().join(p, s);
@@ -162,9 +159,20 @@ public class AccountController {
         }
         for (Album a : albums) {
             try {
-                mc.getAlbumDAO().create(a);
+                a.setUser(user);
+//                if (mc.getAlbumDAO().findByName(a.getName(), a.getUser().getUserId()) == null)
+                    mc.getAlbumDAO().create(a);
             } catch (IllegalArgumentException e) {
 //                e.printStackTrace();
+            }
+        }
+
+        for (Song s : songs) {
+            try {
+                s.setUser(user);
+                mc.getSongDAO().create(s);
+            } catch (IllegalArgumentException e) {
+//                System.out.println("");
             }
         }
 

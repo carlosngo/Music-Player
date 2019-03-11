@@ -17,6 +17,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
     JButton selectFile, cancel, saveSong;
     JPanel fileReaderPnl;
     JLabel selectedFileName;
+    File selectedFile;
 
     public AddSongWindow(SongController controller){
         this.controller = controller;
@@ -177,7 +178,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
                 File file = chooser.getSelectedFile();
                 String filename = file.getName();
                 String extension = filename.substring(filename.lastIndexOf('.'), filename.length());
-
+                selectedFile = file;
                 //read song file here
 
                 if(filename.length() > 10)
@@ -192,23 +193,9 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         }
         if(e.getSource() == saveSong){
             String songTitle = songTitleInput.getText();
-            String genre = new String();
-            if(genreInput.getText() != "")
-                genre = genreInput.getText();
-            else
-                genre = "Unknown";
-
-            String artist=  new String();
-            if(artistInput.getText() != "")
-                artist = artistInput.getText();
-            else
-                artist = "Unknown";
-
-            String year =  new String();
-            if(yearInput.getText() != "")
-                year = yearInput.getText();
-            else
-                year = "Unknown";
+            String genre = genreInput.getText();
+            String artist= artistInput.getText();
+            String year = yearInput.getText();
 
             //update database with info
             //title = songTitle
@@ -219,6 +206,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 //            System.out.println("genre:" + genre);
 //            System.out.println("artist:" + artist);
 //            System.out.println("year:" + year);
+            controller.addSong(songTitle, genre, artist, year, selectedFile);
             dispose();
         }
         if(e.getSource() == cancel){

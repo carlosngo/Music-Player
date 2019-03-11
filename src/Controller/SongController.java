@@ -4,6 +4,7 @@ import Model.*;
 import View.*;
 
 import java.util.*;
+import java.io.*;
 
 public class SongController {
 
@@ -56,6 +57,17 @@ public class SongController {
     }
 
 
+    public void addToPlaylist(int index) {
+
+    }
+
+    public void editSong(int index) {
+
+    }
+
+    public void deleteSong(int index) {
+
+    }
 
     // play song at index of displayedSongs
     public void playSong(int index) {
@@ -208,11 +220,43 @@ public class SongController {
         return list;
     }
 
-    public void addSong(String songName, String genreName, String albumName, String year) {
+    public void addSong(String songName, String genreName, String albumName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
-//        s.setUserId(mc.getAc().getUser().getUserId());
         s.setUser(mc.getAccountController().getUser());
+        if (!genreName.equals("")) {
+            Genre g = new Genre();
+            g.setName(genreName);
+            if (mc.getGenres().contains(g)) { // if genre exists already
+                g = mc.getGenres().floor(g); // get the genre and set it to be the song's genre
+            } else {
+                mc.getGenres().add(g); // else add the new genre
+                if (cp != null)
+                    cp.addRow("Genres", g.getName());
+            }
+            s.setGenre(g);
+        }
+        if (!albumName.equals("")) {
+            Album a = new Album();
+            a.setName(albumName);
+            if (mc.getAlbums().contains(a)) {
+                a = mc.getAlbums().floor(a);
+            } else {
+                mc.getAlbums().add(a);
+                if (cp != null)
+                    cp.addRow("Albums", a.getName());
+            }
+            s.setAlbum(a);
+        }
+        if (!year.equals(""))
+            s.setYear(Integer.parseInt(year));
+        s.setWAV(wav);
+        mc.getSongs().add(s);
+        if (mc.getSongs().size() != 1) {
+            sp.addRow(map(s));
+        } else {
+            showAllSongs();
+        }
 
     }
 

@@ -2,25 +2,19 @@ package Model;
 
 public class Genre implements Comparable<Genre> {
     private int genreId;
-    private int userId;
+    private User user;
     private String name;
 
     public Genre() {
         genreId = -1;
     }
 
-    public Genre(int genreId, int userId, String name) {
-        this.genreId = genreId;
-        this.userId = userId;
-        this.name = name;
+    public User getUser() {
+        return user;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getGenreId() {

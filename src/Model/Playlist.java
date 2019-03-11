@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Playlist implements Comparable<Playlist> {
     private int playlistId;
+    private User user;
     private int userId;
     private String name;
     private ArrayList<Song> songs;
@@ -14,10 +15,12 @@ public class Playlist implements Comparable<Playlist> {
         songs = new ArrayList<>();
     }
 
-    public Playlist(int playlistId, int userId, String name) {
-        this.playlistId = playlistId;
-        this.userId = userId;
-        this.name = name;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public ArrayList<Song> getSongs() {
@@ -34,10 +37,6 @@ public class Playlist implements Comparable<Playlist> {
 
     public void setPlaylistId(int playlistId) {
         this.playlistId = playlistId;
-    }
-
-    public int getUserId() {
-        return userId;
     }
 
     public void setUserId(int userId) {

@@ -36,29 +36,32 @@ public class AlbumDAO implements DataAccessObject {
 
     private Album map(ResultSet rs) throws SQLException {
         Album album = new Album();
-
+        UserDAO userDAO = (UserDAO) new UserDAOFactory().createDAO();
         String fileFormat = ".jpg";
         String fileName = rs.getString("Name") + rs.getInt("PK_AlbumID") + fileFormat;
 
         album.setAlbumId(rs.getInt("PK_AlbumID"));
-        album.setUserId(rs.getInt("FK_UserID"));
+        User u = userDAO.find(rs.getInt("FK_UserID"));
+        album.setUser(u);
         album.setName(rs.getString("Name"));
         album.setArtist(rs.getString("Artist"));
 //        album.setFile(rs.getBlob("Cover"));
 //        album.setCoverPath(fileName);
-
-        BlobParser.setStrategy(new BlobToFile());
-        File dir = new File("resources/images");
-        dir.mkdirs();
-        File img = new File(dir,album.getName());
-        try {
-            img.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (rs.getBlob("Cover") != null) {
+            BlobParser.setStrategy(new BlobToFile());
+            File dir = new File("resources/images");
+            dir.mkdirs();
+            File img = new File(dir, album.getName());
+            try {
+                img.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BlobParser.executeStrategy(rs.getBlob("Cover"), img);
+            album.setCover(img);
+        } else {
+            album.setCover(null);
         }
-        BlobParser.executeStrategy(rs.getBlob("Cover"), img);
-        album.setCover(img);
-
 
         return album;
     }
@@ -95,12 +98,13 @@ public class AlbumDAO implements DataAccessObject {
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
-            statement.setInt(1, album.getUserId());
+            statement.setInt(1, album.getUser().getUserId());
             statement.setString(2, album.getName());
             statement.setString(3, album.getArtist());
 
             File img = album.getCover();
-            statement.setBinaryStream(4, new FileInputStream(img));
+            if (img != null) statement.setBinaryStream(4, new FileInputStream(img));
+            else statement.setBinaryStream(4, null);
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -141,7 +145,7 @@ public class AlbumDAO implements DataAccessObject {
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
-            statement.setInt(1, album.getUserId());
+            statement.setInt(1, album.getUser().getUserId());
             statement.setString(2, album.getName());
             statement.setString(3, album.getArtist());
             File img = album.getCover();

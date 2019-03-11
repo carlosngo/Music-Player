@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 import com.mysql.cj.xdevapi.Result;
 
-import Model.Album;
-import Model.Playlist;
+import Model.*;
 
 
 public class PlaylistDAO implements DataAccessObject {
@@ -34,9 +33,11 @@ public class PlaylistDAO implements DataAccessObject {
 
     private Playlist map(ResultSet rs) throws SQLException {
         Playlist playlist = new Playlist();
-
+        UserDAO userDAO = (UserDAO) new UserDAOFactory().createDAO();
         playlist.setPlaylistId(rs.getInt("PK_PlaylistID"));
-        playlist.setUserId(rs.getInt("FK_UserID"));
+        User u = userDAO.find(rs.getInt("FK_UserID"));
+        playlist.setUser(u);
+//        playlist.setUserId(rs.getInt("FK_UserID"));
         playlist.setName(rs.getString("Name"));
         playlist.setFavorite(rs.getBoolean("Favorite"));
 
@@ -69,7 +70,7 @@ public class PlaylistDAO implements DataAccessObject {
         try {
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, playlist.getUserId());
+            statement.setInt(1, playlist.getUser().getUserId());
             statement.setString(2, playlist.getName());
             statement.setBoolean(3, playlist.isFavorite());
 
@@ -107,7 +108,7 @@ public class PlaylistDAO implements DataAccessObject {
             }
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
-            statement.setInt(1, playlist.getUserId());
+            statement.setInt(1, playlist.getUser().getUserId());
             statement.setString(2, playlist.getName());
             statement.setBoolean(3, playlist.isFavorite());
             statement.setInt(4, playlist.getPlaylistId());
