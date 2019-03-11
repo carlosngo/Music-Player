@@ -72,6 +72,11 @@ public class CategoryPanel extends JPanel {
 
     }
 
+    public void update() {
+        revalidate();
+        repaint();
+    }
+    
     public void addRow(String category, String subCategoryName) {
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);

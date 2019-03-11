@@ -20,6 +20,7 @@ public class ControlPanel extends JPanel implements ActionListener {
     public ControlPanel(SongController controller){
         this.controller = controller;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));

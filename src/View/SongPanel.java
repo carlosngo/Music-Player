@@ -76,6 +76,7 @@ public class SongPanel extends JPanel implements ActionListener{
 //            sortOptions.setMaximumSize(new Dimension(100,20));
 //            headerPnl.add(sortOptions);
             headerPnl.add(sortOptions, BorderLayout.EAST);
+            headerPnl.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             add(headerPnl, BorderLayout.NORTH);
 //            add(headerPnl);
 //            add(Box.createRigidArea(new Dimension(0,10)));
