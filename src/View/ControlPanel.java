@@ -1,6 +1,7 @@
 package View;
 
 import Controller.*;
+import DAO.PlaylistDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,6 @@ public class ControlPanel extends JPanel implements ActionListener {
     public ControlPanel(SongController controller){
         this.controller = controller;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));
@@ -187,6 +187,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         });
         //buttonsPnl.add(albums);
         add(albums);
+
         genres = new JButton();
         genres.setActionCommand("Genres");
         //genres.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -224,11 +225,86 @@ public class ControlPanel extends JPanel implements ActionListener {
                 genres.setForeground(oldColor);
             }
         });
-        //buttonsPnl.add(genres);
         add(genres);
-//        JPanel addPlaylistPnl = new JPanel();
-//        addPlaylistPnl.setLayout(new BoxLayout(addPlaylistPnl, BoxLayout.X_AXIS));
-//        addPlaylistPnl.setOpaque(false);
+
+        artists = new JButton();
+        artists.setActionCommand("Artists");
+        //genres.setAlignmentX(Component.LEFT_ALIGNMENT);
+        artists.setForeground(Color.white);
+        artists.addActionListener(this);
+        artists.setOpaque(false);
+        artists.setContentAreaFilled(false);
+        artists.setBorderPainted(false);
+        artists.setMaximumSize(new Dimension(200, 40));
+        artists.setMinimumSize(new Dimension(200, 40));
+        artists.setPreferredSize(new Dimension(200, 40));
+        artists.setFont(new Font("Arial", Font.BOLD, 14));
+        artists.addMouseListener(new MouseAdapter() {
+            Color oldColor = artists.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanArtist.png");
+                    File img = Paths.get(resource.toURI()).toFile();
+                    artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    artists.setText("Artists");
+                } catch(Exception exception){
+
+                }
+                artists.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/artists.png");
+                    File img = Paths.get(resource.toURI()).toFile();
+                    artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    artists.setText("Artists");
+                } catch(Exception exception){
+
+                }
+                artists.setForeground(oldColor);
+            }
+        });
+        add(artists);
+
+        years = new JButton();
+        years.setActionCommand("Years");
+        //genres.setAlignmentX(Component.LEFT_ALIGNMENT);
+        years.setForeground(Color.white);
+        years.addActionListener(this);
+        years.setOpaque(false);
+        years.setContentAreaFilled(false);
+        years.setBorderPainted(false);
+        years.setMaximumSize(new Dimension(200, 40));
+        years.setMinimumSize(new Dimension(200, 40));
+        years.setPreferredSize(new Dimension(200, 40));
+        years.setFont(new Font("Arial", Font.BOLD, 14));
+        years.addMouseListener(new MouseAdapter() {
+            Color oldColor = years.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanGenre.png");
+                    File img = Paths.get(resource.toURI()).toFile();
+                    years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    years.setText("Years");
+                } catch(Exception exception){
+
+                }
+                years.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/genre.png");
+                    File img = Paths.get(resource.toURI()).toFile();
+                    years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    years.setText("Years");
+                } catch(Exception exception){
+
+                }
+                years.setForeground(oldColor);
+            }
+        });
+        add(years);
+
         addPlaylist = new JButton();
         addPlaylist.setActionCommand("Add Playlist");
         //addPlaylist.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -282,7 +358,6 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = Paths.get(resource.toURI()).toFile();
             playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             playlists.setText("Playlists");
-            
             resource = getClass().getClassLoader().getResource("images/albums.png");
             img = Paths.get(resource.toURI()).toFile();
             albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -312,6 +387,12 @@ public class ControlPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == playlists){
             controller.showPlaylists();
+        }
+        if(e.getSource() == artists){
+//            controller.show
+        }
+        if(e.getSource() == years){
+//            controller.show
         }
         if(e.getSource() == albums){
             controller.showAlbums();
