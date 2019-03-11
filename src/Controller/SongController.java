@@ -105,7 +105,9 @@ public class SongController {
         Playlist temp = new Playlist();
         temp.setName(playlistName);
         Playlist p = mc.getPlaylists().floor(temp);
-        for (Song s : p.getSongs()) queue.add(s);
+        for (Song s : p.getSongs()) {
+            queue.add(s);
+        }
         mc.playSongs(queue);
     }
 

@@ -212,7 +212,8 @@ public class AccountController {
         albums = new TreeSet<>();
         playlists = new TreeSet<>();
         genres = new TreeSet<>();
-        mc.getPlayerController().terminate();
+        if (mc.getPlayerController() != null)
+            mc.getPlayerController().terminate();
     }
 
 }

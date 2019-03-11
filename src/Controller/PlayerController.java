@@ -58,6 +58,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         pp.update(null, "", "", new JLabel());
         System.out.println("Terminating");
         isFinished = true;
+        closeCurrentPlayer();
         clearQueue();
     }
 
