@@ -162,7 +162,7 @@ public class SongController {
         Collections.sort(displayedSongs, new Comparator<Song>() {
             @Override
             public int compare(Song a, Song b) {
-                return Long.compare(a.getPlayTime(), b.getPlayTime());
+                return Long.compare(b.getPlayTime(), a.getPlayTime());
             }
         });
         for (Song s : displayedSongs) {

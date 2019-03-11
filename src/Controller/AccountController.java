@@ -141,7 +141,10 @@ public class AccountController {
             try {
                 g.setUser(user);
 //                if (mc.getGenreDAO().findByName(g.getName(), g.getUser().getUserId()) == null)
+                if (g.getGenreId() == -1)
                     mc.getGenreDAO().create(g);
+                else
+                    mc.getGenreDAO().update(g);
             } catch (IllegalArgumentException e) {
 //                e.printStackTrace();
             }
@@ -149,7 +152,10 @@ public class AccountController {
         for (Playlist p : playlists) {
             try {
                 p.setUser(user);
-                mc.getPlaylistDAO().create(p);
+                if (p.getPlaylistId() == -1)
+                    mc.getPlaylistDAO().create(p);
+                else
+                    mc.getPlaylistDAO().update(p);
                 for (Song s : p.getSongs()) {
                     mc.getPlaylistSongDAO().join(p, s);
                 }
@@ -161,7 +167,10 @@ public class AccountController {
             try {
                 a.setUser(user);
 //                if (mc.getAlbumDAO().findByName(a.getName(), a.getUser().getUserId()) == null)
+                if (a.getAlbumId() == -1)
                     mc.getAlbumDAO().create(a);
+                else
+                    mc.getAlbumDAO().update(a);
             } catch (IllegalArgumentException e) {
 //                e.printStackTrace();
             }
@@ -170,11 +179,17 @@ public class AccountController {
         for (Song s : songs) {
             try {
                 s.setUser(user);
-                mc.getSongDAO().create(s);
+                System.out.println(s.getSongId());
+                if (s.getSongId() == -1)
+                    mc.getSongDAO().create(s);
+                else
+                    mc.getSongDAO().update(s);
+
             } catch (IllegalArgumentException e) {
 //                System.out.println("");
             }
         }
+        System.out.println("Data successfully saved.");
 
     }
 
@@ -197,6 +212,7 @@ public class AccountController {
         albums = new TreeSet<>();
         playlists = new TreeSet<>();
         genres = new TreeSet<>();
+        mc.getPlayerController().terminate();
     }
 
 }

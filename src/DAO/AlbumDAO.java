@@ -149,7 +149,8 @@ public class AlbumDAO implements DataAccessObject {
             statement.setString(2, album.getName());
             statement.setString(3, album.getArtist());
             File img = album.getCover();
-            statement.setBlob(4, new FileInputStream(img));
+            if (img != null) statement.setBinaryStream(4, new FileInputStream(img));
+            else statement.setBinaryStream(4, null);
             statement.executeUpdate();
 
             statement.close();
