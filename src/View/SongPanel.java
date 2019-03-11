@@ -95,6 +95,7 @@ public class SongPanel extends JPanel implements ActionListener{
             model = new MyTableModel();
             for(int i=0 ; i<_data.size() ; i++){
                 model.add(_data.get(i));
+
             }
             categoryTable = new JTable(model);
             SongPanel.ActionPaneRenderer renderer = new SongPanel.ActionPaneRenderer();
@@ -126,6 +127,9 @@ public class SongPanel extends JPanel implements ActionListener{
             scroll.setPreferredSize(new Dimension(50,60));
             tablePnl.add(scroll);
 //            add(tablePnl);
+//            for (int i = 0; i < _data.size(); i++) {
+//                ((ActionsPane) model.getValueAt(i, 0)).setActionListeners(i);
+//            }
             add(tablePnl, BorderLayout.CENTER);
         }
 
@@ -529,15 +533,14 @@ public class SongPanel extends JPanel implements ActionListener{
             add(delete);
             add(edit);
 
+
+        }
+
+        public void setActionListeners(int rowIndex) {
             ActionListener playListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                    //add the following:
-                    //currently paying song should stop
-                    //selected song should play
-                    //see PlayerController's commented out main function
+                    controller.playSong(rowIndex);
                 }
             };
             play.addActionListener(playListener);

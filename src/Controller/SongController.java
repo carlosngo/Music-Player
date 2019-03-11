@@ -14,8 +14,11 @@ public class SongController {
     private SongPanel sp;
     private CategoryPanel cp;
 
+    private ArrayList<Song> displayedSongs;
+
     public SongController(MainController mc) {
         this.mc = mc;
+        displayedSongs = new ArrayList<>();
         showAllSongs();
         showPlaylists();
     }
@@ -53,6 +56,43 @@ public class SongController {
     }
 
 
+
+    // play song at index of displayedSongs
+    public void playSong(int index) {
+        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        queue.add(displayedSongs.get(index));
+        mc.playSongs(queue);
+    }
+
+    public void playSongsInGenre(String genreName) {
+        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        for (Song s : mc.getSongs()) {
+            if (s.getGenre().getName().equals(genreName)) queue.add(s);
+        }
+        mc.playSongs(queue);
+    }
+
+    public void playSongsInPlaylist(String playlistName) {
+        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        Playlist temp = new Playlist();
+        temp.setName(playlistName);
+        Playlist p = mc.getPlaylists().floor(temp);
+        for (Song s : p.getSongs()) queue.add(s);
+        mc.playSongs(queue);
+    }
+
+    public void playSongsInAlbum(String albumName) {
+        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        for (Song s : mc.getSongs()) {
+            if (s.getAlbum().getName().equals(albumName)) queue.add(s);
+        }
+        mc.playSongs(queue);
+    }
+
     public void showGenres() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Genre g : mc.getGenres()) {
@@ -83,7 +123,8 @@ public class SongController {
 
     public void showAllSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
+        displayedSongs = new ArrayList<>(mc.getSongs());
+        for (Song s : displayedSongs) {
             data.add(map(s));
         }
         sp = new SongPanel(this, "All Songs", data);
@@ -92,15 +133,17 @@ public class SongController {
 
     public void showMostFrequentlyPlayed() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
-        ArrayList<Song> songs = new ArrayList<>(mc.getSongs());
-        Collections.sort(songs, new Comparator<Song>() {
+        displayedSongs = new ArrayList<>(mc.getSongs());
+        Collections.sort(displayedSongs, new Comparator<Song>() {
             @Override
             public int compare(Song a, Song b) {
                 return Long.compare(a.getPlayTime(), b.getPlayTime());
             }
         });
-        for (Song s : songs) {
-            data.add(map(s));
+        for (Song s : displayedSongs) {
+            ArrayList<String> list = map(s);
+            list.add((int)s.getPlayTime() + "");
+            data.add(list);
         }
         sp = new SongPanel(this, "Most Played Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
@@ -108,11 +151,9 @@ public class SongController {
 
     public void showSongsByAlbum(String name) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
-        Album temp = new Album();
-        temp.setName(name);
-        Album a = mc.getAlbums().floor(temp);
         for (Song s : mc.getSongs()) {
-            if (s.getAlbumId() == a.getAlbumId()) data.add(map(s));
+
+            if (s.getAlbum() != null && s.getAlbum().getName().equals(name)) data.add(map(s));
         }
         sp = new SongPanel(this, "Songs by " + name, data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
@@ -132,11 +173,8 @@ public class SongController {
 
     public void showSongsByGenre(String name) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
-        Genre temp = new Genre();
-        temp.setName(name);
-        Genre g = mc.getGenres().floor(temp);
         for (Song s : mc.getSongs()) {
-            if (s.getGenreId() == g.getGenreId()) data.add(map(s));
+            if (s.getGenre() != null && s.getGenre().getName().equals(name)) data.add(map(s));
         }
         sp = new SongPanel(this, name + " Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
@@ -154,17 +192,24 @@ public class SongController {
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();
         list.add(s.getName());
-        Album a = mc.getAlbumDAO().find(s.getAlbumId());
-        if (a != null) {
-            list.add(a.getArtist());
-            list.add(a.getName());
+        if (s.getAlbum() != null) {
+            list.add(s.getAlbum().getArtist());
+            list.add(s.getAlbum().getName());
         } else {
             list.add("");
             list.add("");
         }
         list.add(s.getYear() + "");
-        list.add(mc.getGenreDAO().find(s.getGenreId()).getName());
+        list.add(s.getGenre().getName());
         return list;
+    }
+
+    public void addSong(String songName, String genreName, String albumName, String year) {
+        Song s = new Song();
+        s.setName(songName);
+//        s.setUserId(mc.getAc().getUser().getUserId());
+        s.setUser(mc.getAccountController().getUser());
+
     }
 
     public void removeGenre(String name) {
@@ -177,19 +222,6 @@ public class SongController {
 
     public void removePlaylist(String name) {
 
-    }
-
-    public void remove(String category, String name) {
-        switch(category) {
-            case "Genres":
-//                for (Song s : )
-                break;
-            case "Playlists":
-                break;
-            case "Albums":
-                break;
-
-        }
     }
 
 

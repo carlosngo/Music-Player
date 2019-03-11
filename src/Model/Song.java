@@ -1,30 +1,47 @@
 package Model;
 
-import java.sql.Blob;
 import java.util.*;
+import java.io.*;
 
 public class Song implements Comparable<Song> {
     private int songId;
-    private int userId;
-    private int albumId;
-    private int genreId;
+    private User user;
+    private Album album;
+    private Genre genre;
     private String name;
     private int year;
     private boolean favorite;
     private long playTime;
     private Date lastPlayed;
-    private String fileName;
-    private Blob file;
+    private File wav;
 
 
 	public Song() {
 	    songId = -1;
     }
-    public Song(int songId, int userId, String name, int year) {
-        this.songId = songId;
-        this.userId = userId;
-        this.name = name;
-        this.year = year;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public Date getLastPlayed() {
@@ -41,30 +58,6 @@ public class Song implements Comparable<Song> {
 
     public void setSongId(int songId) {
         this.songId = songId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
-    }
-
-    public int getGenreId() {
-        return genreId;
-    }
-
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
     }
 
     public String getName() {
@@ -99,21 +92,13 @@ public class Song implements Comparable<Song> {
         this.playTime = playTime;
     }
 
-    public String getFileName() {
-        return fileName;
+    public File getWAV() {
+        return wav;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setWAV(File wav) {
+        this.wav = wav;
     }
-    
-    public Blob getFile() {
-		return file;
-	}
-    
-	public void setFile(Blob file) {
-		this.file = file;
-	}
 
     @Override
     public int compareTo(Song o) {

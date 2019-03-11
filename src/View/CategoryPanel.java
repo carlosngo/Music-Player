@@ -76,7 +76,7 @@ public class CategoryPanel extends JPanel {
         revalidate();
         repaint();
     }
-    
+
     public void addRow(String category, String subCategoryName) {
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
@@ -149,7 +149,7 @@ public class CategoryPanel extends JPanel {
                         "Are you sure you want to remove this " + category.toLowerCase() + "?",
                         "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
-                    controller.remove(category, subCategoryName);
+//                    controller.remove(category, subCategoryName);
                     System.out.println(category.toLowerCase() + "removed."); //test
                 }
             }
@@ -169,8 +169,17 @@ public class CategoryPanel extends JPanel {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                ArrayList<Song> queue = null;
+                switch (category) {
+                    case "Genres":
+                        controller.playSongsInGenre(subCategoryName);
+                        break;
+                    case "Albums":
+                        controller.playSongsInAlbum(subCategoryName);
+                        break;
+                    case "Playlists":
+                        controller.playSongsInPlaylist(subCategoryName);
+                        break;
+                }
 //                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
 //                        new Thread(pt).start();
 

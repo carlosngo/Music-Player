@@ -1,5 +1,6 @@
 package DAO;
 
+import Controller.*;
 import Model.Album;
 import Model.*;
 import static DAO.DAOUtil.*;
@@ -52,21 +53,46 @@ public class SongDAO implements DataAccessObject {
     public SongDAO(DAOFactory db) { this.db = db; }
 
     private Song map(ResultSet rs) throws SQLException{
+        UserDAO userDAO = new UserDAO(db);
+        AlbumDAO albumDAO = new AlbumDAO(db);
+        GenreDAO genreDAO = new GenreDAO(db);
         Song song = new Song();
 
         String fileName = rs.getString("Name") + rs.getInt("PK_SongID");
 
         song.setSongId(rs.getInt("PK_SongID"));
-        song.setUserId(rs.getInt("FK_UserID"));
-        song.setAlbumId(rs.getInt("FK_AlbumID"));
-        song.setGenreId(rs.getInt("FK_GenreID"));
+
+        User u = userDAO.find(rs.getInt("FK_UserID"));
+        song.setUser(u);
+//        song.setUserId(rs.getInt("FK_UserID"));
+//        song.setAlbumId(rs.getInt("FK_AlbumID"));
+        Album a = albumDAO.find(rs.getInt("FK_AlbumID"));
+        song.setAlbum(a);
+
+        Genre g = genreDAO.find(rs.getInt("FK_GenreID"));
+        song.setGenre(g);
+
         song.setName(rs.getString("Name"));
         song.setYear(rs.getInt("Year"));
         song.setFavorite(rs.getBoolean("Favorite"));
         song.setPlayTime(rs.getLong("PlayTime"));
         song.setLastPlayed(rs.getDate("LastPlayed"));
-        song.setFile(rs.getBlob("File"));
-        song.setFileName(fileName);
+        Blob b = rs.getBlob("File");
+        if (b != null) {
+            BlobParser.setStrategy(new BlobToFile());
+            File dir = new File("resources/songs");
+            dir.mkdirs();
+            File wav = new File(dir, song.getSongId() + "");
+            try {
+                wav.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BlobParser.executeStrategy(rs.getBlob("File"), wav);
+            song.setWAV(wav);
+        }
+//        song.setFile(rs.getBlob("File"));
+//        song.setFileName(fileName);
         return song;
     }
 
@@ -262,16 +288,17 @@ public class SongDAO implements DataAccessObject {
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
-            statement.setInt(1, song.getUserId());
-            statement.setInt(2, song.getAlbumId());
-            statement.setInt(3, song.getGenreId());
+            statement.setInt(1, song.getUser().getUserId());
+            statement.setInt(2, song.getAlbum().getAlbumId());
+            statement.setInt(3, song.getGenre().getGenreId());
             statement.setString(4, song.getName());
             statement.setInt(5, song.getYear());
             statement.setBoolean(6, song.isFavorite());
             statement.setLong(7, song.getPlayTime());
             statement.setDate(8, (Date) song.getLastPlayed());
-            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
-            File wav = Paths.get(resource.toURI()).toFile();
+//            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
+//            File wav = Paths.get(resource.toURI()).toFile();
+            File wav = song.getWAV();
             statement.setBinaryStream(9, new FileInputStream(wav));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -282,8 +309,6 @@ public class SongDAO implements DataAccessObject {
             }
 
         }catch(SQLException | FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
@@ -311,9 +336,9 @@ public class SongDAO implements DataAccessObject {
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
-            statement.setInt(1, song.getUserId());
-            statement.setInt(2, song.getAlbumId());
-            statement.setInt(3, song.getGenreId());
+            statement.setInt(1, song.getUser().getUserId());
+            statement.setInt(2, song.getAlbum().getAlbumId());
+            statement.setInt(3, song.getGenre().getGenreId());
             statement.setString(4, song.getName());
             statement.setInt(5, song.getYear());
             statement.setBoolean(6, song.isFavorite());

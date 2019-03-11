@@ -136,7 +136,18 @@ public class PlayerPanel extends JPanel implements ActionListener {
         setMaximumSize(new Dimension(650, 55));
     }
 
-    public void update(String title, String artist, Component controlPnl) {
+    public void update(File cover, String title, String artist, Component controlPnl) {
+        try {
+            if (cover == null) {
+                URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
+                File img = Paths.get(resource.toURI()).toFile();
+                albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+            } else {
+                albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         titleLbl.setText(title);
         artistLbl.setText(artist);
         if (this.controlPnl != null) p3.remove(this.controlPnl);

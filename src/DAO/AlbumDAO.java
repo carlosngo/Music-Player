@@ -1,5 +1,6 @@
 package DAO;
 
+import Controller.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,8 +44,20 @@ public class AlbumDAO implements DataAccessObject {
         album.setUserId(rs.getInt("FK_UserID"));
         album.setName(rs.getString("Name"));
         album.setArtist(rs.getString("Artist"));
-        album.setFile(rs.getBlob("Cover"));
-        album.setCoverPath(fileName);
+//        album.setFile(rs.getBlob("Cover"));
+//        album.setCoverPath(fileName);
+
+        BlobParser.setStrategy(new BlobToFile());
+        File dir = new File("resources/images");
+        dir.mkdirs();
+        File img = new File(dir,album.getName());
+        try {
+            img.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BlobParser.executeStrategy(rs.getBlob("Cover"), img);
+        album.setCover(img);
 
 
         return album;
@@ -77,14 +90,16 @@ public class AlbumDAO implements DataAccessObject {
             throw new IllegalArgumentException("Song is already created, the song ID is not null.");
         }
         try {
-            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
-            File img = Paths.get(resource.toURI()).toFile();
+//            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
+//            File img = Paths.get(resource.toURI()).toFile();
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, album.getUserId());
             statement.setString(2, album.getName());
             statement.setString(3, album.getArtist());
+
+            File img = album.getCover();
             statement.setBinaryStream(4, new FileInputStream(img));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -96,8 +111,6 @@ public class AlbumDAO implements DataAccessObject {
             statement.close();
             connection.close();
         }catch(SQLException | FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
@@ -123,22 +136,21 @@ public class AlbumDAO implements DataAccessObject {
             if (album.getAlbumId() == -1) {
                 throw new IllegalArgumentException("User is not created yet, the user ID is null.");
             }
-            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
-            File img = Paths.get(resource.toURI()).toFile();
+//            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
+//            File img = Paths.get(resource.toURI()).toFile();
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
             statement.setInt(1, album.getUserId());
             statement.setString(2, album.getName());
             statement.setString(3, album.getArtist());
+            File img = album.getCover();
             statement.setBlob(4, new FileInputStream(img));
             statement.executeUpdate();
 
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

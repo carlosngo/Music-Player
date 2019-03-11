@@ -1,15 +1,14 @@
 package Model;
 
 import java.sql.Blob;
+import java.io.*;
 
 public class Album implements Comparable<Album> {
     private int albumId;
     private int userId;
     private String name;
     private String artist;
-    private String coverPath;
-    private Blob file;
-
+    private File cover;
 
 	public Album() {
     	albumId = -1;
@@ -38,17 +37,13 @@ public class Album implements Comparable<Album> {
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-	public String getCoverPath() {
-		return coverPath;
+
+	public File getCover() {
+		return cover;
 	}
-	public void setCoverPath(String coverPath) {
-		this.coverPath = coverPath;
-	}
-    public Blob getFile() {
-		return file;
-	}
-	public void setFile(Blob file) {
-		this.file = file;
+
+	public void setCover(File cover) {
+		this.cover = cover;
 	}
 
 	@Override

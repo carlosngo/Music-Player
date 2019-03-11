@@ -10,6 +10,8 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
+import java.sql.*;
+
 
 public class PlayerController implements ControllerListener, ActionListener {
     private MainController mc;
@@ -53,7 +55,7 @@ public class PlayerController implements ControllerListener, ActionListener {
     }
 
     public void terminate() {
-        pp.update("", "", new JLabel());
+        pp.update(null, "", "", new JLabel());
         System.out.println("Terminating");
         isFinished = true;
         clearQueue();
@@ -130,21 +132,12 @@ public class PlayerController implements ControllerListener, ActionListener {
         song.setPlayTime(song.getPlayTime() + 1); // increment play time
         unplayed.remove(song);
         played.push(song);
-        BlobParser.setStrategy(new BlobToFile());
-        File dir = new File("resources/songs");
-        dir.mkdirs();
-        File wav = new File(dir,song.getSongId() + "");
-        try {
-            wav.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BlobParser.executeStrategy(song.getFile(), wav);
-        AlbumDAO albumDAO = mc.getAlbumDAO();
-        String coverName = albumDAO.find(song.getAlbumId()).getName();
+        File wav = song.getWAV();
+        Album a = song.getAlbum();
+
         try {
 
-            setMediaLocator(new MediaLocator(wav.toURI().toURL()), song.getName(), coverName);
+            setMediaLocator(new MediaLocator(wav.toURI().toURL()), a.getCover(), song.getName(), a.getName());
         } catch (CannotRealizeException e) {
 
             e.printStackTrace();
@@ -166,12 +159,12 @@ public class PlayerController implements ControllerListener, ActionListener {
      * @throws CannotRealizeException indicates an error in realizing the
      * media file or stream.
      */
-    public void setMediaLocator(MediaLocator locator, String title, String artist) throws IOException,
+    public void setMediaLocator(MediaLocator locator, File cover, String title, String artist) throws IOException,
             NoPlayerException, CannotRealizeException {
 
         // create a new player with the new locator.  This will effectively
         // stop and discard any current player.
-        setPlayer(Manager.createRealizedPlayer(locator), title, artist);
+        setPlayer(Manager.createRealizedPlayer(locator), cover, title, artist);
     }
     /**
      * Sets the player reference.  Setting this to a new value will discard
@@ -180,7 +173,7 @@ public class PlayerController implements ControllerListener, ActionListener {
      * stop the discard the current player and clear the contents of the
      * frame.
      */
-    public void setPlayer(Player newPlayer, String title, String artist) {
+    public void setPlayer(Player newPlayer, File cover, String title, String artist) {
         // close the current player
         closeCurrentPlayer();
 
@@ -188,7 +181,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         player.addControllerListener(this);
 //        if (pt != null) attach(pt);
         // refresh the tabbed pane.\
-        pp.update(title, artist, player.getControlPanelComponent());
+        pp.update(cover, title, artist, player.getControlPanelComponent());
         player.start();
         if (player == null) return;
     }
