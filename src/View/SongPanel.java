@@ -479,6 +479,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public ActionsPane() {
             setLayout(new GridBagLayout());
+            setOpaque(false);
             play = new JButton();
             play.setOpaque(false);
             play.setContentAreaFilled(false);
