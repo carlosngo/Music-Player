@@ -282,7 +282,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             Color oldColor = years.getForeground();
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("images/cyanGenre.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanYear.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     years.setText("Years");
@@ -293,7 +293,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("images/genre.png");
+                    URL resource = getClass().getClassLoader().getResource("images/year.png");
                     File img = Paths.get(resource.toURI()).toFile();
                     years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     years.setText("Years");
