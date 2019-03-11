@@ -112,7 +112,8 @@ public class MainController {
     }
 
     public void playSongs(ArrayList<Song> songs) {
-//        new Thread(new PlayerThread(pc, songs)).start();
+        pc.setSongs(songs);
+        pc.startPlayer();
     }
     // saves all the cached data in the database.
 

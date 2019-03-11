@@ -580,6 +580,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
+                    controller.playSong(currentRow);
                     //add the following:
                     //currently paying song should stop
                     //selected song should play

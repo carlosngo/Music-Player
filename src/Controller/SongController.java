@@ -61,6 +61,10 @@ public class SongController {
     public void playSong(int index) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
+//        System.out.println("Gonna play the song at index " + index);
+//        for (Song s : displayedSongs) {
+//            System.out.println(s.getName());
+//        }
         queue.add(displayedSongs.get(index));
         mc.playSongs(queue);
     }
