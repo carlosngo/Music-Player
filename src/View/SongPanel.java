@@ -480,22 +480,27 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public ActionsPane() {
             setLayout(new GridBagLayout());
+            setOpaque(false);
             play = new JButton();
+            play.setEnabled(false);
             play.setOpaque(false);
             play.setContentAreaFilled(false);
             play.setBorderPainted(false);
             play.setActionCommand("play");
             addToPLaylist = new JButton();
+            addToPLaylist.setEnabled(false);
             addToPLaylist.setOpaque(false);
             addToPLaylist.setContentAreaFilled(false);
             addToPLaylist.setBorderPainted(false);
             addToPLaylist.setActionCommand("add");
             delete = new JButton();
+            delete.setEnabled(false);
             delete.setOpaque(false);
             delete.setContentAreaFilled(false);
             delete.setBorderPainted(false);
             delete.setActionCommand("delete");
             edit = new JButton();
+            edit.setEnabled(false);
             edit.setOpaque(false);
             edit.setContentAreaFilled(false);
             edit.setBorderPainted(false);
