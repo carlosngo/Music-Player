@@ -68,8 +68,8 @@ public class SongPanel extends JPanel implements ActionListener{
 //            sortOptions.setMinimumSize(new Dimension(100,20));
 //            sortOptions.setMaximumSize(new Dimension(100,20));
 //            headerPnl.add(sortOptions);
-//            add(headerPnl);
-//            add(Box.createRigidArea(new Dimension(0,10)));
+            add(headerPnl);
+            add(Box.createRigidArea(new Dimension(0,10)));
 
             tablePnl = new JPanel();
             tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
@@ -444,7 +444,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         @Override
         public int getColumnCount() {
-            return 6;
+            return 5;
         }
 
         @Override
