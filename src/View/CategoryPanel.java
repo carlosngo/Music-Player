@@ -205,6 +205,9 @@ public class CategoryPanel extends JPanel {
                     case "Playlists":
                         controller.playSongsInPlaylist(subCategoryName);
                         break;
+                    case "Years":
+                        controller.playSongsInYear(subCategoryName);
+                        break;
                 }
 //                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
 //                        new Thread(pt).start();
