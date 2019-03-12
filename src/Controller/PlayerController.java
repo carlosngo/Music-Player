@@ -102,6 +102,10 @@ public class PlayerController implements ControllerListener, ActionListener {
         played.remove(song);
     }
 
+    public Song getCurrentSong() {
+        return played.peek();
+    }
+
     private Song getNextSong() {
         Song nextSong = null;
         if (unplayed.isEmpty()) {
