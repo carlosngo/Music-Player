@@ -59,17 +59,17 @@ public class SongPanel extends JPanel implements ActionListener{
             headerName.setForeground(Color.white);
             headerPnl.add(headerName);
             headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
-            String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
-            sortOptions = new JComboBox(sort);
-            sortOptions.setForeground(SystemColor.windowText);
-            sortOptions.addActionListener(this);
-            sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
-            sortOptions.setPreferredSize(new Dimension(100,15));
-            sortOptions.setMinimumSize(new Dimension(100,20));
-            sortOptions.setMaximumSize(new Dimension(100,20));
-            headerPnl.add(sortOptions);
-            add(headerPnl);
-            add(Box.createRigidArea(new Dimension(0,10)));
+//            String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
+//            sortOptions = new JComboBox(sort);
+//            sortOptions.setForeground(SystemColor.windowText);
+//            sortOptions.addActionListener(this);
+//            sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
+//            sortOptions.setPreferredSize(new Dimension(100,15));
+//            sortOptions.setMinimumSize(new Dimension(100,20));
+//            sortOptions.setMaximumSize(new Dimension(100,20));
+//            headerPnl.add(sortOptions);
+//            add(headerPnl);
+//            add(Box.createRigidArea(new Dimension(0,10)));
 
             tablePnl = new JPanel();
             tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
@@ -127,12 +127,6 @@ public class SongPanel extends JPanel implements ActionListener{
 
     }
 
-    public void addRow(ArrayList<String> data) {
-        model.add(data);
-        revalidate();
-        repaint();
-    }
-
     public int getCurrentRow() {
         return currentRow;
     }
@@ -143,233 +137,238 @@ public class SongPanel extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MyTableModel model;
-        SongPanel.ActionPaneRenderer renderer;
 
-        if(e.getSource() == sortOptions){
-            JComboBox cb = (JComboBox) e.getSource();
-            String choice = (String) cb.getSelectedItem();
-            switch (choice){
-                case "Artist":
-                    tablePnl.removeAll();
-                    Collections.sort(data, new Comparator<ArrayList<String>>() {
-                        @Override
-                        public int compare(ArrayList<String> one, ArrayList<String> two) {
-                            return one.get(1).compareTo(two.get(1));
-                        }
-                    });
-                    model = new MyTableModel();
-                    for(int i=0 ; i<data.size() ; i++){
-                        model.add(data.get(i));
-                    }
-                    categoryTable = new JTable(model);
-                    renderer = new SongPanel.ActionPaneRenderer();
-                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
-                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
-
-                    categoryTable.setForeground(Color.white);
-                    tableHeader = categoryTable.getTableHeader();
-                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-                    tableHeader.setForeground(Color.WHITE);
-                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-                    categoryTable.setOpaque(false);
-                    categoryTable.setRowHeight(30);
-
-                    categoryTable.addMouseListener(new MouseAdapter() {
-                        public void mousePressed(MouseEvent me) {
-                            JTable table = (JTable) me.getSource();
-                            Point p = me.getPoint();
-                            setCurrentRow(table.rowAtPoint(p));
-                        }
-                    });
-
-                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
-                    scroll = new JScrollPane(categoryTable);
-                    scroll.getViewport().setOpaque(false);
-                    scroll.setOpaque(false);
-                    scroll.setPreferredSize(new Dimension(50,60));
-                    tablePnl.add(scroll);
-                    System.out.println(1);
-                    break;
-
-                case "Album":
-                    tablePnl.removeAll();
-                    Collections.sort(data, new Comparator<ArrayList<String>>() {
-                        @Override
-                        public int compare(ArrayList<String> one, ArrayList<String> two) {
-                            return one.get(2).compareTo(two.get(2));
-                        }
-                    });
-                    model = new MyTableModel();
-                    for(int i=0 ; i<data.size() ; i++){
-                        model.add(data.get(i));
-                    }
-                    categoryTable = new JTable(model);
-                    renderer = new SongPanel.ActionPaneRenderer();
-                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
-                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
-
-                    categoryTable.setForeground(Color.white);
-                    tableHeader = categoryTable.getTableHeader();
-                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-                    tableHeader.setForeground(Color.WHITE);
-                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-                    categoryTable.setOpaque(false);
-                    categoryTable.setRowHeight(30);
-
-                    categoryTable.addMouseListener(new MouseAdapter() {
-                        public void mousePressed(MouseEvent me) {
-                            JTable table = (JTable) me.getSource();
-                            Point p = me.getPoint();
-                            setCurrentRow(table.rowAtPoint(p));
-                        }
-                    });
-
-                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
-                    scroll = new JScrollPane(categoryTable);
-                    scroll.getViewport().setOpaque(false);
-                    scroll.setOpaque(false);
-                    scroll.setPreferredSize(new Dimension(50,60));
-                    tablePnl.add(scroll);
-                    System.out.println(2);
-                    break;
-                case "Year":
-                    tablePnl.removeAll();
-
-                    Collections.sort(data, new Comparator<ArrayList<String>>() {
-                        @Override
-                        public int compare(ArrayList<String> one, ArrayList<String> two) {
-                            return one.get(3).compareTo(two.get(3));
-                        }
-                    });
-                    model = new MyTableModel();
-                    for(int i=0 ; i<data.size() ; i++){
-                        model.add(data.get(i));
-                    }
-                    categoryTable = new JTable(model);
-
-                    renderer = new SongPanel.ActionPaneRenderer();
-                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
-                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
-
-                    categoryTable.setForeground(Color.white);
-                    tableHeader = categoryTable.getTableHeader();
-                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-                    tableHeader.setForeground(Color.WHITE);
-                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-                    categoryTable.setOpaque(false);
-                    categoryTable.setRowHeight(30);
-
-                    categoryTable.addMouseListener(new MouseAdapter() {
-                        public void mousePressed(MouseEvent me) {
-                            JTable table = (JTable) me.getSource();
-                            Point p = me.getPoint();
-                            setCurrentRow(table.rowAtPoint(p));
-                        }
-                    });
-
-                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
-                    scroll = new JScrollPane(categoryTable);
-                    scroll.getViewport().setOpaque(false);
-                    scroll.setOpaque(false);
-                    scroll.setPreferredSize(new Dimension(50,60));
-                    tablePnl.add(scroll);
-                    System.out.println(3);
-                    break;
-                case "Genre":
-                    tablePnl.removeAll();
-                    Collections.sort(data, new Comparator<ArrayList<String>>() {
-                        @Override
-                        public int compare(ArrayList<String> one, ArrayList<String> two) {
-                            return one.get(4).compareTo(two.get(4));
-                        }
-                    });
-                    model = new MyTableModel();
-                    for(int i=0 ; i<data.size() ; i++){
-                        model.add(data.get(i));
-                    }
-                    categoryTable = new JTable(model);
-
-                    renderer = new SongPanel.ActionPaneRenderer();
-                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
-                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
-
-                    categoryTable.setForeground(Color.white);
-                    tableHeader = categoryTable.getTableHeader();
-                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-                    tableHeader.setForeground(Color.WHITE);
-                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-                    categoryTable.setOpaque(false);
-                    categoryTable.setRowHeight(30);
-
-                    categoryTable.addMouseListener(new MouseAdapter() {
-                        public void mousePressed(MouseEvent me) {
-                            JTable table = (JTable) me.getSource();
-                            Point p = me.getPoint();
-                            setCurrentRow(table.rowAtPoint(p));
-                        }
-                    });
-
-                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
-                    scroll = new JScrollPane(categoryTable);
-                    scroll.getViewport().setOpaque(false);
-                    scroll.setOpaque(false);
-                    scroll.setPreferredSize(new Dimension(50,60));
-                    tablePnl.add(scroll);
-                    System.out.println(4);
-                    break;
-                case "None":
-                    tablePnl.removeAll();
-                    model = new MyTableModel();
-                    for(int i=0 ; i<data.size() ; i++){
-                        model.add(data.get(i));
-                    }
-                    categoryTable = new JTable(model);
-                    categoryTable = new JTable(model);
-
-                    renderer = new SongPanel.ActionPaneRenderer();
-                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
-                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
-
-                    categoryTable.setForeground(Color.white);
-                    tableHeader = categoryTable.getTableHeader();
-                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-                    tableHeader.setForeground(Color.WHITE);
-                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-                    categoryTable.setOpaque(false);
-                    categoryTable.setRowHeight(30);
-
-                    categoryTable.addMouseListener(new MouseAdapter() {
-                        public void mousePressed(MouseEvent me) {
-                            JTable table = (JTable) me.getSource();
-                            Point p = me.getPoint();
-                            setCurrentRow(table.rowAtPoint(p));
-                        }
-                    });
-
-                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
-                    scroll = new JScrollPane(categoryTable);
-                    scroll.getViewport().setOpaque(false);
-                    scroll.setOpaque(false);
-                    scroll.setPreferredSize(new Dimension(50,60));
-                    tablePnl.add(scroll);
-                    System.out.println(5);
-                    break;
-            }
-            revalidate();
-            repaint();
-        }
     }
+
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        MyTableModel model;
+//        SongPanel.ActionPaneRenderer renderer;
+//
+//        if(e.getSource() == sortOptions){
+//            JComboBox cb = (JComboBox) e.getSource();
+//            String choice = (String) cb.getSelectedItem();
+//            switch (choice){
+//                case "Artist":
+//                    tablePnl.removeAll();
+//                    Collections.sort(data, new Comparator<ArrayList<String>>() {
+//                        @Override
+//                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+//                            return one.get(1).compareTo(two.get(1));
+//                        }
+//                    });
+//                    model = new MyTableModel();
+//                    for(int i=0 ; i<data.size() ; i++){
+//                        model.add(data.get(i));
+//                    }
+//                    categoryTable = new JTable(model);
+//                    renderer = new SongPanel.ActionPaneRenderer();
+//                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+//                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
+//                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
+//
+//                    categoryTable.setForeground(Color.white);
+//                    tableHeader = categoryTable.getTableHeader();
+//                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
+//                    tableHeader.setForeground(Color.WHITE);
+//                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+//                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+//                    categoryTable.setOpaque(false);
+//                    categoryTable.setRowHeight(30);
+//
+//                    categoryTable.addMouseListener(new MouseAdapter() {
+//                        public void mousePressed(MouseEvent me) {
+//                            JTable table = (JTable) me.getSource();
+//                            Point p = me.getPoint();
+//                            setCurrentRow(table.rowAtPoint(p));
+//                        }
+//                    });
+//
+//                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
+//                    scroll = new JScrollPane(categoryTable);
+//                    scroll.getViewport().setOpaque(false);
+//                    scroll.setOpaque(false);
+//                    scroll.setPreferredSize(new Dimension(50,60));
+//                    tablePnl.add(scroll);
+//                    System.out.println(1);
+//                    break;
+//
+//                case "Album":
+//                    tablePnl.removeAll();
+//                    Collections.sort(data, new Comparator<ArrayList<String>>() {
+//                        @Override
+//                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+//                            return one.get(2).compareTo(two.get(2));
+//                        }
+//                    });
+//                    model = new MyTableModel();
+//                    for(int i=0 ; i<data.size() ; i++){
+//                        model.add(data.get(i));
+//                    }
+//                    categoryTable = new JTable(model);
+//                    renderer = new SongPanel.ActionPaneRenderer();
+//                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+//                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
+//                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
+//
+//                    categoryTable.setForeground(Color.white);
+//                    tableHeader = categoryTable.getTableHeader();
+//                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
+//                    tableHeader.setForeground(Color.WHITE);
+//                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+//                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+//                    categoryTable.setOpaque(false);
+//                    categoryTable.setRowHeight(30);
+//
+//                    categoryTable.addMouseListener(new MouseAdapter() {
+//                        public void mousePressed(MouseEvent me) {
+//                            JTable table = (JTable) me.getSource();
+//                            Point p = me.getPoint();
+//                            setCurrentRow(table.rowAtPoint(p));
+//                        }
+//                    });
+//
+//                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
+//                    scroll = new JScrollPane(categoryTable);
+//                    scroll.getViewport().setOpaque(false);
+//                    scroll.setOpaque(false);
+//                    scroll.setPreferredSize(new Dimension(50,60));
+//                    tablePnl.add(scroll);
+//                    System.out.println(2);
+//                    break;
+//                case "Year":
+//                    tablePnl.removeAll();
+//
+//                    Collections.sort(data, new Comparator<ArrayList<String>>() {
+//                        @Override
+//                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+//                            return one.get(3).compareTo(two.get(3));
+//                        }
+//                    });
+//                    model = new MyTableModel();
+//                    for(int i=0 ; i<data.size() ; i++){
+//                        model.add(data.get(i));
+//                    }
+//                    categoryTable = new JTable(model);
+//
+//                    renderer = new SongPanel.ActionPaneRenderer();
+//                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+//                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
+//                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
+//
+//                    categoryTable.setForeground(Color.white);
+//                    tableHeader = categoryTable.getTableHeader();
+//                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
+//                    tableHeader.setForeground(Color.WHITE);
+//                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+//                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+//                    categoryTable.setOpaque(false);
+//                    categoryTable.setRowHeight(30);
+//
+//                    categoryTable.addMouseListener(new MouseAdapter() {
+//                        public void mousePressed(MouseEvent me) {
+//                            JTable table = (JTable) me.getSource();
+//                            Point p = me.getPoint();
+//                            setCurrentRow(table.rowAtPoint(p));
+//                        }
+//                    });
+//
+//                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
+//                    scroll = new JScrollPane(categoryTable);
+//                    scroll.getViewport().setOpaque(false);
+//                    scroll.setOpaque(false);
+//                    scroll.setPreferredSize(new Dimension(50,60));
+//                    tablePnl.add(scroll);
+//                    System.out.println(3);
+//                    break;
+//                case "Genre":
+//                    tablePnl.removeAll();
+//                    Collections.sort(data, new Comparator<ArrayList<String>>() {
+//                        @Override
+//                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+//                            return one.get(4).compareTo(two.get(4));
+//                        }
+//                    });
+//                    model = new MyTableModel();
+//                    for(int i=0 ; i<data.size() ; i++){
+//                        model.add(data.get(i));
+//                    }
+//                    categoryTable = new JTable(model);
+//
+//                    renderer = new SongPanel.ActionPaneRenderer();
+//                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+//                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
+//                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
+//
+//                    categoryTable.setForeground(Color.white);
+//                    tableHeader = categoryTable.getTableHeader();
+//                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
+//                    tableHeader.setForeground(Color.WHITE);
+//                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+//                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+//                    categoryTable.setOpaque(false);
+//                    categoryTable.setRowHeight(30);
+//
+//                    categoryTable.addMouseListener(new MouseAdapter() {
+//                        public void mousePressed(MouseEvent me) {
+//                            JTable table = (JTable) me.getSource();
+//                            Point p = me.getPoint();
+//                            setCurrentRow(table.rowAtPoint(p));
+//                        }
+//                    });
+//
+//                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
+//                    scroll = new JScrollPane(categoryTable);
+//                    scroll.getViewport().setOpaque(false);
+//                    scroll.setOpaque(false);
+//                    scroll.setPreferredSize(new Dimension(50,60));
+//                    tablePnl.add(scroll);
+//                    System.out.println(4);
+//                    break;
+//                case "None":
+//                    tablePnl.removeAll();
+//                    model = new MyTableModel();
+//                    for(int i=0 ; i<data.size() ; i++){
+//                        model.add(data.get(i));
+//                    }
+//                    categoryTable = new JTable(model);
+//                    categoryTable = new JTable(model);
+//
+//                    renderer = new SongPanel.ActionPaneRenderer();
+//                    categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+//                    categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
+//                    categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
+//
+//                    categoryTable.setForeground(Color.white);
+//                    tableHeader = categoryTable.getTableHeader();
+//                    tableHeader.setBackground(new Color(65,15,225)); // change the Background color
+//                    tableHeader.setForeground(Color.WHITE);
+//                    tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+//                    categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+//                    categoryTable.setOpaque(false);
+//                    categoryTable.setRowHeight(30);
+//
+//                    categoryTable.addMouseListener(new MouseAdapter() {
+//                        public void mousePressed(MouseEvent me) {
+//                            JTable table = (JTable) me.getSource();
+//                            Point p = me.getPoint();
+//                            setCurrentRow(table.rowAtPoint(p));
+//                        }
+//                    });
+//
+//                    categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
+//                    scroll = new JScrollPane(categoryTable);
+//                    scroll.getViewport().setOpaque(false);
+//                    scroll.setOpaque(false);
+//                    scroll.setPreferredSize(new Dimension(50,60));
+//                    tablePnl.add(scroll);
+//                    System.out.println(5);
+//                    break;
+//            }
+//            revalidate();
+//            repaint();
+//        }
+//    }
 
 
     public class MyTableModel extends AbstractTableModel {
@@ -391,17 +390,17 @@ public class SongPanel extends JPanel implements ActionListener{
                     value = "Title";
                     break;
                 case 2:
-                    value = "Artist";
-                    break;
-                case 3:
                     value = "Album";
                     break;
-                case 4:
+                case 3:
                     value = "Year";
                     break;
-                case 5:
+                case 4:
                     value = "Genre";
                     break;
+//                case 5:
+//                    value = "Artist";
+//                    break;
             }
             return value;
         }
@@ -425,9 +424,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 4:
                     value = String.class;
                     break;
-                case 5:
-                    value = String.class;
-                    break;
+//                case 5:
+//                    value = String.class;
+//                    break;
             }
             return value;
         }
@@ -461,15 +460,15 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 4:
                     value = obj.get(3);
                     break;
-                case 5:
-                    value = obj.get(4);
-                    break;
+//                case 5:
+//                    value = obj.get(4);
+//                    break;
             }
             return value;
         }
 
-        @Override
-        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex, String title, String album, String year, String genre) {
             if (columnIndex == 5) {
 
                 System.out.println(aValue);
@@ -488,6 +487,24 @@ public class SongPanel extends JPanel implements ActionListener{
                 remove(value);
 
             }
+            else {
+                ArrayList<String> currentSong = data.get(rowIndex);
+                switch (columnIndex){
+                    case 1:
+                        currentSong.set(0,title);
+                        break;
+                    case 2:
+                        currentSong.set(1,album);
+                        break;
+                    case 3:
+                        currentSong.set(2,year);
+                        break;
+                    case 4:
+                        currentSong.set(3,genre);
+                        break;
+                }
+                fireTableCellUpdated(rowIndex, columnIndex);
+            }
         }
 
         public void add(ArrayList<String> value) {
@@ -497,6 +514,13 @@ public class SongPanel extends JPanel implements ActionListener{
         }
 
         public void remove(ArrayList<String> value) {
+            int startIndex = data.indexOf(value);
+            System.out.println("startIndex = " + startIndex);
+            data.remove(value);
+            fireTableRowsInserted(startIndex, startIndex);
+        }
+
+        public void edit(ArrayList<String> value) {
             int startIndex = data.indexOf(value);
             System.out.println("startIndex = " + startIndex);
             data.remove(value);
@@ -527,12 +551,12 @@ public class SongPanel extends JPanel implements ActionListener{
             play.setContentAreaFilled(false);
             play.setBorderPainted(false);
             play.setActionCommand("play");
-            fav = new JButton();
-            fav.setEnabled(false);
-            fav.setOpaque(false);
-            fav.setContentAreaFilled(false);
-            fav.setBorderPainted(false);
-            fav.setActionCommand("fav");
+//            fav = new JButton();
+//            fav.setEnabled(false);
+//            fav.setOpaque(false);
+//            fav.setContentAreaFilled(false);
+//            fav.setBorderPainted(false);
+//            fav.setActionCommand("fav");
             addToPLaylist = new JButton();
             addToPLaylist.setEnabled(false);
             addToPLaylist.setOpaque(false);
@@ -565,9 +589,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
                 img = Paths.get(resource.toURI()).toFile();
                 play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/favorite.png");
-                img = Paths.get(resource.toURI()).toFile();
-                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                resource = getClass().getClassLoader().getResource("images/favorite.png");
+//                img = Paths.get(resource.toURI()).toFile();
+//                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
             catch(Exception e){
 
@@ -577,7 +601,7 @@ public class SongPanel extends JPanel implements ActionListener{
             add(addToPLaylist);
             add(delete);
             add(edit);
-            add(fav);
+            //add(fav);
 
             ActionListener playListener = new ActionListener() {
                 @Override
@@ -585,10 +609,6 @@ public class SongPanel extends JPanel implements ActionListener{
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
                     controller.playSong(currentRow);
-                    //add the following:
-                    //currently paying song should stop
-                    //selected song should play
-                    //see PlayerController's commented out main function
                 }
             };
             play.addActionListener(playListener);
@@ -602,32 +622,14 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
             });
 
-            ActionListener favListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                }
-            };
-            fav.addActionListener(favListener);
-
-            fav.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    fav.setEnabled(true);
-                }
-                public void mouseExited(MouseEvent e) {
-                    fav.setEnabled(false);
-                }
-            });
-
             ActionListener addToPlaylistListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
-                    AddToPlaylistWindow atpw = new AddToPlaylistWindow();
-                    //String playlistName = atpw.getName();
-                    //add song to "atpw.getName();" playlist
+                    AddToPlaylistWindow atpw = new AddToPlaylistWindow(controller.getMainController());
+                    if(atpw.isAdd())
+                        controller.addToPlaylist(data.get(currentRow), atpw.getPlaylist());
                 }
             };
             addToPLaylist.addActionListener(addToPlaylistListener);
@@ -647,7 +649,8 @@ public class SongPanel extends JPanel implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
-                    //get selected song and delete it from database
+                    controller.deleteSong(data.get(currentRow));
+                    model.remove(data.get(currentRow));
                 }
             };
             delete.addActionListener(deleteListener);
@@ -667,12 +670,14 @@ public class SongPanel extends JPanel implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
-                    EditSongProfileWindow eaw = new EditSongProfileWindow();
-//                    update song profile in database if eaw.isEdited() returns true
-//                    updated title = eaw.getTitle()
-//                    updated album = eaw.getAlbum()
-//                    updated year = eaw.getYear()
-//                    updated genre = eaw.getGenre()
+                    EditSongProfileWindow espw = new EditSongProfileWindow();
+                    if (espw.isEdited()){
+                        controller.updateSong(data.get(currentRow), espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+                        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+                        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+                        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+                        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+                    }
                 }
             };
             edit.addActionListener(editListener);
@@ -688,6 +693,7 @@ public class SongPanel extends JPanel implements ActionListener{
         }
 
         public void addActionListener(ActionListener listener) {
+            play.addActionListener(listener);
             addToPLaylist.addActionListener(listener);
             delete.addActionListener(listener);
             edit.addActionListener(listener);
