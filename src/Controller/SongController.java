@@ -2,21 +2,19 @@ package Controller;
 
 import Model.*;
 import View.*;
-
 import java.util.*;
 import java.io.*;
 
 public class SongController {
 
     private MainController mc;
-
     private AddSongWindow asw;
     private AddPlaylistWindow apw;
     private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
+    private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
-
     private ArrayList<Song> displayedSongs;
 
     public SongController(MainController mc) {
@@ -53,6 +51,9 @@ public class SongController {
         return espw;
     }
 
+    public EditCategoryWindow getEditCategoryWindow() {
+        return ecw;
+    }
 
     public void openAddSongWindow() {
         asw = new AddSongWindow(this);
@@ -66,6 +67,10 @@ public class SongController {
 
     public void openEditSongProfileWindow(int index, ArrayList<String> data) {
         espw = new EditSongProfileWindow(this, data, index);
+    }
+
+    public void openEditCategoryWindow(String category) {
+        ecw = new EditCategoryWindow(this, category);
     }
 
     public void addPlaylist(String playlistName) {
@@ -135,7 +140,11 @@ public class SongController {
         model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
         model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
     }
-    
+
+    public void updateCategory(String newInfo, String category, String subCategory){
+        case
+    }
+
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre

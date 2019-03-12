@@ -1,5 +1,7 @@
 package View;
 
+import Controller.SongController;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -11,8 +13,21 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
     private JTextField nameInput;
     private JButton save, cancel;
     private boolean isChanged;
+    private SongController controller;
+    private String newSubCategory, cat, subCat;
 
-    public EditCategoryWindow(String category) {
+    public String getNewSubCategory() {
+        return newSubCategory;
+    }
+
+    public void setNewSubCategory(String newSubCategory) {
+        this.newSubCategory = newSubCategory;
+    }
+
+    public EditCategoryWindow(SongController sc, String category, String subCategory) {
+        controller = sc;
+        cat = category;
+        subCat = subCategory;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -88,7 +103,8 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
             dispose();
         }
         if(e.getSource() == save){
-            isChanged = true;
+            setNewSubCategory(nameInput.getText());
+            controller.updateCategory(nameInput.getText(), cat, subCat);
             dispose();
         }
     }
@@ -119,9 +135,9 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
     }
 
 
-    public static void main(String[] args){
-        EditCategoryWindow epw = new EditCategoryWindow("[sub category]");
-    }
+//    public static void main(String[] args){
+//        EditCategoryWindow epw = new EditCategoryWindow("[sub category]");
+//    }
 
 }
 

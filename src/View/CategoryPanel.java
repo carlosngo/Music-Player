@@ -183,11 +183,11 @@ public class CategoryPanel extends JPanel {
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EditCategoryWindow ecw = new EditCategoryWindow(category);
-//                        if(ecw.getIsChanged()){
-//                            subOptionButton.setText(ecw.getNewName());
-//                            ecw.dispose();
-//                        }
+//                controller.getEditCategoryWindow();
+//                if(controller.getEditCategoryWindow().getIsChanged()){
+//                    subOptionButton.setText(controller.getEditCategoryWindow().getNewName());
+//                    controller.getEditCategoryWindow().dispose();
+//                }
                 if((ecw.getNewName() != null) && (ecw.getIsChanged()))
                     subOptionButton.setText(ecw.getNewName());
             }
