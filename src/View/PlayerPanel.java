@@ -143,7 +143,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
             img = Paths.get(resource.toURI()).toFile();
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
-            resource = getClass().getClassLoader().getResource("images/favSong.png");
+            resource = getClass().getClassLoader().getResource("images/favSongs.png");
             img = Paths.get(resource.toURI()).toFile();
             favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
         }catch (URISyntaxException e) {
@@ -220,11 +220,11 @@ public class PlayerPanel extends JPanel implements ActionListener {
             } else if (e.getActionCommand().equals("favSong")) {
                 isFavorite = !isFavorite;
                 if (isFavorite) {
-                    resource = getClass().getClassLoader().getResource("images/cyanFavSong.png");
+                    resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
                     img = Paths.get(resource.toURI()).toFile();
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } else {
-                    resource = getClass().getClassLoader().getResource("images/favSong.png");
+                    resource = getClass().getClassLoader().getResource("images/favSongs.png");
                     img = Paths.get(resource.toURI()).toFile();
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
