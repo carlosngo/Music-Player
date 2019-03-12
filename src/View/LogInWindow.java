@@ -142,21 +142,24 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
     }
 
     public void insertUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty())
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.equals(""))
             logIn.setEnabled(false);
         else
             logIn.setEnabled(true);
     }
 
     public void removeUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty())
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.equals(""))
             logIn.setEnabled(false);
         else
             logIn.setEnabled(true);
     }
 
     public void changedUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty())
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.equals(""))
             logIn.setEnabled(false);
         else
             logIn.setEnabled(true);
