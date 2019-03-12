@@ -24,7 +24,7 @@ public class AlbumDAO implements DataAccessObject {
     private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
     private static final String SQL_INSERT = "INSERT INTO album (FK_UserID, Name, Artist, Cover) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
-    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, name = ?, artist = ? WHERE PK_AlbumID = ?";
+    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, Name = ?, Artist = ?, Cover = ? WHERE PK_AlbumID = ?";
     private static final String SQL_LIST_BY_ID = "SELECT * FROM " + DAOFactory.ALBUM_TABLE + " WHERE FK_UserID = ?";
     private static final String SQL_EXIST_ALBUM = "SELECT * FROM " + DAOFactory.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
 
@@ -144,13 +144,15 @@ public class AlbumDAO implements DataAccessObject {
 //            File img = Paths.get(resource.toURI()).toFile();
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
-
+//            System.out.println(album.getAlbumId());
+//            System.out.println(album.getName());
             statement.setInt(1, album.getUser().getUserId());
             statement.setString(2, album.getName());
             statement.setString(3, album.getArtist());
             File img = album.getCover();
             if (img != null) statement.setBinaryStream(4, new FileInputStream(img));
             else statement.setBinaryStream(4, null);
+            statement.setInt(5, album.getAlbumId());
             statement.executeUpdate();
 
             statement.close();

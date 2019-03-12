@@ -75,13 +75,6 @@ public class SongController {
         cp.addRow("Playlists", playlistName);
     }
 
-    public void editSong(int index) {
-
-    }
-
-    public void deleteSong(int index) {
-
-    }
 
     // play song at index of displayedSongs
     public void playSong(int index) {
@@ -122,7 +115,7 @@ public class SongController {
 
     public void updateSong(int songIndex, String title, String album, String year, String genre){
         Song s = displayedSongs.get(songIndex);
-        System.out.println(s);
+//        System.out.println(s);
         s.setName(title);
         s.getAlbum().setName(album);
         s.setYear(Integer.parseInt(year));
@@ -134,6 +127,7 @@ public class SongController {
         model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
         model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
         model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+        mc.getPlayerController().getPlayerPanel().update();
     }
     
     public void playSongsInGenre(String genreName) {
@@ -257,7 +251,7 @@ public class SongController {
         temp.setName(name);
         Playlist p = mc.getPlaylists().floor(temp);
         for (Song s : p.getSongs()) {
-            System.out.println(s);
+//            System.out.println(s);
             data.add(map(s));
         }
         sp = new SongPanel(this, "Songs in " + name, data);
@@ -353,7 +347,7 @@ public class SongController {
         } else {
             showAllSongs();
         }
-
+        displayedSongs.add(s);
     }
 
     public void removeGenre(String name) {

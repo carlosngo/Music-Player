@@ -165,6 +165,7 @@ public class AccountController {
         }
         for (Album a : albums) {
             try {
+//                System.out.println(a.getAlbumId());
                 a.setUser(user);
 //                if (mc.getAlbumDAO().findByName(a.getName(), a.getUser().getUserId()) == null)
                 if (a.getAlbumId() == -1)
@@ -198,6 +199,10 @@ public class AccountController {
         playlists = new TreeSet(mc.getPlaylistDAO().listById(user.getUserId()));
         albums = new TreeSet(mc.getAlbumDAO().listById(user.getUserId()));
         songs = new TreeSet(mc.getSongDAO().listById(user.getUserId()));
+        for(Song s : songs) {
+            s.setAlbum(albums.floor(s.getAlbum()));
+            s.setGenre(genres.floor(s.getGenre()));
+        }
         for (Playlist p : playlists) {
             for (Integer i : mc.getPlaylistSongDAO().listByPlaylistId(p.getPlaylistId())) {
                 for (Song s : songs) {

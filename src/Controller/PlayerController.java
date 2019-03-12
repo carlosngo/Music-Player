@@ -55,7 +55,7 @@ public class PlayerController implements ControllerListener, ActionListener {
     }
 
     public void terminate() {
-        pp.update(null, "", "", new JLabel());
+        pp.update(new JLabel());
         System.out.println("Terminating");
         isFinished = true;
         closeCurrentPlayer();
@@ -103,6 +103,7 @@ public class PlayerController implements ControllerListener, ActionListener {
     }
 
     public Song getCurrentSong() {
+        if (played.isEmpty()) return null;
         return played.peek();
     }
 
@@ -142,11 +143,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         Album a = song.getAlbum();
 
         try {
-            if (a != null) {
-                setMediaLocator(new MediaLocator(wav.toURI().toURL()), a.getCover(), song.getName(), a.getName());
-            } else {
-                setMediaLocator(new MediaLocator(wav.toURI().toURL()), null, song.getName(), "No Album");
-            }
+            setMediaLocator(new MediaLocator(wav.toURI().toURL()));
 
         } catch (CannotRealizeException e) {
 
@@ -169,12 +166,12 @@ public class PlayerController implements ControllerListener, ActionListener {
      * @throws CannotRealizeException indicates an error in realizing the
      * media file or stream.
      */
-    public void setMediaLocator(MediaLocator locator, File cover, String title, String artist) throws IOException,
+    public void setMediaLocator(MediaLocator locator) throws IOException,
             NoPlayerException, CannotRealizeException {
 
         // create a new player with the new locator.  This will effectively
         // stop and discard any current player.
-        setPlayer(Manager.createRealizedPlayer(locator), cover, title, artist);
+        setPlayer(Manager.createRealizedPlayer(locator));
     }
     /**
      * Sets the player reference.  Setting this to a new value will discard
@@ -183,7 +180,7 @@ public class PlayerController implements ControllerListener, ActionListener {
      * stop the discard the current player and clear the contents of the
      * frame.
      */
-    public void setPlayer(Player newPlayer, File cover, String title, String artist) {
+    public void setPlayer(Player newPlayer) {
         // close the current player
         closeCurrentPlayer();
 
@@ -191,7 +188,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         player.addControllerListener(this);
 //        if (pt != null) attach(pt);
         // refresh the tabbed pane.\
-        pp.update(cover, title, artist, player.getControlPanelComponent());
+        pp.update(player.getControlPanelComponent());
         player.start();
         if (player == null) return;
     }
