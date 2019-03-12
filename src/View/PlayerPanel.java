@@ -26,6 +26,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         this.pc = pc;
         isShuffle = false;
         isRepeat = false;
+        isFavorite = false;
 //        setLayout(new BorderLayout());
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(true);
@@ -67,7 +68,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         favSong.setOpaque(false);
         favSong.setContentAreaFilled(false);
         favSong.setBorderPainted(false);
-        favSong.addActionListener(pc);
+        favSong.addActionListener(this);
         add(favSong);
         add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -137,31 +138,85 @@ public class PlayerPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
             img = Paths.get(resource.toURI()).toFile();
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
-            resource = getClass().getClassLoader().getResource("images/favSongs.png");
-            img = Paths.get(resource.toURI()).toFile();
-            favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+            if (!isFavorite) {
+                resource = getClass().getClassLoader().getResource("images/favSongs.png");
+                img = Paths.get(resource.toURI()).toFile();
+                favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            } else {
+                resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
+                img = Paths.get(resource.toURI()).toFile();
+                favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            }
         }catch (URISyntaxException e) {
             System.out.println("File not found");
         }
+        update(new JLabel());
         setMinimumSize(new Dimension(650, 55));
         setPreferredSize(new Dimension(650, 55));
         setMaximumSize(new Dimension(650, 55));
     }
 
-    public void update(File cover, String title, String artist, Component controlPnl) {
-        try {
-            if (cover == null) {
+    public void update() {
+        if (pc.getCurrentSong() != null) {
+            titleLbl.setText(pc.getCurrentSong().getName());
+            if (pc.getCurrentSong().getAlbum() != null) {
+                artistLbl.setText(pc.getCurrentSong().getAlbum().getName());
+                File cover = pc.getCurrentSong().getAlbum().getCover();
+                try {
+                    if (cover == null) {
+                        URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
+                        File img = Paths.get(resource.toURI()).toFile();
+                        albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+                    } else {
+                        albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
+                    }
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+            isFavorite = pc.getCurrentSong().isFavorite();
+            URL resource;
+            File img;
+            try {
+                if (isFavorite) {
+                    resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
+                    img = Paths.get(resource.toURI()).toFile();
+                    favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } else {
+                    resource = getClass().getClassLoader().getResource("images/favSongs.png");
+                    img = Paths.get(resource.toURI()).toFile();
+                    favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                }
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+         }
+    }
+
+    public void update(Component controlPnl) {
+        if (controlPnl instanceof JLabel) {
+            titleLbl.setText("");
+            artistLbl.setText("");
+            try {
                 URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
                 File img = Paths.get(resource.toURI()).toFile();
                 albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
-            } else {
-                albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+            repeat.setEnabled(false);
+            shuffle.setEnabled(false);
+            next.setEnabled(false);
+            prev.setEnabled(false);
+            favSong.setEnabled(false);
+        } else {
+            update();
+            repeat.setEnabled(true);
+            shuffle.setEnabled(true);
+            next.setEnabled(true);
+            prev.setEnabled(true);
+            favSong.setEnabled(true);
         }
-        titleLbl.setText(title);
-        artistLbl.setText(artist);
         if (this.controlPnl != null) p3.remove(this.controlPnl);
         if (controlPnl != null) p3.add(controlPnl);
         this.controlPnl = controlPnl;
@@ -212,17 +267,20 @@ public class PlayerPanel extends JPanel implements ActionListener {
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
             } else if (e.getActionCommand().equals("favSong")) {
-                pc.getCurrentSong().setFavorite(true);
-                isFavorite = !isFavorite;
+                pc.getCurrentSong().setFavorite(!pc.getCurrentSong().isFavorite());
+                isFavorite = pc.getCurrentSong().isFavorite();
                 if (isFavorite) {
+                    System.out.println("Unfavorited" + pc.getCurrentSong().getName());
                     resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
                     img = Paths.get(resource.toURI()).toFile();
-                    shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } else {
+                    System.out.println("Favorited" + pc.getCurrentSong().getName());
                     resource = getClass().getClassLoader().getResource("images/favSongs.png");
                     img = Paths.get(resource.toURI()).toFile();
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
+
             }
 
         }catch (URISyntaxException ex) {

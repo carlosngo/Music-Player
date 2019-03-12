@@ -2,12 +2,14 @@ package Controller;
 
 import Model.*;
 import View.*;
+
 import java.util.*;
 import java.io.*;
 
 public class SongController {
 
     private MainController mc;
+
     private AddSongWindow asw;
     private AddPlaylistWindow apw;
     private AddToPlaylistWindow atpw;
@@ -15,6 +17,7 @@ public class SongController {
     private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
+
     private ArrayList<Song> displayedSongs;
 
     public SongController(MainController mc) {
@@ -51,9 +54,6 @@ public class SongController {
         return espw;
     }
 
-    public EditCategoryWindow getEditCategoryWindow() {
-        return ecw;
-    }
 
     public void openAddSongWindow() {
         asw = new AddSongWindow(this);
@@ -69,8 +69,8 @@ public class SongController {
         espw = new EditSongProfileWindow(this, data, index);
     }
 
-    public void openEditCategoryWindow(String category) {
-        ecw = new EditCategoryWindow(this, category);
+    public void openEditCategoryWindow(String category, String subCategoryName) {
+        ecw = new EditCategoryWindow(this, category, subCategoryName);
     }
 
     public void addPlaylist(String playlistName) {
@@ -80,13 +80,6 @@ public class SongController {
         cp.addRow("Playlists", playlistName);
     }
 
-    public void editSong(int index) {
-
-    }
-
-    public void deleteSong(int index) {
-
-    }
 
     // play song at index of displayedSongs
     public void playSong(int index) {
@@ -127,22 +120,20 @@ public class SongController {
 
     public void updateSong(int songIndex, String title, String album, String year, String genre){
         Song s = displayedSongs.get(songIndex);
-        System.out.println(s);
+//        System.out.println(s);
         s.setName(title);
         s.getAlbum().setName(album);
         s.setYear(Integer.parseInt(year));
         s.getGenre().setName(genre);
-        SongPanel.MyTableModel model = sp.getModel();
-        ArrayList<ArrayList<String>> data = sp.getData();
-        int currentRow = sp.getCurrentRow();
-        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-    }
-
-    public void updateCategory(String newInfo, String category, String subCategory){
-        case
+//        SongPanel.MyTableModel model = sp.getModel();
+//        ArrayList<ArrayList<String>> data = sp.getData();
+//        int currentRow = sp.getCurrentRow();
+//        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+        showAllSongs();
+        mc.getPlayerController().getPlayerPanel().update();
     }
 
     public void playSongsInGenre(String genreName) {
@@ -202,7 +193,7 @@ public class SongController {
 
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
-    
+
     public void showYears() {
         ArrayList<String> subCategories = new ArrayList<>();
         for(Integer y : mc.getYears()){
@@ -212,7 +203,7 @@ public class SongController {
 
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
-    
+
     public void showAlbums() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Album a : mc.getAlbums()) {
@@ -266,7 +257,7 @@ public class SongController {
         temp.setName(name);
         Playlist p = mc.getPlaylists().floor(temp);
         for (Song s : p.getSongs()) {
-            System.out.println(s);
+//            System.out.println(s);
             data.add(map(s));
         }
         sp = new SongPanel(this, "Songs in " + name, data);
@@ -290,7 +281,7 @@ public class SongController {
         sp = new SongPanel(this, yr + " Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
-    
+
     public void showFavoritePlaylists() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Playlist p: mc.getPlaylists()) {
@@ -362,7 +353,32 @@ public class SongController {
         } else {
             showAllSongs();
         }
+        displayedSongs.add(s);
+    }
 
+
+    public void updateGenre(String oldName, String newName) {
+        Genre temp = new Genre();
+        temp.setName(oldName);
+        Genre g = mc.getGenres().floor(temp);
+        g.setName(newName);
+        showGenres();
+    }
+
+    public void updateAlbum(String oldName, String newName) {
+        Album temp = new Album();
+        temp.setName(oldName);
+        Album g = mc.getAlbums().floor(temp);
+        g.setName(newName);
+        showAlbums();
+    }
+
+    public void updatePlaylist(String oldName, String newName) {
+        Playlist temp = new Playlist();
+        temp.setName(oldName);
+        Playlist g = mc.getPlaylists().floor(temp);
+        g.setName(newName);
+        showPlaylists();
     }
 
     public void removeGenre(String name) {
