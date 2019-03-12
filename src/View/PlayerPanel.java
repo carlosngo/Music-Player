@@ -68,6 +68,12 @@ public class PlayerPanel extends JPanel implements ActionListener {
         favSong.setContentAreaFilled(false);
         favSong.setBorderPainted(false);
         favSong.addActionListener(pc);
+        favSong.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         add(favSong);
         add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -137,7 +143,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
             img = Paths.get(resource.toURI()).toFile();
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
-            resource = getClass().getClassLoader().getResource("images/star.jpg");
+            resource = getClass().getClassLoader().getResource("images/favSong.png");
             img = Paths.get(resource.toURI()).toFile();
             favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
         }catch (URISyntaxException e) {
