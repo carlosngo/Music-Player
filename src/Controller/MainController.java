@@ -51,6 +51,16 @@ public class MainController {
         return ac.getAlbums();
     }
 
+    public ArrayList<Integer> getYears(){
+        ArrayList<Integer> yrs = new ArrayList<Integer>();
+        for(Song s : getSongs()){
+            if(yrs.get(s.getYear())==null && s.getYear()!=0){
+                yrs.add(s.getYear());
+            }
+        }
+        return yrs;
+    }
+    
     public TreeSet<Playlist> getPlaylists() {
         return ac.getPlaylists();
     }
