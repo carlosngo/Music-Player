@@ -447,11 +447,11 @@ public class ControlPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/star.png");
             img = Paths.get(resource.toURI()).toFile();
             favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            favPlaylists.setText("Favorite PLaylist");
+            favPlaylists.setText("Favorite Playlist");
             resource = getClass().getClassLoader().getResource("images/year.png");
             img = Paths.get(resource.toURI()).toFile();
             years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            years.setText("Favorite PLaylist");
+            years.setText("Years");
 
         }
         catch (Exception e) {
