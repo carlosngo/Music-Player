@@ -68,12 +68,6 @@ public class PlayerPanel extends JPanel implements ActionListener {
         favSong.setContentAreaFilled(false);
         favSong.setBorderPainted(false);
         favSong.addActionListener(pc);
-        favSong.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                    pc.getCurrentSong().setFavorite(true);
-            }
-        });
         add(favSong);
         add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -218,6 +212,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
             } else if (e.getActionCommand().equals("favSong")) {
+                pc.getCurrentSong().setFavorite(true);
                 isFavorite = !isFavorite;
                 if (isFavorite) {
                     resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");

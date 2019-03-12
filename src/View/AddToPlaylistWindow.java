@@ -111,6 +111,12 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
     }
 
     public void actionPerformed (ActionEvent e){
+
+        if (playlistChoices.getSelectedIndex() == 0)
+            save.setEnabled(false);
+        else
+            save.setEnabled(true);
+        
         if(e.getSource() == cancel){
             dispose();
         }
