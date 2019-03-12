@@ -381,6 +381,10 @@ public class SongController {
         showPlaylists();
     }
 
+    public void setAlbumCover(String albumName, File f) {
+            
+    }
+
     public void removeGenre(String name) {
 
     }

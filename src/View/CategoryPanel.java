@@ -4,6 +4,7 @@ import Controller.*;
 import Model.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,7 +94,7 @@ public class CategoryPanel extends JPanel {
         favPlaylist.setContentAreaFilled(false);
         favPlaylist.setBorderPainted(false);
         favPlaylist.setVisible(false);
-        if(isNormalPlaylist) favPlaylist.setVisible(true);
+        if(category.equals("Playlists")) favPlaylist.setVisible(true);
         JButton play = new JButton();
         play.setOpaque(false);
         play.setContentAreaFilled(false);
@@ -109,6 +110,11 @@ public class CategoryPanel extends JPanel {
         edit.setContentAreaFilled(false);
         edit.setBorderPainted(false);
 
+        JButton changeCover = new JButton();
+        changeCover.setOpaque(false);
+        changeCover.setContentAreaFilled(false);
+        changeCover.setBorderPainted(false);
+        if (!category.equals("Albums")) changeCover.setVisible(false);
         try {
             URL resource = getClass().getClassLoader().getResource("images/delete.png");
             File img = Paths.get(resource.toURI()).toFile();
@@ -122,6 +128,9 @@ public class CategoryPanel extends JPanel {
             resource = getClass().getClassLoader().getResource("images/star.png");
             img = Paths.get(resource.toURI()).toFile();
             favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/changeCover.png");
+            img = Paths.get(resource.toURI()).toFile();
+            changeCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -210,6 +219,21 @@ public class CategoryPanel extends JPanel {
 
             }
         });
+        changeCover.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setDialogTitle("Import Song");
+                chooser.addChoosableFileFilter(new FileNameExtensionFilter(
+                        "MP3 File", "mp3"));
+                int returnVal = chooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = chooser.getSelectedFile();
+                    controller.setAlbumCover(subCategoryName, file);
+                }
+            }
+        });
+
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
         cons.gridx = 0;
@@ -227,7 +251,10 @@ public class CategoryPanel extends JPanel {
         cons.gridx = 2;
         block.add(play, cons);
         cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 2;
+        cons.gridx = 6;
         block.add(favPlaylist, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 6;
+        block.add(changeCover, cons);
     }
 }
