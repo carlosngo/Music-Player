@@ -14,12 +14,16 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class EditSongProfileWindow extends JFrame implements ActionListener, DocumentListener {
+    private SongController controller;
     private JTextField titleInput, albumInput, genreInput, yearInput;
     private JButton cancel, save;
     private String title, album, genre, year;
     private boolean choice;
+    private int selectedRow;
 
-    public EditSongProfileWindow(){
+    public EditSongProfileWindow(SongController controller, ArrayList<String> data, int selectedRow){
+        this.controller = controller;
+        this.selectedRow = selectedRow;
         choice = false;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -142,6 +146,11 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
         add(p);
+
+        titleInput.setText(data.get(0));
+        albumInput.setText(data.get(1));
+        yearInput.setText(data.get(2));
+        genreInput.setText(data.get(3));
         setVisible(true);
         setResizable(false);
         //setUndecorated(true);
@@ -172,6 +181,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             setYear(yearInput.getText());
             setGenre(genreInput.getText());
             choice = true;
+            controller.updateSong(selectedRow, getTitle(), getAlbum(), getYear(), getGenre());
             dispose();
         }
     }
@@ -238,6 +248,6 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         return choice;
     }
     public static void main(String[] args){
-        EditSongProfileWindow espw = new EditSongProfileWindow();
+//        EditSongProfileWindow espw = new EditSongProfileWindow();
     }
 }

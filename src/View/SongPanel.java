@@ -24,8 +24,6 @@ public class SongPanel extends JPanel implements ActionListener{
     private JPanel tablePnl;
     private JTable categoryTable;
     private JTableHeader tableHeader;
-    private String[] rowheader;
-    private String[][] rows;
     private int currentRow;
     private MyTableModel model;
 
@@ -131,6 +129,22 @@ public class SongPanel extends JPanel implements ActionListener{
         model.add(data);
         revalidate();
         repaint();
+    }
+
+    public MyTableModel getModel() {
+        return model;
+    }
+
+    public void setModel(MyTableModel model) {
+        this.model = model;
+    }
+
+    public ArrayList<ArrayList<String>> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<ArrayList<String>> data) {
+        this.data = data;
     }
 
     public int getCurrentRow() {
@@ -677,14 +691,14 @@ public class SongPanel extends JPanel implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
-                    EditSongProfileWindow espw = new EditSongProfileWindow();
-                    if (espw.isEdited()){
-                        controller.updateSong(data.get(currentRow), espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-                        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-                        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-                        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-                        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-                    }
+//                    EditSongProfileWindow espw = new EditSongProfileWindow(data.get(currentRow));
+//                    while (!espw.isEdited());
+                    controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
+//                    if (espw.isEdited()){
+
+//                    }
+                    revalidate();
+                    repaint();
                 }
             };
             edit.addActionListener(editListener);

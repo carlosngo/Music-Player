@@ -200,7 +200,11 @@ public class AccountController {
         songs = new TreeSet(mc.getSongDAO().listById(user.getUserId()));
         for (Playlist p : playlists) {
             for (Integer i : mc.getPlaylistSongDAO().listByPlaylistId(p.getPlaylistId())) {
-                p.getSongs().add(mc.getSongDAO().find(i));
+                for (Song s : songs) {
+                    if (s.getSongId() == i) {
+                        p.getSongs().add(s);
+                    }
+                }
             }
         }
 

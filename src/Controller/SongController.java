@@ -64,6 +64,10 @@ public class SongController {
         atpw = new AddToPlaylistWindow(this, index);
     }
 
+    public void openEditSongProfileWindow(int index, ArrayList<String> data) {
+        espw = new EditSongProfileWindow(this, data, index);
+    }
+
     public void addPlaylist(String playlistName) {
         Playlist p = new Playlist();
         p.setName(playlistName);
@@ -116,16 +120,20 @@ public class SongController {
         }
     }
 
-    public void updateSong(ArrayList<String> songInfo, String title, String album, String year, String genre){
-        for (Song s : mc.getAccountController().getSongs()){
-            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
-                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
-                s.setName(title);
-                s.getAlbum().setName(album);
-                s.setYear(Integer.parseInt(year));
-                s.getGenre().setName(genre);
-            }
-        }
+    public void updateSong(int songIndex, String title, String album, String year, String genre){
+        Song s = displayedSongs.get(songIndex);
+        System.out.println(s);
+        s.setName(title);
+        s.getAlbum().setName(album);
+        s.setYear(Integer.parseInt(year));
+        s.getGenre().setName(genre);
+        SongPanel.MyTableModel model = sp.getModel();
+        ArrayList<ArrayList<String>> data = sp.getData();
+        int currentRow = sp.getCurrentRow();
+        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
     }
     
     public void playSongsInGenre(String genreName) {
@@ -240,6 +248,7 @@ public class SongController {
         temp.setName(name);
         Playlist p = mc.getPlaylists().floor(temp);
         for (Song s : p.getSongs()) {
+            System.out.println(s);
             data.add(map(s));
         }
         sp = new SongPanel(this, "Songs in " + name, data);

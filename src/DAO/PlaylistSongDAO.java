@@ -32,7 +32,6 @@ public class PlaylistSongDAO implements DataAccessObject {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
         }
 
 
