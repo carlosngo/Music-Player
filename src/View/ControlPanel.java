@@ -467,8 +467,10 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.showPlaylists();
         }
         if(e.getSource() == favPlaylists){
+            controller.showFavoritePlaylists();
         }
         if(e.getSource() == favSongs){
+            controller.showFavoriteSongs();
         }
         if(e.getSource() == years){
             controller.showYears();
@@ -483,7 +485,6 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.showGenres();
         }
         if(e.getSource() == addPlaylist){
-            //controller.showPlaylists();
             AddPlaylistWindow apw = new AddPlaylistWindow();
         }
     }
