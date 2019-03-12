@@ -90,6 +90,36 @@ public class SongController {
         mc.playSongs(queue);
     }
 
+    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
+        for (Song s : mc.getAccountController().getSongs()){
+            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
+                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
+                playlist.getSongs().add(s);
+            }
+        }
+    }
+
+    public void deleteSong(ArrayList<String> songInfo){
+        for (Song s : mc.getAccountController().getSongs()){
+            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
+                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
+                mc.getAccountController().getSongs().remove(s);
+            }
+        }
+    }
+
+    public void updateSong(ArrayList<String> songInfo, String title, String album, String year, String genre){
+        for (Song s : mc.getAccountController().getSongs()){
+            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
+                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
+                s.setName(title);
+                s.getAlbum().setName(album);
+                s.setYear(Integer.parseInt(year));
+                s.getGenre().setName(genre);
+            }
+        }
+    }
+    
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
@@ -138,7 +168,17 @@ public class SongController {
 
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
+    
+    public void showYears() {
+        ArrayList<String> subCategories = new ArrayList<>();
+        for(Integer y : mc.getYears()){
+            subCategories.add(y.toString());
+        }
+        cp = new CategoryPanel(this, "Years", subCategories);
 
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+    }
+    
     public void showAlbums() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Album a : mc.getAlbums()) {
