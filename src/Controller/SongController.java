@@ -247,6 +247,25 @@ public class SongController {
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
+    public void showSongsByYear(String yr) {
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+        for (Song s : mc.getSongs()) {
+            if (s.getYear() != 0 && s.getYear()==Integer.parseInt(yr)) data.add(map(s));
+        }
+        sp = new SongPanel(this, yr + " Songs", data);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+    }
+    
+    public void showFavoritePlaylists() {
+        ArrayList<String> subCategories = new ArrayList<>();
+        for (Playlist p: mc.getPlaylists()) {
+            if(p.isFavorite()) subCategories.add(p.getName());
+        }
+        cp = new CategoryPanel(this, "Favorite Playlists", subCategories);
+
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+    }
+
     public void showFavoriteSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         for (Song s : mc.getSongs()) {
