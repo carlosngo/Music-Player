@@ -1,5 +1,6 @@
 package View;
 
+import Controller.MainController;
 import Model.Playlist;
 
 import javax.swing.*;
@@ -8,17 +9,20 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AddToPlaylistWindow extends JFrame implements ActionListener, DocumentListener {
     //Controller controller;
     private JTextField nameInput;
     private JButton save, cancel;
     private String name;
+    private JComboBox playlistChoices;
+    private boolean confirmation;
+    private MainController mc;
 
-
-    public AddToPlaylistWindow(/*Controller controller*/) {
-        //this.controller = controller;
-
+    public AddToPlaylistWindow(MainController mc) {
+        this.mc = mc;
+        confirmation = false;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -41,11 +45,19 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         inputLabel.setForeground(Color.white);
         inputPnl.add(inputLabel);
         inputPnl.add(Box.createRigidArea(new Dimension(5,0)));
-        nameInput = new JTextField("",10);
-        nameInput.addActionListener(this);
-        nameInput.getDocument().addDocumentListener(this);
-        nameInput.setFont(new Font("Arial", Font.PLAIN, 22));
-        inputPnl.add(nameInput);
+//        nameInput = new JTextField("",10);
+//        nameInput.addActionListener(this);
+//        nameInput.getDocument().addDocumentListener(this);
+//        nameInput.setFont(new Font("Arial", Font.PLAIN, 22));
+//        inputPnl.add(nameInput);
+        ArrayList<String> choices = new ArrayList<String>();
+        choices.add("Select a Playlist");
+        for(Playlist playlist : mc.getPlaylists()){
+                choices.add(playlist.getName());
+        }
+        String[] sChoices = choices.toArray(new String[choices.size()]);
+        playlistChoices = new JComboBox(sChoices);
+        inputPnl.add(playlistChoices);
         inputPnl.add(Box.createRigidArea(new Dimension(15,0)));
         p.add(inputPnl);
         p.add(Box.createRigidArea(new Dimension(0,7)));
@@ -85,34 +97,46 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         //setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    public boolean isAdd(){
+        return confirmation;
+    }
 
+    public Playlist getPlaylist() {
+        for(Playlist playlist : mc.getPlaylists()){
+            if(playlist.getName().equals(getName())){
+                return playlist;
+            }
+        }
+        return null;
+    }
 
     public void actionPerformed (ActionEvent e){
         if(e.getSource() == cancel){
             dispose();
         }
         if(e.getSource() == save){
-            setName(nameInput.getText());
+            setName((String) playlistChoices.getSelectedItem());
+            confirmation = true;
             dispose();
         }
     }
 
     public void insertUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty())
+        if (playlistChoices.getSelectedIndex() == 0)
             save.setEnabled(false);
         else
             save.setEnabled(true);
     }
 
     public void removeUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty())
+        if (playlistChoices.getSelectedIndex() == 0)
             save.setEnabled(false);
         else
             save.setEnabled(true);
     }
 
     public void changedUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty())
+        if (playlistChoices.getSelectedIndex() == 0)
             save.setEnabled(false);
         else
             save.setEnabled(true);
@@ -128,9 +152,9 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         this.name = name;
     }
 
-    public static void main(String[] args){
-        AddToPlaylistWindow apw = new AddToPlaylistWindow();
-    }
+//    public static void main(String[] args){
+//        AddToPlaylistWindow apw = new AddToPlaylistWindow();
+//    }
 
 }
 
