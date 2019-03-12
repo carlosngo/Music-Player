@@ -141,7 +141,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
             if (!isFavorite) {
                 resource = getClass().getClassLoader().getResource("images/favSongs.png");
                 img = Paths.get(resource.toURI()).toFile();
-                favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+                favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             } else {
                 resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
                 img = Paths.get(resource.toURI()).toFile();
@@ -150,6 +150,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         }catch (URISyntaxException e) {
             System.out.println("File not found");
         }
+        update(new JLabel());
         setMinimumSize(new Dimension(650, 55));
         setPreferredSize(new Dimension(650, 55));
         setMaximumSize(new Dimension(650, 55));
@@ -203,8 +204,18 @@ public class PlayerPanel extends JPanel implements ActionListener {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
+            repeat.setEnabled(false);
+            shuffle.setEnabled(false);
+            next.setEnabled(false);
+            prev.setEnabled(false);
+            favSong.setEnabled(false);
         } else {
             update();
+            repeat.setEnabled(true);
+            shuffle.setEnabled(true);
+            next.setEnabled(true);
+            prev.setEnabled(true);
+            favSong.setEnabled(true);
         }
         if (this.controlPnl != null) p3.remove(this.controlPnl);
         if (controlPnl != null) p3.add(controlPnl);

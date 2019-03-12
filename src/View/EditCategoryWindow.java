@@ -1,5 +1,7 @@
 package View;
 
+import Controller.SongController;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,11 +10,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditCategoryWindow extends JFrame implements ActionListener, DocumentListener {
+    private SongController controller;
     private JTextField nameInput;
     private JButton save, cancel;
+    String category, oldName;
     private boolean isChanged;
 
-    public EditCategoryWindow(String category) {
+    public EditCategoryWindow(SongController controller, String category, String subCategoryName) {
+        this.controller = controller;
+        this.category = category;
+        oldName = subCategoryName;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -35,7 +42,7 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
         inputLabel.setForeground(Color.white);
         inputPnl.add(inputLabel);
         inputPnl.add(Box.createRigidArea(new Dimension(5,0)));
-        nameInput = new JTextField("",10);
+        nameInput = new JTextField(subCategoryName,10);
         nameInput.addActionListener(this);
         nameInput.getDocument().addDocumentListener(this);
         nameInput.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -88,7 +95,20 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
             dispose();
         }
         if(e.getSource() == save){
-            isChanged = true;
+            switch (category) {
+                case "Genres":
+                    controller.updateGenre(oldName, nameInput.getText());
+                    break;
+                case "Albums":
+                    controller.updateAlbum(oldName, nameInput.getText());
+                    break;
+                case "Playlists":
+                    controller.updatePlaylist(oldName, nameInput.getText());
+                    break;
+                case "Years":
+//                    controller.updateYear(oldName, nameInput.getText());
+                    break;
+            }
             dispose();
         }
     }
@@ -119,9 +139,9 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
     }
 
 
-    public static void main(String[] args){
-        EditCategoryWindow epw = new EditCategoryWindow("[sub category]");
-    }
+//    public static void main(String[] args){
+//        EditCategoryWindow epw = new EditCategoryWindow("[sub category]");
+//    }
 
 }
 

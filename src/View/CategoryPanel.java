@@ -183,15 +183,11 @@ public class CategoryPanel extends JPanel {
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EditCategoryWindow ecw = new EditCategoryWindow(category);
-//                        if(ecw.getIsChanged()){
-//                            subOptionButton.setText(ecw.getNewName());
-//                            ecw.dispose();
-//                        }
-                if((ecw.getNewName() != null) && (ecw.getIsChanged()))
-                    subOptionButton.setText(ecw.getNewName());
+                controller.openEditCategoryWindow(category, subCategoryName);
             }
         });
+        if (category.equals("Years")) edit.setVisible(false);
+        if (category.equals("Years")) remove.setVisible(false);
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

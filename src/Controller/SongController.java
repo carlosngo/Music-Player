@@ -14,6 +14,7 @@ public class SongController {
     private AddPlaylistWindow apw;
     private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
+    private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
 
@@ -68,6 +69,10 @@ public class SongController {
         espw = new EditSongProfileWindow(this, data, index);
     }
 
+    public void openEditCategoryWindow(String category, String subCategoryName) {
+        ecw = new EditCategoryWindow(this, category, subCategoryName);
+    }
+
     public void addPlaylist(String playlistName) {
         Playlist p = new Playlist();
         p.setName(playlistName);
@@ -120,13 +125,14 @@ public class SongController {
         s.getAlbum().setName(album);
         s.setYear(Integer.parseInt(year));
         s.getGenre().setName(genre);
-        SongPanel.MyTableModel model = sp.getModel();
-        ArrayList<ArrayList<String>> data = sp.getData();
-        int currentRow = sp.getCurrentRow();
-        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        SongPanel.MyTableModel model = sp.getModel();
+//        ArrayList<ArrayList<String>> data = sp.getData();
+//        int currentRow = sp.getCurrentRow();
+//        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+//        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
+        showAllSongs();
         mc.getPlayerController().getPlayerPanel().update();
     }
     
@@ -348,6 +354,31 @@ public class SongController {
             showAllSongs();
         }
         displayedSongs.add(s);
+    }
+
+
+    public void updateGenre(String oldName, String newName) {
+        Genre temp = new Genre();
+        temp.setName(oldName);
+        Genre g = mc.getGenres().floor(temp);
+        g.setName(newName);
+        showGenres();
+    }
+
+    public void updateAlbum(String oldName, String newName) {
+        Album temp = new Album();
+        temp.setName(oldName);
+        Album g = mc.getAlbums().floor(temp);
+        g.setName(newName);
+        showAlbums();
+    }
+
+    public void updatePlaylist(String oldName, String newName) {
+        Playlist temp = new Playlist();
+        temp.setName(oldName);
+        Playlist g = mc.getPlaylists().floor(temp);
+        g.setName(newName);
+        showPlaylists();
     }
 
     public void removeGenre(String name) {
