@@ -13,7 +13,8 @@ import java.awt.event.*;
  */
 public class LogInWindow extends JFrame implements ActionListener, DocumentListener {
     AccountController controller;
-    private JTextField usernameInput, passwordInput;
+    private JTextField usernameInput;
+    private JPasswordField passwordInput;
     private JButton logIn, cancel;
 
     public LogInWindow(AccountController controller) {
@@ -69,7 +70,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         pwLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(pwLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
-        passwordInput = new JTextField("" , 15);
+        passwordInput = new JPasswordField("" , 15);
         passwordInput.addActionListener(this);
         passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -124,7 +125,8 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
 
     public void actionPerformed (ActionEvent e){
         if(e.getActionCommand().equals("Log In")){
-            boolean success = controller.logIn(usernameInput.getText(), passwordInput.getText());
+            String pw = new String(passwordInput.getPassword());
+            boolean success = controller.logIn(usernameInput.getText(), pw);
             if (!success) {
                 JOptionPane.showMessageDialog(null, "Username and password do not match.",
                         "Authentication Error", JOptionPane.ERROR_MESSAGE);
