@@ -287,10 +287,10 @@ public class SongController {
         ArrayList<String> list = new ArrayList<>();
         list.add(s.getName());
         if (s.getAlbum() != null) {
-            list.add(s.getAlbum().getArtist());
+//            list.add(s.getAlbum().getArtist());
             list.add(s.getAlbum().getName());
         } else {
-            list.add("");
+//            list.add("");
             list.add("");
         }
         list.add(s.getYear() + "");

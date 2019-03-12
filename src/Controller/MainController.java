@@ -39,6 +39,11 @@ public class MainController {
 
     }
 
+    public void exit() {
+        ac.save();
+        pc.terminate();
+    }
+
     public TreeSet<Genre> getGenres() {
         return ac.getGenres();
     }
