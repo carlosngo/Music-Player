@@ -1,6 +1,7 @@
 package View;
 
 import Controller.*;
+import sun.awt.WindowClosingListener;
 
 import javax.media.MediaLocator;
 import javax.swing.*;
@@ -53,7 +54,14 @@ public class Dashboard extends JFrame {
         setContentPane(contentPane);
         pack();
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                controller.exit();
+                System.out.println("Exiting program.");
+                super.windowClosing(e);
+            }
+        });
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
