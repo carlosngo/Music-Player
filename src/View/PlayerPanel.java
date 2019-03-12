@@ -71,7 +71,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         favSong.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                    pc.getCurrentSong().setFavorite(true);
             }
         });
         add(favSong);
