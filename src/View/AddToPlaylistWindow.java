@@ -1,5 +1,7 @@
 package View;
 
+import Controller.*;
+
 import Controller.MainController;
 import Model.Playlist;
 
@@ -12,16 +14,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AddToPlaylistWindow extends JFrame implements ActionListener, DocumentListener {
-    //Controller controller;
+    private SongController controller;
     private JTextField nameInput;
     private JButton save, cancel;
     private String name;
     private JComboBox playlistChoices;
     private boolean confirmation;
-    private MainController mc;
+    private int songIndex;
 
-    public AddToPlaylistWindow(MainController mc) {
-        this.mc = mc;
+    public AddToPlaylistWindow(SongController controller, int index) {
+        this.controller = controller;
+        songIndex = index;
         confirmation = false;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -52,7 +55,7 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
 //        inputPnl.add(nameInput);
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Select a Playlist");
-        for(Playlist playlist : mc.getPlaylists()){
+        for(Playlist playlist : controller.getMainController().getPlaylists()){
                 choices.add(playlist.getName());
         }
         String[] sChoices = choices.toArray(new String[choices.size()]);
@@ -103,7 +106,7 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
     }
 
     public Playlist getPlaylist() {
-        for(Playlist playlist : mc.getPlaylists()){
+        for(Playlist playlist : controller.getMainController().getPlaylists()){
             if(playlist.getName().equals(getName())){
                 return playlist;
             }
@@ -124,6 +127,7 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         if(e.getSource() == save){
             setName((String) playlistChoices.getSelectedItem());
             confirmation = true;
+            controller.addToPlaylist(songIndex, playlistChoices.getSelectedIndex() - 1);
             dispose();
         }
     }

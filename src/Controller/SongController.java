@@ -12,6 +12,7 @@ public class SongController {
 
     private AddSongWindow asw;
     private AddPlaylistWindow apw;
+    private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
     private SongPanel sp;
     private CategoryPanel cp;
@@ -59,15 +60,15 @@ public class SongController {
 
     public void openAddPlaylistWindow() { apw = new AddPlaylistWindow(this); }
 
+    public void openAddToPlaylistWindow(int index) {
+        atpw = new AddToPlaylistWindow(this, index);
+    }
+
     public void addPlaylist(String playlistName) {
         Playlist p = new Playlist();
         p.setName(playlistName);
         mc.getPlaylists().add(p);
         cp.addRow("Playlists", playlistName);
-    }
-
-    public void addToPlaylist(int index) {
-
     }
 
     public void editSong(int index) {
@@ -90,14 +91,21 @@ public class SongController {
         mc.playSongs(queue);
     }
 
-    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
-        for (Song s : mc.getAccountController().getSongs()){
-            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
-                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
-                playlist.getSongs().add(s);
-            }
-        }
+    public void addToPlaylist(int songIndex, int playlistIndex) {
+        ArrayList<Playlist> playlists = new ArrayList<>(mc.getPlaylists());
+        Song s = displayedSongs.get(songIndex);
+        Playlist p = playlists.get(playlistIndex);
+        p.getSongs().add(s);
     }
+
+//    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
+//        for (Song s : mc.getAccountController().getSongs()){
+//            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
+//                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
+//                playlist.getSongs().add(s);
+//            }
+//        }
+//    }
 
     public void deleteSong(ArrayList<String> songInfo){
         for (Song s : mc.getAccountController().getSongs()){

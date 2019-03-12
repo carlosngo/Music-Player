@@ -52,13 +52,11 @@ public class MainController {
     }
 
     public ArrayList<Integer> getYears(){
-        ArrayList<Integer> yrs = new ArrayList<Integer>();
+        TreeSet<Integer> yrs = new TreeSet<>();
         for(Song s : getSongs()){
-            if(yrs.get(s.getYear())==null && s.getYear()!=0){
-                yrs.add(s.getYear());
-            }
+            yrs.add(s.getYear());
         }
-        return yrs;
+        return new ArrayList<>(yrs);
     }
     
     public TreeSet<Playlist> getPlaylists() {
