@@ -166,6 +166,15 @@ public class SongController {
         mc.playSongs(queue);
     }
 
+    public void playSongsInYear(String yr) {
+        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        for (Song s : mc.getSongs()) {
+            if (s.getYear() == Integer.parseInt(yr)) queue.add(s);
+        }
+        mc.playSongs(queue);
+    }
+
     public void showGenres() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Genre g : mc.getGenres()) {
