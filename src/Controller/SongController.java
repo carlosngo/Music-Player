@@ -135,7 +135,7 @@ public class SongController {
         showAllSongs();
         mc.getPlayerController().getPlayerPanel().update();
     }
-    
+
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
@@ -193,7 +193,7 @@ public class SongController {
 
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
-    
+
     public void showYears() {
         ArrayList<String> subCategories = new ArrayList<>();
         for(Integer y : mc.getYears()){
@@ -203,7 +203,7 @@ public class SongController {
 
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
-    
+
     public void showAlbums() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Album a : mc.getAlbums()) {
@@ -281,7 +281,7 @@ public class SongController {
         sp = new SongPanel(this, yr + " Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
-    
+
     public void showFavoritePlaylists() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Playlist p: mc.getPlaylists()) {
