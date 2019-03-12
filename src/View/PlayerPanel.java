@@ -15,11 +15,11 @@ import java.nio.file.Paths;
 public class PlayerPanel extends JPanel implements ActionListener {
 
     private PlayerController pc;
-    private JButton repeat, shuffle, prev, next;
+    private JButton repeat, shuffle, prev, next, favSong;
     private JLabel albumCover, titleLbl, artistLbl;
     private Component controlPnl;
     private JPanel p3;
-    private boolean isShuffle, isRepeat;
+    private boolean isShuffle, isRepeat, isFavorite;
 
 
     public PlayerPanel(PlayerController pc){
@@ -61,6 +61,15 @@ public class PlayerPanel extends JPanel implements ActionListener {
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
         p2.setOpaque(false);
+
+        favSong = new JButton();
+        favSong.setActionCommand("favSong");
+        favSong.setOpaque(false);
+        favSong.setContentAreaFilled(false);
+        favSong.setBorderPainted(false);
+        favSong.addActionListener(pc);
+        add(favSong);
+        add(Box.createRigidArea(new Dimension(5,0)));
 
         prev = new JButton();
         prev.setActionCommand("Prev");
@@ -128,6 +137,9 @@ public class PlayerPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
             img = Paths.get(resource.toURI()).toFile();
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+            resource = getClass().getClassLoader().getResource("images/star.jpg");
+            img = Paths.get(resource.toURI()).toFile();
+            favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
         }catch (URISyntaxException e) {
             System.out.println("File not found");
         }
@@ -165,6 +177,10 @@ public class PlayerPanel extends JPanel implements ActionListener {
         return isShuffle;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         URL resource;
@@ -195,7 +211,19 @@ public class PlayerPanel extends JPanel implements ActionListener {
                     img = Paths.get(resource.toURI()).toFile();
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
+            } else if (e.getActionCommand().equals("favSong")) {
+                isFavorite = !isFavorite;
+                if (isFavorite) {
+                    resource = getClass().getClassLoader().getResource("images/cyanFavSong.png");
+                    img = Paths.get(resource.toURI()).toFile();
+                    shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } else {
+                    resource = getClass().getClassLoader().getResource("images/favSong.png");
+                    img = Paths.get(resource.toURI()).toFile();
+                    favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                }
             }
+
         }catch (URISyntaxException ex) {
             System.out.println("File not found");
         }
