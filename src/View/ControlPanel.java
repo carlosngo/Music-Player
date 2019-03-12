@@ -3,12 +3,14 @@ package View;
 import Controller.*;
 import DAO.PlaylistDAO;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -41,7 +43,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanMostPlayed.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     mostFrqntlyPlyd.setText("Most Played");
                 } catch(Exception exception){
@@ -52,7 +54,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     mostFrqntlyPlyd.setText("Most Played");
                 } catch(Exception exception){
@@ -79,7 +81,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     favPlaylists.setText("Favorite Playlists");
                 } catch(Exception exception){
@@ -90,7 +92,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/star.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     favPlaylists.setText("Favorite Playlists");
                 } catch(Exception exception){
@@ -117,7 +119,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     favSongs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     favSongs.setText("Favorite Songs");
                 } catch(Exception exception){
@@ -128,7 +130,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/favSongs.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     favSongs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     favSongs.setText("Favorite Songs");
                 } catch(Exception exception){
@@ -155,7 +157,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanSongs.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     songs.setText("Songs");
                 } catch(Exception exception){
@@ -166,7 +168,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/songs.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     songs.setText("Songs");
                 } catch(Exception exception){
@@ -194,7 +196,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanPlaylists.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     playlists.setText("Playlists");
                 } catch(Exception exception){
@@ -205,7 +207,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/playlists.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     playlists.setText("Playlists");
                 } catch(Exception exception){
@@ -235,7 +237,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanAlbums.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     albums.setText("Albums");
                 } catch(Exception exception){
@@ -246,7 +248,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/albums.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     albums.setText("Albums");
                 } catch(Exception exception){
@@ -275,7 +277,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanGenre.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     genres.setText("Genres");
                 } catch(Exception exception){
@@ -286,7 +288,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/genre.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     genres.setText("Genres");
                 } catch(Exception exception){
@@ -314,7 +316,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 //            public void mouseEntered(MouseEvent e) {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/cyanArtist.png");
-//                    File img = Paths.get(resource.toURI()).toFile();
+//                    BufferedImage img = ImageIO.read(resource);
 //                    artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //                    artists.setText("Artists");
 //                } catch(Exception exception){
@@ -325,7 +327,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 //            public void mouseExited(MouseEvent e) {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/artists.png");
-//                    File img = Paths.get(resource.toURI()).toFile();
+//                    BufferedImage img = ImageIO.read(resource);
 //                    artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //                    artists.setText("Artists");
 //                } catch(Exception exception){
@@ -353,7 +355,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanYear.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     years.setText("Years");
                 } catch(Exception exception){
@@ -364,7 +366,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/year.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     years.setText("Years");
                 } catch(Exception exception){
@@ -392,7 +394,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanAddPlaylist.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     addPlaylist.setText("Add Playlist");
                 } catch(Exception exception){
@@ -403,7 +405,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             public void mouseExited(MouseEvent e) {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
-                    File img = Paths.get(resource.toURI()).toFile();
+                    BufferedImage img = ImageIO.read(resource);
                     addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     addPlaylist.setText("Add Playlist");
                 } catch(Exception exception){
@@ -417,39 +419,39 @@ public class ControlPanel extends JPanel implements ActionListener {
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
-            File img = Paths.get(resource.toURI()).toFile();
+            BufferedImage img = ImageIO.read(resource);
             mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             mostFrqntlyPlyd.setText("Most Played");
             resource = getClass().getClassLoader().getResource("images/songs.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             songs.setText("Songs");
             resource = getClass().getClassLoader().getResource("images/playlists.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             playlists.setText("Playlists");
             resource = getClass().getClassLoader().getResource("images/albums.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             albums.setText("Albums");
             resource = getClass().getClassLoader().getResource("images/genre.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             genres.setText("Genres");
             resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             addPlaylist.setText("Add Playlist");
             resource = getClass().getClassLoader().getResource("images/favSongs.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             favSongs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             favSongs.setText("Favorite Songs");
             resource = getClass().getClassLoader().getResource("images/star.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             favPlaylists.setText("Favorite Playlist");
             resource = getClass().getClassLoader().getResource("images/year.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             years.setText("Years");
 

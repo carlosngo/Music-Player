@@ -1,6 +1,8 @@
 package View;
 
 import Controller.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -8,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -598,16 +601,16 @@ public class SongPanel extends JPanel implements ActionListener{
 
             try{
                 URL resource = getClass().getClassLoader().getResource("images/plus.png");
-                File img = Paths.get(resource.toURI()).toFile();
+                BufferedImage img = ImageIO.read(resource);
                 addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/delete.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
                 delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/edit.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
                 edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
                 play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //                resource = getClass().getClassLoader().getResource("images/favorite.png");
 //                img = Paths.get(resource.toURI()).toFile();
@@ -668,7 +671,10 @@ public class SongPanel extends JPanel implements ActionListener{
             ActionListener deleteListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    controller.removeSong(currentRow);
+                    int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+                            " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.YES_OPTION)
+                        controller.removeSong(currentRow);
 //                    state = e.getActionCommand();
 //                    System.out.println("State = " + state);
 //                    controller.deleteSong(data.get(currentRow));

@@ -3,6 +3,7 @@ package View;
 import Model.*;
 import Controller.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.nio.file.Paths;
 
@@ -31,7 +32,7 @@ public class AccountPanel extends JPanel {
 //        add(title);
         try{
             URL resource = getClass().getClassLoader().getResource("images/imgLogoWhite.png");
-            File img = Paths.get(resource.toURI()).toFile();
+            BufferedImage img = ImageIO.read(resource);
             title.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 55, 55)));
             title.setText("iPL4YER");
         }
@@ -152,7 +153,7 @@ public class AccountPanel extends JPanel {
         title.setForeground(Color.white);
         try{
             URL resource = getClass().getClassLoader().getResource("images/imgLogoWhite.png");
-            File img = Paths.get(resource.toURI()).toFile();
+            BufferedImage img = ImageIO.read(resource);
             title.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 55, 55)));
             title.setText("iPL4YER");
         }
@@ -197,7 +198,7 @@ public class AccountPanel extends JPanel {
         welcomeLbl.setEnabled(false);
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
-            File img = Paths.get(resource.toURI()).toFile();
+            BufferedImage img = ImageIO.read(resource);
             welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
         }
         catch(Exception e){}

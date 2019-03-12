@@ -2,11 +2,13 @@ package View;
 
 import Controller.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -119,36 +121,33 @@ public class PlayerPanel extends JPanel implements ActionListener {
 
         try{
             URL resource;
-            File img;
+            BufferedImage img;
             resource = getClass().getClassLoader().getResource("images/imgRepeatBtn.png");
-            img = Paths.get(resource.toURI()).toFile();
-            repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            img = ImageIO.read(resource);
+            repeat.setIcon(new ImageIcon(img));
             resource = getClass().getClassLoader().getResource("images/imgBackBtn.png");
-            img = Paths.get(resource.toURI()).toFile();
-            prev.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-//            img = Paths.get(resource.toURI()).toFile();
-//            playOrPause.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 20, 20)));
+            img = ImageIO.read(resource);
+            prev.setIcon(new ImageIcon(img));
             resource = getClass().getClassLoader().getResource("images/imgNextBtn.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             next.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/imgShuffleBtn.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
             if (!isFavorite) {
                 resource = getClass().getClassLoader().getResource("images/favSongs.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
                 favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             } else {
                 resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
                 favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
-        }catch (URISyntaxException e) {
-            System.out.println("File not found");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         update(new JLabel());
         setMinimumSize(new Dimension(650, 55));
@@ -165,32 +164,32 @@ public class PlayerPanel extends JPanel implements ActionListener {
                 try {
                     if (cover == null) {
                         URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
-                        File img = Paths.get(resource.toURI()).toFile();
+                        BufferedImage img = ImageIO.read(resource);
                         albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
                     } else {
                         albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
                     }
-                } catch (URISyntaxException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             isFavorite = pc.getCurrentSong().isFavorite();
             URL resource;
-            File img;
+            BufferedImage img;
             try {
                 if (isFavorite) {
                     resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } else {
                     resource = getClass().getClassLoader().getResource("images/favSongs.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
-            } catch (URISyntaxException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-         }
+        }
     }
 
     public void update(Component controlPnl) {
@@ -199,9 +198,9 @@ public class PlayerPanel extends JPanel implements ActionListener {
             artistLbl.setText("");
             try {
                 URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
-                File img = Paths.get(resource.toURI()).toFile();
+                BufferedImage img = ImageIO.read(resource);
                 albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
-            } catch (URISyntaxException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             repeat.setEnabled(false);
@@ -239,7 +238,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         URL resource;
-        File img;
+        BufferedImage img;
 
         try {
             if (e.getActionCommand().equals("Repeat")) {
@@ -247,23 +246,23 @@ public class PlayerPanel extends JPanel implements ActionListener {
                 System.out.println("Pressed Repeat");
                 if (isRepeat) {
                     resource = getClass().getClassLoader().getResource("images/imgRepeatBtnPressed.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 
                 } else {
                     resource = getClass().getClassLoader().getResource("images/imgRepeatBtn.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
             } else if (e.getActionCommand().equals("Shuffle")) {
                 isShuffle = !isShuffle;
                 if (isShuffle) {
                     resource = getClass().getClassLoader().getResource("images/imgShuffleBtnPressed.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } else {
                     resource = getClass().getClassLoader().getResource("images/imgShuffleBtn.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
             } else if (e.getActionCommand().equals("favSong")) {
@@ -272,19 +271,19 @@ public class PlayerPanel extends JPanel implements ActionListener {
                 if (isFavorite) {
                     System.out.println("Unfavorited" + pc.getCurrentSong().getName());
                     resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } else {
                     System.out.println("Favorited" + pc.getCurrentSong().getName());
                     resource = getClass().getClassLoader().getResource("images/favSongs.png");
-                    img = Paths.get(resource.toURI()).toFile();
+                    img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
 
             }
 
-        }catch (URISyntaxException ex) {
-            System.out.println("File not found");
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
     }
 }

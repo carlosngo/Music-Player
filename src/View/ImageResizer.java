@@ -22,5 +22,14 @@ public class ImageResizer {
             return null;
         }
     }
+    public static BufferedImage resizeImage(BufferedImage img, int width, int height) {
+        BufferedImage rawHolder = img;
+        Image raw = rawHolder.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(raw, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
 
 }

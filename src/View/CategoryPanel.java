@@ -2,12 +2,15 @@ package View;
 
 import Controller.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -118,27 +121,27 @@ public class CategoryPanel extends JPanel {
         if (!category.equals("Albums")) changeCover.setVisible(false);
         try {
             URL resource = getClass().getClassLoader().getResource("images/delete.png");
-            File img = Paths.get(resource.toURI()).toFile();
+            BufferedImage img = ImageIO.read(resource);
             remove.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/edit.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 
             if (controller.isFavoritePlaylist(subCategoryName)) {
                 resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
             } else {
                 resource = getClass().getClassLoader().getResource("images/star.png");
-                img = Paths.get(resource.toURI()).toFile();
+                img = ImageIO.read(resource);
             }
             favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/changeCover.png");
-            img = Paths.get(resource.toURI()).toFile();
+            img = ImageIO.read(resource);
             changeCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-        } catch (URISyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -185,17 +188,17 @@ public class CategoryPanel extends JPanel {
 
                 try {
                     URL resource;
-                    File img;
+                    BufferedImage img;
                     if (controller.isFavoritePlaylist(subCategoryName)) {
                         resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-                        img = Paths.get(resource.toURI()).toFile();
+                        img = ImageIO.read(resource);
                     } else {
                         resource = getClass().getClassLoader().getResource("images/star.png");
-                        img = Paths.get(resource.toURI()).toFile();
+                        img = ImageIO.read(resource);
                     }
                     favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                } catch (URISyntaxException ex) {
-                    ex.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
         });
