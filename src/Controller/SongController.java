@@ -4,14 +4,12 @@ import Model.*;
 import View.*;
 
 import java.util.*;
-import java.io.*;
 
 public class SongController {
 
     private MainController mc;
 
     private AddSongWindow asw;
-    private AddPlaylistWindow apw;
     private EditSongProfileWindow espw;
     private SongPanel sp;
     private CategoryPanel cp;
@@ -57,26 +55,7 @@ public class SongController {
         asw = new AddSongWindow(this);
     }
 
-    public void openAddPlaylistWindow() { apw = new AddPlaylistWindow(this); }
 
-    public void addPlaylist(String playlistName) {
-        Playlist p = new Playlist();
-        p.setName(playlistName);
-        mc.getPlaylists().add(p);
-        cp.addRow("Playlists", playlistName);
-    }
-
-    public void addToPlaylist(int index) {
-
-    }
-
-    public void editSong(int index) {
-
-    }
-
-    public void deleteSong(int index) {
-
-    }
 
     // play song at index of displayedSongs
     public void playSong(int index) {
@@ -89,6 +68,10 @@ public class SongController {
         queue.add(displayedSongs.get(index));
         mc.playSongs(queue);
     }
+
+//    public void setToFavSong(int index){
+//
+//    }
 
     public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
         for (Song s : mc.getAccountController().getSongs()){
@@ -119,7 +102,7 @@ public class SongController {
             }
         }
     }
-    
+
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
@@ -135,9 +118,7 @@ public class SongController {
         Playlist temp = new Playlist();
         temp.setName(playlistName);
         Playlist p = mc.getPlaylists().floor(temp);
-        for (Song s : p.getSongs()) {
-            queue.add(s);
-        }
+        for (Song s : p.getSongs()) queue.add(s);
         mc.playSongs(queue);
     }
 
@@ -165,10 +146,10 @@ public class SongController {
             subCategories.add(p.getName());
         }
         cp = new CategoryPanel(this, "Playlists", subCategories);
-
+        cp.isNormalPlaylist(true);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
-    
+
     public void showYears() {
         ArrayList<String> subCategories = new ArrayList<>();
         for(Integer y : mc.getYears()){
@@ -178,7 +159,7 @@ public class SongController {
 
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
-    
+
     public void showAlbums() {
         ArrayList<String> subCategories = new ArrayList<>();
         for (Album a : mc.getAlbums()) {
@@ -204,7 +185,7 @@ public class SongController {
         Collections.sort(displayedSongs, new Comparator<Song>() {
             @Override
             public int compare(Song a, Song b) {
-                return Long.compare(b.getPlayTime(), a.getPlayTime());
+                return Long.compare(a.getPlayTime(), b.getPlayTime());
             }
         });
         for (Song s : displayedSongs) {
@@ -247,6 +228,16 @@ public class SongController {
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
+    public void showFavoritePlaylists() {
+        ArrayList<String> subCategories = new ArrayList<>();
+        for (Playlist p: mc.getPlaylists()) {
+            if(p.isFavorite()) subCategories.add(p.getName());
+        }
+        cp = new CategoryPanel(this, "Favorite Playlists", subCategories);
+
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+    }
+
     public void showFavoriteSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         for (Song s : mc.getSongs()) {
@@ -271,43 +262,11 @@ public class SongController {
         return list;
     }
 
-    public void addSong(String songName, String genreName, String albumName, String year, File wav) {
+    public void addSong(String songName, String genreName, String albumName, String year) {
         Song s = new Song();
         s.setName(songName);
+//        s.setUserId(mc.getAc().getUser().getUserId());
         s.setUser(mc.getAccountController().getUser());
-        if (!genreName.equals("")) {
-            Genre g = new Genre();
-            g.setName(genreName);
-            if (mc.getGenres().contains(g)) { // if genre exists already
-                g = mc.getGenres().floor(g); // get the genre and set it to be the song's genre
-            } else {
-                mc.getGenres().add(g); // else add the new genre
-                if (cp != null)
-                    cp.addRow("Genres", g.getName());
-            }
-            s.setGenre(g);
-        }
-        if (!albumName.equals("")) {
-            Album a = new Album();
-            a.setName(albumName);
-            if (mc.getAlbums().contains(a)) {
-                a = mc.getAlbums().floor(a);
-            } else {
-                mc.getAlbums().add(a);
-                if (cp != null)
-                    cp.addRow("Albums", a.getName());
-            }
-            s.setAlbum(a);
-        }
-        if (!year.equals(""))
-            s.setYear(Integer.parseInt(year));
-        s.setWAV(wav);
-        mc.getSongs().add(s);
-        if (mc.getSongs().size() != 1) {
-            sp.addRow(map(s));
-        } else {
-            showAllSongs();
-        }
 
     }
 
