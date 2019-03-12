@@ -485,7 +485,8 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.showGenres();
         }
         if(e.getSource() == addPlaylist){
-            AddPlaylistWindow apw = new AddPlaylistWindow();
+            controller.openAddPlaylistWindow();
+//            AddPlaylistWindow apw = new AddPlaylistWindow();
         }
     }
 }

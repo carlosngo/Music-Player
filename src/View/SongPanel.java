@@ -127,6 +127,12 @@ public class SongPanel extends JPanel implements ActionListener{
 
     }
 
+    public void addRow(ArrayList<String> data) {
+        model.add(data);
+        revalidate();
+        repaint();
+    }
+
     public int getCurrentRow() {
         return currentRow;
     }
