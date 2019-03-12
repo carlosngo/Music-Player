@@ -19,6 +19,7 @@ public class CategoryPanel extends JPanel {
     private JScrollPane scroll;
     private JPanel block;
     private ArrayList<String> data;
+    private boolean isNormalPlaylist = false;
 
     private int i;
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
@@ -77,12 +78,22 @@ public class CategoryPanel extends JPanel {
         repaint();
     }
 
+    public void isNormalPlaylist(boolean normalPlaylist) {
+        isNormalPlaylist = normalPlaylist;
+    }
+
     public void addRow(String category, String subCategoryName) {
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
         subOptionButton.setBorderPainted(false);
         subOptionButton.setForeground(Color.white);
+        JButton favPlaylist = new JButton();
+        favPlaylist.setOpaque(false);
+        favPlaylist.setContentAreaFilled(false);
+        favPlaylist.setBorderPainted(false);
+        favPlaylist.setVisible(false);
+        if(isNormalPlaylist) favPlaylist.setVisible(true);
         JButton play = new JButton();
         play.setOpaque(false);
         play.setContentAreaFilled(false);
@@ -108,6 +119,9 @@ public class CategoryPanel extends JPanel {
             resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
             img = Paths.get(resource.toURI()).toFile();
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/star.png");
+            img = Paths.get(resource.toURI()).toFile();
+            favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -142,6 +156,15 @@ public class CategoryPanel extends JPanel {
                 }
             }
         });
+
+        favPlaylist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Playlist playlist : controller.getMainController().getPlaylists())
+                    if(playlist.getName().equals(subCategoryName)) playlist.setFavorite(true);
+            }
+        });
+
         remove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,6 +177,7 @@ public class CategoryPanel extends JPanel {
                 }
             }
         });
+
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -201,5 +225,8 @@ public class CategoryPanel extends JPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 2;
         block.add(play, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 2;
+        block.add(favPlaylist, cons);
     }
 }
