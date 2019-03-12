@@ -152,7 +152,9 @@ public class CategoryPanel extends JPanel {
                     case "Playlists":
                         controller.showSongsByPlaylist(subCategoryName);
                         break;
-
+                    case "Years":
+                        controller.showSongsByYear(subCategoryName);
+                        break;
                 }
             }
         });
