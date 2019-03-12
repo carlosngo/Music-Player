@@ -58,6 +58,7 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         String[] sChoices = choices.toArray(new String[choices.size()]);
         playlistChoices = new JComboBox(sChoices);
         inputPnl.add(playlistChoices);
+        playlistChoices.addActionListener(this);
         inputPnl.add(Box.createRigidArea(new Dimension(15,0)));
         p.add(inputPnl);
         p.add(Box.createRigidArea(new Dimension(0,7)));
