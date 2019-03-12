@@ -668,10 +668,11 @@ public class SongPanel extends JPanel implements ActionListener{
             ActionListener deleteListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                    controller.deleteSong(data.get(currentRow));
-                    model.remove(data.get(currentRow));
+                    controller.removeSong(currentRow);
+//                    state = e.getActionCommand();
+//                    System.out.println("State = " + state);
+//                    controller.deleteSong(data.get(currentRow));
+//                    model.remove(data.get(currentRow));
                 }
             };
             delete.addActionListener(deleteListener);

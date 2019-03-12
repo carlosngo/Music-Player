@@ -1,7 +1,6 @@
 package View;
 
 import Controller.*;
-import Model.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -104,6 +103,8 @@ public class CategoryPanel extends JPanel {
         remove.setOpaque(false);
         remove.setContentAreaFilled(false);
         remove.setBorderPainted(false);
+        if (category.equals("Albums") || category.equals("Genres")) remove.setVisible(false);
+
         JButton edit = new JButton();
         //edit.setVisible(false);
         edit.setOpaque(false);
@@ -125,8 +126,14 @@ public class CategoryPanel extends JPanel {
             resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
             img = Paths.get(resource.toURI()).toFile();
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            resource = getClass().getClassLoader().getResource("images/star.png");
-            img = Paths.get(resource.toURI()).toFile();
+
+            if (controller.isFavoritePlaylist(subCategoryName)) {
+                resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+                img = Paths.get(resource.toURI()).toFile();
+            } else {
+                resource = getClass().getClassLoader().getResource("images/star.png");
+                img = Paths.get(resource.toURI()).toFile();
+            }
             favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/changeCover.png");
             img = Paths.get(resource.toURI()).toFile();
@@ -164,6 +171,9 @@ public class CategoryPanel extends JPanel {
                     case "Years":
                         controller.showSongsByYear(subCategoryName);
                         break;
+                    case "Favorite Playlists":
+                        controller.showSongsByPlaylist(subCategoryName);
+                        break;
                 }
             }
         });
@@ -171,8 +181,22 @@ public class CategoryPanel extends JPanel {
         favPlaylist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (Playlist playlist : controller.getMainController().getPlaylists())
-                    if(playlist.getName().equals(subCategoryName)) playlist.setFavorite(true);
+                controller.toggleFavoritePlaylist(subCategoryName);
+
+                try {
+                    URL resource;
+                    File img;
+                    if (controller.isFavoritePlaylist(subCategoryName)) {
+                        resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+                        img = Paths.get(resource.toURI()).toFile();
+                    } else {
+                        resource = getClass().getClassLoader().getResource("images/star.png");
+                        img = Paths.get(resource.toURI()).toFile();
+                    }
+                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } catch (URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -184,6 +208,7 @@ public class CategoryPanel extends JPanel {
                         "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
 //                    controller.remove(category, subCategoryName);
+                    controller.removePlaylist(subCategoryName);
                     System.out.println(category.toLowerCase() + "removed."); //test
                 }
             }
@@ -212,6 +237,9 @@ public class CategoryPanel extends JPanel {
                         break;
                     case "Years":
                         controller.playSongsInYear(subCategoryName);
+                        break;
+                    case "Favorite Playlists":
+                        controller.playSongsInPlaylist(subCategoryName);
                         break;
                 }
 //                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);

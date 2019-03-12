@@ -89,6 +89,9 @@ public class PlaylistDAO implements DataAccessObject {
 
     public void delete(Playlist playlist) {
         try {
+            if (playlist.getPlaylistId() == -1) {
+                throw new IllegalArgumentException("Playlist not in database.");
+            }
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setInt(1, playlist.getPlaylistId());

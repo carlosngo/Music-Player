@@ -4,6 +4,7 @@ import Model.*;
 import Controller.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,7 @@ import java.nio.file.Paths;
 
 //icon, and header buttons
 public class AccountPanel extends JPanel {
-    private JButton addSongs, logIn, signUp, viewAccount, logOut;
+    private JButton addSongs, logIn, signUp, editAccount, logOut;
     private AccountController ac;
 
     public AccountPanel(AccountController ac){
@@ -42,6 +43,10 @@ public class AccountPanel extends JPanel {
         p.setOpaque(false);
         addSongs = new JButton("Add Songs");
         //addSongs.setForeground(new Color(65,105,225));
+//        Border b = BorderFactory.createLineBorder(Color.WHITE, 2, true);
+//        b.getBorderInsets().set(0, 5, 0, 5);
+//        addSongs.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, true));
+
         addSongs.setForeground(Color.white);
         addSongs.setOpaque(false);
         addSongs.setContentAreaFilled(false);
@@ -183,36 +188,50 @@ public class AccountPanel extends JPanel {
             }
         });
 //        add(addSongs);
-        p.add(addSongs, BorderLayout.WEST);
+
+        JButton welcomeLbl = new JButton(ac.getUser().getUserName());
+        welcomeLbl.setOpaque(false);
+        welcomeLbl.setContentAreaFilled(false);
+        welcomeLbl.setBorderPainted(false);
+        welcomeLbl.setForeground(Color.WHITE);
+        welcomeLbl.setEnabled(false);
+        try{
+            URL resource = getClass().getClassLoader().getResource("images/account.png");
+            File img = Paths.get(resource.toURI()).toFile();
+            welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+        }
+        catch(Exception e){}
+//        welcomeLbl.setFont(new Font("Arial", Font.BOLD, 14));
+        p.add(welcomeLbl, BorderLayout.CENTER);
         //add(Box.createRigidArea(new Dimension(5,0)));
 
-        viewAccount = new JButton("View Account");
-        //logOut.setForeground(new Color(65,105,225));
-        viewAccount.setForeground(Color.white);
-        viewAccount.setOpaque(false);
-        viewAccount.setContentAreaFilled(false);
-        viewAccount.setBorderPainted(false);
-        //logIn.setMaximumSize(new Dimension(90, 40));
-        //logIn.setMinimumSize(new Dimension(90, 40));
-        //logIn.setPreferredSize(new Dimension(90, 40));
-        viewAccount.setFont(new Font("Arial", Font.BOLD, 14));
-        viewAccount.addMouseListener(new MouseAdapter() {
-            Color oldColor = viewAccount.getForeground();
-            public void mouseEntered(MouseEvent e) {
-                viewAccount.setForeground(new Color(0,255,255));
-            }
-            public void mouseExited(MouseEvent e) {
-                viewAccount.setForeground(oldColor);
-            }
-        });
-        viewAccount.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openViewAccountWindow();
-            }
-        });
-//        add(viewAccount);
-        p.add(viewAccount, BorderLayout.CENTER);
+//        editAccount = new JButton("Edit Account");
+//        //logOut.setForeground(new Color(65,105,225));
+//        editAccount.setForeground(Color.white);
+//        editAccount.setOpaque(false);
+//        editAccount.setContentAreaFilled(false);
+//        editAccount.setBorderPainted(false);
+//        //logIn.setMaximumSize(new Dimension(90, 40));
+//        //logIn.setMinimumSize(new Dimension(90, 40));
+//        //logIn.setPreferredSize(new Dimension(90, 40));
+//        editAccount.setFont(new Font("Arial", Font.BOLD, 14));
+//        editAccount.addMouseListener(new MouseAdapter() {
+//            Color oldColor = editAccount.getForeground();
+//            public void mouseEntered(MouseEvent e) {
+//                editAccount.setForeground(new Color(0,255,255));
+//            }
+//            public void mouseExited(MouseEvent e) {
+//                editAccount.setForeground(oldColor);
+//            }
+//        });
+//        editAccount.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                ac.openEditAccountWindow();
+//            }
+//        });
+//        add(editAccount);
+        p.add(addSongs, BorderLayout.WEST);
         logOut = new JButton("Log Out");
         //logOut.setForeground(new Color(65,105,225));
         logOut.setForeground(Color.white);

@@ -289,8 +289,14 @@ public class SongDAO implements DataAccessObject {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, song.getUser().getUserId());
-            statement.setInt(2, song.getAlbum().getAlbumId());
-            statement.setInt(3, song.getGenre().getGenreId());
+            if (song.getAlbum() != null)
+                statement.setInt(2, song.getAlbum().getAlbumId());
+            else
+                statement.setObject(2, null);
+            if (song.getGenre() != null)
+                statement.setInt(3, song.getGenre().getGenreId());
+            else
+                statement.setObject(3, null);
             statement.setString(4, song.getName());
             statement.setInt(5, song.getYear());
             statement.setBoolean(6, song.isFavorite());
@@ -315,11 +321,14 @@ public class SongDAO implements DataAccessObject {
 
     public void delete(Song song) {
         try {
+            if (song.getSongId() == -1) {
+                throw new IllegalArgumentException("Song is not in the database");
+            }
             Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
 
             statement.setInt(1, song.getSongId());
-
+            statement.executeUpdate();
             statement.close();
 
         }catch(SQLException e) {
@@ -337,8 +346,14 @@ public class SongDAO implements DataAccessObject {
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
             statement.setInt(1, song.getUser().getUserId());
-            statement.setInt(2, song.getAlbum().getAlbumId());
-            statement.setInt(3, song.getGenre().getGenreId());
+            if (song.getAlbum() != null)
+                statement.setInt(2, song.getAlbum().getAlbumId());
+            else
+                statement.setObject(2, null);
+            if (song.getGenre() != null)
+                statement.setInt(3, song.getGenre().getGenreId());
+            else
+                statement.setObject(3, null);
             statement.setString(4, song.getName());
             statement.setInt(5, song.getYear());
             statement.setBoolean(6, song.isFavorite());

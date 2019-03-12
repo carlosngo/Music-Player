@@ -84,11 +84,6 @@ public class SongController {
     // play song at index of displayedSongs
     public void playSong(int index) {
         ArrayList<Song> queue = new ArrayList<>();
-        // populate the queue with songs in the genre
-//        System.out.println("Gonna play the song at index " + index);
-//        for (Song s : displayedSongs) {
-//            System.out.println(s.getName());
-//        }
         queue.add(displayedSongs.get(index));
         mc.playSongs(queue);
     }
@@ -109,32 +104,7 @@ public class SongController {
 //        }
 //    }
 
-    public void deleteSong(ArrayList<String> songInfo){
-        for (Song s : mc.getAccountController().getSongs()){
-            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
-                    && s.getYear()==Integer.parseInt(songInfo.get(2)) && s.getGenre().equals(songInfo.get(3))){
-                mc.getAccountController().getSongs().remove(s);
-            }
-        }
-    }
 
-    public void updateSong(int songIndex, String title, String album, String year, String genre){
-        Song s = displayedSongs.get(songIndex);
-//        System.out.println(s);
-        s.setName(title);
-        s.getAlbum().setName(album);
-        s.setYear(Integer.parseInt(year));
-        s.getGenre().setName(genre);
-//        SongPanel.MyTableModel model = sp.getModel();
-//        ArrayList<ArrayList<String>> data = sp.getData();
-//        int currentRow = sp.getCurrentRow();
-//        model.setValueAt(data.get(currentRow),currentRow,0,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-//        model.setValueAt(data.get(currentRow),currentRow,1,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-//        model.setValueAt(data.get(currentRow),currentRow,2,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-//        model.setValueAt(data.get(currentRow),currentRow,3,espw.getTitle(), espw.getAlbum(), espw.getYear(), espw.getGenre());
-        showAllSongs();
-        mc.getPlayerController().getPlayerPanel().update();
-    }
 
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
@@ -312,38 +282,49 @@ public class SongController {
             list.add("");
         }
         list.add(s.getYear() + "");
-        list.add(s.getGenre().getName());
+        if (s.getGenre() != null)
+            list.add(s.getGenre().getName());
+        else
+            list.add("");
         return list;
+    }
+
+    public Album getAlbum(String albumName) {
+        Album a = new Album();
+        if (albumName.equals("")) a.setName("Unknown Album");
+        else a.setName(albumName);
+        if (mc.getAlbums().contains(a)) {
+            a = mc.getAlbums().floor(a);
+        } else {
+            mc.getAlbums().add(a);
+            if (cp != null)
+                cp.addRow("Albums", a.getName());
+        }
+        return a;
+    }
+
+    public Genre getGenre(String genreName) {
+        Genre g = new Genre();
+        if (genreName.equals("")) g.setName("No Genre");
+        else g.setName(genreName);
+        if (mc.getGenres().contains(g)) { // if genre exists already
+            g = mc.getGenres().floor(g); // get the genre and set it to be the song's genre
+        } else {
+            mc.getGenres().add(g); // else add the new genre
+            if (cp != null)
+                cp.addRow("Genres", g.getName());
+        }
+        return g;
     }
 
     public void addSong(String songName, String genreName, String albumName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
         s.setUser(mc.getAccountController().getUser());
-        if (!genreName.equals("")) {
-            Genre g = new Genre();
-            g.setName(genreName);
-            if (mc.getGenres().contains(g)) { // if genre exists already
-                g = mc.getGenres().floor(g); // get the genre and set it to be the song's genre
-            } else {
-                mc.getGenres().add(g); // else add the new genre
-                if (cp != null)
-                    cp.addRow("Genres", g.getName());
-            }
-            s.setGenre(g);
-        }
-        if (!albumName.equals("")) {
-            Album a = new Album();
-            a.setName(albumName);
-            if (mc.getAlbums().contains(a)) {
-                a = mc.getAlbums().floor(a);
-            } else {
-                mc.getAlbums().add(a);
-                if (cp != null)
-                    cp.addRow("Albums", a.getName());
-            }
-            s.setAlbum(a);
-        }
+        Genre g = getGenre(genreName);
+        s.setGenre(g);
+        Album a = getAlbum(albumName);
+        s.setAlbum(a);
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
@@ -356,6 +337,40 @@ public class SongController {
         displayedSongs.add(s);
     }
 
+    public void removeSong(int index) {
+        Song s = displayedSongs.get(index);
+        try {
+            mc.getSongDAO().delete(s);
+        } catch(IllegalArgumentException e) {
+
+        }
+        mc.getSongs().remove(s);
+        for (Playlist p : mc.getPlaylists()) {
+            p.getSongs().remove(s);
+        }
+        displayedSongs.remove(s);
+        showAllSongs();
+        mc.getPlayerController().removeSong(s);
+        mc.getPlayerController().getPlayerPanel().update();
+    }
+
+    public void updateSong(int songIndex, String title, String album, String year, String genre){
+        Song s = displayedSongs.get(songIndex);
+//        System.out.println(s);
+        s.setName(title);
+        s.setAlbum(getAlbum(album));
+//        if (s.getAlbum() != null)
+//            s.getAlbum().setName(album);
+//        else {
+////            Album a = new
+//        }
+
+        s.setYear(Integer.parseInt(year));
+        s.setGenre(getGenre(genre));
+//        s.getGenre().setName(genre);
+        showAllSongs();
+        mc.getPlayerController().getPlayerPanel().update();
+    }
 
     public void updateGenre(String oldName, String newName) {
         Genre temp = new Genre();
@@ -381,21 +396,37 @@ public class SongController {
         showPlaylists();
     }
 
-    public void setAlbumCover(String albumName, File f) {
-            
+    public void setAlbumCover(String albumName, File cover) {
+        Album temp = new Album();
+        temp.setName(albumName);
+        Album a = mc.getAlbums().floor(temp);
+        a.setCover(cover);
     }
 
-    public void removeGenre(String name) {
-
+    public void removePlaylist(String playlistName) {
+        Playlist temp = new Playlist();
+        temp.setName(playlistName);
+        Playlist p = mc.getPlaylists().floor(temp);
+        mc.getPlaylists().remove(p);
+        try {
+            mc.getPlaylistDAO().delete(p);
+        } catch (IllegalArgumentException e) {
+        }
+        showPlaylists();
     }
 
-    public void removeAlbum(String name) {
-
+    public boolean isFavoritePlaylist(String playlistName) {
+        Playlist temp = new Playlist();
+        temp.setName(playlistName);
+        Playlist p = mc.getPlaylists().floor(temp);
+        if (p != null) return p.isFavorite();
+        return false;
     }
 
-    public void removePlaylist(String name) {
-
+    public void toggleFavoritePlaylist(String playlistName) {
+        Playlist temp = new Playlist();
+        temp.setName(playlistName);
+        Playlist p = mc.getPlaylists().floor(temp);
+        p.setFavorite(!p.isFavorite());
     }
-
-
 }

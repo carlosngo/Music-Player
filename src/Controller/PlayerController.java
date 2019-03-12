@@ -93,7 +93,7 @@ public class PlayerController implements ControllerListener, ActionListener {
     }
 
     public void removeSong(Song song) {
-        if (played.peek().equals(song)) { // if the song is currently playing
+        if (!played.isEmpty() && played.peek().equals(song)) { // if the song is currently playing
             Song nextSong = getNextSong();
             playSong(nextSong);
         }

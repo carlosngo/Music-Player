@@ -25,6 +25,7 @@ public class Dashboard extends JFrame {
 
 
     public Dashboard(MainController controller){
+        super("iPl4yer");
         this.controller = controller;
         contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());

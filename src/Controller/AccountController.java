@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import View.*;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -77,10 +78,6 @@ public class AccountController {
         caw = new CreateAccountWindow(this);
     }
 
-    public void openViewAccountWindow() {
-        vaw = new ViewAccountWindow(this);
-    }
-
     public void openEditAccountWindow() {
         eaw = new EditAccountWindow(this);
     }
@@ -95,6 +92,11 @@ public class AccountController {
         user = mc.getUserDAO().find(username, password);
         if (user == null) return false;
         System.out.println("Hi, " + user.getFirstName());
+        int choice = JOptionPane.showConfirmDialog(null, "Do you want to save your current data " +
+                "to your account?", "Save Data", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            save();
+        }
 		mc.getDashboard().setAccountPanel(new AccountPanel(this, user));
     	load();
     	mc.getSongController().showAllSongs();
@@ -136,62 +138,62 @@ public class AccountController {
     }
 
     public void save() {
-
-        for (Genre g : genres) {
-            try {
-                g.setUser(user);
+        if (user.getUserId() != -1) {
+            for (Genre g : genres) {
+                try {
+                    g.setUser(user);
 //                if (mc.getGenreDAO().findByName(g.getName(), g.getUser().getUserId()) == null)
-                if (g.getGenreId() == -1)
-                    mc.getGenreDAO().create(g);
-                else
-                    mc.getGenreDAO().update(g);
-            } catch (IllegalArgumentException e) {
+                    if (g.getGenreId() == -1)
+                        mc.getGenreDAO().create(g);
+                    else
+                        mc.getGenreDAO().update(g);
+                } catch (IllegalArgumentException e) {
 //                e.printStackTrace();
-            }
-        }
-        for (Playlist p : playlists) {
-            try {
-                p.setUser(user);
-                if (p.getPlaylistId() == -1)
-                    mc.getPlaylistDAO().create(p);
-                else
-                    mc.getPlaylistDAO().update(p);
-                for (Song s : p.getSongs()) {
-                    mc.getPlaylistSongDAO().join(p, s);
                 }
-            } catch (IllegalArgumentException e) {
-//                e.printStackTrace();
             }
-        }
-        for (Album a : albums) {
-            try {
+            for (Playlist p : playlists) {
+                try {
+                    p.setUser(user);
+                    if (p.getPlaylistId() == -1)
+                        mc.getPlaylistDAO().create(p);
+                    else
+                        mc.getPlaylistDAO().update(p);
+                    for (Song s : p.getSongs()) {
+                        mc.getPlaylistSongDAO().join(p, s);
+                    }
+                } catch (IllegalArgumentException e) {
+//                e.printStackTrace();
+                }
+            }
+            for (Album a : albums) {
+                try {
 //                System.out.println(a.getAlbumId());
-                a.setUser(user);
+                    a.setUser(user);
 //                if (mc.getAlbumDAO().findByName(a.getName(), a.getUser().getUserId()) == null)
-                if (a.getAlbumId() == -1)
-                    mc.getAlbumDAO().create(a);
-                else
-                    mc.getAlbumDAO().update(a);
-            } catch (IllegalArgumentException e) {
+                    if (a.getAlbumId() == -1)
+                        mc.getAlbumDAO().create(a);
+                    else
+                        mc.getAlbumDAO().update(a);
+                } catch (IllegalArgumentException e) {
 //                e.printStackTrace();
+                }
             }
-        }
 
-        for (Song s : songs) {
-            try {
-                s.setUser(user);
-                System.out.println(s.getSongId());
-                if (s.getSongId() == -1)
-                    mc.getSongDAO().create(s);
-                else
-                    mc.getSongDAO().update(s);
+            for (Song s : songs) {
+                try {
+                    s.setUser(user);
+                    System.out.println(s.getSongId());
+                    if (s.getSongId() == -1)
+                        mc.getSongDAO().create(s);
+                    else
+                        mc.getSongDAO().update(s);
 
-            } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException e) {
 //                System.out.println("");
+                }
             }
+            System.out.println("Data successfully saved.");
         }
-        System.out.println("Data successfully saved.");
-
     }
 
     public void load() {
@@ -200,8 +202,10 @@ public class AccountController {
         albums = new TreeSet(mc.getAlbumDAO().listById(user.getUserId()));
         songs = new TreeSet(mc.getSongDAO().listById(user.getUserId()));
         for(Song s : songs) {
-            s.setAlbum(albums.floor(s.getAlbum()));
-            s.setGenre(genres.floor(s.getGenre()));
+            if (s.getAlbum() != null && s.getGenre() != null) {
+                s.setAlbum(albums.floor(s.getAlbum()));
+                s.setGenre(genres.floor(s.getGenre()));
+            }
         }
         for (Playlist p : playlists) {
             for (Integer i : mc.getPlaylistSongDAO().listByPlaylistId(p.getPlaylistId())) {
