@@ -8,8 +8,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -103,10 +101,6 @@ public class CategoryPanel extends JPanel {
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
-        JButton addToQueue = new JButton();
-        addToQueue.setOpaque(false);
-        addToQueue.setContentAreaFilled(false);
-        addToQueue.setBorderPainted(false);
         JButton remove = new JButton();
         //remove.setVisible(false);
         remove.setOpaque(false);
@@ -151,6 +145,17 @@ public class CategoryPanel extends JPanel {
             e.printStackTrace();
         }
 
+//                block.addMouseListener(new MouseAdapter() {
+//                    public void mouseEntered(MouseEvent e) {
+//                        remove.setVisible(true);
+//                        edit.setVisible(true);
+//                    }
+//                    public void mouseExited(MouseEvent e) {
+//                        remove.setVisible(false);
+//                        edit.setVisible(false);
+//                    }
+//                });
+
         subOptionButton.setText(subCategoryName);
 
         subOptionButton.addActionListener(new ActionListener() {
@@ -174,21 +179,6 @@ public class CategoryPanel extends JPanel {
                         break;
                 }
             }
-        });
-
-        ActionListener addToQueueListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.addSubCategoryToQueue(subCategoryName);
-            }
-        };
-        addToQueue.addActionListener(addToQueueListener);
-
-        addToQueue.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                addToQueue.setEnabled(true);
-            }
-            public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
         });
 
         favPlaylist.addActionListener(new ActionListener() {
@@ -297,8 +287,5 @@ public class CategoryPanel extends JPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 6;
         block.add(changeCover, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 3;
-        block.add(addToQueue, cons);
     }
 }
