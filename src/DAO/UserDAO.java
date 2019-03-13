@@ -13,19 +13,19 @@ public class UserDAO implements DataAccessObject {
     private DAOFactory db;
 
     private static final String SQL_FIND_BY_ID =
-            "SELECT * FROM " + DAOFactory.USER_TABLE + " WHERE PK_UserID = ?";
+            "SELECT * FROM " + Database.USER_TABLE + " WHERE PK_UserID = ?";
     private static final String SQL_FIND_BY_EMAIL_AND_PASSWORD =
-            "SELECT * FROM " + DAOFactory.USER_TABLE + " WHERE UserName = ? AND Password = ?";
+            "SELECT * FROM " + Database.USER_TABLE + " WHERE UserName = ? AND Password = ?";
     private static final String SQL_LIST_BY_ID =
-            "SELECT * FROM " + DAOFactory.USER_TABLE + " ORDER BY PK_UserID";
+            "SELECT * FROM " + Database.USER_TABLE + " ORDER BY PK_UserID";
     private static final String SQL_INSERT =
-            "INSERT INTO " + DAOFactory.USER_TABLE + " (UserName, Password, FirstName, LastName, Gender, Birthday) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO " + Database.USER_TABLE + " (UserName, Password, FirstName, LastName, Gender, Birthday) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
-            "DELETE FROM " + DAOFactory.USER_TABLE + " WHERE PK_UserID = ?";
+            "DELETE FROM " + Database.USER_TABLE + " WHERE PK_UserID = ?";
     private static final String SQL_UPDATE =
-            "UPDATE " + DAOFactory.USER_TABLE + " SET UserName = ?, Password = ?, FirstName = ?, LastName = ?, Gender = ?, Birthday = ? WHERE PK_UserID = ?";
+            "UPDATE " + Database.USER_TABLE + " SET UserName = ?, Password = ?, FirstName = ?, LastName = ?, Gender = ?, Birthday = ? WHERE PK_UserID = ?";
     private static final String SQL_EXIST_USERNAME =
-            "SELECT PK_UserID FROM " + DAOFactory.USER_TABLE + " WHERE UserName = ?";
+            "SELECT PK_UserID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
 
     public UserDAO(DAOFactory db) {
         this.db = db;
@@ -41,7 +41,8 @@ public class UserDAO implements DataAccessObject {
 
     private User find(String sql, Object... values) {
         User user = null;
-        try (Connection connection = db.getConnection();
+        Connection connection = Database.getConnection();
+        try (
              PreparedStatement statement = prepareStatement(connection, sql, false, values);
              ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
@@ -55,7 +56,8 @@ public class UserDAO implements DataAccessObject {
 
     public ArrayList<User> listById() {
         ArrayList<User> users = new ArrayList<>();
-        try (Connection connection = db.getConnection();
+        Connection connection = Database.getConnection();
+        try (
              PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -81,7 +83,8 @@ public class UserDAO implements DataAccessObject {
                 user.getBirthday()
         };
 
-        try (Connection connection = db.getConnection();
+        Connection connection = Database.getConnection();
+        try (
              PreparedStatement statement = prepareStatement(connection, SQL_INSERT, true, values);) {
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -111,7 +114,8 @@ public class UserDAO implements DataAccessObject {
                 user.getUserId()
         };
 
-        try (Connection connection = db.getConnection();
+        Connection connection = Database.getConnection();
+        try (
              PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values)) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -128,7 +132,8 @@ public class UserDAO implements DataAccessObject {
                 user.getUserId()
         };
 
-        try (Connection connection = db.getConnection();
+        Connection connection = Database.getConnection();
+        try (
              PreparedStatement statement = prepareStatement(connection, SQL_DELETE, false, values);) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -146,7 +151,8 @@ public class UserDAO implements DataAccessObject {
                 userName
         };
         boolean exist = false;
-        try (Connection connection = db.getConnection();
+        Connection connection = Database.getConnection();
+        try (
              PreparedStatement statement = prepareStatement(connection, SQL_EXIST_USERNAME, false, values);
              ResultSet resultSet = statement.executeQuery()) {
             exist = resultSet.next();

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class PlaylistSongDAO implements DataAccessObject {
 
-    private static String SQL_LIST_BY_SONG_ID = "SELECT FK_PlaylistID FROM " + DAOFactory.PLAYLISTSONG_TABLE + " WHERE FK_SongID = ?";
-    private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_SongID FROM " + DAOFactory.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
+    private static String SQL_LIST_BY_SONG_ID = "SELECT FK_PlaylistID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_SongID = ?";
+    private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
     private static String SQL_INSERT =
-            "INSERT INTO " + DAOFactory.PLAYLISTSONG_TABLE + " (" + DAOFactory.PLAYLISTSONG_COLUMNS + ") VALUES (?, ?)";
+            "INSERT INTO " + Database.PLAYLISTSONG_TABLE + " (" + Database.PLAYLISTSONG_COLUMNS + ") VALUES (?, ?)";
 
     private DAOFactory db;
 
@@ -27,7 +27,8 @@ public class PlaylistSongDAO implements DataAccessObject {
                 s.getSongId()
         };
         try {
-            Connection con = db.getConnection();
+            Connection con = Database.getConnection();
+
             PreparedStatement stmt = prepareStatement(con, SQL_INSERT, false, values);
             stmt.executeUpdate();
 
@@ -39,7 +40,8 @@ public class PlaylistSongDAO implements DataAccessObject {
 
     public ArrayList<Integer> listByPlaylistId(int playlistId) {
         ArrayList<Integer> keys = new ArrayList<>();
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_PLAYLIST_ID, false, playlistId);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -54,7 +56,8 @@ public class PlaylistSongDAO implements DataAccessObject {
 
     public ArrayList<Integer> listBySongId(int songId) {
         ArrayList<Integer> keys = new ArrayList<>();
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_SONG_ID, false, songId);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {

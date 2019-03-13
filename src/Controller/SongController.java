@@ -211,7 +211,7 @@ public class SongController {
     public void showYears() {
         ArrayList<String> subCategories = new ArrayList<>();
         for(Integer y : mc.getYears()){
-            subCategories.add(y.toString());
+            if (y != 0) subCategories.add(y.toString());
         }
         cp = new CategoryPanel(this, "Years", subCategories);
 
@@ -322,13 +322,14 @@ public class SongController {
         ArrayList<String> list = new ArrayList<>();
         list.add(s.getName());
         if (s.getAlbum() != null) {
-//            list.add(s.getAlbum().getArtist());
             list.add(s.getAlbum().getName());
         } else {
-//            list.add("");
             list.add("");
         }
-        list.add(s.getYear() + "");
+        if (s.getYear() == 0) {
+            list.add("");
+        } else
+            list.add(s.getYear() + "");
         if (s.getGenre() != null)
             list.add(s.getGenre().getName());
         else
@@ -338,7 +339,7 @@ public class SongController {
 
     public Album getAlbum(String albumName) {
         Album a = new Album();
-        if (albumName.equals("")) a.setName("Unknown Album");
+        if (albumName.equals("")) return null;
         else a.setName(albumName);
         if (mc.getAlbums().contains(a)) {
             a = mc.getAlbums().floor(a);
@@ -352,7 +353,7 @@ public class SongController {
 
     public Genre getGenre(String genreName) {
         Genre g = new Genre();
-        if (genreName.equals("")) g.setName("No Genre");
+        if (genreName.equals("")) return null;
         else g.setName(genreName);
         if (mc.getGenres().contains(g)) { // if genre exists already
             g = mc.getGenres().floor(g); // get the genre and set it to be the song's genre
