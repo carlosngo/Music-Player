@@ -18,8 +18,8 @@ public abstract class DAOFactory {
 
     public static final String PLAYLIST_TABLE = "musicplayer.playlist";
     public static final String PLAYLIST_COLUMNS =
-            "PK_PlaylistID, FK_UserID, Name, Favorite";
-
+            "PK_PlaylistID, FK_UserID, Name, Favorite, DateCreated";
+    
     public static final String PLAYLISTSONG_TABLE = "musicplayer.playlistsong";
     public static final String PLAYLISTSONG_COLUMNS =
             "FK_PlaylistID, FK_SongID";
@@ -30,7 +30,7 @@ public abstract class DAOFactory {
 
     public static final String ALBUM_TABLE = "musicplayer.album";
     public static final String ALBUM_COLUMNS =
-            "PK_AlbumID, FK_ArtistID, FK_UserID, Name, Artist, Cover";
+            "PK_AlbumID, FK_ArtistID, FK_UserID, Name, Artist, Cover, DateCreated";
     
     public static final String ARTIST_TABLE = "musicplayer.artist";
     public static final String ARTIST_COLUMNS =

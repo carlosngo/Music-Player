@@ -28,6 +28,7 @@ CREATE TABLE `album` (
   `FK_UserID` int(11) NOT NULL,
   `Name` varchar(45) DEFAULT NULL,
   `Cover` longblob,
+  `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_AlbumID`),
   KEY `FK_UserID_idx` (`FK_UserID`),
   KEY `FK_ArtistID_idx` (`FK_ArtistID`),
@@ -81,6 +82,7 @@ CREATE TABLE `playlist` (
   `FK_UserID` int(11) DEFAULT NULL,
   `Name` varchar(45) DEFAULT NULL,
   `Favorite` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'No',
+  `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_PlaylistID`),
   KEY `Playlist_UserID_idx` (`FK_UserID`),
   CONSTRAINT `Playlist_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`) ON DELETE CASCADE
@@ -198,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-13 17:56:46
+-- Dump completed on 2019-03-13 20:12:32
