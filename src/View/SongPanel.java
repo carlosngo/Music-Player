@@ -559,7 +559,7 @@ public class SongPanel extends JPanel implements ActionListener{
     public class ActionsPane extends JPanel {
 
         private JButton play;
-        private JButton addToPLaylist;
+        private JButton addToPLaylist, addToQueue;
         private JButton delete;
         private JButton edit;
         private JButton fav;
@@ -586,6 +586,12 @@ public class SongPanel extends JPanel implements ActionListener{
             addToPLaylist.setContentAreaFilled(false);
             addToPLaylist.setBorderPainted(false);
             addToPLaylist.setActionCommand("add");
+            addToQueue = new JButton();
+            addToQueue.setEnabled(false);
+            addToQueue.setOpaque(false);
+            addToQueue.setContentAreaFilled(false);
+            addToQueue.setBorderPainted(false);
+            addToQueue.setActionCommand("queue");
             delete = new JButton();
             delete.setEnabled(false);
             delete.setOpaque(false);
@@ -600,7 +606,7 @@ public class SongPanel extends JPanel implements ActionListener{
             edit.setActionCommand("edit");
 
             try{
-                URL resource = getClass().getClassLoader().getResource("images/plus.png");
+                URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
                 BufferedImage img = ImageIO.read(resource);
                 addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/delete.png");
@@ -609,22 +615,22 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/edit.png");
                 img = ImageIO.read(resource);
                 edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+                resource = getClass().getClassLoader().getResource("images/cyanImgPlayBtn.png");
                 img = ImageIO.read(resource);
                 play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//                resource = getClass().getClassLoader().getResource("images/favorite.png");
-//                img = Paths.get(resource.toURI()).toFile();
-//                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
+                img = ImageIO.read(resource);
+                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
             catch(Exception e){
 
             }
 
             add(play);
+            add(addToQueue);
             add(addToPLaylist);
             add(delete);
             add(edit);
-            //add(fav);
 
             ActionListener playListener = new ActionListener() {
                 @Override
@@ -651,9 +657,6 @@ public class SongPanel extends JPanel implements ActionListener{
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
                     controller.openAddToPlaylistWindow(currentRow);
-//                    AddToPlaylistWindow atpw = new AddToPlaylistWindow(controller.getMainController());
-//                    if(atpw.isAdd())
-//                        controller.addToPlaylist(data.get(currentRow), atpw.getPlaylist());
                 }
             };
             addToPLaylist.addActionListener(addToPlaylistListener);
@@ -667,6 +670,22 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
             });
 
+            ActionListener addToQueueListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    state = e.getActionCommand();
+                    System.out.println("State = " + state);
+                    controller.addToQueue(currentRow);
+                }
+            };
+            addToQueue.addActionListener(addToQueueListener);
+
+            addToQueue.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    addToQueue.setEnabled(true);
+                }
+                public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
+            });
 
             ActionListener deleteListener = new ActionListener() {
                 @Override

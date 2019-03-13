@@ -88,6 +88,12 @@ public class SongController {
         mc.playSongs(queue);
     }
 
+    // play song at index of displayedSongs
+    public void addToQueue(int index) {
+        ArrayList<Song> queue = new ArrayList<>();
+        mc.getPlayerController().addSong(displayedSongs.get(index));
+    }
+
     public void addToPlaylist(int songIndex, int playlistIndex) {
         ArrayList<Playlist> playlists = new ArrayList<>(mc.getPlaylists());
         Song s = displayedSongs.get(songIndex);
@@ -105,6 +111,15 @@ public class SongController {
 //    }
 
 
+    public void addSubCategoryToQueue(String subcategory) {
+        ArrayList<Song> queue = new ArrayList<>();
+        for (Song s : mc.getSongs()) {
+            if (s.getGenre().getName().equals(subcategory)) queue.add(s);
+        }
+        for(Song s : queue){
+            mc.getPlayerController().addSong(s);
+        }
+    }
 
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
