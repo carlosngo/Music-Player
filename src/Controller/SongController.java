@@ -234,7 +234,10 @@ public class SongController {
             data.add(map(s));
         }
         sp = new SongPanel(this, "All Songs", data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+        if (mc.getDashboard() != null) {
+            mc.getDashboard().changeCard(sp);
+        }
+
     }
 
     public void showMostFrequentlyPlayed() {
@@ -373,11 +376,7 @@ public class SongController {
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
         mc.getSongs().add(s);
-        if (mc.getSongs().size() != 1) {
-            sp.addRow(map(s));
-        } else {
-            showAllSongs();
-        }
+        showAllSongs();
         displayedSongs.add(s);
     }
 
