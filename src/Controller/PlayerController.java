@@ -42,9 +42,9 @@ public class PlayerController implements ControllerListener, ActionListener {
     }
 
     public void addSong(Song song) {
-
         songs.add(song);
         unplayed.add(song);
+        if(played.isEmpty()) startPlayer();
     }
 
     public void startPlayer() {
