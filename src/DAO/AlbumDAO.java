@@ -25,8 +25,8 @@ public class AlbumDAO implements DataAccessObject {
     private static final String SQL_INSERT = "INSERT INTO album (FK_UserID, Name, Artist, Cover) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
     private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, Name = ?, Artist = ?, Cover = ? WHERE PK_AlbumID = ?";
-    private static final String SQL_LIST_BY_ID = "SELECT * FROM " + DAOFactory.ALBUM_TABLE + " WHERE FK_UserID = ?";
-    private static final String SQL_EXIST_ALBUM = "SELECT * FROM " + DAOFactory.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
+    private static final String SQL_LIST_BY_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE FK_UserID = ?";
+    private static final String SQL_EXIST_ALBUM = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
 
     private static final String PATH = "resources/images/";
 
@@ -69,7 +69,7 @@ public class AlbumDAO implements DataAccessObject {
     public Album find(int albumId) {
         Album album = null;
         try {
-            Connection connection = db.getConnection();
+            Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setInt(1, albumId);
             ResultSet rs = statement.executeQuery();
@@ -80,7 +80,6 @@ public class AlbumDAO implements DataAccessObject {
 
             rs.close();
             statement.close();
-            connection.close();
             return album;
         }catch(SQLException e) {
             e.printStackTrace();
@@ -95,7 +94,7 @@ public class AlbumDAO implements DataAccessObject {
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
 //            File img = Paths.get(resource.toURI()).toFile();
-            Connection connection = db.getConnection();
+            Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, album.getUser().getUserId());
@@ -113,7 +112,6 @@ public class AlbumDAO implements DataAccessObject {
                 throw new SQLException("Creating user failed, no generated key obtained.");
             }
             statement.close();
-            connection.close();
         }catch(SQLException | FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -122,14 +120,13 @@ public class AlbumDAO implements DataAccessObject {
     public void delete(Album album) {
 
         try {
-            Connection connection = db.getConnection();
+            Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
 
             statement.setInt(1, album.getAlbumId());
             statement.executeUpdate();
 
             statement.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -142,7 +139,7 @@ public class AlbumDAO implements DataAccessObject {
             }
 //            URL resource = getClass().getClassLoader().getResource("images/" + album.getCoverPath());
 //            File img = Paths.get(resource.toURI()).toFile();
-            Connection connection = db.getConnection();
+            Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 //            System.out.println(album.getAlbumId());
 //            System.out.println(album.getName());
@@ -156,7 +153,6 @@ public class AlbumDAO implements DataAccessObject {
             statement.executeUpdate();
 
             statement.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -167,7 +163,7 @@ public class AlbumDAO implements DataAccessObject {
     public ArrayList<Album> listById(int userId) {
         ArrayList<Album> albums = new ArrayList<>();
         try {
-            Connection connection = db.getConnection();
+            Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
@@ -184,7 +180,7 @@ public class AlbumDAO implements DataAccessObject {
     public Album findByName(String albumName, int userId) {
         Album album = null;
         try{
-            Connection connection = db.getConnection();
+            Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_EXIST_ALBUM);
             statement.setString(1, albumName);
             statement.setInt(2, userId);

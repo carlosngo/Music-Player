@@ -10,17 +10,17 @@ public class GenreDAO implements DataAccessObject {
     private DAOFactory db;
 
     private static final String SQL_FIND_BY_ID =
-            "SELECT * FROM " + DAOFactory.GENRE_TABLE + " WHERE PK_GenreID = ?";
+            "SELECT * FROM " + Database.GENRE_TABLE + " WHERE PK_GenreID = ?";
     private static final String SQL_LIST_BY_ID =
-            "SELECT DISTINCT * FROM " + DAOFactory.GENRE_TABLE + " INNER JOIN " + DAOFactory.SONG_TABLE + " ON " + DAOFactory.GENRE_TABLE + ".PK_GenreID = " + DAOFactory.SONG_TABLE + ".FK_GenreID WHERE " + DAOFactory.GENRE_TABLE + ".FK_UserID = ? AND " + DAOFactory.SONG_TABLE + ".FK_UserID = ? ORDER BY PK_GenreID";
+            "SELECT DISTINCT * FROM " + Database.GENRE_TABLE + " INNER JOIN " + Database.SONG_TABLE + " ON " + Database.GENRE_TABLE + ".PK_GenreID = " + Database.SONG_TABLE + ".FK_GenreID WHERE " + Database.GENRE_TABLE + ".FK_UserID = ? AND " + Database.SONG_TABLE + ".FK_UserID = ? ORDER BY PK_GenreID";
     private static final String SQL_INSERT =
-            "INSERT INTO " + DAOFactory.GENRE_TABLE + " (FK_UserID, Name) VALUES (?, ?)";
+            "INSERT INTO " + Database.GENRE_TABLE + " (FK_UserID, Name) VALUES (?, ?)";
     private static final String SQL_DELETE =
-            "DELETE FROM " + DAOFactory.GENRE_TABLE + " WHERE PK_GenreID = ?";
+            "DELETE FROM " + Database.GENRE_TABLE + " WHERE PK_GenreID = ?";
     private static final String SQL_UPDATE =
-            "UPDATE " + DAOFactory.GENRE_TABLE + " SET Name = ? WHERE PK_GenreID = ?";
+            "UPDATE " + Database.GENRE_TABLE + " SET Name = ? WHERE PK_GenreID = ?";
     private static final String SQL_EXIST_GENRE =
-            "SELECT PK_GenreID FROM " + DAOFactory.GENRE_TABLE + " WHERE Name = ? AND FK_UserID = ?";
+            "SELECT PK_GenreID FROM " + Database.GENRE_TABLE + " WHERE Name = ? AND FK_UserID = ?";
 
     public GenreDAO(DAOFactory db) {
         this.db = db;
@@ -28,7 +28,8 @@ public class GenreDAO implements DataAccessObject {
 
     public Genre find(int genreId) {
         Genre genre = null;
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_FIND_BY_ID, false, genreId);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
@@ -48,7 +49,8 @@ public class GenreDAO implements DataAccessObject {
         };
         ArrayList<Genre> genres = new ArrayList<>();
 
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ID, false, values);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -66,7 +68,8 @@ public class GenreDAO implements DataAccessObject {
                 userId
         };
         Genre genre = null;
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_EXIST_GENRE, false, values);
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) genre = map(rs);
@@ -86,7 +89,7 @@ public class GenreDAO implements DataAccessObject {
                 genre.getName()
         };
 
-        try(Connection connection = db.getConnection();
+        try(Connection connection = Database.getConnection();
             PreparedStatement statement = prepareStatement(connection, SQL_INSERT, true, values);
         ) {
             statement.executeUpdate();
@@ -102,7 +105,8 @@ public class GenreDAO implements DataAccessObject {
     }
 
     public void delete(Genre genre) {
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_DELETE, false, genre.getGenreId());) {
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
@@ -123,7 +127,8 @@ public class GenreDAO implements DataAccessObject {
                 genre.getName(),
                 genre.getGenreId()
         };
-        try (Connection con = db.getConnection();
+        Connection con = Database.getConnection();
+        try (
              PreparedStatement stmt = prepareStatement(con, SQL_UPDATE, false, values);
         ) {
             int affectedRows = stmt.executeUpdate();
