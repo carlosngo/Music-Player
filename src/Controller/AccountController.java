@@ -79,6 +79,13 @@ public class AccountController {
     }
 
     public void openEditAccountWindow() {
+        ArrayList<Object> userData = new ArrayList<>();
+        userData.add(user.getFirstName());
+        userData.add(user.getLastName());
+        userData.add(user.getGender());
+        userData.add(user.getBirthday());
+        userData.add(user.getUserName());
+        userData.add(user.getPassword());
         eaw = new EditAccountWindow(this);
     }
 

@@ -195,7 +195,14 @@ public class AccountPanel extends JPanel {
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
         welcomeLbl.setForeground(Color.WHITE);
-        welcomeLbl.setEnabled(false);
+//        welcomeLbl.setEnabled(false);
+        welcomeLbl.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ac.openEditAccountWindow();
+            }
+        });
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
             BufferedImage img = ImageIO.read(resource);
