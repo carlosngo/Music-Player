@@ -111,16 +111,6 @@ public class SongController {
 //    }
 
 
-    public void addSubCategoryToQueue(String subcategory) {
-        ArrayList<Song> queue = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
-            if (s.getGenre().getName().equals(subcategory)) queue.add(s);
-        }
-        for(Song s : queue){
-            mc.getPlayerController().addSong(s);
-        }
-    }
-
     public void playSongsInGenre(String genreName) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
@@ -128,6 +118,15 @@ public class SongController {
             if (s.getGenre().getName().equals(genreName)) queue.add(s);
         }
         mc.playSongs(queue);
+    }
+
+    public void addSongsInGenreToQueue(String genreName) {
+//        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        for (Song s : mc.getSongs()) {
+            if (s.getGenre().getName().equals(genreName)) mc.getPlayerController().addSong(s);
+        }
+//        mc.playSongs(queue);
     }
 
     public void playSongsInPlaylist(String playlistName) {
@@ -142,6 +141,18 @@ public class SongController {
         mc.playSongs(queue);
     }
 
+    public void addSongsInPlaylistToQueue(String playlistName) {
+//        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        Playlist temp = new Playlist();
+        temp.setName(playlistName);
+        Playlist p = mc.getPlaylists().floor(temp);
+        for (Song s : p.getSongs()) {
+            mc.getPlayerController().addSong(s);
+        }
+//        mc.playSongs(queue);
+    }
+
     public void playSongsInAlbum(String albumName) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
@@ -151,6 +162,15 @@ public class SongController {
         mc.playSongs(queue);
     }
 
+    public void addSongsInAlbumToQueue(String albumName) {
+//        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        for (Song s : mc.getSongs()) {
+            if (s.getAlbum().getName().equals(albumName)) mc.getPlayerController().addSong(s);
+        }
+//        mc.playSongs(queue);
+    }
+
     public void playSongsInYear(String yr) {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
@@ -158,6 +178,15 @@ public class SongController {
             if (s.getYear() == Integer.parseInt(yr)) queue.add(s);
         }
         mc.playSongs(queue);
+    }
+
+    public void addSongsInYearToQueue(String yr) {
+//        ArrayList<Song> queue = new ArrayList<>();
+        // populate the queue with songs in the genre
+        for (Song s : mc.getSongs()) {
+            if (s.getYear() == Integer.parseInt(yr)) mc.getPlayerController().addSong(s);
+        }
+//        mc.playSongs(queue);
     }
 
     public void showGenres() {

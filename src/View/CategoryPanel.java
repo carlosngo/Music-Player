@@ -147,6 +147,9 @@ public class CategoryPanel extends JPanel {
             resource = getClass().getClassLoader().getResource("images/changeCover.png");
             img = ImageIO.read(resource);
             changeCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
+            img = ImageIO.read(resource);
+            addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,7 +182,24 @@ public class CategoryPanel extends JPanel {
         ActionListener addToQueueListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.addSubCategoryToQueue(subCategoryName);
+
+                switch (category) {
+                    case "Genres":
+                        controller.addSongsInGenreToQueue(subCategoryName);
+                        break;
+                    case "Albums":
+                        controller.addSongsInAlbumToQueue(subCategoryName);
+                        break;
+                    case "Playlists":
+                        controller.addSongsInPlaylistToQueue(subCategoryName);
+                        break;
+                    case "Years":
+                        controller.addSongsInYearToQueue(subCategoryName);
+                        break;
+                    case "Favorite Playlists":
+                        controller.addSongsInPlaylistToQueue(subCategoryName);
+                        break;
+                }
             }
         };
         addToQueue.addActionListener(addToQueueListener);

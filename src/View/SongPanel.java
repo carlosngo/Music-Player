@@ -608,19 +608,19 @@ public class SongPanel extends JPanel implements ActionListener{
             try{
                 URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
                 BufferedImage img = ImageIO.read(resource);
-                addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
                 resource = getClass().getClassLoader().getResource("images/delete.png");
                 img = ImageIO.read(resource);
-                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
                 resource = getClass().getClassLoader().getResource("images/edit.png");
                 img = ImageIO.read(resource);
-                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/cyanImgPlayBtn.png");
+                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
                 img = ImageIO.read(resource);
-                play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
                 resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
                 img = ImageIO.read(resource);
-                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
             }
             catch(Exception e){
 
@@ -741,6 +741,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public void addActionListener(ActionListener listener) {
             play.addActionListener(listener);
+            addToQueue.addActionListener(listener);
             addToPLaylist.addActionListener(listener);
             delete.addActionListener(listener);
             edit.addActionListener(listener);
