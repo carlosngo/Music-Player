@@ -55,7 +55,6 @@ public class SongDAO implements DataAccessObject {
     private Song map(ResultSet rs) throws SQLException{
         UserDAO userDAO = new UserDAO(db);
         AlbumDAO albumDAO = new AlbumDAO(db);
-        GenreDAO genreDAO = new GenreDAO(db);
         Song song = new Song();
 
         String fileName = rs.getString("Name") + rs.getInt("PK_SongID");
@@ -69,8 +68,8 @@ public class SongDAO implements DataAccessObject {
         Album a = albumDAO.find(rs.getInt("FK_AlbumID"));
         song.setAlbum(a);
 
-        Genre g = genreDAO.find(rs.getInt("FK_GenreID"));
-        song.setGenre(g);
+
+        song.setGenre(rs.getString("Genre"));
 
         song.setName(rs.getString("Name"));
         song.setYear(rs.getInt("Year"));
@@ -294,7 +293,7 @@ public class SongDAO implements DataAccessObject {
             else
                 statement.setObject(2, null);
             if (song.getGenre() != null)
-                statement.setInt(3, song.getGenre().getGenreId());
+                statement.setString(3, song.getGenre());
             else
                 statement.setObject(3, null);
             statement.setString(4, song.getName());
@@ -351,7 +350,7 @@ public class SongDAO implements DataAccessObject {
             else
                 statement.setObject(2, null);
             if (song.getGenre() != null)
-                statement.setInt(3, song.getGenre().getGenreId());
+                statement.setString(3, song.getGenre());
             else
                 statement.setObject(3, null);
             statement.setString(4, song.getName());

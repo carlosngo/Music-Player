@@ -23,10 +23,6 @@ public final class Database {
     public static final String PLAYLISTSONG_COLUMNS =
             "FK_PlaylistID, FK_SongID";
 
-    public static final String GENRE_TABLE = "musicplayer.genre";
-    public static final String GENRE_COLUMNS =
-            "PK_GenreID, FK_UserID, Name";
-
     public static final String ALBUM_TABLE = "musicplayer.album";
     public static final String ALBUM_COLUMNS =
             "PK_AlbumID, FK_UserID, Name, Artist, Cover";

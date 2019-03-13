@@ -11,7 +11,8 @@ public class AccountController {
 
 	// data
 	private User user;
-	private TreeSet<Genre> genres;
+	private TreeSet<String> genres;
+	private TreeSet<String> artists;
 	private TreeSet<Song> songs;
 	private TreeSet<Album> albums;
 	private TreeSet<Playlist> playlists;
@@ -35,7 +36,7 @@ public class AccountController {
 		return user;
 	}
 
-	public TreeSet<Genre> getGenres() {
+	public TreeSet<String> getGenres() {
 		return genres;
 	}
 
@@ -109,6 +110,7 @@ public class AccountController {
 	public boolean register(String username, String password, String firstName, String lastName, String gender, Date birthday) {
 		try {
 			if(!mc.getUserDAO().existUserName(username)){
+				System.out.println(user);
 				user.setUserName(username);
 				user.setPassword(password);
 				user.setFirstName(firstName);
@@ -141,18 +143,6 @@ public class AccountController {
 	public void save() {
 		if (user.getUserId() != -1) {
 			mc.getUserDAO().update(user);
-			for (Genre g : genres) {
-				try {
-					g.setUser(user);
-					//                if (mc.getGenreDAO().findByName(g.getName(), g.getUser().getUserId()) == null)
-					if (g.getGenreId() == -1)
-						mc.getGenreDAO().create(g);
-					else
-						mc.getGenreDAO().update(g);
-				} catch (IllegalArgumentException e) {
-					//                e.printStackTrace();
-				}
-			}
 			for (Playlist p : playlists) {
 				try {
 					p.setUser(user);
@@ -199,14 +189,16 @@ public class AccountController {
 	}
 
 	public void load() {
-		genres = new TreeSet(mc.getGenreDAO().listById(user.getUserId()));
+		genres = new TreeSet<>();
 		playlists = new TreeSet(mc.getPlaylistDAO().listById(user.getUserId()));
 		albums = new TreeSet(mc.getAlbumDAO().listById(user.getUserId()));
 		songs = new TreeSet(mc.getSongDAO().listById(user.getUserId()));
 		for(Song s : songs) {
-			if (s.getAlbum() != null && s.getGenre() != null) {
+			if (s.getAlbum() != null) {
 				s.setAlbum(albums.floor(s.getAlbum()));
-				s.setGenre(genres.floor(s.getGenre()));
+			}
+			if (s.getGenre() != null) {
+				genres.add(s.getGenre());
 			}
 		}
 		for (Playlist p : playlists) {

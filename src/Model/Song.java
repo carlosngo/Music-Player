@@ -7,7 +7,7 @@ public class Song implements Comparable<Song> {
     private int songId;
     private User user;
     private Album album;
-    private Genre genre;
+    private String genre;
     private String name;
     private int year;
     private boolean favorite;
@@ -36,11 +36,11 @@ public class Song implements Comparable<Song> {
         this.album = album;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 

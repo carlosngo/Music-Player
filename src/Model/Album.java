@@ -1,11 +1,12 @@
 package Model;
 
-import java.sql.Blob;
+import java.util.*;
 import java.io.*;
 
 public class Album implements Comparable<Album> {
     private int albumId;
     private User user;
+    private ArrayList<Song> songs;
     private String name;
     private String artist;
     private File cover;
