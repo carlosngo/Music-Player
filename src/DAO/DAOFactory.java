@@ -6,7 +6,7 @@ public abstract class DAOFactory {
 
     public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/musicplayer";
     public static final String DATABASE_USERNAME = "root";
-    public static final String DATABASE_PASSWORD = "password";
+    public static final String DATABASE_PASSWORD = "zerovit098";
 
     public static final String USER_TABLE = "musicplayer.user";
     public static final String USER_COLUMNS =
