@@ -127,7 +127,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         genderLbl.setForeground(Color.white);
         genderLbl.setFont(new Font("Arial", Font.BOLD, 22));
         p4.add(genderLbl);
-        String[] genderList = {"Choose gender", "Male", "Female"};
+        String[] genderList = {"Choose gender", "M", "F"};
         gender = new JComboBox(genderList);
         gender.setFont(new Font("Arial", Font.PLAIN, 16));
         //gender.setEnabled(false);
@@ -235,13 +235,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         if (e.getSource() == save){
             Calendar c = Calendar.getInstance();
             c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
-            boolean success = controller.register(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(),
+            controller.updateUser(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(),
                     lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
-            if (!success) {
-                JOptionPane.showMessageDialog(null, "Username already exists.",
-                        "Registration Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
             dispose();
         }
         if (e.getSource() == cancel){

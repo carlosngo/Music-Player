@@ -140,6 +140,7 @@ public class AccountController {
 
 	public void save() {
 		if (user.getUserId() != -1) {
+			mc.getUserDAO().update(user);
 			for (Genre g : genres) {
 				try {
 					g.setUser(user);
