@@ -194,9 +194,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 7:
                     value = "Times Played";
                     break;
-                case 8:
-                    value = "Kebab";
-                    break;
+//                case 8:
+//                    value = "Kebab";
+//                    break;
             }
             return value;
         }
@@ -229,9 +229,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 7:
                     value = String.class;
                     break;
-                case 8:
-                    value = JPanel.class;
-                    break;
+//                case 8:
+//                    value = JPanel.class;
+//                    break;
             }
             return value;
         }
@@ -243,7 +243,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         @Override
         public int getColumnCount() {
-            return 9;
+            return 8;
         }
 
         @Override
@@ -274,8 +274,8 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 7:
                     value = obj.get(6);
                     break;
-                case 8:
-                    break;
+//                case 8:
+//                    break;
             }
             return value;
         }
