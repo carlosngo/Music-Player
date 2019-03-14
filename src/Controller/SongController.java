@@ -69,7 +69,7 @@ public class SongController {
         atpw = new AddToPlaylistWindow(this, index);
     }
 
-    public void removePlaylistWindow(int index) {
+    public void openRemoveFromPlaylistWindow(int index) {
         rfpw = new RemoveFromPlaylistWindow(this, index);
     }
 
@@ -108,6 +108,10 @@ public class SongController {
         Song s = displayedSongs.get(songIndex);
         Playlist p = playlists.get(playlistIndex);
         p.getSongs().add(s);
+    }
+
+    public void removeFromPlaylist(int songIndex, int playlistIndex) {
+
     }
 
 //    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){

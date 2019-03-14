@@ -127,7 +127,7 @@ public class RemoveFromPlaylistWindow extends JFrame implements ActionListener, 
         if(e.getSource() == con){
             setName((String) playlistChoices.getSelectedItem());
             confirmation = true;
-            //controller.addToPlaylist(songIndex, playlistChoices.getSelectedIndex() - 1);
+            controller.removeFromPlaylist(songIndex, playlistChoices.getSelectedIndex() - 1);
             dispose();
         }
     }

@@ -646,7 +646,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to remove this song?", "Confirm Remove Song from Playlist", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION)
-                            controller.removeFromPlaylist(currentRow);
+                            controller.openRemoveFromPlaylistWindow(currentRow);
                         break;
                     case "edit":
                         controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
