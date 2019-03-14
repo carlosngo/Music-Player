@@ -15,7 +15,7 @@ public class PlaylistDAO implements DataAccessObject {
     private static final String SQL_FIND_BY_ID =
             "SELECT " + Database.PLAYLIST_COLUMNS +" FROM " + Database.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
     private static final String SQL_INSERT =
-            "INSERT INTO " + Database.PLAYLIST_TABLE + " (FK_UserID, Name, Favorite) VALUES (?, ?, ?)";
+            "INSERT INTO " + Database.PLAYLIST_TABLE + " (FK_UserID, Name, Favorite, DateCreated) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE =
             "DELETE FROM " + Database.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
     private static final String SQL_UPDATE =
@@ -40,6 +40,7 @@ public class PlaylistDAO implements DataAccessObject {
 //        playlist.setUserId(rs.getInt("FK_UserID"));
         playlist.setName(rs.getString("Name"));
         playlist.setFavorite(rs.getBoolean("Favorite"));
+        playlist.setDateCreated(rs.getTimestamp("DateCreated"));
 
         return playlist;
     }
@@ -73,7 +74,7 @@ public class PlaylistDAO implements DataAccessObject {
             statement.setInt(1, playlist.getUser().getUserId());
             statement.setString(2, playlist.getName());
             statement.setBoolean(3, playlist.isFavorite());
-
+            statement.setTimestamp(4, new Timestamp(playlist.getDateCreated().getTime()));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -115,6 +116,7 @@ public class PlaylistDAO implements DataAccessObject {
             statement.setString(2, playlist.getName());
             statement.setBoolean(3, playlist.isFavorite());
             statement.setInt(4, playlist.getPlaylistId());
+
 
             statement.executeUpdate();
             statement.close();
