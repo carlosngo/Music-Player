@@ -12,7 +12,6 @@ public class SongController {
 
     private AddSongWindow asw;
     private AddPlaylistWindow apw;
-    private RemoveFromPlaylistWindow rfpw;
     private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
     private EditCategoryWindow ecw;
@@ -69,10 +68,6 @@ public class SongController {
         atpw = new AddToPlaylistWindow(this, index);
     }
 
-    public void openRemoveFromPlaylistWindow(int index) {
-        rfpw = new RemoveFromPlaylistWindow(this, index);
-    }
-
     public void openEditSongProfileWindow(int index, ArrayList<String> data) {
         espw = new EditSongProfileWindow(this, data, index);
     }
@@ -87,8 +82,8 @@ public class SongController {
         p.setDateCreated(Calendar.getInstance().getTime());
         mc.getPlaylists().add(p);
         cp.addRow("Playlists", playlistName);
+        cp.update();
     }
-
 
     // play song at index of displayedSongs
     public void playSong(int index) {
@@ -114,8 +109,20 @@ public class SongController {
         if (!exists) p.getSongs().add(s);
     }
 
-    public void removeFromPlaylist(int songIndex, int playlistIndex) {
-
+    public void removeFromPlaylist(int songIndex, String playlistName) {
+        Song selectedSong = displayedSongs.get(songIndex);
+        for (Playlist p : mc.getPlaylists()) {
+            if (p.getName().equalsIgnoreCase(playlistName)) {
+                for (int i = 0; i < p.getSongs().size(); i++) {
+                    Song s = p.getSongs().get(i);
+                    if (s.equals(selectedSong)) {
+                        p.getSongs().remove(s);
+                        mc.getPlaylistSongDAO().separate(p, s);
+                    }
+                }
+            }
+        }
+        sp.deleteRow(songIndex);
     }
 
 //    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){

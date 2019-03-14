@@ -63,7 +63,6 @@ public class SongPanel extends JPanel implements ActionListener{
             headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
             add(headerPnl);
             add(Box.createRigidArea(new Dimension(0,10)));
-
             tablePnl = new JPanel();
             tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
             tablePnl.setOpaque(false);
@@ -95,9 +94,9 @@ public class SongPanel extends JPanel implements ActionListener{
             tableHeader.setBackground(new Color(65,15,225)); // change the Background color
             tableHeader.setForeground(Color.WHITE);
             tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-//        categoryTable.setPreferredSize(new Dimension(50,100));
-//        categoryTable.setMinimumSize(new Dimension(50,100));
-//        categoryTable.setMaximumSize(new Dimension(50,100));
+//        categoryTable.setPreferredSize(new Dimension(50,150));
+//        categoryTable.setMinimumSize(new Dimension(50,150));
+//        categoryTable.setMaximumSize(new Dimension(50,150));
             categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
             categoryTable.setOpaque(false);
             categoryTable.setRowHeight(30);
@@ -127,6 +126,12 @@ public class SongPanel extends JPanel implements ActionListener{
 
     public void addRow(ArrayList<String> data) {
         model.add(data);
+        revalidate();
+        repaint();
+    }
+
+    public void deleteRow(int index) {
+        model.remove(index);
         revalidate();
         repaint();
     }
@@ -329,6 +334,11 @@ public class SongPanel extends JPanel implements ActionListener{
             fireTableRowsInserted(startIndex, startIndex);
         }
 
+        public void remove(int index) {
+            data.remove(index);
+            fireTableRowsInserted(index, index);
+        }
+
         public void edit(ArrayList<String> value) {
             int startIndex = data.indexOf(value);
             System.out.println("startIndex = " + startIndex);
@@ -350,7 +360,7 @@ public class SongPanel extends JPanel implements ActionListener{
         private JButton edit;
         private JButton kebab;
         private String state;
-        final JPopupMenu settingsMenu = new JPopupMenu();
+        private JPopupMenu settingsMenu = new JPopupMenu();
 
         public ActionsPane() {
             setOpaque(false);
@@ -398,28 +408,29 @@ public class SongPanel extends JPanel implements ActionListener{
             kebab.setBorderPainted(false);
             kebab.setActionCommand("settings");
 
+
             try{
                 URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
                 BufferedImage img = ImageIO.read(resource);
-                addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/delete.png");
                 img = ImageIO.read(resource);
-                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/edit.png");
                 img = ImageIO.read(resource);
-                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
                 img = ImageIO.read(resource);
-                play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
                 img = ImageIO.read(resource);
-                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
                 img = ImageIO.read(resource);
-                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
                 img = ImageIO.read(resource);
-                kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
             catch(Exception e){
 
@@ -540,18 +551,20 @@ public class SongPanel extends JPanel implements ActionListener{
 
             ActionListener kebabListener = new ActionListener() {
                 public void actionPerformed(ActionEvent ev) {
-                    settingsMenu.show(edit, edit.getBounds().x + (edit.getBounds().width)/2, edit.getBounds().y
-                            + (edit.getBounds().height)/2);
+//                    System.out.println("Clicked kebab");
+                    PopupMenu();
+                    settingsMenu.show(kebab, kebab.getBounds().x - (kebab.getBounds().width), kebab.getBounds().y
+                            + (kebab.getBounds().height));
                 }
             };
             kebab.addActionListener(kebabListener);
 
             kebab.addMouseListener(new MouseAdapter() {
                 public void mouseEntered(MouseEvent e) {
-                    edit.setEnabled(true);
+                    kebab.setEnabled(true);
                 }
                 public void mouseExited(MouseEvent e) {
-                    edit.setEnabled(false);
+                    kebab.setEnabled(false);
                 }
             });
         }
@@ -571,7 +584,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         private void PopupMenu(){
 
-
+            settingsMenu = new JPopupMenu();
             JMenuItem addToQueue = new JMenuItem("Add to queue");
             addToQueue.setActionCommand("queue");
 
@@ -597,7 +610,9 @@ public class SongPanel extends JPanel implements ActionListener{
 
             settingsMenu.add(addToQueue);
             settingsMenu.add(add_to_playlist);
-            settingsMenu.add(removeFromPlaylist);
+            String[] split = headerName.getText().split(" ");
+            if (split.length > 1 && split[1].equals("IN"))
+                settingsMenu.add(removeFromPlaylist);
             settingsMenu.add(edit);
             settingsMenu.add(delete);
 
@@ -612,19 +627,19 @@ public class SongPanel extends JPanel implements ActionListener{
             try{
                 URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
                 BufferedImage img = ImageIO.read(resource);
-                add_to_playlist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                add_to_playlist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/delete.png");
                 img = ImageIO.read(resource);
-                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/edit.png");
                 img = ImageIO.read(resource);
-                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
                 img = ImageIO.read(resource);
-                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanRemoveFromPlaylist.png");
                 img = ImageIO.read(resource);
-                removeFromPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                removeFromPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
             catch(Exception e){
 
@@ -645,8 +660,10 @@ public class SongPanel extends JPanel implements ActionListener{
                     case "remove":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to remove this song?", "Confirm Remove Song from Playlist", JOptionPane.YES_NO_OPTION);
-                        if (choice == JOptionPane.YES_OPTION)
-                            controller.openRemoveFromPlaylistWindow(currentRow);
+                        if (choice == JOptionPane.YES_OPTION) {
+//                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
+                            controller.removeFromPlaylist(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
+                        }
                         break;
                     case "edit":
                         controller.openEditSongProfileWindow(currentRow, data.get(currentRow));

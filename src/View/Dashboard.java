@@ -64,8 +64,9 @@ public class Dashboard extends JFrame {
             }
         });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setExtendedState( getExtendedState()|JFrame.MAXIMIZED_BOTH );
+//        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     public JPanel getCenterPanel() {

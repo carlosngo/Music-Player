@@ -14,7 +14,8 @@ public class PlaylistSongDAO implements DataAccessObject {
     private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
     private static String SQL_INSERT =
             "INSERT INTO " + Database.PLAYLISTSONG_TABLE + " (" + Database.PLAYLISTSONG_COLUMNS + ") VALUES (?, ?)";
-
+    private static String SQL_DELETE =
+            "DELETE FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ? AND FK_SongID = ?";
     private DAOFactory db;
 
     public PlaylistSongDAO(DAOFactory db) {
@@ -34,8 +35,23 @@ public class PlaylistSongDAO implements DataAccessObject {
 
         } catch (SQLException e) {
         }
+    }
 
+    public void separate(Playlist p, Song s) {
+        if (p.getPlaylistId() == -1 || s.getSongId() == -1)
+            return;
+        Object[] values = {
+                p.getPlaylistId(),
+                s.getSongId()
+        };
+        try {
+            Connection con = Database.getConnection();
 
+            PreparedStatement stmt = prepareStatement(con, SQL_DELETE, false, values);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+        }
     }
 
     public ArrayList<Integer> listByPlaylistId(int playlistId) {
