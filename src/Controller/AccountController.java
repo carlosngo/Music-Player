@@ -12,7 +12,7 @@ public class AccountController {
 	// data
 	private User user;
 	private TreeSet<String> genres;
-	private TreeSet<String> artists;
+	private TreeSet<Artist> artists;
 	private TreeSet<Song> songs;
 	private TreeSet<Album> albums;
 	private TreeSet<Playlist> playlists;
@@ -36,9 +36,9 @@ public class AccountController {
 		return user;
 	}
 
-	public TreeSet<String> getGenres() {
-		return genres;
-	}
+	public TreeSet<String> getGenres() { return genres; }
+
+	public TreeSet<Artist> getArtists() { return artists; }
 
 	public TreeSet<Song> getSongs() {
 		return songs;
@@ -90,7 +90,6 @@ public class AccountController {
 
 	// logs in the user. check for errors.
 	public boolean logIn(String username, String password) {
-
 		user = mc.getUserDAO().find(username, password);
 		if (user == null) return false;
 		System.out.println("Hi, " + user.getFirstName());
@@ -139,6 +138,7 @@ public class AccountController {
 		mc.getSongController().showAllSongs();
 		mc.getDashboard().update();
 	}
+
 
 	public void save() {
 		if (user.getUserId() != -1) {
@@ -190,6 +190,7 @@ public class AccountController {
 
 	public void load() {
 		genres = new TreeSet<>();
+		artists = new TreeSet<>();
 		playlists = new TreeSet(mc.getPlaylistDAO().listById(user.getUserId()));
 		albums = new TreeSet(mc.getAlbumDAO().listById(user.getUserId()));
 		songs = new TreeSet(mc.getSongDAO().listById(user.getUserId()));
@@ -200,6 +201,9 @@ public class AccountController {
 			if (s.getGenre() != null) {
 				genres.add(s.getGenre());
 			}
+			if (s.getArtist() != null) {
+			    artists.add(s.getArtist());
+            }
 		}
 		for (Playlist p : playlists) {
 			for (Integer i : mc.getPlaylistSongDAO().listByPlaylistId(p.getPlaylistId())) {
@@ -245,6 +249,7 @@ public class AccountController {
 		albums = new TreeSet<>();
 		playlists = new TreeSet<>();
 		genres = new TreeSet<>();
+		artists = new TreeSet<>();
 		if (mc.getPlayerController() != null)
 			mc.getPlayerController().terminate();
 	}

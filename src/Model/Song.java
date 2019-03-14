@@ -7,6 +7,7 @@ public class Song implements Comparable<Song> {
     private int songId;
     private User user;
     private Album album;
+    private Artist artist;
     private String genre;
     private String name;
     private int year;
@@ -18,6 +19,14 @@ public class Song implements Comparable<Song> {
 
 	public Song() {
 	    songId = -1;
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 
     public User getUser() {

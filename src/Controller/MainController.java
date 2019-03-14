@@ -19,6 +19,7 @@ public class MainController {
     private AlbumDAOFactory albumDAOFactory;
     private PlaylistDAOFactory playlistDAOFactory;
     private PlaylistSongDAOFactory playlistSongDAOFactory;
+    private ArtistDAOFactory artistDAOFactory;
 
     // views
     private static Dashboard dashboard;
@@ -29,6 +30,7 @@ public class MainController {
         albumDAOFactory = new AlbumDAOFactory();
         playlistDAOFactory = new PlaylistDAOFactory();
         playlistSongDAOFactory = new PlaylistSongDAOFactory();
+        artistDAOFactory = new ArtistDAOFactory();
         ac = new AccountController(this);
         pc = new PlayerController(this);
         sc = new SongController(this);
@@ -113,6 +115,8 @@ public class MainController {
     public PlaylistSongDAO getPlaylistSongDAO() {
         return (PlaylistSongDAO) playlistSongDAOFactory.getDAO();
     }
+
+    public ArtistDAO getArtistDAO() { return (ArtistDAO) artistDAOFactory.getDAO(); }
 
     public Dashboard getDashboard() {
         return dashboard;
