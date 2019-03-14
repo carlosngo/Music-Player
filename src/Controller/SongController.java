@@ -361,9 +361,10 @@ public class SongController {
         return mc.getGenres().floor(genreName);
     }
 
-    public void addSong(String songName, String genreName, String albumName, String year, File wav) {
+    public void addSong(String songName, String artist, String genreName, String albumName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
+        s.setArtist(artist);
         s.setUser(mc.getAccountController().getUser());
 
         s.setGenre(getGenre(genreName));
@@ -393,7 +394,7 @@ public class SongController {
         mc.getPlayerController().getPlayerPanel().update();
     }
 
-    public void updateSong(int songIndex, String title, String album, String year, String genre){
+    public void updateSong(int songIndex, String title, String album, String artist, String year, String genre){
         Song s = displayedSongs.get(songIndex);
 //        System.out.println(s);
         s.setName(title);
@@ -403,7 +404,7 @@ public class SongController {
 //        else {
 ////            Album a = new
 //        }
-
+        s.setArtist(artist);
         s.setYear(Integer.parseInt(year));
         s.setGenre(getGenre(genre));
 //        s.getGenre().setName(genre);
