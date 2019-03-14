@@ -642,7 +642,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         controller.openAddToPlaylistWindow(currentRow);
                         break;
                     case "remove":
-                        //remove from playlist
+                        controller.removeFromPlaylist(currentRow);
                         break;
                     case "edit":
                         controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
