@@ -1,6 +1,9 @@
 package DAO;
 
 import Controller.*;
+
+import static DAO.DAOUtil.prepareStatement;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import Model.Album;
+import Model.Song;
 import Model.User;
 
 public class AlbumDAO implements DataAccessObject {
@@ -27,7 +31,10 @@ public class AlbumDAO implements DataAccessObject {
     private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, Name = ?, Artist = ?, Cover = ? WHERE PK_AlbumID = ?";
     private static final String SQL_LIST_BY_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE FK_UserID = ?";
     private static final String SQL_EXIST_ALBUM = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
-
+    private static final String SQL_LIST_BY_ARTIST = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 
+    		+ " ON " + Database.ALBUM_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + Database.ARTIST_TABLE + ".Name = ?";
+    
+    
     private static final String PATH = "resources/images/";
 
     public AlbumDAO(DAOFactory db) {
@@ -193,6 +200,24 @@ public class AlbumDAO implements DataAccessObject {
             e.printStackTrace();
         }
         return album;
+    }
+    
+    public ArrayList<Album> listByArtistName(String name){
+    	 Object[] values = {
+    			 name
+    	 };
+         ArrayList<Album> albums = new ArrayList<>();
+         try {
+             Connection con = Database.getConnection();
+             PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ARTIST, false, values);
+             ResultSet rs = stmt.executeQuery();
+             while (rs.next()) {
+                 albums.add(map(rs));
+             }
+         } catch(SQLException e) {
+             e.printStackTrace();
+         }
+         return albums;
     }
 
     public static void main(String[] args) {

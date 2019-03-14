@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
+import javax.xml.crypto.Data;
 
 
 public class SongDAO implements DataAccessObject {
@@ -47,6 +48,9 @@ public class SongDAO implements DataAccessObject {
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE Year = ? AND FK_UserID = ?";
     private static final String SQL_LIST_BY_PLAYTIME =
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY PlayTime DESC";
+    private static final String SQL_LIST_BY_ARTIST = 
+    		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ARTIST_TABLE + " ON " + Database.SONG_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + 
+    		Database.ARTIST_TABLE + ".Name = ?";
     private static final String PATH =
             "resources/music/";
 
@@ -279,6 +283,24 @@ public class SongDAO implements DataAccessObject {
             e.printStackTrace();
         }
         return songs;
+    }
+    
+    public ArrayList<Song> listByArtist(String name){
+    	Object[] values = {
+    		name
+    	};
+    	 ArrayList<Song> songs = new ArrayList<>();
+         try {
+             Connection connection = Database.getConnection();
+             PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ARTIST, false, values);
+             ResultSet rs = statement.executeQuery();
+             while(rs.next()) {
+                 songs.add(map(rs));
+             }
+         }catch(SQLException e) {
+             e.printStackTrace();
+         }
+         return songs;
     }
 
     public void create(Song song) throws IllegalArgumentException {

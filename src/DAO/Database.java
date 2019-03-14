@@ -27,6 +27,10 @@ public final class Database {
     public static final String ALBUM_COLUMNS =
             "PK_AlbumID, FK_UserID, Name, Artist, Cover";
 
+    public static final String ARTIST_TABLE = "musicplayer.artist";
+    public static final String ARTIST_COLUMNS =
+    		"PK_ArtistID, Name, Genre";
+
     private static Connection con = null;
 
     private Database() { }
