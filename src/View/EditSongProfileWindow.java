@@ -87,13 +87,13 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         genreLabel.setForeground(Color.WHITE);
         genreLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p3.add(genreLabel);
-        ArrayList<String> choices = new ArrayList<String>();
-        choices.add("Select a Genre");
-        for(String genre : controller.getMainController().getGenres()){
-            choices.add(genre);
+
+        String[] sChoices = controller.getAllPossibleGenres();
+        genreChoices = new JComboBox();
+        genreChoices.addItem("");
+        for (int i = 0; i < sChoices.length; i++) {
+            genreChoices.addItem(sChoices[i]);
         }
-        String[] sChoices = choices.toArray(new String[choices.size()]);
-        genreChoices = new JComboBox(sChoices);
         genreChoices.setEditable(true);
         p3.add(genreChoices);
 //        genreInput = new JTextField("" , 15);
@@ -174,8 +174,9 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
 
         titleInput.setText(data.get(0));
         albumInput.setText(data.get(1));
-        yearInput.setText(data.get(2));
-        genreInput.setText(data.get(3));
+        artistInput.setText(data.get(2));
+        yearInput.setText(data.get(3));
+        genreChoices.setSelectedItem(data.get(4));
         setVisible(true);
         setResizable(false);
         //setUndecorated(true);

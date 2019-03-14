@@ -312,7 +312,10 @@ public class SongDAO implements DataAccessObject {
         try {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, song.getArtist().getArtistId());
+            if (song.getArtist() != null)
+                statement.setInt(1, song.getArtist().getArtistId());
+            else
+                statement.setObject(1, null);
             statement.setInt(2, song.getUser().getUserId());
             if (song.getAlbum() != null)
                 statement.setInt(3, song.getAlbum().getAlbumId());
@@ -376,7 +379,10 @@ public class SongDAO implements DataAccessObject {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
-            statement.setInt(1, song.getArtist().getArtistId());
+            if (song.getArtist() != null)
+                statement.setInt(1, song.getArtist().getArtistId());
+            else
+                statement.setObject(1, null);
             statement.setInt(2, song.getUser().getUserId());
             if (song.getAlbum() != null)
                 statement.setInt(3, song.getAlbum().getAlbumId());

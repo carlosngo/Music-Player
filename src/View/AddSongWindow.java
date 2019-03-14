@@ -90,7 +90,12 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         genreLabel.setForeground(Color.white);
         p2.add(genreLabel);
         String[] sChoices = controller.getAllPossibleGenres();
-        genreChoices = new JComboBox(sChoices);
+
+        genreChoices = new JComboBox();
+        genreChoices.addItem("");
+        for (int i = 0; i < sChoices.length; i++) {
+            genreChoices.addItem(sChoices[i]);
+        }
         genreChoices.setEditable(true);
         p2.add(genreChoices);
 //        genreInput = new JTextField("" , 15);
