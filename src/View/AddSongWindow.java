@@ -1,6 +1,7 @@
 package View;
 
 import Controller.*;
+import Model.Playlist;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,14 +11,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class AddSongWindow extends JFrame implements ActionListener, DocumentListener {
-    SongController controller;
-    JTextField songTitleInput, genreInput, artistInput, yearInput, albumInput;
-    JButton selectFile, cancel, saveSong;
-    JPanel fileReaderPnl;
-    JLabel selectedFileName;
-    File selectedFile;
+    private SongController controller;
+    private JTextField songTitleInput, genreInput, artistInput, yearInput, albumInput;
+    private JButton selectFile, cancel, saveSong;
+    private JPanel fileReaderPnl;
+    private JLabel selectedFileName;
+    private File selectedFile;
+    private JComboBox genreChoices;
 
     public AddSongWindow(SongController controller){
         this.controller = controller;
@@ -86,11 +89,20 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         genreLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         genreLabel.setForeground(Color.white);
         p2.add(genreLabel);
-        genreInput = new JTextField("" , 15);
-        genreInput.addActionListener(this);
-        genreInput.getDocument().addDocumentListener(this);
-        genreInput.setFont(new Font("Arial", Font.PLAIN, 22));
-        p2.add(genreInput);
+        ArrayList<String> choices = new ArrayList<String>();
+        choices.add("Select a Genre");
+        for(String genre : controller.getGenres()){
+            choices.add(genre);
+        }
+        String[] sChoices = choices.toArray(new String[choices.size()]);
+        genreChoices = new JComboBox(sChoices);
+        genreChoices.setEditable(true);
+        p2.add(genreChoices);
+//        genreInput = new JTextField("" , 15);
+//        genreInput.addActionListener(this);
+//        genreInput.getDocument().addDocumentListener(this);
+//        genreInput.setFont(new Font("Arial", Font.PLAIN, 22));
+//        p2.add(genreInput);
         p2.add(Box.createRigidArea(new Dimension(15,0)));
         p.add(p2);
         p.add(Box.createRigidArea(new Dimension(0,7)));
@@ -214,19 +226,10 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         }
         if(e.getSource() == saveSong){
             String songTitle = songTitleInput.getText();
-            String genre = genreInput.getText();
+            String genre = genreChoices.getSelectedItem().toString();
             String artist= artistInput.getText();
             String year = yearInput.getText();
             String album = albumInput.getText();
-            //update database with info
-            //title = songTitle
-            //genre = genre
-            //artist = artist
-            // year = year
-//            System.out.println("title:" + songTitle);
-//            System.out.println("genre:" + genre);
-//            System.out.println("artist:" + artist);
-//            System.out.println("year:" + year);
             controller.addSong(songTitle, artist, genre, album, year, selectedFile);
             dispose();
         }
