@@ -31,6 +31,8 @@ public final class Database {
     public static final String ARTIST_COLUMNS =
             "PK_ArtistID, Name, Genre";
 
+
+
     private static Connection con = null;
 
     private Database() { }

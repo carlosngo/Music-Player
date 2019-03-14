@@ -6,10 +6,10 @@ import java.io.*;
 public class Album implements Comparable<Album> {
     private int albumId;
     private User user;
-    private ArrayList<Song> songs;
     private String name;
     private String artist;
     private File cover;
+    private Date dateCreated;
 
 	public Album() {
     	albumId = -1;
@@ -49,7 +49,15 @@ public class Album implements Comparable<Album> {
 		this.cover = cover;
 	}
 
-	@Override
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    @Override
 	public int compareTo(Album o) {
 		return name.compareTo(o.getName());
 	}

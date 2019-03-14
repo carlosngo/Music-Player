@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
+import javax.xml.crypto.Data;
 
 
 public class SongDAO implements DataAccessObject {
@@ -27,11 +28,11 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_FIND_BY_YEAR =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY year";
     private static final String SQL_INSERT =
-            "INSERT INTO " + Database.SONG_TABLE + " (FK_UserID, FK_AlbumID, FK_GenreID, Name, Year, Favorite, PlayTime, LastPlayed, File) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_UserID, FK_AlbumID, Name, Genre, Year, Favorite, PlayTime, LastPlayed, File, DateCreated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
             "DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_UPDATE =
-            "UPDATE " + Database.SONG_TABLE + " SET FK_UserID = ?, FK_AlbumID = ?, FK_GenreID = ?, Name = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
+            "UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_UserID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
     private static final String SQL_LIST_BY_ID =
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ?";
     private static final String SQL_LIST_BY_GENRE =
@@ -47,6 +48,9 @@ public class SongDAO implements DataAccessObject {
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE Year = ? AND FK_UserID = ?";
     private static final String SQL_LIST_BY_PLAYTIME =
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY PlayTime DESC";
+    private static final String SQL_LIST_BY_ARTIST = 
+    		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ARTIST_TABLE + " ON " + Database.SONG_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + 
+    		Database.ARTIST_TABLE + ".Name = ?";
     private static final String PATH =
             "resources/music/";
 
@@ -78,7 +82,8 @@ public class SongDAO implements DataAccessObject {
         song.setYear(rs.getInt("Year"));
         song.setFavorite(rs.getBoolean("Favorite"));
         song.setPlayTime(rs.getLong("PlayTime"));
-        song.setLastPlayed(rs.getDate("LastPlayed"));
+        song.setLastPlayed(rs.getTimestamp("LastPlayed"));
+        song.setDateCreated(rs.getTimestamp("DateCreated"));
         Blob b = rs.getBlob("File");
         if (b != null) {
             BlobParser.setStrategy(new BlobToFile());
@@ -281,6 +286,24 @@ public class SongDAO implements DataAccessObject {
         }
         return songs;
     }
+    
+    public ArrayList<Song> listByArtist(String name){
+    	Object[] values = {
+    		name
+    	};
+    	 ArrayList<Song> songs = new ArrayList<>();
+         try {
+             Connection connection = Database.getConnection();
+             PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ARTIST, false, values);
+             ResultSet rs = statement.executeQuery();
+             while(rs.next()) {
+                 songs.add(map(rs));
+             }
+         }catch(SQLException e) {
+             e.printStackTrace();
+         }
+         return songs;
+    }
 
     public void create(Song song) throws IllegalArgumentException {
         if (song.getSongId() != -1) {
@@ -289,25 +312,31 @@ public class SongDAO implements DataAccessObject {
         try {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-
-            statement.setInt(1, song.getUser().getUserId());
+            statement.setInt(1, song.getArtist().getArtistId());
+            statement.setInt(2, song.getUser().getUserId());
             if (song.getAlbum() != null)
-                statement.setInt(2, song.getAlbum().getAlbumId());
-            else
-                statement.setObject(2, null);
-            if (song.getGenre() != null)
-                statement.setString(3, song.getGenre());
+                statement.setInt(3, song.getAlbum().getAlbumId());
             else
                 statement.setObject(3, null);
             statement.setString(4, song.getName());
-            statement.setInt(5, song.getYear());
-            statement.setBoolean(6, song.isFavorite());
-            statement.setLong(7, song.getPlayTime());
-            statement.setDate(8, (Date) song.getLastPlayed());
+            if (song.getGenre() != null)
+                statement.setString(5, song.getGenre());
+            else
+                statement.setObject(5, null);
+            statement.setInt(6, song.getYear());
+            statement.setBoolean(7, song.isFavorite());
+            statement.setLong(8, song.getPlayTime());
+            if (song.getLastPlayed() != null)
+                statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
+            else {
+                statement.setObject(9, null);
+            }
 //            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
 //            File wav = Paths.get(resource.toURI()).toFile();
             File wav = song.getWAV();
-            statement.setBinaryStream(9, new FileInputStream(wav));
+            statement.setBinaryStream(10, new FileInputStream(wav));
+
+            statement.setTimestamp(11, new Timestamp(song.getDateCreated().getTime()));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -347,22 +376,22 @@ public class SongDAO implements DataAccessObject {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
-            statement.setInt(1, song.getUser().getUserId());
+            statement.setInt(1, song.getArtist().getArtistId());
+            statement.setInt(2, song.getUser().getUserId());
             if (song.getAlbum() != null)
-                statement.setInt(2, song.getAlbum().getAlbumId());
-            else
-                statement.setObject(2, null);
-            if (song.getGenre() != null)
-                statement.setString(3, song.getGenre());
+                statement.setInt(3, song.getAlbum().getAlbumId());
             else
                 statement.setObject(3, null);
             statement.setString(4, song.getName());
-            statement.setInt(5, song.getYear());
-            statement.setBoolean(6, song.isFavorite());
-            statement.setLong(7, song.getPlayTime());
-            statement.setDate(8, (Date) song.getLastPlayed());
-            statement.setInt(9, song.getSongId());
-
+            if (song.getGenre() != null)
+                statement.setString(5, song.getGenre());
+            else
+                statement.setObject(5, null);
+            statement.setInt(6, song.getYear());
+            statement.setBoolean(7, song.isFavorite());
+            statement.setLong(8, song.getPlayTime());
+            statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
+            statement.setInt(10, song.getSongId());
             statement.executeUpdate();
 
             statement.close();

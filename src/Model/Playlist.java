@@ -8,10 +8,19 @@ public class Playlist implements Comparable<Playlist> {
     private String name;
     private ArrayList<Song> songs;
     private boolean favorite;
+    private Date dateCreated;
 
     public Playlist() {
         playlistId = -1;
         songs = new ArrayList<>();
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public User getUser() {

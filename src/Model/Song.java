@@ -14,11 +14,20 @@ public class Song implements Comparable<Song> {
     private boolean favorite;
     private long playTime;
     private Date lastPlayed;
+    private Date dateCreated;
     private File wav;
 
 
 	public Song() {
 	    songId = -1;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Artist getArtist() {

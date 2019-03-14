@@ -1,6 +1,9 @@
 package DAO;
 
 import Controller.*;
+
+import static DAO.DAOUtil.prepareStatement;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,18 +19,22 @@ import java.util.Calendar;
 import java.util.List;
 
 import Model.Album;
+import Model.Song;
 import Model.User;
 
 public class AlbumDAO implements DataAccessObject {
     private DAOFactory db;
 
     private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
-    private static final String SQL_INSERT = "INSERT INTO album (FK_UserID, Name, Artist, Cover) VALUES (?, ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO album (FK_UserID, Name, Cover, DateCreated) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
-    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, Name = ?, Artist = ?, Cover = ? WHERE PK_AlbumID = ?";
+    private static final String SQL_UPDATE = "UPDATE album SET FK_UserID = ?, Name = ?, Cover = ? WHERE PK_AlbumID = ?";
     private static final String SQL_LIST_BY_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE FK_UserID = ?";
     private static final String SQL_EXIST_ALBUM = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
-
+    private static final String SQL_LIST_BY_ARTIST = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 
+    		+ " ON " + Database.ALBUM_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + Database.ARTIST_TABLE + ".Name = ?";
+    
+    
     private static final String PATH = "resources/images/";
 
     public AlbumDAO(DAOFactory db) {
@@ -44,7 +51,7 @@ public class AlbumDAO implements DataAccessObject {
         User u = userDAO.find(rs.getInt("FK_UserID"));
         album.setUser(u);
         album.setName(rs.getString("Name"));
-        album.setArtist(rs.getString("Artist"));
+//        album.setArtist(rs.getString("Artist"));
 //        album.setFile(rs.getBlob("Cover"));
 //        album.setCoverPath(fileName);
         if (rs.getBlob("Cover") != null) {
@@ -62,7 +69,7 @@ public class AlbumDAO implements DataAccessObject {
         } else {
             album.setCover(null);
         }
-
+        album.setDateCreated(rs.getTimestamp("DateCreated"));
         return album;
     }
 
@@ -97,13 +104,13 @@ public class AlbumDAO implements DataAccessObject {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
+//            statement.setInt(1, album.getArtist())
             statement.setInt(1, album.getUser().getUserId());
             statement.setString(2, album.getName());
-            statement.setString(3, album.getArtist());
-
             File img = album.getCover();
-            if (img != null) statement.setBinaryStream(4, new FileInputStream(img));
-            else statement.setBinaryStream(4, null);
+            if (img != null) statement.setBinaryStream(3, new FileInputStream(img));
+            else statement.setBinaryStream(3, null);
+            statement.setTimestamp(4, new Timestamp(album.getDateCreated().getTime()));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -145,11 +152,10 @@ public class AlbumDAO implements DataAccessObject {
 //            System.out.println(album.getName());
             statement.setInt(1, album.getUser().getUserId());
             statement.setString(2, album.getName());
-            statement.setString(3, album.getArtist());
             File img = album.getCover();
-            if (img != null) statement.setBinaryStream(4, new FileInputStream(img));
-            else statement.setBinaryStream(4, null);
-            statement.setInt(5, album.getAlbumId());
+            if (img != null) statement.setBinaryStream(3, new FileInputStream(img));
+            else statement.setBinaryStream(3, null);
+            statement.setInt(4, album.getAlbumId());
             statement.executeUpdate();
 
             statement.close();
@@ -193,6 +199,24 @@ public class AlbumDAO implements DataAccessObject {
             e.printStackTrace();
         }
         return album;
+    }
+    
+    public ArrayList<Album> listByArtistName(String name){
+    	 Object[] values = {
+    			 name
+    	 };
+         ArrayList<Album> albums = new ArrayList<>();
+         try {
+             Connection con = Database.getConnection();
+             PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ARTIST, false, values);
+             ResultSet rs = stmt.executeQuery();
+             while (rs.next()) {
+                 albums.add(map(rs));
+             }
+         } catch(SQLException e) {
+             e.printStackTrace();
+         }
+         return albums;
     }
 
     public static void main(String[] args) {

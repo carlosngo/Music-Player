@@ -144,14 +144,14 @@ public class AccountController {
 		if (user.getUserId() != -1) {
 			mc.getUserDAO().update(user);
 			for (Artist a : artists) {
-			    try {
-                    if (a.getArtistId() == -1)
-			            mc.getArtistDAO().creates(a);
-                    else
-                        mc.getArtistDAO().update(a);
-                } catch (IllegalArgumentException e) {
-
-                }
+//			    try {
+//                    if (a.getArtistId() == -1)
+//			            mc.getArtistDAO().creates(a);
+//                    else
+//                        mc.getArtistDAO().update(a);
+//                } catch (IllegalArgumentException e) {
+//
+//                }
             }
 
 			for (Playlist p : playlists) {

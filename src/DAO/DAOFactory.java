@@ -29,10 +29,7 @@ public abstract class DAOFactory {
     public static final String ALBUM_TABLE = "musicplayer.album";
     public static final String ALBUM_COLUMNS =
             "PK_AlbumID, FK_ArtistID, FK_UserID, Name, Artist, Cover, DateCreated";
-    
-    public static final String ARTIST_TABLE = "musicplayer.artist";
-    public static final String ARTIST_COLUMNS =
-    		"PK_ArtistID, Name, Genre";
+
 
     protected abstract DataAccessObject createDAO();
 
