@@ -79,6 +79,7 @@ public class SongController {
     public void addPlaylist(String playlistName) {
         Playlist p = new Playlist();
         p.setName(playlistName);
+        p.setDateCreated(Calendar.getInstance().getTime());
         mc.getPlaylists().add(p);
         cp.addRow("Playlists", playlistName);
     }
@@ -409,6 +410,7 @@ public class SongController {
             a = mc.getAlbums().floor(a);
         } else {
             mc.getAlbums().add(a);
+            a.setDateCreated(Calendar.getInstance().getTime());
             if (cp != null)
                 cp.addRow("Albums", a.getName());
         }
@@ -421,6 +423,7 @@ public class SongController {
             mc.getGenres().add(genreName); // add the new genre
             if (cp != null)
                 cp.addRow("Genres", genreName);
+
         }
         return mc.getGenres().floor(genreName);
     }
@@ -433,7 +436,7 @@ public class SongController {
         s.setGenre(getGenre(genreName));
         s.setAlbum(getAlbum(albumName));
         s.setArtist(getArtist(artistName));
-
+        s.setDateCreated(Calendar.getInstance().getTime());
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
