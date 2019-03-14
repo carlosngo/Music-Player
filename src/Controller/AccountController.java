@@ -146,7 +146,7 @@ public class AccountController {
 			for (Artist a : artists) {
 			    try {
                     if (a.getArtistId() == -1)
-			            mc.getArtistDAO().create(a);
+			            mc.getArtistDAO().creates(a);
                     else
                         mc.getArtistDAO().update(a);
                 } catch (IllegalArgumentException e) {

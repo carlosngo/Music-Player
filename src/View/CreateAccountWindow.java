@@ -9,7 +9,8 @@ import java.util.Calendar;
 
 public class CreateAccountWindow extends JFrame implements ActionListener, DocumentListener {
     private AccountController controller;
-    private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
+    private JTextField usernameInput, firstNameInput, lastNameInput;
+    private JPasswordField passwordInput;
     private JComboBox mon, day, yr, gender;
     private JButton cancel, createAccount;
 
@@ -151,9 +152,15 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         passwordLabel.setForeground(Color.white);
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p6.add(passwordLabel);
-        passwordInput = new JTextField("" , 10);
+//        passwordInput = new JTextField("" , 10);
+//        passwordInput.addActionListener(this);
+//        //passwordInput.setEditable(false);
+//        passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
+//        //passwordInput.setBackground(new Color(152,251,152));
+//        p6.add(passwordInput);
+        passwordInput = new JPasswordField("" , 15);
         passwordInput.addActionListener(this);
-        //passwordInput.setEditable(false);
+        passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
         p6.add(passwordInput);
@@ -194,8 +201,9 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String pw = new String(passwordInput.getPassword());
         if (!usernameInput.getText().trim().equals("") && !firstNameInput.getText().trim().equals("")
-                && !lastNameInput.getText().trim().equals("") && !passwordInput.getText().trim().equals("")) {
+                && !lastNameInput.getText().trim().equals("") && !pw.equals("") ) {
             if (gender.getSelectedIndex() != 0) {
                 if (yr.getSelectedIndex() != 0) {
                     if (mon.getSelectedIndex() != 0) {
@@ -220,7 +228,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         if (e.getSource() == createAccount){
             Calendar c = Calendar.getInstance();
             c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
-            boolean success = controller.register(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(),
+            boolean success = controller.register(usernameInput.getText(), pw, firstNameInput.getText(),
                     lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
             if (!success) {
                 JOptionPane.showMessageDialog(null, "Username already exists.",
@@ -236,7 +244,8 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() ||
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.isEmpty() ||
                 firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() ||
             yr.getSelectedIndex() == 0 || mon.getSelectedIndex() == 0 || day.getSelectedIndex() == 0)
             createAccount.setEnabled(false);
@@ -246,7 +255,8 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() ||
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.isEmpty() ||
                 firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() ||
                 yr.getSelectedIndex() == 0 || mon.getSelectedIndex() == 0 || day.getSelectedIndex() == 0)
             createAccount.setEnabled(false);
@@ -256,7 +266,8 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() ||
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.isEmpty() ||
                 firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() ||
                 yr.getSelectedIndex() == 0 || mon.getSelectedIndex() == 0 || day.getSelectedIndex() == 0)
             createAccount.setEnabled(false);

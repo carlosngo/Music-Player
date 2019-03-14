@@ -12,9 +12,10 @@ import Model.*;
 
 public class EditAccountWindow extends JFrame implements ActionListener, DocumentListener {
     private AccountController controller;
-    private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
+    private JTextField usernameInput, firstNameInput, lastNameInput;
     private JComboBox mon, day, yr, gender;
     private JButton cancel, save;
+    private JPasswordField passwordInput;
 
     public EditAccountWindow(AccountController controller){
         this.controller = controller;
@@ -165,13 +166,19 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         passwordLabel.setForeground(Color.white);
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p6.add(passwordLabel);
-        passwordInput = new JTextField("" , 10);
-        passwordInput.setText(controller.getUser().getPassword());
+        passwordInput = new JPasswordField("" , 15);
         passwordInput.addActionListener(this);
-        //passwordInput.setEditable(false);
+        passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
         p6.add(passwordInput);
+//        passwordInput = new JTextField("" , 10);
+//        passwordInput.setText(controller.getUser().getPassword());
+//        passwordInput.addActionListener(this);
+//        //passwordInput.setEditable(false);
+//        passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
+//        //passwordInput.setBackground(new Color(152,251,152));
+//        p6.add(passwordInput);
         p6.add(Box.createRigidArea(new Dimension(15,0))); // add space
         p.add(p6);
         p.add(Box.createRigidArea(new Dimension(0,7))); // add space
@@ -209,8 +216,9 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String pw = new String(passwordInput.getPassword());
         if (!usernameInput.getText().trim().equals("") && !firstNameInput.getText().trim().equals("")
-                && !lastNameInput.getText().trim().equals("") && !passwordInput.getText().trim().equals("")) {
+                && !lastNameInput.getText().trim().equals("") && !pw.equals("")) {
             if (gender.getSelectedIndex() != 0) {
                 if (yr.getSelectedIndex() != 0) {
                     if (mon.getSelectedIndex() != 0) {
@@ -235,7 +243,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         if (e.getSource() == save){
             Calendar c = Calendar.getInstance();
             c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
-            controller.updateUser(usernameInput.getText(), passwordInput.getText(), firstNameInput.getText(),
+            controller.updateUser(usernameInput.getText(), pw, firstNameInput.getText(),
                     lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
             dispose();
         }
@@ -247,7 +255,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() ||
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.isEmpty() ||
                 firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() ||
                 yr.getSelectedIndex() == 0 || mon.getSelectedIndex() == 0 || day.getSelectedIndex() == 0)
             save.setEnabled(false);
@@ -257,7 +266,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() ||
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.isEmpty() ||
                 firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() ||
                 yr.getSelectedIndex() == 0 || mon.getSelectedIndex() == 0 || day.getSelectedIndex() == 0)
             save.setEnabled(false);
@@ -267,7 +277,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() ||
+        String pw = new String(passwordInput.getPassword());
+        if (usernameInput.getText().isEmpty() || pw.isEmpty() ||
                 firstNameInput.getText().isEmpty() || lastNameInput.getText().isEmpty() ||
                 yr.getSelectedIndex() == 0 || mon.getSelectedIndex() == 0 || day.getSelectedIndex() == 0)
             save.setEnabled(false);

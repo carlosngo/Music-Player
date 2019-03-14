@@ -91,9 +91,9 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         p2.add(genreLabel);
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Select a Genre");
-        for(String genre : controller.getMainController().getGenres()){
-            choices.add(genre);
-        }
+//        for(String genre : controller.getGenres()){
+//            choices.add(genre);
+//        }
         String[] sChoices = choices.toArray(new String[choices.size()]);
         genreChoices = new JComboBox(sChoices);
         genreChoices.setEditable(true);
