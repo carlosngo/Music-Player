@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EventObject;
+import javax.swing.border.Border;
 
 public class SongPanel extends JPanel implements ActionListener{
     SongController controller;
@@ -87,6 +88,8 @@ public class SongPanel extends JPanel implements ActionListener{
 
             categoryTable.setForeground(Color.white);
             tableHeader = categoryTable.getTableHeader();
+            Border border = BorderFactory.createLineBorder(new Color(65,15,225), 10, true);
+            tableHeader.setBorder(border);
             tableHeader.setBackground(new Color(65,15,225)); // change the Background color
             tableHeader.setForeground(Color.WHITE);
             tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
