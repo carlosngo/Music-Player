@@ -12,6 +12,7 @@ public class SongController {
 
     private AddSongWindow asw;
     private AddPlaylistWindow apw;
+    private RemoveFromPlaylistWindow rfpw;
     private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
     private EditCategoryWindow ecw;
@@ -66,6 +67,10 @@ public class SongController {
 
     public void openAddToPlaylistWindow(int index) {
         atpw = new AddToPlaylistWindow(this, index);
+    }
+
+    public void removePlaylistWindow(int index) {
+        rfpw = new RemoveFromPlaylistWindow(this, index);
     }
 
     public void openEditSongProfileWindow(int index, ArrayList<String> data) {
