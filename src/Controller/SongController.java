@@ -227,6 +227,15 @@ public class SongController {
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
+    public void showArtists() {
+        ArrayList<String> subCategories = new ArrayList<>();
+        for (String artist : mc.getArtists()) {
+            subCategories.add(artist);
+        }
+        cp = new CategoryPanel(this, "Artists", subCategories);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+    }
+
     public void showAllSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         displayedSongs = new ArrayList<>(mc.getSongs());
@@ -364,7 +373,7 @@ public class SongController {
     public void addSong(String songName, String artist, String genreName, String albumName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
-        s.setArtist(artist);
+        s.getArtist().setName(artist);
         s.setUser(mc.getAccountController().getUser());
 
         s.setGenre(getGenre(genreName));
@@ -404,7 +413,7 @@ public class SongController {
 //        else {
 ////            Album a = new
 //        }
-        s.setArtist(artist);
+        s.getArtist().setName(artist);
         s.setYear(Integer.parseInt(year));
         s.setGenre(getGenre(genre));
 //        s.getGenre().setName(genre);
