@@ -72,7 +72,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 model.add(_data.get(i));
             }
             categoryTable = new JTable(model);
-            categoryTable.setShowVerticalLines(false);
+            categoryTable.setShowGrid(false);
+            categoryTable.setIntercellSpacing(new Dimension(0, 0));
+            //categoryTable.setShowVerticalLines(false);
             //categoryTable.setShowHorizontalLines(false);
             SongPanel.ActionPaneRenderer renderer = new SongPanel.ActionPaneRenderer();
             categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
@@ -88,8 +90,8 @@ public class SongPanel extends JPanel implements ActionListener{
 
             categoryTable.setForeground(Color.white);
             tableHeader = categoryTable.getTableHeader();
-            Border border = BorderFactory.createLineBorder(new Color(65,15,225), 3, false);
-            tableHeader.setBorder(border);
+            //Border border = BorderFactory.createLineBorder(new Color(65,15,225), 3, false);
+            //tableHeader.setBorder(border);
             tableHeader.setBackground(new Color(65,15,225)); // change the Background color
             tableHeader.setForeground(Color.WHITE);
             tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
