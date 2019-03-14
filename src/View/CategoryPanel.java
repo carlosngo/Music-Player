@@ -112,13 +112,14 @@ public class CategoryPanel extends JPanel {
         remove.setOpaque(false);
         remove.setContentAreaFilled(false);
         remove.setBorderPainted(false);
-        if (category.equals("Albums") || category.equals("Genres")) remove.setVisible(false);
+        if (category.equals("Genres") || category.equals("Artists")) remove.setVisible(false);
 
         JButton edit = new JButton();
         //edit.setVisible(false);
         edit.setOpaque(false);
         edit.setContentAreaFilled(false);
         edit.setBorderPainted(false);
+        if (category.equals("Genres") || category.equals("Artists")) edit.setVisible(false);
 
         JButton changeCover = new JButton();
         changeCover.setOpaque(false);
@@ -175,6 +176,9 @@ public class CategoryPanel extends JPanel {
                     case "Favorite Playlists":
                         controller.showSongsByPlaylist(subCategoryName);
                         break;
+                    case "Artists":
+                        controller.showSongsByArtist(subCategoryName);
+                        break;
                 }
             }
         });
@@ -198,6 +202,9 @@ public class CategoryPanel extends JPanel {
                         break;
                     case "Favorite Playlists":
                         controller.addSongsInPlaylistToQueue(subCategoryName);
+                        break;
+                    case "Artists":
+                        controller.addSongsByArtistToQueue(subCategoryName);
                         break;
                 }
             }
@@ -237,12 +244,18 @@ public class CategoryPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int choice = JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to remove this " + category.toLowerCase() + "?",
+                        "Are you sure you want to remove this " + category.toLowerCase().substring(0, category.length() - 2) + "?",
                         "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
 //                    controller.remove(category, subCategoryName);
-                    controller.removePlaylist(subCategoryName);
-                    System.out.println(category.toLowerCase() + "removed."); //test
+                    switch (category) {
+                        case "Playlists":
+                            controller.removePlaylist(subCategoryName);
+                            break;
+                        case "Albums":
+                            controller.removeAlbum(subCategoryName);
+                            break;
+                    }
                 }
             }
         });
@@ -273,6 +286,9 @@ public class CategoryPanel extends JPanel {
                         break;
                     case "Favorite Playlists":
                         controller.playSongsInPlaylist(subCategoryName);
+                        break;
+                    case "Artists":
+                        controller.playSongsByArtist(subCategoryName);
                         break;
                 }
 //                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);

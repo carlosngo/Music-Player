@@ -177,12 +177,12 @@ public class AccountController {
 
 				try {
 					s.setUser(user);
-					album.setUser(user);
 					if (artist != null) {
 						if (artist.getArtistId() == -1) mc.getArtistDAO().create(artist);
 						else mc.getArtistDAO().update(artist);
 					}
 					if (album != null) {
+						album.setUser(user);
 						if (album.getAlbumId() == -1) mc.getAlbumDAO().create(album);
 						else mc.getAlbumDAO().update(album);
 					}

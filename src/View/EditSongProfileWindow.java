@@ -205,7 +205,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             setTitle(titleInput.getText());
             setAlbum(albumInput.getText());
             setYear(yearInput.getText());
-            String genre = genreChoices.getSelectedItem().toString();
+            setGenre(genreChoices.getSelectedItem().toString());
             setArtist(artistInput.getText());
             choice = true;
             controller.updateSong(selectedRow, getTitle(), getAlbum(), getArtist(), getYear(), getGenre()/*, getDateUploaded()*/);
