@@ -90,6 +90,7 @@ public class SongController {
         ArrayList<Song> queue = new ArrayList<>();
         queue.add(displayedSongs.get(index));
         mc.playSongs(queue);
+        sp.editRow(index, map(displayedSongs.get(index)));
     }
 
     // play song at index of displayedSongs
@@ -479,7 +480,7 @@ public class SongController {
             p.getSongs().remove(s);
         }
         displayedSongs.remove(s);
-        showAllSongs();
+        sp.deleteRow(index);
         mc.getPlayerController().removeSong(s);
         mc.getPlayerController().getPlayerPanel().update();
     }
