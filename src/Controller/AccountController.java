@@ -143,6 +143,17 @@ public class AccountController {
 	public void save() {
 		if (user.getUserId() != -1) {
 			mc.getUserDAO().update(user);
+			for (Artist a : artists) {
+			    try {
+                    if (a.getArtistId() == -1)
+			            mc.getArtistDAO().create(a);
+                    else
+                        mc.getArtistDAO().update(a);
+                } catch (IllegalArgumentException e) {
+
+                }
+            }
+
 			for (Playlist p : playlists) {
 				try {
 					p.setUser(user);

@@ -44,6 +44,8 @@ public class MainController {
         pc.terminate();
     }
 
+    public TreeSet<Artist> getArtists() { return ac.getArtists(); }
+
     public TreeSet<String> getGenres() {
         return ac.getGenres();
     }
