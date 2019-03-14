@@ -212,11 +212,11 @@ public class SongController {
     }
 
     public void showGenres() {
-        ArrayList<String> subCategories = new ArrayList<>();
-        for (String g : mc.getGenres()) {
-            subCategories.add(g);
+        TreeSet<String> subCategories = new TreeSet<>();
+        for (Song s : mc.getSongs()) {
+            if (s.getGenre() != null && !s.getGenre().equals("")) subCategories.add(s.getGenre());
         }
-        cp = new CategoryPanel(this, "Genres", subCategories);
+        cp = new CategoryPanel(this, "Genres", new ArrayList(subCategories));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -241,20 +241,20 @@ public class SongController {
     }
 
     public void showAlbums() {
-        ArrayList<String> subCategories = new ArrayList<>();
-        for (Album a : mc.getAlbums()) {
-            subCategories.add(a.getName());
+        TreeSet<String> subCategories = new TreeSet<>();
+        for (Song s : mc.getSongs()) {
+            if (s.getAlbum() != null) subCategories.add(s.getAlbum().getName());
         }
-        cp = new CategoryPanel(this, "Albums", subCategories);
+        cp = new CategoryPanel(this, "Albums", new ArrayList(subCategories));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showArtists() {
         ArrayList<String> subCategories = new ArrayList<>();
-        for (Artist a : mc.getArtists()) {
-            subCategories.add(a.getName());
+        for (Song s : mc.getSongs()) {
+            if (s.getArtist() != null) subCategories.add(s.getArtist().getName());
         }
-        cp = new CategoryPanel(this, "Artists", subCategories);
+        cp = new CategoryPanel(this, "Artists", new ArrayList(subCategories));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -378,13 +378,15 @@ public class SongController {
             list.add(s.getGenre());
         else
             list.add("");
+        list.add(s.getDateCreated().toString());
+        list.add(s.getPlayTime() + "");
         return list;
     }
 
     public String[] getAllPossibleGenres() {
         ArrayList<String> genres = new ArrayList(mc.getGenres());
         for (int i = 0; i < DEFAULT_GENRES.length; i++) genres.add(DEFAULT_GENRES[i]);
-        return (String[]) genres.toArray();
+        return genres.toArray(new String[genres.size()]);
     }
 
     public Artist getArtist(String artistName) {

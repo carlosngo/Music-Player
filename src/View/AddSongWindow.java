@@ -89,12 +89,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         genreLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         genreLabel.setForeground(Color.white);
         p2.add(genreLabel);
-        ArrayList<String> choices = new ArrayList<String>();
-        choices.add("Select a Genre");
-        for(String genre : controller.getMainController().getGenres()){
-            choices.add(genre);
-        }
-        String[] sChoices = choices.toArray(new String[choices.size()]);
+        String[] sChoices = controller.getAllPossibleGenres();
         genreChoices = new JComboBox(sChoices);
         genreChoices.setEditable(true);
         p2.add(genreChoices);
@@ -230,7 +225,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
             String artist= artistInput.getText();
             String year = yearInput.getText();
             String album = albumInput.getText();
-            controller.addSong(songTitle, artist, genre, album, year, selectedFile);
+            controller.addSong(songTitle, genre,album, artist, year, selectedFile);
             dispose();
         }
         if(e.getSource() == cancel){

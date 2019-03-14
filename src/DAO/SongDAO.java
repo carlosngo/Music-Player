@@ -326,12 +326,17 @@ public class SongDAO implements DataAccessObject {
             statement.setInt(6, song.getYear());
             statement.setBoolean(7, song.isFavorite());
             statement.setLong(8, song.getPlayTime());
-            statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
-            statement.setTimestamp(10, new Timestamp(song.getDateCreated().getTime()));
+            if (song.getLastPlayed() != null)
+                statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
+            else {
+                statement.setObject(9, null);
+            }
 //            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
 //            File wav = Paths.get(resource.toURI()).toFile();
             File wav = song.getWAV();
-            statement.setBinaryStream(11, new FileInputStream(wav));
+            statement.setBinaryStream(10, new FileInputStream(wav));
+
+            statement.setTimestamp(11, new Timestamp(song.getDateCreated().getTime()));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
