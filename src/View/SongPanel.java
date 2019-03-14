@@ -632,6 +632,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         }
         class MenuItemListener implements ActionListener {
+            int choice;
             public void actionPerformed(ActionEvent e) {
                 //statusLabel.setText(e.getActionCommand() + " MenuItem clicked.");
                 switch (e.getActionCommand()){
@@ -642,13 +643,16 @@ public class SongPanel extends JPanel implements ActionListener{
                         controller.openAddToPlaylistWindow(currentRow);
                         break;
                     case "remove":
-                        controller.removeFromPlaylist(currentRow);
+                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+                                " to remove this song?", "Confirm Remove Song from Playlist", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION)
+                            controller.removeFromPlaylist(currentRow);
                         break;
                     case "edit":
                         controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
                         break;
                     case "delete":
-                        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION)
                             controller.removeSong(currentRow);
