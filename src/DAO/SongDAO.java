@@ -59,6 +59,7 @@ public class SongDAO implements DataAccessObject {
     private Song map(ResultSet rs) throws SQLException{
         UserDAO userDAO = new UserDAO(db);
         AlbumDAO albumDAO = new AlbumDAO(db);
+        ArtistDAO artistDAO = new ArtistDAO(db);
         Song song = new Song();
 
         String fileName = rs.getString("Name") + rs.getInt("PK_SongID");

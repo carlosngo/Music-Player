@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class ArtistDAO implements DataAccessObject {
 	private DAOFactory db;
 
-	private static final String SQL_INSERT = "INSERT INTO " + DAOFactory.ARTIST_TABLE + " VALUES (?, ?, ?)";
-	private static final String SQL_UPDATE = "UPDATE " + DAOFactory.ARTIST_TABLE + " SET Name = ?, Genre = ?";
-	private static final String SQL_DELETE = "DELETE FROM " + DAOFactory.ARTIST_TABLE + " WHERE PK_ArtistID = ?";
-	private static final String SQL_FIND_BY_ID = "SELECT * FROM " + DAOFactory.ARTIST_TABLE + " WHERE PK_ArtistID = ?";
-	private static final String SQL_ORDER_BY_ID = "SELECT * FROM " + DAOFactory.ARTIST_TABLE + " ORDER BY PK_ArtistID";
-	private static final String SQL_LIST_BY_NAME = "SELECT * FROM " + DAOFactory.ARTIST_TABLE + " WHERE Name = ?";
-	private static final String SQL_LIST_BY_GENRE = "SELECT * FROM " + DAOFactory.ARTIST_TABLE + " WHERE genre = ?";
+	private static final String SQL_INSERT = "INSERT INTO " + Database.ARTIST_TABLE + " VALUES (?, ?, ?)";
+	private static final String SQL_UPDATE = "UPDATE " + Database.ARTIST_TABLE + " SET Name = ?, Genre = ?";
+	private static final String SQL_DELETE = "DELETE FROM " + Database.ARTIST_TABLE + " WHERE PK_ArtistID = ?";
+	private static final String SQL_FIND_BY_ID = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE PK_ArtistID = ?";
+	private static final String SQL_ORDER_BY_ID = "SELECT * FROM " + Database.ARTIST_TABLE + " ORDER BY PK_ArtistID";
+	private static final String SQL_LIST_BY_NAME = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE Name = ?";
+	private static final String SQL_LIST_BY_GENRE = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE genre = ?";
 
 	public ArtistDAO(DAOFactory db) {
 		this.db = db;
