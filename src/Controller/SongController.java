@@ -115,7 +115,7 @@ public class SongController {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
         for (Song s : mc.getSongs()) {
-            if (s.getGenre().getName().equals(genreName)) queue.add(s);
+            if (s.getGenre().equals(genreName)) queue.add(s);
         }
         mc.playSongs(queue);
     }
@@ -124,7 +124,7 @@ public class SongController {
 //        ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
         for (Song s : mc.getSongs()) {
-            if (s.getGenre().getName().equals(genreName)) mc.getPlayerController().addSong(s);
+            if (s.getGenre().equals(genreName)) mc.getPlayerController().addSong(s);
         }
 //        mc.playSongs(queue);
     }
@@ -191,8 +191,8 @@ public class SongController {
 
     public void showGenres() {
         ArrayList<String> subCategories = new ArrayList<>();
-        for (Genre g : mc.getGenres()) {
-            subCategories.add(g.getName());
+        for (String g : mc.getGenres()) {
+            subCategories.add(g);
         }
         cp = new CategoryPanel(this, "Genres", subCategories);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
@@ -284,7 +284,7 @@ public class SongController {
     public void showSongsByGenre(String name) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         for (Song s : mc.getSongs()) {
-            if (s.getGenre() != null && s.getGenre().getName().equals(name)) data.add(map(s));
+            if (s.getGenre() != null && s.getGenre().equals(name)) data.add(map(s));
         }
         sp = new SongPanel(this, name + " Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
@@ -331,7 +331,7 @@ public class SongController {
         } else
             list.add(s.getYear() + "");
         if (s.getGenre() != null)
-            list.add(s.getGenre().getName());
+            list.add(s.getGenre());
         else
             list.add("");
         return list;
@@ -351,28 +351,24 @@ public class SongController {
         return a;
     }
 
-    public Genre getGenre(String genreName) {
-        Genre g = new Genre();
+    public String getGenre(String genreName) {
         if (genreName.equals("")) return null;
-        else g.setName(genreName);
-        if (mc.getGenres().contains(g)) { // if genre exists already
-            g = mc.getGenres().floor(g); // get the genre and set it to be the song's genre
-        } else {
-            mc.getGenres().add(g); // else add the new genre
+        if (!mc.getGenres().contains(genreName)) { // if genre does not currently exist
+            mc.getGenres().add(genreName); // add the new genre
             if (cp != null)
-                cp.addRow("Genres", g.getName());
+                cp.addRow("Genres", genreName);
         }
-        return g;
+        return mc.getGenres().floor(genreName);
     }
 
-    public void addSong(String songName, String genreName, String albumName, String year, File wav) {
+    public void addSong(String songName, String artist, String genreName, String albumName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
+        s.setArtist(artist);
         s.setUser(mc.getAccountController().getUser());
-        Genre g = getGenre(genreName);
-        s.setGenre(g);
-        Album a = getAlbum(albumName);
-        s.setAlbum(a);
+
+        s.setGenre(getGenre(genreName));
+        s.setAlbum(getAlbum(albumName));
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
@@ -398,7 +394,7 @@ public class SongController {
         mc.getPlayerController().getPlayerPanel().update();
     }
 
-    public void updateSong(int songIndex, String title, String album, String year, String genre){
+    public void updateSong(int songIndex, String title, String album, String artist, String year, String genre){
         Song s = displayedSongs.get(songIndex);
 //        System.out.println(s);
         s.setName(title);
@@ -408,7 +404,7 @@ public class SongController {
 //        else {
 ////            Album a = new
 //        }
-
+        s.setArtist(artist);
         s.setYear(Integer.parseInt(year));
         s.setGenre(getGenre(genre));
 //        s.getGenre().setName(genre);
@@ -417,10 +413,11 @@ public class SongController {
     }
 
     public void updateGenre(String oldName, String newName) {
-        Genre temp = new Genre();
-        temp.setName(oldName);
-        Genre g = mc.getGenres().floor(temp);
-        g.setName(newName);
+        mc.getGenres().remove(oldName);
+        mc.getGenres().remove(newName);
+        for (Song s : mc.getSongs()) {
+            if (s.getGenre().equals(oldName)) s.setGenre(newName);
+        }
         showGenres();
     }
 

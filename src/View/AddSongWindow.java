@@ -13,7 +13,7 @@ import java.io.File;
 
 public class AddSongWindow extends JFrame implements ActionListener, DocumentListener {
     SongController controller;
-    JTextField songTitleInput, genreInput, artistInput, yearInput;
+    JTextField songTitleInput, genreInput, artistInput, yearInput, albumInput;
     JButton selectFile, cancel, saveSong;
     JPanel fileReaderPnl;
     JLabel selectedFileName;
@@ -55,6 +55,27 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         p1.add(songTitleInput);
         p1.add(Box.createRigidArea(new Dimension(15,0)));
         p.add(p1);
+        p.add(Box.createRigidArea(new Dimension(0,7)));
+
+        JPanel p6 = new JPanel();
+        p6.setOpaque(false);
+        p6.setLayout(new BoxLayout(p6, BoxLayout.X_AXIS));
+        p6.add(Box.createRigidArea(new Dimension(15,0)));
+        JLabel albumLabel = new JLabel("Album: ");
+        albumLabel.setForeground(Color.WHITE);
+        albumLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        p6.add(albumLabel);
+        //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
+        albumInput = new JTextField("" , 15);
+        albumInput.addActionListener(this);
+        albumInput.getDocument().addDocumentListener(this);
+        albumInput.setFont(new Font("Arial", Font.BOLD, 22));
+        //albumInput.setEditable(false);
+        //titleInput.setBackground(new Color(152,251,152));
+        p6.add(albumInput);
+        p6.add(Box.createRigidArea(new Dimension(15,0)));
+        p6.setAlignmentX(Component.CENTER_ALIGNMENT);
+        p.add(p6);
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p2 = new JPanel();
@@ -196,7 +217,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
             String genre = genreInput.getText();
             String artist= artistInput.getText();
             String year = yearInput.getText();
-
+            String album = albumInput.getText();
             //update database with info
             //title = songTitle
             //genre = genre
@@ -206,7 +227,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 //            System.out.println("genre:" + genre);
 //            System.out.println("artist:" + artist);
 //            System.out.println("year:" + year);
-            controller.addSong(songTitle, genre, artist, year, selectedFile);
+            controller.addSong(songTitle, artist, genre, album, year, selectedFile);
             dispose();
         }
         if(e.getSource() == cancel){

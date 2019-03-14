@@ -416,9 +416,12 @@ public class SongPanel extends JPanel implements ActionListener{
                     value = "Album";
                     break;
                 case 3:
-                    value = "Year";
+                    value = "Artist";
                     break;
                 case 4:
+                    value = "Year";
+                    break;
+                case 5:
                     value = "Genre";
                     break;
 //                case 5:
@@ -447,7 +450,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 4:
                     value = String.class;
                     break;
-//                case 5:
+                case 5:
+                    value = String.class;
+                    break;
+//                case 6:
 //                    value = String.class;
 //                    break;
             }
@@ -461,7 +467,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         @Override
         public int getColumnCount() {
-            return 5;
+            return 6;
         }
 
         @Override
@@ -483,31 +489,19 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 4:
                     value = obj.get(3);
                     break;
-//                case 5:
-//                    value = obj.get(4);
+                case 5:
+                    value = obj.get(4);
+                    break;
+//                case 6:
+//                    value = obj.get(5);
 //                    break;
             }
             return value;
         }
 
 
-        public void setValueAt(Object aValue, int rowIndex, int columnIndex, String title, String album, String year, String genre) {
-            if (columnIndex == 5) {
-
-                System.out.println(aValue);
-
-                ArrayList<String> value = data.get(rowIndex);
-                if ("play".equals(aValue)) {
-                    System.out.println("Play");
-                }
-                else if ("delete".equals(aValue)) {
-                    System.out.println("Delete");
-                }
-                else {
-                    System.out.println("Add to Playlist");
-                }
-                fireTableCellUpdated(rowIndex, columnIndex);
-                remove(value);
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex, String title, String album, String year, String genre, String dateUploaded) {
+            if (columnIndex == 6) {
 
             }
             else {
@@ -520,11 +514,17 @@ public class SongPanel extends JPanel implements ActionListener{
                         currentSong.set(1,album);
                         break;
                     case 3:
-                        currentSong.set(2,year);
+                        currentSong.set(2,album);
                         break;
                     case 4:
-                        currentSong.set(3,genre);
+                        currentSong.set(3,year);
                         break;
+                    case 5:
+                        currentSong.set(4,genre);
+                        break;
+//                    case 6:
+//                        currentSong.set(6,dateUploaded);
+//                        break;
                 }
                 fireTableCellUpdated(rowIndex, columnIndex);
             }

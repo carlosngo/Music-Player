@@ -8,7 +8,7 @@ public class Artist implements Comparable<Artist>{
 	public Artist() {
 		artistId = -1;
 	}
-	
+
 	public int getArtistId() {
 		return artistId;
 	}
