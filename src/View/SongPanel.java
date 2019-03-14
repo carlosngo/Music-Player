@@ -78,8 +78,8 @@ public class SongPanel extends JPanel implements ActionListener{
 
 
 //            SongPanel.ActionPaneRenderer2 kebabRenderer = new SongPanel.ActionPaneRenderer2();
-//            categoryTable.getColumnModel().getColumn(6).setCellRenderer(kebabRenderer);
-//            categoryTable.getColumnModel().getColumn(6).setCellEditor(new SongPanel.ActionEditor());
+//            categoryTable.getColumnModel().getColumn(8).setCellRenderer(kebabRenderer);
+//            categoryTable.getColumnModel().getColumn(8).setCellEditor(new SongPanel.ActionEditor());
 //            categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
 
 
@@ -183,9 +183,15 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 5:
                     value = "Genre";
                     break;
-//                case 6:
-//                    value = "Kebab";
-//                    break;
+                case 6:
+                    value = "Date Uploaded";
+                    break;
+                case 7:
+                    value = "Times Played";
+                    break;
+                case 8:
+                    value = "Kebab";
+                    break;
             }
             return value;
         }
@@ -212,9 +218,15 @@ public class SongPanel extends JPanel implements ActionListener{
                 case 5:
                     value = String.class;
                     break;
-//                case 6:
-//                    value = JPanel.class;
-//                    break;
+                case 6:
+                    value = String.class;
+                    break;
+                case 7:
+                    value = String.class;
+                    break;
+                case 8:
+                    value = JPanel.class;
+                    break;
             }
             return value;
         }
@@ -226,7 +238,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         @Override
         public int getColumnCount() {
-            return 6;
+            return 9;
         }
 
         @Override
@@ -252,13 +264,19 @@ public class SongPanel extends JPanel implements ActionListener{
                     value = obj.get(4);
                     break;
                 case 6:
+                    value = obj.get(5);
+                    break;
+                case 7:
+                    value = obj.get(6);
+                    break;
+                case 8:
                     break;
             }
             return value;
         }
 
 
-        public void setValueAt(Object aValue, int rowIndex, int columnIndex, String title, String album, String year, String genre, String dateUploaded) {
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex, String title, String album, String year, String genre, String dateUploaded, String timesPlayed) {
             if (columnIndex == 6) {
 
             }
@@ -279,6 +297,12 @@ public class SongPanel extends JPanel implements ActionListener{
                         break;
                     case 5:
                         currentSong.set(4,genre);
+                        break;
+                    case 6:
+                        currentSong.set(5,dateUploaded);
+                        break;
+                    case 7:
+                        currentSong.set(6,timesPlayed);
                         break;
                 }
                 fireTableCellUpdated(rowIndex, columnIndex);
@@ -507,60 +531,60 @@ public class SongPanel extends JPanel implements ActionListener{
         }
     }
 
-//    public class ActionsPane2 extends JPanel {
-//
-//        private JButton kebab;
-//        private String state;
-//
-//        public ActionsPane2() {
-//            setOpaque(false);
-//            setLayout(new GridBagLayout());
-//            kebab = new JButton();
-//            kebab.setEnabled(false);
-//            kebab.setOpaque(false);
-//            kebab.setContentAreaFilled(false);
-//            kebab.setBorderPainted(false);
-//            kebab.setActionCommand("actions");
-//
-//            try{
-//                URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
-//                BufferedImage img = ImageIO.read(resource);
-//                kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));;
-//            }
-//            catch(Exception e){
-//
-//            }
-//
-//            add(kebab);
-//
-//            ActionListener kebabListener = new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    state = e.getActionCommand();
-//                    System.out.println("State = " + state);
-//                    //open JPopup here (delete, edit, add to playlist)
-//                }
-//            };
-//            kebab.addActionListener(kebabListener);
-//
-//            kebab.addMouseListener(new MouseAdapter() {
-//                public void mouseEntered(MouseEvent e) {
-//                    kebab.setEnabled(true);
-//                }
-//                public void mouseExited(MouseEvent e) {
-//                    kebab.setEnabled(false);
-//                }
-//            });
-//        }
-//
-//        public void addActionListener(ActionListener listener) {
-//            kebab.addActionListener(listener);
-//        }
-//
-//        public String getState() {
-//            return state;
-//        }
-//    }
+    public class ActionsPane2 extends JPanel {
+
+        private JButton kebab;
+        private String state;
+
+        public ActionsPane2() {
+            setOpaque(false);
+            setLayout(new GridBagLayout());
+            kebab = new JButton();
+            kebab.setEnabled(false);
+            kebab.setOpaque(false);
+            kebab.setContentAreaFilled(false);
+            kebab.setBorderPainted(false);
+            kebab.setActionCommand("actions");
+
+            try{
+                URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
+                BufferedImage img = ImageIO.read(resource);
+                kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));;
+            }
+            catch(Exception e){
+
+            }
+
+            add(kebab);
+
+            ActionListener kebabListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    state = e.getActionCommand();
+                    System.out.println("State = " + state);
+                    //open JPopup here (delete, edit, add to playlist)
+                }
+            };
+            kebab.addActionListener(kebabListener);
+
+            kebab.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    kebab.setEnabled(true);
+                }
+                public void mouseExited(MouseEvent e) {
+                    kebab.setEnabled(false);
+                }
+            });
+        }
+
+        public void addActionListener(ActionListener listener) {
+            kebab.addActionListener(listener);
+        }
+
+        public String getState() {
+            return state;
+        }
+    }
 
     public class ActionPaneRenderer extends DefaultTableCellRenderer {
 
@@ -568,6 +592,25 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public ActionPaneRenderer() {
             actionsPane = new SongPanel.ActionsPane();
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            if (isSelected) {
+                actionsPane.setBackground(table.getSelectionBackground());
+            } else {
+                actionsPane.setBackground(table.getBackground());
+            }
+            return actionsPane;
+        }
+    }
+
+    public class ActionPaneRenderer2 extends DefaultTableCellRenderer {
+
+        private SongPanel.ActionsPane2 actionsPane;
+
+        public ActionPaneRenderer2() {
+            actionsPane = new SongPanel.ActionsPane2();
         }
 
         @Override
@@ -621,4 +664,43 @@ public class SongPanel extends JPanel implements ActionListener{
         }
     }
 
+    public class ActionEditor2 extends AbstractCellEditor implements TableCellEditor {
+
+        private SongPanel.ActionsPane2 actionsPane;
+
+        public ActionEditor2() {
+            actionsPane = new SongPanel.ActionsPane2();
+            actionsPane.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            stopCellEditing();
+                        }
+                    });
+                }
+            });
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return actionsPane.getState();
+        }
+
+        @Override
+        public boolean isCellEditable(EventObject e) {
+            return true;
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            if (isSelected) {
+                actionsPane.setBackground(table.getSelectionBackground());
+            } else {
+                actionsPane.setBackground(table.getBackground());
+            }
+            return actionsPane;
+        }
+    }
 }
