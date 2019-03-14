@@ -65,7 +65,15 @@ public class MainController {
         }
         return new ArrayList<>(yrs);
     }
-    
+
+    public ArrayList<String> getArtists(){
+        TreeSet<String> artists = new TreeSet<>();
+        for(Song s : getSongs()){
+            artists.add(s.getArtist().getName());
+        }
+        return new ArrayList<>(artists);
+    }
+
     public TreeSet<Playlist> getPlaylists() {
         return ac.getPlaylists();
     }
