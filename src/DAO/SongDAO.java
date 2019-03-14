@@ -68,6 +68,8 @@ public class SongDAO implements DataAccessObject {
         Album a = albumDAO.find(rs.getInt("FK_AlbumID"));
         song.setAlbum(a);
 
+        Artist artist = artistDAO.find(rs.getInt("FK_ArtistID"));
+        song.setArtist(artist);
 
         song.setGenre(rs.getString("Genre"));
 
