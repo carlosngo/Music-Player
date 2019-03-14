@@ -253,7 +253,7 @@ public class SongController {
         for (Artist a : mc.getArtists()) {
             subCategories.add(a.getName());
         }
-        cp = new CategoryPanel(this, "Albums", subCategories);
+        cp = new CategoryPanel(this, "Artists", subCategories);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -263,7 +263,6 @@ public class SongController {
             if(p.isFavorite()) subCategories.add(p.getName());
         }
         cp = new CategoryPanel(this, "Favorite Playlists", subCategories);
-
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -429,7 +428,6 @@ public class SongController {
     public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
-        s.setArtist(artist);
         s.setUser(mc.getAccountController().getUser());
 
         s.setGenre(getGenre(genreName));

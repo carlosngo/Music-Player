@@ -89,7 +89,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p3.add(genreLabel);
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Select a Genre");
-        for(String genre : controller.getGenres()){
+        for(String genre : controller.getMainController().getGenres()){
             choices.add(genre);
         }
         String[] sChoices = choices.toArray(new String[choices.size()]);

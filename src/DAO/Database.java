@@ -13,11 +13,11 @@ public final class Database {
 
     public static final String SONG_TABLE = "musicplayer.song";
     public static final String SONG_COLUMNS =
-            "PK_SongID, FK_UserID, FK_AlbumID, FK_GenreID, Name, Year, Favorite, PlayTime, LastPlayed, File";
+            "PK_SongID, FK_ArtistID, FK_UserID, FK_AlbumID, Name, Genre, Year, Favorite, PlayTime, LastPlayed, File, DateCreated";
 
     public static final String PLAYLIST_TABLE = "musicplayer.playlist";
     public static final String PLAYLIST_COLUMNS =
-            "PK_PlaylistID, FK_UserID, Name, Favorite";
+            "PK_PlaylistID, FK_UserID, Name, Favorite, DateCreated";
 
     public static final String PLAYLISTSONG_TABLE = "musicplayer.playlistsong";
     public static final String PLAYLISTSONG_COLUMNS =
@@ -25,7 +25,11 @@ public final class Database {
 
     public static final String ALBUM_TABLE = "musicplayer.album";
     public static final String ALBUM_COLUMNS =
-            "PK_AlbumID, FK_UserID, Name, Artist, Cover";
+            "PK_AlbumID, FK_ArtistID, FK_UserID, Name, Artist, Cover, DateCreated";
+
+    public static final String ARTIST_TABLE = "musicplayer.artist";
+    public static final String ARTIST_COLUMNS =
+            "PK_ArtistID, Name, Genre";
 
     public static final String ARTIST_TABLE = "musicplayer.artist";
     public static final String ARTIST_COLUMNS =

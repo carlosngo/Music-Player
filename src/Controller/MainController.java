@@ -65,7 +65,7 @@ public class MainController {
         }
         return new ArrayList<>(yrs);
     }
-    
+
     public TreeSet<Playlist> getPlaylists() {
         return ac.getPlaylists();
     }
