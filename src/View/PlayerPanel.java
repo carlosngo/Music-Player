@@ -124,10 +124,10 @@ public class PlayerPanel extends JPanel implements ActionListener {
             BufferedImage img;
             resource = getClass().getClassLoader().getResource("images/imgRepeatBtn.png");
             img = ImageIO.read(resource);
-            repeat.setIcon(new ImageIcon(img));
+            repeat.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/imgBackBtn.png");
             img = ImageIO.read(resource);
-            prev.setIcon(new ImageIcon(img));
+            prev.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/imgNextBtn.png");
             img = ImageIO.read(resource);
             next.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -159,22 +159,26 @@ public class PlayerPanel extends JPanel implements ActionListener {
         if (pc.getCurrentSong() != null) {
             titleLbl.setText(pc.getCurrentSong().getName());
             if (pc.getCurrentSong().getArtist() != null) {
-                artistLbl.setText(pc.getCurrentSong().getAlbum().getName());
+                artistLbl.setText(pc.getCurrentSong().getArtist().getName());
+            } else {
+                artistLbl.setText("Unknown Artist");
             }
+            File cover = null;
             if (pc.getCurrentSong().getAlbum() != null) {
-                File cover = pc.getCurrentSong().getAlbum().getCover();
-                try {
-                    if (cover == null) {
-                        URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
-                        BufferedImage img = ImageIO.read(resource);
-                        albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
-                    } else {
-                        albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                cover = pc.getCurrentSong().getAlbum().getCover();
             }
+            try {
+                if (cover == null) {
+                    URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
+                    BufferedImage img = ImageIO.read(resource);
+                    albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+                } else {
+                    albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             isFavorite = pc.getCurrentSong().isFavorite();
             URL resource;
             BufferedImage img;
