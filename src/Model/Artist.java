@@ -4,7 +4,7 @@ public class Artist implements Comparable<Artist>{
 	private int artistId;
 	private String name;
 	private String genre;
-
+	
 	public Artist() {
 		artistId = -1;
 	}
