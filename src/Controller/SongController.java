@@ -12,6 +12,7 @@ public class SongController {
 
     private AddSongWindow asw;
     private AddPlaylistWindow apw;
+    private RemoveFromPlaylistWindow rfpw;
     private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
     private EditCategoryWindow ecw;
@@ -68,6 +69,10 @@ public class SongController {
         atpw = new AddToPlaylistWindow(this, index);
     }
 
+    public void openRemoveFromPlaylistWindow(int index) {
+        rfpw = new RemoveFromPlaylistWindow(this, index);
+    }
+
     public void openEditSongProfileWindow(int index, ArrayList<String> data) {
         espw = new EditSongProfileWindow(this, data, index);
     }
@@ -107,6 +112,10 @@ public class SongController {
             if (song.getName().equals(s.getName())) exists = true;
         }
         if (!exists) p.getSongs().add(s);
+    }
+
+    public void removeFromPlaylist(int songIndex, int playlistIndex) {
+
     }
 
 //    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
