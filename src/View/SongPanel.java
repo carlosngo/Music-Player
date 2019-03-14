@@ -71,6 +71,8 @@ public class SongPanel extends JPanel implements ActionListener{
                 model.add(_data.get(i));
             }
             categoryTable = new JTable(model);
+            categoryTable.setShowVerticalLines(false);
+            //categoryTable.setShowHorizontalLines(false);
             SongPanel.ActionPaneRenderer renderer = new SongPanel.ActionPaneRenderer();
             categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
             categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
