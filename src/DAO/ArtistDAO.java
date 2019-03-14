@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class ArtistDAO implements DataAccessObject {
 	private DAOFactory db;
 
-	private static final String SQL_INSERT = "INSERT INTO " + Database.ARTIST_TABLE + " (Name, Genre) VALUES (?, ?)";
-	private static final String SQL_UPDATE = "UPDATE " + Database.ARTIST_TABLE + " SET Name = ?, Genre = ? WHERE PK_ArtistID = ?";
+	private static final String SQL_INSERT = "INSERT INTO " + Database.ARTIST_TABLE + " VALUES (?, ?, ?)";
+	private static final String SQL_UPDATE = "UPDATE " + Database.ARTIST_TABLE + " SET Name = ?, Genre = ?";
 	private static final String SQL_DELETE = "DELETE FROM " + Database.ARTIST_TABLE + " WHERE PK_ArtistID = ?";
 	private static final String SQL_FIND_BY_ID = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE PK_ArtistID = ?";
 	private static final String SQL_ORDER_BY_ID = "SELECT * FROM " + Database.ARTIST_TABLE + " ORDER BY PK_ArtistID";
@@ -26,12 +26,13 @@ public class ArtistDAO implements DataAccessObject {
 		this.db = db;
 	}
 
-	public void create(Artist artist) {
+	public void creates(Artist artist) {
 		if (artist.getArtistId() != -1) {
 			throw new IllegalArgumentException("Artist is already created, the artist ID is not null.");
 		}
 
 		Object[] values = {
+				artist.getArtistId(),
 				artist.getName(),
 				artist.getGenre()
 		};
@@ -57,9 +58,9 @@ public class ArtistDAO implements DataAccessObject {
 		}
 
 		Object[] values = {
+				artist.getArtistId(),
 				artist.getName(),
-				artist.getGenre(),
-				artist.getArtistId()
+				artist.getGenre()
 		};
 
 		Connection connection = Database.getConnection();
