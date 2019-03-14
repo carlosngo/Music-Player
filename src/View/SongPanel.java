@@ -344,12 +344,13 @@ public class SongPanel extends JPanel implements ActionListener{
 
     public class ActionsPane extends JPanel {
 
-        private JButton play;
+        private JButton play, fav;
         private JButton addToPLaylist, addToQueue;
         private JButton delete;
         private JButton edit;
-        private JButton fav;
+        private JButton kebab;
         private String state;
+        final JPopupMenu settingsMenu = new JPopupMenu();
 
         public ActionsPane() {
             setOpaque(false);
@@ -360,12 +361,12 @@ public class SongPanel extends JPanel implements ActionListener{
             play.setContentAreaFilled(false);
             play.setBorderPainted(false);
             play.setActionCommand("play");
-//            fav = new JButton();
-//            fav.setEnabled(false);
-//            fav.setOpaque(false);
-//            fav.setContentAreaFilled(false);
-//            fav.setBorderPainted(false);
-//            fav.setActionCommand("fav");
+            fav = new JButton();
+            fav.setEnabled(false);
+            fav.setOpaque(false);
+            fav.setContentAreaFilled(false);
+            fav.setBorderPainted(false);
+            fav.setActionCommand("fav");
             addToPLaylist = new JButton();
             addToPLaylist.setEnabled(false);
             addToPLaylist.setOpaque(false);
@@ -390,6 +391,12 @@ public class SongPanel extends JPanel implements ActionListener{
             edit.setContentAreaFilled(false);
             edit.setBorderPainted(false);
             edit.setActionCommand("edit");
+            kebab = new JButton();
+            kebab.setEnabled(false);
+            kebab.setOpaque(false);
+            kebab.setContentAreaFilled(false);
+            kebab.setBorderPainted(false);
+            kebab.setActionCommand("settings");
 
             try{
                 URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
@@ -407,16 +414,23 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
                 img = ImageIO.read(resource);
                 addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
+                img = ImageIO.read(resource);
+                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
+                img = ImageIO.read(resource);
+                kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
             }
             catch(Exception e){
 
             }
 
-            add(play);
-            add(addToQueue);
-            add(addToPLaylist);
-            add(delete);
-            add(edit);
+              add(play);
+              add(kebab);
+//            add(addToQueue);
+//            add(addToPLaylist);
+//            add(delete);
+//            add(edit);
 
             ActionListener playListener = new ActionListener() {
                 @Override
@@ -523,6 +537,23 @@ public class SongPanel extends JPanel implements ActionListener{
                     edit.setEnabled(false);
                 }
             });
+
+            ActionListener kebabListener = new ActionListener() {
+                public void actionPerformed(ActionEvent ev) {
+                    settingsMenu.show(edit, edit.getBounds().x + (edit.getBounds().width)/2, edit.getBounds().y
+                            + (edit.getBounds().height)/2);
+                }
+            };
+            kebab.addActionListener(kebabListener);
+
+            kebab.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    edit.setEnabled(true);
+                }
+                public void mouseExited(MouseEvent e) {
+                    edit.setEnabled(false);
+                }
+            });
         }
 
         public void addActionListener(ActionListener listener) {
@@ -531,65 +562,99 @@ public class SongPanel extends JPanel implements ActionListener{
             addToPLaylist.addActionListener(listener);
             delete.addActionListener(listener);
             edit.addActionListener(listener);
-        }
-
-        public String getState() {
-            return state;
-        }
-    }
-
-    public class ActionsPane2 extends JPanel {
-
-        private JButton kebab;
-        private String state;
-
-        public ActionsPane2() {
-            setOpaque(false);
-            setLayout(new GridBagLayout());
-            kebab = new JButton();
-            kebab.setEnabled(false);
-            kebab.setOpaque(false);
-            kebab.setContentAreaFilled(false);
-            kebab.setBorderPainted(false);
-            kebab.setActionCommand("actions");
-
-            try{
-                URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
-                BufferedImage img = ImageIO.read(resource);
-                kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));;
-            }
-            catch(Exception e){
-
-            }
-
-            add(kebab);
-
-            ActionListener kebabListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                    //open JPopup here (delete, edit, add to playlist)
-                }
-            };
-            kebab.addActionListener(kebabListener);
-
-            kebab.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    kebab.setEnabled(true);
-                }
-                public void mouseExited(MouseEvent e) {
-                    kebab.setEnabled(false);
-                }
-            });
-        }
-
-        public void addActionListener(ActionListener listener) {
             kebab.addActionListener(listener);
         }
 
         public String getState() {
             return state;
+        }
+
+        private void PopupMenu(){
+
+
+            JMenuItem addToQueue = new JMenuItem("Add to queue");
+            addToQueue.setActionCommand("queue");
+
+            JMenuItem add_to_playlist = new JMenuItem("Add to playlist");
+            add_to_playlist.setActionCommand("add");
+
+            JMenuItem removeFromPlaylist = new JMenuItem("Remove from playlist");
+            removeFromPlaylist.setActionCommand("remove");
+
+            JMenuItem edit = new JMenuItem("Edit");
+            edit.setActionCommand("edit");
+
+            JMenuItem delete = new JMenuItem("Delete");
+            delete.setActionCommand("delete");
+
+            MenuItemListener menuItemListener = new MenuItemListener();
+
+            addToQueue.addActionListener(menuItemListener);
+            add_to_playlist.addActionListener(menuItemListener);
+            removeFromPlaylist.addActionListener(menuItemListener);
+            edit.addActionListener(menuItemListener);
+            delete.addActionListener(menuItemListener);
+
+            settingsMenu.add(addToQueue);
+            settingsMenu.add(add_to_playlist);
+            settingsMenu.add(removeFromPlaylist);
+            settingsMenu.add(edit);
+            settingsMenu.add(delete);
+
+//        mainFrame.addMouseListener(new MouseAdapter() {
+//            public void mouseClicked(MouseEvent e) {
+//                editMenu.show(mainFrame, e.getX(), e.getY());
+//            }
+//        });
+//        mainFrame.add(editMenu);
+//        mainFrame.setVisible(true);
+
+            try{
+                URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
+                BufferedImage img = ImageIO.read(resource);
+                add_to_playlist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/delete.png");
+                img = ImageIO.read(resource);
+                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/edit.png");
+                img = ImageIO.read(resource);
+                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
+                img = ImageIO.read(resource);
+                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+                resource = getClass().getClassLoader().getResource("images/cyanRemoveFromPlaylist.png");
+                img = ImageIO.read(resource);
+                removeFromPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 10, 10)));
+            }
+            catch(Exception e){
+
+            }
+
+        }
+        class MenuItemListener implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                //statusLabel.setText(e.getActionCommand() + " MenuItem clicked.");
+                switch (e.getActionCommand()){
+                    case "queue":
+                        controller.addToQueue(currentRow);
+                        break;
+                    case "add":
+                        controller.openAddToPlaylistWindow(currentRow);
+                        break;
+                    case "remove":
+                        //remove from playlist
+                        break;
+                    case "edit":
+                        controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
+                        break;
+                    case "delete":
+                        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+                                " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION)
+                            controller.removeSong(currentRow);
+                        break;
+                }
+            }
         }
     }
 
@@ -612,71 +677,12 @@ public class SongPanel extends JPanel implements ActionListener{
         }
     }
 
-    public class ActionPaneRenderer2 extends DefaultTableCellRenderer {
-
-        private SongPanel.ActionsPane2 actionsPane;
-
-        public ActionPaneRenderer2() {
-            actionsPane = new SongPanel.ActionsPane2();
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            if (isSelected) {
-                actionsPane.setBackground(table.getSelectionBackground());
-            } else {
-                actionsPane.setBackground(table.getBackground());
-            }
-            return actionsPane;
-        }
-    }
-
     public class ActionEditor extends AbstractCellEditor implements TableCellEditor {
 
         private SongPanel.ActionsPane actionsPane;
 
         public ActionEditor() {
             actionsPane = new SongPanel.ActionsPane();
-            actionsPane.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            stopCellEditing();
-                        }
-                    });
-                }
-            });
-        }
-
-        @Override
-        public Object getCellEditorValue() {
-            return actionsPane.getState();
-        }
-
-        @Override
-        public boolean isCellEditable(EventObject e) {
-            return true;
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            if (isSelected) {
-                actionsPane.setBackground(table.getSelectionBackground());
-            } else {
-                actionsPane.setBackground(table.getBackground());
-            }
-            return actionsPane;
-        }
-    }
-
-    public class ActionEditor2 extends AbstractCellEditor implements TableCellEditor {
-
-        private SongPanel.ActionsPane2 actionsPane;
-
-        public ActionEditor2() {
-            actionsPane = new SongPanel.ActionsPane2();
             actionsPane.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
