@@ -390,7 +390,11 @@ public class SongDAO implements DataAccessObject {
             statement.setInt(6, song.getYear());
             statement.setBoolean(7, song.isFavorite());
             statement.setLong(8, song.getPlayTime());
-            statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
+            if (song.getLastPlayed() != null)
+                statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
+            else {
+                statement.setObject(9, null);
+            }
             statement.setInt(10, song.getSongId());
             statement.executeUpdate();
 
