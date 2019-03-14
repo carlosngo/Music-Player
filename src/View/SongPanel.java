@@ -88,7 +88,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
             categoryTable.setForeground(Color.white);
             tableHeader = categoryTable.getTableHeader();
-            Border border = BorderFactory.createLineBorder(new Color(65,15,225), 1, true);
+            Border border = BorderFactory.createLineBorder(new Color(65,15,225), 3, false);
             tableHeader.setBorder(border);
             tableHeader.setBackground(new Color(65,15,225)); // change the Background color
             tableHeader.setForeground(Color.WHITE);
