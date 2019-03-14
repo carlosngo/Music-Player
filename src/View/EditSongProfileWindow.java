@@ -20,6 +20,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     private String title, album, genre, year, artist;
     private boolean choice;
     private int selectedRow;
+    private JComboBox genreChoices;
 
     public EditSongProfileWindow(SongController controller, ArrayList<String> data, int selectedRow){
         this.controller = controller;
@@ -86,14 +87,20 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         genreLabel.setForeground(Color.WHITE);
         genreLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p3.add(genreLabel);
-        //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
-        genreInput = new JTextField("" , 15);
-        genreInput.addActionListener(this);
-        genreInput.getDocument().addDocumentListener(this);
-        genreInput.setFont(new Font("Arial", Font.BOLD, 22));
-        //genreInput.setEditable(false);
-        //titleInput.setBackground(new Color(152,251,152));
-        p3.add(genreInput);
+        ArrayList<String> choices = new ArrayList<String>();
+        choices.add("Select a Genre");
+        for(String genre : controller.getGenres()){
+            choices.add(genre);
+        }
+        String[] sChoices = choices.toArray(new String[choices.size()]);
+        genreChoices = new JComboBox(sChoices);
+        genreChoices.setEditable(true);
+        p3.add(genreChoices);
+//        genreInput = new JTextField("" , 15);
+//        genreInput.addActionListener(this);
+//        genreInput.getDocument().addDocumentListener(this);
+//        genreInput.setFont(new Font("Arial", Font.BOLD, 22));
+//        p3.add(genreInput);
         p3.add(Box.createRigidArea(new Dimension(15,0)));
         p3.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(p3);
@@ -197,7 +204,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             setTitle(titleInput.getText());
             setAlbum(albumInput.getText());
             setYear(yearInput.getText());
-            setGenre(genreInput.getText());
+            String genre = genreChoices.getSelectedItem().toString();
             setArtist(artistInput.getText());
             choice = true;
             controller.updateSong(selectedRow, getTitle(), getAlbum(), getArtist(), getYear(), getGenre()/*, getDateUploaded()*/);
