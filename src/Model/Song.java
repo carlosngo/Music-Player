@@ -10,6 +10,7 @@ public class Song implements Comparable<Song> {
     private Artist artist;
     private String genre;
     private String name;
+    private String artist;
     private int year;
     private boolean favorite;
     private long playTime;
@@ -83,6 +84,14 @@ public class Song implements Comparable<Song> {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
     public boolean isFavorite() {

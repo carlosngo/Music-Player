@@ -15,9 +15,9 @@ import javax.swing.event.DocumentListener;
 
 public class EditSongProfileWindow extends JFrame implements ActionListener, DocumentListener {
     private SongController controller;
-    private JTextField titleInput, albumInput, genreInput, yearInput;
+    private JTextField titleInput, albumInput, genreInput, yearInput, artistInput;
     private JButton cancel, save;
-    private String title, album, genre, year;
+    private String title, album, genre, year, artist;
     private boolean choice;
     private int selectedRow;
 
@@ -97,6 +97,24 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         p3.add(Box.createRigidArea(new Dimension(15,0)));
         p3.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(p3);
+        p.add(Box.createRigidArea(new Dimension(0,7)));
+
+        JPanel p6 = new JPanel();
+        p6.setOpaque(false);
+        p6.setLayout(new BoxLayout(p6, BoxLayout.X_AXIS));
+        p6.add(Box.createRigidArea(new Dimension(15,0)));
+        JLabel artistLabel = new JLabel("Artist: ");
+        artistLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        artistLabel.setForeground(Color.white);
+        p6.add(artistLabel);
+        p6.add(Box.createRigidArea(new Dimension(5,0)));
+        artistInput = new JTextField("" , 15);
+        artistInput.addActionListener(this);
+        artistInput.getDocument().addDocumentListener(this);
+        artistInput.setFont(new Font("Arial", Font.PLAIN, 22));
+        p6.add(artistInput);
+        p6.add(Box.createRigidArea(new Dimension(15,0)));
+        p.add(p6);
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p4 = new JPanel();
@@ -180,31 +198,29 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             setAlbum(albumInput.getText());
             setYear(yearInput.getText());
             setGenre(genreInput.getText());
+            setArtist(artistInput.getText());
             choice = true;
-            controller.updateSong(selectedRow, getTitle(), getAlbum(), getYear(), getGenre());
+            controller.updateSong(selectedRow, getTitle(), getAlbum(), getArtist(), getYear(), getGenre()/*, getDateUploaded()*/);
             dispose();
         }
     }
 
     public void insertUpdate(DocumentEvent e) {
-        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty() ||
-                genreInput.getText().isEmpty() || yearInput.getText().isEmpty())
+        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty())
             save.setEnabled(false);
         else
             save.setEnabled(true);
     }
 
     public void removeUpdate(DocumentEvent e) {
-        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty() ||
-                genreInput.getText().isEmpty() || yearInput.getText().isEmpty())
+        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty())
             save.setEnabled(false);
         else
             save.setEnabled(true);
     }
 
     public void changedUpdate(DocumentEvent e) {
-        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty() ||
-                genreInput.getText().isEmpty() || yearInput.getText().isEmpty())
+        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty())
             save.setEnabled(false);
         else
             save.setEnabled(true);
@@ -247,6 +263,15 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     public boolean isEdited(){
         return choice;
     }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
     public static void main(String[] args){
 //        EditSongProfileWindow espw = new EditSongProfileWindow();
     }

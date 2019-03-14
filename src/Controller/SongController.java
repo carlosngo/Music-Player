@@ -429,6 +429,7 @@ public class SongController {
     public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
+        s.setArtist(artist);
         s.setUser(mc.getAccountController().getUser());
 
         s.setGenre(getGenre(genreName));
