@@ -508,7 +508,8 @@ public class SongController {
         if (year.equals("")) s.setYear(0);
         else s.setYear(Integer.parseInt(year));
         s.setGenre(getGenre(genre));
-        showAllSongs();
+        sp.editRow(songIndex, map(s));
+//        showAllSongs();
         mc.getPlayerController().getPlayerPanel().update();
     }
 

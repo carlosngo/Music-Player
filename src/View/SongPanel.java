@@ -136,6 +136,10 @@ public class SongPanel extends JPanel implements ActionListener{
         repaint();
     }
 
+    public void editRow(int index, ArrayList<String> data) {
+        model.edit(index, data);
+    }
+
     public MyTableModel getModel() {
         return model;
     }
@@ -339,11 +343,12 @@ public class SongPanel extends JPanel implements ActionListener{
             fireTableRowsInserted(index, index);
         }
 
-        public void edit(ArrayList<String> value) {
-            int startIndex = data.indexOf(value);
-            System.out.println("startIndex = " + startIndex);
-            data.remove(value);
-            fireTableRowsInserted(startIndex, startIndex);
+        public void edit(int index, ArrayList<String> value) {
+//            int startIndex = data.indexOf(value);
+//            System.out.println("startIndex = " + startIndex);
+//            data.remove(value);
+            data.set(index, value);
+            fireTableRowsInserted(index, index);
         }
 
         @Override
