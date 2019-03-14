@@ -102,7 +102,11 @@ public class SongController {
         ArrayList<Playlist> playlists = new ArrayList<>(mc.getPlaylists());
         Song s = displayedSongs.get(songIndex);
         Playlist p = playlists.get(playlistIndex);
-        p.getSongs().add(s);
+        boolean exists = false;
+        for (Song song : p.getSongs()) {
+            if (song.getName().equals(s.getName())) exists = true;
+        }
+        if (!exists) p.getSongs().add(s);
     }
 
 //    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
@@ -197,7 +201,7 @@ public class SongController {
         ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
         for (Song s : mc.getSongs()) {
-            if (s.getArtist().getName().equals(artistName)) queue.add(s);
+            if (s.getArtist() != null && s.getArtist().getName().equals(artistName)) queue.add(s);
         }
         mc.playSongs(queue);
     }
@@ -206,7 +210,7 @@ public class SongController {
 //        ArrayList<Song> queue = new ArrayList<>();
         // populate the queue with songs in the genre
         for (Song s : mc.getSongs()) {
-            if (s.getArtist().getName().equals(artistName)) mc.getPlayerController().addSong(s);
+            if (s.getArtist() != null && s.getArtist().getName().equals(artistName)) mc.getPlayerController().addSong(s);
         }
 //        mc.playSongs(queue);
     }
@@ -384,7 +388,7 @@ public class SongController {
     }
 
     public String[] getAllPossibleGenres() {
-        ArrayList<String> genres = new ArrayList(mc.getGenres());
+        TreeSet<String> genres = mc.getGenres();
         for (int i = 0; i < DEFAULT_GENRES.length; i++) genres.add(DEFAULT_GENRES[i]);
         return genres.toArray(new String[genres.size()]);
     }
