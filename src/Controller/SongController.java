@@ -420,7 +420,7 @@ public class SongController {
     }
 
     public String getGenre(String genreName) {
-        if (genreName.equals("")) return null;
+        if (genreName == null || genreName.equals("")) return null;
         if (!mc.getGenres().contains(genreName)) { // if genre does not currently exist
             mc.getGenres().add(genreName); // add the new genre
             if (cp != null)
@@ -515,6 +515,7 @@ public class SongController {
         temp.setName(albumName);
         Album a = mc.getAlbums().floor(temp);
         a.setCover(cover);
+        mc.getPlayerController().getPlayerPanel().update();
     }
 
     public void removePlaylist(String playlistName) {

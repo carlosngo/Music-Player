@@ -143,17 +143,6 @@ public class AccountController {
 	public void save() {
 		if (user.getUserId() != -1) {
 			mc.getUserDAO().update(user);
-			for (Artist a : artists) {
-//			    try {
-//                    if (a.getArtistId() == -1)
-//			            mc.getArtistDAO().creates(a);
-//                    else
-//                        mc.getArtistDAO().update(a);
-//                } catch (IllegalArgumentException e) {
-//
-//                }
-            }
-
 			for (Playlist p : playlists) {
 				try {
 					p.setUser(user);
@@ -168,24 +157,35 @@ public class AccountController {
 					//                e.printStackTrace();
 				}
 			}
-			for (Album a : albums) {
-				try {
-					//                System.out.println(a.getAlbumId());
-					a.setUser(user);
-					//                if (mc.getAlbumDAO().findByName(a.getName(), a.getUser().getUserId()) == null)
-					if (a.getAlbumId() == -1)
-						mc.getAlbumDAO().create(a);
-					else
-						mc.getAlbumDAO().update(a);
-				} catch (IllegalArgumentException e) {
-					//                e.printStackTrace();
-				}
-			}
+//			for (Album a : albums) {
+//				try {
+//					//                System.out.println(a.getAlbumId());
+//					a.setUser(user);
+//					//                if (mc.getAlbumDAO().findByName(a.getName(), a.getUser().getUserId()) == null)
+//					if (a.getAlbumId() == -1)
+//						mc.getAlbumDAO().create(a);
+//					else
+//						mc.getAlbumDAO().update(a);
+//				} catch (IllegalArgumentException e) {
+//					//                e.printStackTrace();
+//				}
+//			}
 
 			for (Song s : songs) {
+				Album album = s.getAlbum();
+				Artist artist = s.getArtist();
+
 				try {
 					s.setUser(user);
-					System.out.println(s.getSongId());
+					album.setUser(user);
+					if (artist != null) {
+						if (artist.getArtistId() == -1) mc.getArtistDAO().create(artist);
+						else mc.getArtistDAO().update(artist);
+					}
+					if (album != null) {
+						if (album.getAlbumId() == -1) mc.getAlbumDAO().create(album);
+						else mc.getAlbumDAO().update(album);
+					}
 					if (s.getSongId() == -1)
 						mc.getSongDAO().create(s);
 					else

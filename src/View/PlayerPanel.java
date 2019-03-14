@@ -158,8 +158,10 @@ public class PlayerPanel extends JPanel implements ActionListener {
     public void update() {
         if (pc.getCurrentSong() != null) {
             titleLbl.setText(pc.getCurrentSong().getName());
-            if (pc.getCurrentSong().getAlbum() != null) {
+            if (pc.getCurrentSong().getArtist() != null) {
                 artistLbl.setText(pc.getCurrentSong().getAlbum().getName());
+            }
+            if (pc.getCurrentSong().getAlbum() != null) {
                 File cover = pc.getCurrentSong().getAlbum().getCover();
                 try {
                     if (cover == null) {
