@@ -250,7 +250,7 @@ public class SongController {
     }
 
     public void showArtists() {
-        ArrayList<String> subCategories = new ArrayList<>();
+        TreeSet<String> subCategories = new TreeSet<>();
         for (Song s : mc.getSongs()) {
             if (s.getArtist() != null) subCategories.add(s.getArtist().getName());
         }
@@ -464,6 +464,22 @@ public class SongController {
         mc.getPlayerController().getPlayerPanel().update();
     }
 
+    public void removeAlbum(String albumName) {
+        Album temp = new Album();
+        temp.setName(albumName);
+        Album a = mc.getAlbums().floor(temp);
+        mc.getAlbums().remove(a);
+        for (Song s : mc.getSongs()) {
+            if (s.getAlbum() != null && s.getAlbum().equals(a)) {
+                s.setAlbum(null);
+            }
+        }
+        try {
+            mc.getAlbumDAO().delete(a);
+        } catch (IllegalArgumentException e) {
+        }
+        showAlbums();
+    }
     public void updateSong(int songIndex, String title, String album, String artist, String year, String genre){
         Song s = displayedSongs.get(songIndex);
         s.setName(title);
