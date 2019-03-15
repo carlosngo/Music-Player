@@ -442,6 +442,7 @@ public class SongPanel extends JPanel implements ActionListener{
             }
 
               add(play);
+//              add(fav);
               add(kebab);
 //            add(addToQueue);
 //            add(addToPLaylist);
@@ -466,6 +467,25 @@ public class SongPanel extends JPanel implements ActionListener{
                     play.setEnabled(false);
                 }
             });
+
+//            ActionListener favListener = new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    state = e.getActionCommand();
+//                    System.out.println("State = " + state);
+//                    controller.playSong(currentRow);
+//                }
+//            };
+//            fav.addActionListener(favListener);
+//
+//            fav.addMouseListener(new MouseAdapter() {
+//                public void mouseEntered(MouseEvent e) {
+//                    fav.setEnabled(true);
+//                }
+//                public void mouseExited(MouseEvent e) {
+//                    fav.setEnabled(false);
+//                }
+//            });
 
             ActionListener addToPlaylistListener = new ActionListener() {
                 @Override
