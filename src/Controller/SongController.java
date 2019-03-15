@@ -81,8 +81,7 @@ public class SongController {
         p.setName(playlistName);
         p.setDateCreated(Calendar.getInstance().getTime());
         mc.getPlaylists().add(p);
-        cp.addRow("Playlists", playlistName);
-        cp.update();
+        showPlaylists();
     }
 
     // play song at index of displayedSongs

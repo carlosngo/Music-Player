@@ -143,7 +143,32 @@ public class AccountController {
 	public void save() {
 		if (user.getUserId() != -1) {
 			mc.getUserDAO().update(user);
+			for (Song s : songs) {
+				Album album = s.getAlbum();
+				Artist artist = s.getArtist();
+
+				try {
+					s.setUser(user);
+					if (artist != null) {
+						if (artist.getArtistId() == -1) mc.getArtistDAO().create(artist);
+						else mc.getArtistDAO().update(artist);
+					}
+					if (album != null) {
+						album.setUser(user);
+						if (album.getAlbumId() == -1) mc.getAlbumDAO().create(album);
+						else mc.getAlbumDAO().update(album);
+					}
+					if (s.getSongId() == -1)
+						mc.getSongDAO().create(s);
+					else
+						mc.getSongDAO().update(s);
+
+				} catch (IllegalArgumentException e) {
+					//                System.out.println("");
+				}
+			}
 			for (Playlist p : playlists) {
+				System.out.println("Saving " + p.getName());
 				try {
 					p.setUser(user);
 					if (p.getPlaylistId() == -1)
@@ -171,30 +196,7 @@ public class AccountController {
 //				}
 //			}
 
-			for (Song s : songs) {
-				Album album = s.getAlbum();
-				Artist artist = s.getArtist();
 
-				try {
-					s.setUser(user);
-					if (artist != null) {
-						if (artist.getArtistId() == -1) mc.getArtistDAO().create(artist);
-						else mc.getArtistDAO().update(artist);
-					}
-					if (album != null) {
-						album.setUser(user);
-						if (album.getAlbumId() == -1) mc.getAlbumDAO().create(album);
-						else mc.getAlbumDAO().update(album);
-					}
-					if (s.getSongId() == -1)
-						mc.getSongDAO().create(s);
-					else
-						mc.getSongDAO().update(s);
-
-				} catch (IllegalArgumentException e) {
-					//                System.out.println("");
-				}
-			}
 			System.out.println("Data successfully saved.");
 		}
 	}
