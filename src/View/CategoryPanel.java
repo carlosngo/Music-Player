@@ -255,6 +255,9 @@ public class CategoryPanel extends JPanel {
                         case "Albums":
                             controller.removeAlbum(subCategoryName);
                             break;
+                        case "Favorite Playlists":
+                            controller.removePlaylist(subCategoryName);
+                            break;
                     }
                 }
             }

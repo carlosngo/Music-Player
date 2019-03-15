@@ -83,7 +83,7 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         //setUndecorated(true);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public boolean getIsChanged(){
@@ -108,6 +108,8 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
                 case "Years":
 //                    controller.updateYear(oldName, nameInput.getText());
                     break;
+                case "Favorite Playlists":
+                    controller.updatePlaylist(oldName, nameInput.getText());
             }
             dispose();
         }
