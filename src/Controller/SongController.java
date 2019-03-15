@@ -540,7 +540,7 @@ public class SongController {
         s.setGenre(getGenre(genre));
         displayedSongs.set(songIndex, s);
         sp.editRow(songIndex, map(s));
-//        showAllSongs();
+        showAllSongs();
         mc.getPlayerController().getPlayerPanel().update();
     }
 
