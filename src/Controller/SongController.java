@@ -321,10 +321,15 @@ public class SongController {
 
     public void showSongsByAlbum(String name) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>();
         for (Song s : mc.getSongs()) {
 
-            if (s.getAlbum() != null && s.getAlbum().getName().equals(name)) data.add(map(s));
+            if (s.getAlbum() != null && s.getAlbum().getName().equals(name)) {
+                data.add(map(s));
+                songs.add(s);
+            }
         }
+        displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, "Songs by " + name, data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
@@ -334,46 +339,69 @@ public class SongController {
         Playlist temp = new Playlist();
         temp.setName(name);
         Playlist p = mc.getPlaylists().floor(temp);
+        ArrayList<Song> songs = new ArrayList<>();
         for (Song s : p.getSongs()) {
-//            System.out.println(s);
+
             data.add(map(s));
+            songs.add(s);
         }
+        displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, "Songs in " + name, data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showSongsByGenre(String name) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>();
         for (Song s : mc.getSongs()) {
-            if (s.getGenre() != null && s.getGenre().equals(name)) data.add(map(s));
+            if (s.getGenre() != null && s.getGenre().equals(name)) {
+                data.add(map(s));
+                songs.add(s);
+            }
         }
+        displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, name + " Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showSongsByYear(String yr) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>();
         for (Song s : mc.getSongs()) {
-            if (s.getYear() != 0 && s.getYear()==Integer.parseInt(yr)) data.add(map(s));
+            if (s.getYear() != 0 && s.getYear()==Integer.parseInt(yr)) {
+                data.add(map(s));
+                songs.add(s);
+            }
         }
+        displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, yr + " Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showSongsByArtist(String artistName) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>();
         for (Song s : mc.getSongs()) {
-            if (s.getArtist() != null && s.getArtist().getName().equals(artistName)) data.add(map(s));
+            if (s.getArtist() != null && s.getArtist().getName().equals(artistName)) {
+                data.add(map(s));
+                songs.add(s);
+            }
         }
+        displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, "Songs by " + artistName, data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
     public void showFavoriteSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
+        ArrayList<Song> songs = new ArrayList<>();
         for (Song s : mc.getSongs()) {
-            if (s.isFavorite()) data.add(map(s));
+            if (s.isFavorite()) {
+                data.add(map(s));
+                songs.add(s);
+            }
         }
+        displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, "Favorite Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
@@ -503,6 +531,7 @@ public class SongController {
     }
     public void updateSong(int songIndex, String title, String album, String artist, String year, String genre){
         Song s = displayedSongs.get(songIndex);
+        System.out.println("Updating the song " + s.getName());
         s.setName(title);
         s.setAlbum(getAlbum(album));
         s.setArtist(getArtist(artist));
