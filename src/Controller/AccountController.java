@@ -235,7 +235,7 @@ public class AccountController {
 	public void updateUser(String userName, String password, String firstName, String lastName, String gender, Date birthday){
 		
 		user.setUserName(userName);
-		user.setPassword(password);
+		user.setPassword(hash.generateHash(password));
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setGender(gender);
