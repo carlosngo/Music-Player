@@ -24,6 +24,8 @@ public class AccountController {
 	private CreateAccountWindow caw;
 	private ViewAccountWindow vaw;
 	private EditAccountWindow eaw;
+	
+	private AbstractHashGenerator hash = new MD5HashGenerator();
 
 	public AccountController(MainController mc) {
 		this.mc = mc;
@@ -90,7 +92,7 @@ public class AccountController {
 
 	// logs in the user. check for errors.
 	public boolean logIn(String username, String password) {
-		user = mc.getUserDAO().find(username, password);
+		user = mc.getUserDAO().find(username,hash.generateHash(password));
 		if (user == null) return false;
 		System.out.println("Hi, " + user.getFirstName());
 		int choice = JOptionPane.showConfirmDialog(null, "Do you want to save your current data " +
@@ -111,13 +113,13 @@ public class AccountController {
 			if(!mc.getUserDAO().existUserName(username)){
 				System.out.println(user);
 				user.setUserName(username);
-				user.setPassword(password);
+				user.setPassword(hash.generateHash(password));
 				user.setFirstName(firstName);
 				user.setLastName(lastName);
 				user.setGender(gender);
 				user.setBirthday(birthday);
 				mc.getUserDAO().create(user);
-				logIn(user.getUserName(), user.getPassword());
+				logIn(username, password);
 			} else {
 				return false;
 			}
