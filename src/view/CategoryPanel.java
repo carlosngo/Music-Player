@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import util.ImageResizer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
