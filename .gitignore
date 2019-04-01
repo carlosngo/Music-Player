@@ -1,2 +1,10 @@
 /bin/
+
+*.xml
+
 *.class
+
+*.iml
+
+**/out
+**/idea
