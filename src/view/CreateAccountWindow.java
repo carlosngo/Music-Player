@@ -1,5 +1,5 @@
 package view;
-import controller.AccountController;
+import controller.UserController;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -8,13 +8,13 @@ import java.awt.event.*;
 import java.util.Calendar;
 
 public class CreateAccountWindow extends JFrame implements ActionListener, DocumentListener {
-    private AccountController controller;
+    private UserController controller;
     private JTextField usernameInput, firstNameInput, lastNameInput;
     private JPasswordField passwordInput;
     private JComboBox mon, day, yr, gender;
     private JButton cancel, createAccount;
 
-    public CreateAccountWindow(AccountController controller){
+    public CreateAccountWindow(UserController controller){
         this.controller = controller;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));

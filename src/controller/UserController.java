@@ -8,7 +8,7 @@ import view.*;
 import javax.swing.*;
 import java.util.*;
 
-public class AccountController {
+public class UserController {
 
 	// data
 	private User user;
@@ -28,7 +28,7 @@ public class AccountController {
 	
 	private AbstractHashGenerator hash = new MD5HashGenerator();
 
-	public AccountController(MainController mc) {
+	public UserController(MainController mc) {
 		this.mc = mc;
 		clearCache();
 		user = new User();
@@ -95,7 +95,7 @@ public class AccountController {
 	public boolean logIn(String username, String password) {
 		user = mc.getUserDAO().find(username,hash.generateHash(password));
 		if (user == null) return false;
-		System.out.println("Hi, " + user.getFirstName());
+		System.out.println("Hi, " + user.getName());
 		int choice = JOptionPane.showConfirmDialog(null, "Do you want to save your current data " +
 				"to your account?", "Save Data", JOptionPane.YES_NO_OPTION);
 		if (choice == JOptionPane.YES_OPTION) {
@@ -133,7 +133,7 @@ public class AccountController {
 
 	// logs out the user. clear the cache
 	public void logOut() {
-		System.out.println("Goodbye, " + user.getFirstName());
+		System.out.println("Goodbye, " + user.getName());
 		save();
 		user = new User();
 		mc.getDashboard().setAccountPanel(new AccountPanel(this));

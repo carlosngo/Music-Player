@@ -3,11 +3,10 @@ package model;
 import java.util.*;
 import java.io.*;
 
-public class Album implements Comparable<Album> {
+public class Album implements Comparable<Album>, Media {
     private int albumId;
-    private User user;
-    private String name;
-    private String artist;
+	private String name;
+    private Artist artist;
     private File cover;
     private Date dateCreated;
 
@@ -26,19 +25,11 @@ public class Album implements Comparable<Album> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getArtist() {
+	public Artist getArtist() {
 		return artist;
 	}
-	public void setArtist(String artist) {
+	public void setArtist(Artist artist) {
 		this.artist = artist;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public File getCover() {

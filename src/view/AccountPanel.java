@@ -17,9 +17,9 @@ import java.net.URL;
 //icon, and header buttons
 public class AccountPanel extends JPanel {
     private JButton addSongs, logIn, signUp, editAccount, logOut;
-    private AccountController ac;
+    private UserController ac;
 
-    public AccountPanel(AccountController ac){
+    public AccountPanel(UserController ac){
         this.ac = ac;
         setLayout(new BorderLayout());
 //        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -138,7 +138,7 @@ public class AccountPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    public AccountPanel(AccountController ac, User user){
+    public AccountPanel(UserController ac, User user){
         this.ac = ac;
 //        ms.setTitle(user.getUserName() + "'s iPl4yer");
         setLayout(new BorderLayout());

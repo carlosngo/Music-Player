@@ -3,19 +3,22 @@ package model;
 import java.util.*;
 import java.io.*;
 
-public class Song implements Comparable<Song> {
+public class Song implements Comparable<Song>, Media {
+    // global variables
     private int songId;
-    private User user;
     private Album album;
     private Artist artist;
     private String genre;
     private String name;
     private int year;
+    private File wav;
+
+    // client-specific variables
     private boolean favorite;
     private long playTime;
     private Date lastPlayed;
     private Date dateCreated;
-    private File wav;
+
 
 
 	public Song() {
@@ -36,14 +39,6 @@ public class Song implements Comparable<Song> {
 
     public void setArtist(Artist artist) {
         this.artist = artist;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Album getAlbum() {

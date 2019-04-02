@@ -9,7 +9,7 @@ import java.util.*;
 public class MainController {
 
     // controllers
-    private AccountController ac;
+    private UserController ac;
     private PlayerController pc;
     private SongController sc;
 
@@ -31,7 +31,7 @@ public class MainController {
         playlistDAOFactory = new PlaylistDAOFactory();
         playlistSongDAOFactory = new PlaylistSongDAOFactory();
         artistDAOFactory = new ArtistDAOFactory();
-        ac = new AccountController(this);
+        ac = new UserController(this);
         pc = new PlayerController(this);
         sc = new SongController(this);
         openDashboard();
@@ -70,7 +70,7 @@ public class MainController {
         return ac.getPlaylists();
     }
 
-    public AccountController getAc() {
+    public UserController getAc() {
         return ac;
     }
 
@@ -86,7 +86,7 @@ public class MainController {
         dashboard = new Dashboard(this);
     }
 
-    public AccountController getAccountController() {
+    public UserController getAccountController() {
         return ac;
     }
 

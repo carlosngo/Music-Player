@@ -2,12 +2,11 @@ package model;
 
 import java.util.*;
 
-public class Playlist implements Comparable<Playlist> {
+public class Playlist implements Comparable<Playlist>, Media {
     private int playlistId;
     private User user;
     private String name;
     private ArrayList<Song> songs;
-    private boolean favorite;
     private Date dateCreated;
 
     public Playlist() {
@@ -53,14 +52,6 @@ public class Playlist implements Comparable<Playlist> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
     }
 
     @Override

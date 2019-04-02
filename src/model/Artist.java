@@ -1,10 +1,12 @@
 package model;
 
-public class Artist implements Comparable<Artist>{
+import events.*;
+import java.util.*;
+
+public class Artist extends User implements Comparable<Artist>{
 	private int artistId;
-	private String name;
 	private String genre;
-	
+
 	public Artist() {
 		artistId = -1;
 	}
@@ -17,14 +19,6 @@ public class Artist implements Comparable<Artist>{
 		this.artistId = artistId;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getGenre() {
 		return genre;
 	}
@@ -33,9 +27,10 @@ public class Artist implements Comparable<Artist>{
 		this.genre = genre;
 	}
 
+
 	@Override
 	public int compareTo(Artist o) {
-		return name.compareTo(o.getName());
+		return getName().compareTo(o.getName());
 	}
 
 }
