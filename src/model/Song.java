@@ -119,20 +119,21 @@ public class Song implements Comparable<Song>, Media {
 	    Song song = new Song();
 	    String[] songdata = s.split("\\|");
 	    song.setSongId(Integer.parseInt(songdata[0]));
-//	    song.setUser();
-//	    song.setAlbum();
-//      song.setArtist();
-        song.setGenre(songdata[1]);
-        song.setName(songdata[2]);
-        song.setYear(Integer.parseInt(songdata[3]));
-        song.setFavorite(Boolean.parseBoolean(songdata[4]));
-        song.setPlayTime(Long.parseLong(songdata[5]));
-        Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[6]);
+        Album album = new Album();
+        album.setAlbumId(Integer.parseInt(songdata[1]));
+	    song.setAlbum(album);
+        Artist artist = new Artist();
+        artist.setArtistId(Integer.parseInt(songdata[2]));
+        song.setArtist(artist);
+        song.setGenre(songdata[3]);
+        song.setName(songdata[4]);
+        song.setYear(Integer.parseInt(songdata[5]));
+        song.setFavorite(Boolean.parseBoolean(songdata[6]));
+        song.setPlayTime(Long.parseLong(songdata[7]));
+        Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[8]);
         song.setLastPlayed(lp);
-        Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[7]);
+        Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[9]);
         song.setDateCreated(dc);
-        File file = new File(songdata[8]);
-        song.setWAV(file);
 	    return song;
     }
 
@@ -141,11 +142,11 @@ public class Song implements Comparable<Song>, Media {
         StringBuilder sb = new StringBuilder();
         sb.append(getSongId());
         sb.append("|");
-        sb.append(getUser());
+//        sb.append(getUser().);
+//        sb.append("|");
+        sb.append(getAlbum().getAlbumId());
         sb.append("|");
-        sb.append(getAlbum());
-        sb.append("|");
-        sb.append(getArtist());
+        sb.append(getArtist().getArtistId());
         sb.append("|");
         sb.append(getGenre());
         sb.append("|");
@@ -160,8 +161,6 @@ public class Song implements Comparable<Song>, Media {
         sb.append(getLastPlayed());
         sb.append("|");
         sb.append(getDateCreated());
-        sb.append("|");
-        sb.append(getWAV());
         return sb.toString();
     }
 

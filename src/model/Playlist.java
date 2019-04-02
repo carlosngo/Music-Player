@@ -1,5 +1,7 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Playlist implements Comparable<Playlist>, Media {
@@ -54,17 +56,30 @@ public class Playlist implements Comparable<Playlist>, Media {
         this.name = name;
     }
 
+    public static Playlist parsePlaylist(String s) throws ParseException {
+        Playlist playlist = new Playlist();
+        String[] playlistData = s.split("\\|");
+        playlist.setPlaylistId(Integer.parseInt(playlistData[0]));
+        User user = new User();
+        user.setUserId(Integer.parseInt(playlistData[1]));
+        playlist.setUser(user);
+        playlist.setName(playlistData[2]);
+        Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(playlistData[3]);
+        playlist.setDateCreated(dc);
+        return playlist;
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append();
+        sb.append(getPlaylistId());
         sb.append("|");
-        sb.append();
+        sb.append(getUser().getUserId());
         sb.append("|");
-        sb.append();
+        sb.append(getName());
         sb.append("|");
-        sb.append();
-        sb.append("|");
+        sb.append(getDateCreated());
+        return sb.toString();
     }
 
     @Override

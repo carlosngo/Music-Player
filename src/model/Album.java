@@ -1,5 +1,7 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
@@ -47,6 +49,32 @@ public class Album implements Comparable<Album>, Media {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    public static Album parseAlbum(String s) throws ParseException {
+		Album album = new Album();
+		String[] albumData = s.split("\\|");
+		album.setAlbumId(Integer.parseInt(albumData[0]));
+		album.setName(albumData[1]);
+		Artist artist = new Artist();
+		artist.setArtistId(Integer.parseInt(albumData[2]));
+		album.setArtist(artist);
+		Date dc =new SimpleDateFormat("dd/MM/yyyy").parse(albumData[3]);
+		album.setDateCreated(dc);
+		return album;
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append(getAlbumId());
+		sb.append("|");
+		sb.append(getName());
+		sb.append("|");
+		sb.append(getArtist().getArtistId());
+		sb.append("|");
+		sb.append(getDateCreated());
+		return sb.toString();
+	}
 
     @Override
 	public int compareTo(Album o) {
