@@ -1,7 +1,9 @@
 package model;
 
 import events.*;
+import java.text.ParseException;
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 public class User {
     private int userId;
@@ -98,4 +100,36 @@ public class User {
         followers.remove(follower);
     }
 
+    public static User parseUser(String s) throws ParseException {
+        User user = new User();
+        String[] biodata = s.split("\\|");
+        user.setUserId(Integer.parseInt(biodata[0]));
+        user.setUserName(biodata[1]);
+        user.setPassword(biodata[2]);
+        user.setFirstName(biodata[3]);
+        user.setLastName(biodata[4]);
+        user.setGender(biodata[5]);
+        Date bday =new SimpleDateFormat("dd/MM/yyyy").parse(biodata[6]);
+        user.setBirthday(bday);
+        return user;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(getUserId());
+        sb.append("|");
+        sb.append(getUserName());
+        sb.append("|");
+        sb.append(getPassword());
+        sb.append("|");
+        sb.append(getFirstName());
+        sb.append("|");
+        sb.append(getLastName());
+        sb.append("|");
+        sb.append(getGender());
+        sb.append("|");
+        sb.append(getBirthday());
+        return sb.toString();
+    }
 }

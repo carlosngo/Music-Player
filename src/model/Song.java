@@ -1,5 +1,7 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
@@ -111,6 +113,56 @@ public class Song implements Comparable<Song>, Media {
 
     public void setWAV(File wav) {
         this.wav = wav;
+    }
+
+    public static Song parseSong(String s) throws ParseException {
+	    Song song = new Song();
+	    String[] songdata = s.split("\\|");
+	    song.setSongId(Integer.parseInt(songdata[0]));
+//	    song.setUser();
+//	    song.setAlbum();
+//      song.setArtist();
+        song.setGenre(songdata[1]);
+        song.setName(songdata[2]);
+        song.setYear(Integer.parseInt(songdata[3]));
+        song.setFavorite(Boolean.parseBoolean(songdata[4]));
+        song.setPlayTime(Long.parseLong(songdata[5]));
+        Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[6]);
+        song.setLastPlayed(lp);
+        Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[7]);
+        song.setDateCreated(dc);
+        File file = new File(songdata[8]);
+        song.setWAV(file);
+	    return song;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(getSongId());
+        sb.append("|");
+        sb.append(getUser());
+        sb.append("|");
+        sb.append(getAlbum());
+        sb.append("|");
+        sb.append(getArtist());
+        sb.append("|");
+        sb.append(getGenre());
+        sb.append("|");
+        sb.append(getName());
+        sb.append("|");
+        sb.append(getYear());
+        sb.append("|");
+        sb.append(isFavorite());
+        sb.append("|");
+        sb.append(getPlayTime());
+        sb.append("|");
+        sb.append(getLastPlayed());
+        sb.append("|");
+        sb.append(getDateCreated());
+        sb.append("|");
+        sb.append(getWAV());
+        return sb.toString();
     }
 
     @Override
