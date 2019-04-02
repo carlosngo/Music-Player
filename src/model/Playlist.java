@@ -64,6 +64,19 @@ public class Playlist implements Comparable<Playlist> {
     }
 
     @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append();
+        sb.append("|");
+        sb.append();
+        sb.append("|");
+        sb.append();
+        sb.append("|");
+        sb.append();
+        sb.append("|");
+    }
+
+    @Override
     public int compareTo(Playlist o) {
         return o.getName().compareTo(name);
     }
