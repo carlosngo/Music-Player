@@ -1,10 +1,10 @@
-package server;
+package net;
 
 import dao.*;
 import model.*;
+
 import java.util.concurrent.*;
 import java.util.*;
-import java.util.concurrent.locks.*;
 import java.net.*;
 import java.io.*;
 
@@ -14,11 +14,16 @@ public class Server {
 
     private static final Server singleton = new Server();
     private final ExecutorService executor = Executors.newCachedThreadPool();
-    private final Observable observable = new Observable();
-    private final Lock lock = new ReentrantLock(true);
+    private final Map<Integer, ClientThread> onlineUsers = Collections.synchronizedMap(new HashMap<>());
+    private final UserDAOFactory userDAOFactory = new UserDAOFactory();
+    private final SongDAOFactory songDAOFactory = new SongDAOFactory();
+    private final AlbumDAOFactory albumDAOFactory = new AlbumDAOFactory();
+    private final PlaylistDAOFactory playlistDAOFactory = new PlaylistDAOFactory();
+    private final PlaylistSongDAOFactory playlistSongDAOFactory = new PlaylistSongDAOFactory();
+    private final ArtistDAOFactory artistDAOFactory = new ArtistDAOFactory();
     private boolean shutdown = false;
 
-    private Server() { }
+    private Server() {    }
 
     public static Server getInstance() { return singleton; }
 
@@ -30,49 +35,24 @@ public class Server {
         executor.submit(thread);
     }
 
-    public void registerClientThread(ClientThread thread) {
-        lock.lock();
-        try {
-            observable.addObserver(thread);
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void unregisterClientThread(ClientThread thread) {
-        lock.lock();
-        try {
-            observable.deleteObserver(thread);
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void broadcast(Object message) {
-        lock.lock();
-        try {
-            executor.execute(new MessageBroadcaster(message, observable));
-        } finally {
-            lock.unlock();
-        }
-    }
     public void loadData() {
 
     }
 
-    public void addSong(Song song){
+    public boolean addSong(Song song){
         try {
             //add song
         } catch (IllegalArgumentException e) {
             System.out.println("Song was not added.");
         }
+        return true;
     }
 
-    public void deleteSong(String name){
+    public void deleteSong(Song song){
 
     }
 
-    public void editSong(String name){
+    public void editSong(Song song){
 
     }
 
@@ -182,12 +162,14 @@ public class Server {
     }
 
 
-    public void login(){
-
+    public User login(String username, String password, ClientThread thread){
+        User user = ((UserDAO)(userDAOFactory.getDAO())).find(username, password);
+        if (user != null) onlineUsers.put(user.getUserId(), thread);
+        return user;
     }
 
-    public void logout(){
-
+    public void logout(int userId){
+        onlineUsers.remove(userId);
     }
 
     public ArrayList<Song> getSongs(){
@@ -206,9 +188,7 @@ public class Server {
                 Socket client = serverSocket.accept();
                 System.out.println("Client accepted.");
                 ClientThread thread = new ClientThread(client);
-                server.registerClientThread(thread);
                 server.startThread(thread);
-
             }
         } catch (IOException e) {
             e.printStackTrace();

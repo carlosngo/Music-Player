@@ -100,7 +100,7 @@ public class User {
         followers.remove(follower);
     }
 
-    public static User parseUser(String s) throws ParseException {
+    public static User parseUser(String s) {
         User user = new User();
         String[] biodata = s.split("\\|");
         user.setUserId(Integer.parseInt(biodata[0]));
@@ -109,8 +109,12 @@ public class User {
         user.setFirstName(biodata[3]);
         user.setLastName(biodata[4]);
         user.setGender(biodata[5]);
-        Date bday =new SimpleDateFormat("dd/MM/yyyy").parse(biodata[6]);
-        user.setBirthday(bday);
+        try {
+            Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(biodata[6]);
+            user.setBirthday(bday);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return user;
     }
 

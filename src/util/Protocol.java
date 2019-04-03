@@ -33,6 +33,7 @@ public enum Protocol {
     SETSONGFILE,
     LOGIN,
     LOGOUT,
-    SEARCH
-
+    SEARCH,
+    OK,
+    NO
 }

@@ -115,7 +115,7 @@ public class Song implements Comparable<Song>, Media {
         this.wav = wav;
     }
 
-    public static Song parseSong(String s) throws ParseException {
+    public static Song parseSong(String s) {
 	    Song song = new Song();
 	    String[] songdata = s.split("\\|");
 	    song.setSongId(Integer.parseInt(songdata[0]));
@@ -130,10 +130,15 @@ public class Song implements Comparable<Song>, Media {
         song.setYear(Integer.parseInt(songdata[5]));
         song.setFavorite(Boolean.parseBoolean(songdata[6]));
         song.setPlayTime(Long.parseLong(songdata[7]));
-        Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[8]);
-        song.setLastPlayed(lp);
-        Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[9]);
-        song.setDateCreated(dc);
+        try {
+            Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[8]);
+            song.setLastPlayed(lp);
+            Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[9]);
+            song.setDateCreated(dc);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 	    return song;
     }
 
