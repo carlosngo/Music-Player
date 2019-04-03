@@ -1,7 +1,5 @@
 package server;
 
-import model.Server;
-
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -29,7 +27,7 @@ public class ClientThread implements Runnable, Observer {
 
     @Override
     public void run() {System.out.println("Started thread for client.");
-        model.Server server = Server.getInstance();
+        Server server = Server.getInstance();
         String messageFromClient;
         try {
             while (!server.isShutDown() && (messageFromClient = in.readLine()) != null) {
