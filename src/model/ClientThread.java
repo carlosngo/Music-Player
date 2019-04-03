@@ -31,69 +31,72 @@ public class ClientThread implements Runnable, Observer {
                 System.out.println("Received the message: " + messageFromClient + " from client.");
 
                 StringBuilder reply = new StringBuilder();
-                if (messageFromClient.startsWith("CONNECT")) {
-                    String name = messageFromClient.substring(8).trim();
-                    if (!server.addClient(name)) reply.append("NO\n");
-                    else reply.append("OK\n");
-                } else if (messageFromClient.startsWith("DISCONNECT")) {
-                    server.removeClient(messageFromClient.substring(11));
-                } else if (messageFromClient.equals("GETQUIZZES")) {
-//                    reply.append("GETQUIZZES ");
-                    ArrayList<Quiz> quizzes = server.getQuizzes();
-                    reply.append(quizzes.size());
-                    reply.append("\n");
-                    for (int i = 0; i < quizzes.size(); i++) {
-                        reply.append(quizzes.get(i).toString());
-                        reply.append("\n");
-                    }
-                } else if (messageFromClient.startsWith("GETSTATUS")) {
-                    reply.append(server.getStatus(messageFromClient.substring(10).trim()));
-                    reply.append("\n");
-                } else if (messageFromClient.startsWith("GETNUMPLAYERS")) {
-                    reply.append(server.getNumberOfPlayers(messageFromClient.substring(14).trim()));
-                    reply.append("\n");
-                } else if (messageFromClient.startsWith("ADDQUIZ")) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(messageFromClient.substring(7).trim());
-                    sb.append("\n");
-                    messageFromClient = in.readLine();
-                    while (!messageFromClient.equals("END")) {
-                        System.out.println(messageFromClient);
-                        sb.append(messageFromClient);
-                        sb.append("\n");
-                        messageFromClient = in.readLine();
-                    }
-                    System.out.println("Going to add quiz:\n" + sb.toString());
-                    Quiz quiz = Quiz.parseQuiz(sb.toString());
-                    server.createQuiz(quiz);
-                } else if (messageFromClient.startsWith("DELETEQUIZ")) {
-                    server.deleteQuiz(messageFromClient.substring(11));
-                } else if (messageFromClient.startsWith("JOINQUIZ")) {
-                    String[] data = messageFromClient.substring(9).split("\\|");
-                    if (!server.addParticipant(this, data[0].trim(), data[1].trim())) reply.append("NO\n");
-                    else reply.append("OK\n");
-                } else if (messageFromClient.startsWith("LEAVEQUIZ")) {
-                    String[] data = messageFromClient.substring(10).split("\\|");
-                    server.removeParticipant(this, data[0].trim(), data[1].trim());
-                } else if (messageFromClient.startsWith("STARTQUIZ")) {
-                    server.startQuiz((messageFromClient.substring(9).trim()));
-                } else if (messageFromClient.startsWith("FINISHQUIZ")) {
-                    String[] data = messageFromClient.substring(11).split("\\|");
-                    server.finishQuiz(data[0], data[1]);
-                } else if (messageFromClient.startsWith("SCORE")) {
-                    String[] data = messageFromClient.substring(6).split("\\|");
-                    server.updateScore(data[0], data[1], Integer.parseInt(data[2]));
-                } else if (messageFromClient.startsWith("GETPARTICIPANTS")) {
-                    TreeMap<String, Integer> participants = server.getParticipants(messageFromClient.substring(16));
-                    int ctr = 0;
-                    for (String participant : participants.keySet()) {
-                        if (ctr > 0) reply.append("|");
-                        reply.append(participant);
-                        reply.append("|");
-                        reply.append(participants.get(participant));
-                        ctr++;
-                    }
-                    reply.append("\n");
+                if (messageFromClient.startsWith("GETSONGS")) {
+
+                } else if (messageFromClient.startsWith("ADDSONG")) {
+
+                } else if (messageFromClient.equals("DELETESONG")) {
+//
+                } else if (messageFromClient.startsWith("EDITSONG")) {
+
+                } else if (messageFromClient.startsWith("PLAYSONG")) {
+
+                } else if (messageFromClient.startsWith("FOLLOWSONG")) {
+
+                } else if (messageFromClient.startsWith("GETPLAYLISTS")) {
+
+                } else if (messageFromClient.startsWith("ADDPLAYLIST")) {
+
+                } else if (messageFromClient.startsWith("DELETEPLAYLIST")) {
+
+                } else if (messageFromClient.startsWith("EDITPLAYLIST")) {
+
+                } else if (messageFromClient.startsWith("PLAYPLAYLIST")) {
+
+                } else if (messageFromClient.startsWith("FOLLOWPLAYLIST")) {
+
+                } else if (messageFromClient.startsWith("GETALBUMS")) {
+
+                }else if (messageFromClient.startsWith("ADDALBUM")) {
+
+                }else if (messageFromClient.startsWith("DELETEALBUM")) {
+
+                }else if (messageFromClient.startsWith("EDITALBUM")) {
+
+                }else if (messageFromClient.startsWith("PLAYALBUM")) {
+
+                }else if (messageFromClient.startsWith("FOLLOWALBUM")) {
+
+                }else if (messageFromClient.startsWith("GETUSERS")) {
+
+                }else if (messageFromClient.startsWith("ADDUSER")) {
+
+                }else if (messageFromClient.startsWith("EDITUSER")) {
+
+                }else if (messageFromClient.startsWith("FOLLOWUSER")) {
+
+                }else if (messageFromClient.startsWith("GETARTISTS")) {
+
+                }else if (messageFromClient.startsWith("ADDARTIST")) {
+
+                }else if (messageFromClient.startsWith("EDITARTIST")) {
+
+                }else if (messageFromClient.startsWith("FOLLOWARTIST")) {
+
+                }else if (messageFromClient.startsWith("GETIMAGEFILE")) {
+
+                }else if (messageFromClient.startsWith("SETIMAGEFILE")) {
+
+                }else if (messageFromClient.startsWith("GETSONGFILE")) {
+
+                }else if (messageFromClient.startsWith("SETSONGFILE")) {
+
+                }else if (messageFromClient.startsWith("LOGIN")) {
+
+                }else if (messageFromClient.startsWith("LOGOUT")) {
+
+                }else if (messageFromClient.startsWith("SEARCH")) {
+
                 }
                 reply.append("END");
                 System.out.println("Sending the following message to the client: " + reply.toString());
