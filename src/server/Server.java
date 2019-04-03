@@ -152,7 +152,7 @@ public class Server {
 
     }
 
-    public void addArtist(String name){
+    public void addArtist(Artist artist){
 
     }
 
