@@ -1,7 +1,7 @@
 package server;
 
 import dao.*;
-
+import model.*;
 import java.util.concurrent.*;
 import java.util.*;
 import java.util.concurrent.locks.*;
@@ -68,19 +68,19 @@ public class Server {
         }
     }
 
-    public void deleteSong(){
+    public void deleteSong(String name){
 
     }
 
-    public void editSong(){
+    public void editSong(String name){
 
     }
 
-    public void playSong(){
+    public void playSong(String name){
 
     }
 
-    public void followSong(){
+    public void followSong(String name){
 
     }
 
@@ -88,23 +88,23 @@ public class Server {
 
     }
 
-    public void addPlaylist(){
+    public void addPlaylist(Playlist playlist){
 
     }
 
-    public void deletePlaylist(){
+    public void deletePlaylist(String name){
 
     }
 
-    public void editPlaylist(){
+    public void editPlaylist(String name){
 
     }
 
-    public void playPlaylist(){
+    public void playPlaylist(String name){
 
     }
 
-    public void followPlaylist(){
+    public void followPlaylist(String name){
 
     }
 
@@ -112,23 +112,23 @@ public class Server {
 
     }
 
-    public void addAlbum(){
+    public void addAlbum(Album album){
 
     }
 
-    public void deleteAlbum(){
+    public void deleteAlbum(String name){
 
     }
 
-    public void editAlbum(){
+    public void editAlbum(String name){
 
     }
 
-    public void playAlbum(){
+    public void playAlbum(String name){
 
     }
 
-    public void followAlbum(){
+    public void followAlbum(String name){
 
     }
 
@@ -136,31 +136,31 @@ public class Server {
 
     }
 
-    public void addUser(){
+    public void addUser(User user){
 
     }
 
-    public void editUser(){
+    public void editUser(String name){
 
     }
 
-    public void followUser(){
+    public void followUser(String name){
 
     }
 
-    public void getArtists(){
+    public void getArtists(String name){
 
     }
 
-    public void addArtist(){
+    public void addArtist(String name){
 
     }
 
-    public void editArtist(){
+    public void editArtist(String name){
 
     }
 
-    public void followArtist(){
+    public void followArtist(String name){
 
     }
 

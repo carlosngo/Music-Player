@@ -1,5 +1,6 @@
 package server;
 
+import model.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -35,20 +36,26 @@ public class ClientThread implements Runnable, Observer {
 
                 StringBuilder reply = new StringBuilder();
                 if (messageFromClient.startsWith("GETSONGS")) {
-                    server.getSongs();
+                    ArrayList<Song> songs = server.getSongs();
+                    reply.append(songs.size());
+                    reply.append("\n");
+                    for (int i = 0; i < songs.size(); i++) {
+                        reply.append(songs.get(i).toString());
+                        reply.append("\n");
+                    }
+
                 } else if (messageFromClient.startsWith("ADDSONG")) {
                     server.addSong();
                 } else if (messageFromClient.equals("DELETESONG")) {
-                    server.deleteSong();
-//
+                    server.deleteSong(messageFromClient.substring(10));
                 } else if (messageFromClient.startsWith("EDITSONG")) {
-                    server.editSong();
+                    server.editSong(messageFromClient.substring(8));
 
                 } else if (messageFromClient.startsWith("PLAYSONG")) {
-                    server.playSong();
+                    server.playSong(messageFromClient.substring(8));
 
                 } else if (messageFromClient.startsWith("FOLLOWSONG")) {
-                    server.followSong();
+                    server.followSong(messageFromClient.substring(10));
 
                 } else if (messageFromClient.startsWith("GETPLAYLISTS")) {
                     server.getPlaylists();
@@ -57,58 +64,58 @@ public class ClientThread implements Runnable, Observer {
                     server.addPlaylist();
 
                 } else if (messageFromClient.startsWith("DELETEPLAYLIST")) {
-                    server.deletePlaylist();
+                    server.deletePlaylist(messageFromClient.substring(14));
 
                 } else if (messageFromClient.startsWith("EDITPLAYLIST")) {
-                    server.editPlaylist();
+                    server.editPlaylist(messageFromClient.substring(12));
 
                 } else if (messageFromClient.startsWith("PLAYPLAYLIST")) {
-                    server.playPlaylist();
+                    server.playPlaylist(messageFromClient.substring(12));
 
                 } else if (messageFromClient.startsWith("FOLLOWPLAYLIST")) {
-                    server.followPlaylist();
+                    server.followPlaylist(messageFromClient.substring(14));
 
                 } else if (messageFromClient.startsWith("GETALBUMS")) {
                     server.getAlbums();
 
                 }else if (messageFromClient.startsWith("ADDALBUM")) {
-                    server.addAlbum();
+                    server.addAlbum(messageFromClient.substring(8));
 
                 }else if (messageFromClient.startsWith("DELETEALBUM")) {
-                    server.deleteAlbum();
+                    server.deleteAlbum(messageFromClient.substring(11));
 
                 }else if (messageFromClient.startsWith("EDITALBUM")) {
-                    server.editAlbum();
+                    server.editAlbum(messageFromClient.substring(9));
 
                 }else if (messageFromClient.startsWith("PLAYALBUM")) {
-                    server.playAlbum();
+                    server.playAlbum(messageFromClient.substring(9));
 
                 }else if (messageFromClient.startsWith("FOLLOWALBUM")) {
-                    server.followAlbum();
+                    server.followAlbum(messageFromClient.substring(11));
 
                 }else if (messageFromClient.startsWith("GETUSERS")) {
                     server.getUsers();
 
                 }else if (messageFromClient.startsWith("ADDUSER")) {
-                    server.addUser();
+                    server.addUser(messageFromClient.substring(7));
 
                 }else if (messageFromClient.startsWith("EDITUSER")) {
-                    server.editUser();
+                    server.editUser(messageFromClient.substring(8));
 
                 }else if (messageFromClient.startsWith("FOLLOWUSER")) {
-                    server.followUser();
+                    server.followUser(messageFromClient.substring(10));
 
                 }else if (messageFromClient.startsWith("GETARTISTS")) {
                     server.getArtists();
 
                 }else if (messageFromClient.startsWith("ADDARTIST")) {
-                    server.addArtist();
+                    server.addArtist(messageFromClient.substring(9));
 
                 }else if (messageFromClient.startsWith("EDITARTIST")) {
-                    server.editArtist();
+                    server.editArtist(messageFromClient.substring(10));
 
                 }else if (messageFromClient.startsWith("FOLLOWARTIST")) {
-                    server.followArtist();
+                    server.followArtist(messageFromClient.substring(12));
 
                 }else if (messageFromClient.startsWith("GETIMAGEFILE")) {
                     server.getImageFile();
