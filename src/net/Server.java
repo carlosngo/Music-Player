@@ -54,7 +54,11 @@ public class Server {
     }
 
     public void deleteSong(Song song){
-
+        try {
+            //remove song
+        } catch (IllegalArgumentException e) {
+            System.out.println("Quiz was not deleted.");
+        }
     }
 
     public void editSong(Song song){
