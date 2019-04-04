@@ -50,7 +50,7 @@ public class Album implements Comparable<Album>, Media {
         this.dateCreated = dateCreated;
     }
 
-    public static Album parseAlbum(String s) throws ParseException {
+    public static Album parseAlbum(String s) {
 		Album album = new Album();
 		String[] albumData = s.split("\\|");
 		album.setAlbumId(Integer.parseInt(albumData[0]));
@@ -58,8 +58,12 @@ public class Album implements Comparable<Album>, Media {
 		Artist artist = new Artist();
 		artist.setArtistId(Integer.parseInt(albumData[2]));
 		album.setArtist(artist);
-		Date dc =new SimpleDateFormat("dd/MM/yyyy").parse(albumData[3]);
-		album.setDateCreated(dc);
+		try {
+			Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(albumData[3]);
+			album.setDateCreated(dc);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return album;
 	}
 

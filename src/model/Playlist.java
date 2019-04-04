@@ -56,7 +56,7 @@ public class Playlist implements Comparable<Playlist>, Media {
         this.name = name;
     }
 
-    public static Playlist parsePlaylist(String s) throws ParseException {
+    public static Playlist parsePlaylist(String s) {
         Playlist playlist = new Playlist();
         String[] playlistData = s.split("\\|");
         playlist.setPlaylistId(Integer.parseInt(playlistData[0]));
@@ -64,8 +64,12 @@ public class Playlist implements Comparable<Playlist>, Media {
         user.setUserId(Integer.parseInt(playlistData[1]));
         playlist.setUser(user);
         playlist.setName(playlistData[2]);
-        Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(playlistData[3]);
-        playlist.setDateCreated(dc);
+        try {
+            Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(playlistData[3]);
+            playlist.setDateCreated(dc);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return playlist;
     }
 

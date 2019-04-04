@@ -70,8 +70,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         reply.append(playlists.size());
                         reply.append("\n");
                         for (int i = 0; i < playlists.size(); i++) {
+                            if (i > 0) reply.append("\n");
                             reply.append(playlists.get(i).toString());
-                            reply.append("\n");
                         }
                         break;
                     case ADDPLAYLIST:
@@ -102,7 +102,13 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.followPlaylist(messageFromClient.substring(14));
                         break;
                     case GETALBUMS:
-                        server.getAlbums();
+                        ArrayList<Album> albums = server.getAlbums();
+                        reply.append(albums.size());
+                        reply.append("\n");
+                        for (int i = 0; i < albums.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(albums.get(i).toString());
+                        }
                         break;
                     case ADDALBUM:
                         StringBuilder sb = new StringBuilder();
@@ -132,22 +138,18 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.followAlbum(messageFromClient.substring(11));
                         break;
                     case GETUSERS:
-                        server.getUsers();
+                        ArrayList<User> users = server.getUsers();
+                        reply.append(users.size());
+                        reply.append("\n");
+                        for (int i = 0; i < users.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(users.get(i).toString());
+                        }
                         break;
                     case ADDUSER:
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(messageFromClient.substring(7).trim());
-                        sb.append("\n");
-                        messageFromClient = in.readLine();
-                        while (!messageFromClient.equals("END")) {
-                            System.out.println(messageFromClient);
-                            sb.append(messageFromClient);
-                            sb.append("\n");
-                            messageFromClient = in.readLine();
-                        }
-                        System.out.println("Going to add quiz:\n" + sb.toString());
-                        User user = User.parseUser(sb.toString());
-                        server.addUser(user);
+                        user = User.parseUser(in.readLine());
+                        if (server.addUser(user)) reply.append(Protocol.OK);
+                        else reply.append(Protocol.NO);
                         break;
                     case EDITUSER:
                         server.editUser(messageFromClient.substring(8));
@@ -156,7 +158,13 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.followUser(messageFromClient.substring(10));
                         break;
                     case GETARTISTS:
-                        server.getArtists();
+                        ArrayList<Artist> artists = server.getArtists();
+                        reply.append(artists.size());
+                        reply.append("\n");
+                        for (int i = 0; i < artists.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(artists.get(i).toString());
+                        }
                         break;
                     case ADDARTIST:
                         StringBuilder sb = new StringBuilder();

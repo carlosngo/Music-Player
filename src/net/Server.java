@@ -39,6 +39,11 @@ public class Server {
 
     }
 
+    public ArrayList<Song> getSongs(){
+        ArrayList<Song> songs = new ArrayList<Song>();
+        return songs;
+    }
+
     public boolean addSong(Song song){
         try {
             //add song
@@ -64,8 +69,9 @@ public class Server {
 
     }
 
-    public void getPlaylists(){
-
+    public ArrayList<Playlist> getPlaylists() {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        return playlists;
     }
 
     public void addPlaylist(Playlist playlist){
@@ -88,7 +94,10 @@ public class Server {
 
     }
 
-    public void getAlbums(){
+    public ArrayList<Album> getAlbums(){
+        ArrayList<Album> albums = new ArrayList<>();
+
+        return albums;
 
     }
 
@@ -112,12 +121,21 @@ public class Server {
 
     }
 
-    public void getUsers(){
-
+    public ArrayList<User> getUsers(){
+        ArrayList<User> users = new ArrayList<>();
+        return users;
     }
 
-    public void addUser(User user){
-
+    public boolean addUser(User user){
+        try {
+            UserDAO userDAO = ((UserDAO)userDAOFactory.getDAO());
+            if (userDAO.existUserName(user.getUserName())) return false;
+            userDAO.create(user);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public void editUser(String name){
@@ -128,8 +146,9 @@ public class Server {
 
     }
 
-    public void getArtists(String name){
-
+    public ArrayList<Artist> getArtists(){
+        ArrayList<Artist> artists = new ArrayList<>();
+        return artists;
     }
 
     public void addArtist(Artist artist){
@@ -171,12 +190,6 @@ public class Server {
     public void logout(int userId){
         onlineUsers.remove(userId);
     }
-
-    public ArrayList<Song> getSongs(){
-        ArrayList<Song> dummyList = new ArrayList<Song>();
-        return dummyList;
-    }
-
 
     public static void main(String[] args) {
         Server server = Server.getInstance();
