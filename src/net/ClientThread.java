@@ -4,6 +4,7 @@ import events.*;
 import model.*;
 import util.Protocol;
 
+import java.text.ParseException;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -35,6 +36,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 Album album;
                 User user;
                 Artist artist;
+                StringBuilder sb;
                 Protocol protocol = Protocol.valueOf(messageFromClient);
                 StringBuilder reply = new StringBuilder();
                 switch (protocol) {
@@ -53,7 +55,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         else reply.append("NO");
                         break;
                     case DELETESONG:
-                        server.deleteSong(messageFromClient.substring(10));
+                        song = Song.parseSong(in.readLine());
+                        server.deleteSong(song);
                         break;
                     case EDITSONG:
                         song = Song.parseSong(in.readLine());
@@ -75,7 +78,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         }
                         break;
                     case ADDPLAYLIST:
-                        StringBuilder sb = new StringBuilder();
+                        sb = new StringBuilder();
                         sb.append(messageFromClient.substring(11).trim());
                         sb.append("\n");
                         messageFromClient = in.readLine();
@@ -86,7 +89,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             messageFromClient = in.readLine();
                         }
                         System.out.println("Going to add playlist:\n" + sb.toString());
-                        Playlist playlist = Playlist.parsePlaylist(sb.toString());
+                        playlist = Playlist.parsePlaylist(sb.toString());
                         server.addPlaylist(playlist);
                         break;
                     case DELETEPLAYLIST:
@@ -105,7 +108,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.getAlbums();
                         break;
                     case ADDALBUM:
-                        StringBuilder sb = new StringBuilder();
+                        sb = new StringBuilder();
                         sb.append(messageFromClient.substring(8).trim());
                         sb.append("\n");
                         messageFromClient = in.readLine();
@@ -116,7 +119,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             messageFromClient = in.readLine();
                         }
                         System.out.println("Going to add quiz:\n" + sb.toString());
-                        Album album = Album.parseAlbum(sb.toString());
+                        album = Album.parseAlbum(sb.toString());
                         server.addAlbum(album);
                         break;
                     case DELETEALBUM:
@@ -135,7 +138,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.getUsers();
                         break;
                     case ADDUSER:
-                        StringBuilder sb = new StringBuilder();
+                        sb = new StringBuilder();
                         sb.append(messageFromClient.substring(7).trim());
                         sb.append("\n");
                         messageFromClient = in.readLine();
@@ -146,7 +149,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             messageFromClient = in.readLine();
                         }
                         System.out.println("Going to add quiz:\n" + sb.toString());
-                        User user = User.parseUser(sb.toString());
+                        user = User.parseUser(sb.toString());
                         server.addUser(user);
                         break;
                     case EDITUSER:
@@ -156,10 +159,22 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.followUser(messageFromClient.substring(10));
                         break;
                     case GETARTISTS:
-                        server.getArtists();
+                        sb = new StringBuilder();
+                        sb.append(messageFromClient.substring(10).trim());
+                        sb.append("\n");
+                        messageFromClient = in.readLine();
+                        while (!messageFromClient.equals("END")) {
+                            System.out.println(messageFromClient);
+                            sb.append(messageFromClient);
+                            sb.append("\n");
+                            messageFromClient = in.readLine();
+                        }
+                        System.out.println("Going to get artists:\n" + sb.toString());
+                        user = User.parseUser(sb.toString());
+                        server.getArtists(user);
                         break;
                     case ADDARTIST:
-                        StringBuilder sb = new StringBuilder();
+                        sb = new StringBuilder();
                         sb.append(messageFromClient.substring(9).trim());
                         sb.append("\n");
                         messageFromClient = in.readLine();
@@ -170,7 +185,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             messageFromClient = in.readLine();
                         }
                         System.out.println("Going to add quiz:\n" + sb.toString());
-                        Artist artist = Artist.parseArtist(sb.toString());
+                        artist = Artist.parseArtist(sb.toString());
                         server.addArtist(artist);
                         break;
                     case EDITARTIST:
@@ -218,6 +233,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         } finally {
 

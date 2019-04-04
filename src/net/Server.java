@@ -49,7 +49,11 @@ public class Server {
     }
 
     public void deleteSong(Song song){
-
+        try {
+            //remove song
+        } catch (IllegalArgumentException e) {
+            System.out.println("Quiz was not deleted.");
+        }
     }
 
     public void editSong(Song song){
@@ -64,8 +68,9 @@ public class Server {
 
     }
 
-    public void getPlaylists(){
-
+    public ArrayList<Playlist> getPlaylists(){
+        ArrayList<Playlist> playlists = new ArrayList<Playlist>();
+        return playlists;
     }
 
     public void addPlaylist(Playlist playlist){
@@ -128,8 +133,9 @@ public class Server {
 
     }
 
-    public void getArtists(String name){
-
+    public ArrayList<Artist> getArtists(User user){
+        ArrayList<Artist> artists = new ArrayList<Artist>();
+        return artists;
     }
 
     public void addArtist(Artist artist){
@@ -173,8 +179,8 @@ public class Server {
     }
 
     public ArrayList<Song> getSongs(){
-        ArrayList<Song> dummyList = new ArrayList<Song>();
-        return dummyList;
+        ArrayList<Song> songs = new ArrayList<Song>();
+        return songs;
     }
 
 
