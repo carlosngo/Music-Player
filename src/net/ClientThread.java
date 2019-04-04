@@ -78,19 +78,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         }
                         break;
                     case ADDPLAYLIST:
-                        sb = new StringBuilder();
-                        sb.append(messageFromClient.substring(11).trim());
-                        sb.append("\n");
-                        messageFromClient = in.readLine();
-                        while (!messageFromClient.equals("END")) {
-                            System.out.println(messageFromClient);
-                            sb.append(messageFromClient);
-                            sb.append("\n");
-                            messageFromClient = in.readLine();
-                        }
-                        System.out.println("Going to add playlist:\n" + sb.toString());
-                        playlist = Playlist.parsePlaylist(sb.toString());
-                        server.addPlaylist(playlist);
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        if (server.addPlaylist(playlist)) reply.append("OK");
+                        else reply.append("NO");
                         break;
                     case DELETEPLAYLIST:
                         server.deletePlaylist(messageFromClient.substring(14));
@@ -114,19 +104,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         }
                         break;
                     case ADDALBUM:
-                        sb = new StringBuilder();
-                        sb.append(messageFromClient.substring(8).trim());
-                        sb.append("\n");
-                        messageFromClient = in.readLine();
-                        while (!messageFromClient.equals("END")) {
-                            System.out.println(messageFromClient);
-                            sb.append(messageFromClient);
-                            sb.append("\n");
-                            messageFromClient = in.readLine();
-                        }
-                        System.out.println("Going to add quiz:\n" + sb.toString());
-                        album = Album.parseAlbum(sb.toString());
-                        server.addAlbum(album);
+                        album = Album.parseAlbum(in.readLine());
+                        if (server.addAlbum(album)) reply.append("OK");
+                        else reply.append("NO");
                         break;
                     case DELETEALBUM:
                         server.deleteAlbum(messageFromClient.substring(11));
@@ -170,19 +150,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         }                       
                         break;
                     case ADDARTIST:
-                        sb = new StringBuilder();
-                        sb.append(messageFromClient.substring(9).trim());
-                        sb.append("\n");
-                        messageFromClient = in.readLine();
-                        while (!messageFromClient.equals("END")) {
-                            System.out.println(messageFromClient);
-                            sb.append(messageFromClient);
-                            sb.append("\n");
-                            messageFromClient = in.readLine();
-                        }
-                        System.out.println("Going to add quiz:\n" + sb.toString());
-                        artist = Artist.parseArtist(sb.toString());
-                        server.addArtist(artist);
+                        artist = Artist.parseArtist(in.readLine());
+                        if (server.addArtist(artist)) reply.append(Protocol.OK);
+                        else reply.append(Protocol.NO);
                         break;
                     case EDITARTIST:
                         server.editArtist(messageFromClient.substring(10));
@@ -229,8 +199,6 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         } finally {
 

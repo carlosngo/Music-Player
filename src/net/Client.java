@@ -37,10 +37,12 @@ public class Client {
     }
 
     public boolean addSong(Song song){
+        outToServer.println(Protocol.ADDSONG);
+        outToServer.println(song);
         try {
-            //add song
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not added.");
+            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -75,8 +77,15 @@ public class Client {
         return playlists;
     }
 
-    public void addPlaylist(Playlist playlist){
-
+    public boolean addPlaylist(Playlist playlist){
+        outToServer.println(Protocol.ADDPLAYLIST);
+        outToServer.println(playlist);
+        try {
+            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public void deletePlaylist(String name){
@@ -110,8 +119,15 @@ public class Client {
 
     }
 
-    public void addAlbum(Album album){
-
+    public boolean addAlbum(Album album){
+        outToServer.println(Protocol.ADDALBUM);
+        outToServer.println(album);
+        try {
+            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public void deleteAlbum(String name){
@@ -148,11 +164,7 @@ public class Client {
         outToServer.println(Protocol.ADDUSER);
         outToServer.println(user);
         try {
-            Protocol protocol = Protocol.valueOf(inFromServer.readLine());
-            switch (protocol) {
-                case NO:
-                    return false;
-            }
+            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,8 +193,15 @@ public class Client {
         return artists;
     }
 
-    public void addArtist(Artist artist){
-
+    public boolean addArtist(Artist artist){
+        outToServer.println(Protocol.ADDARTIST);
+        outToServer.println(artist);
+        try {
+            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public void editArtist(String name){

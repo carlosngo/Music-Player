@@ -168,6 +168,10 @@ public class ArtistDAO implements DataAccessObject {
 		return artists;
 	}
 
+	public boolean existUsername(String username) {
+		return false;
+	}
+
 	public Artist map(ResultSet rs) throws SQLException {
 		Artist artist = new Artist();
 

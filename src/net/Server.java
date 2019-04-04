@@ -40,15 +40,28 @@ public class Server {
     }
 
     public ArrayList<Song> getSongs(){
-        ArrayList<Song> songs = new ArrayList<Song>();
-        return songs;
+        return ((SongDAO)songDAOFactory.getDAO()).listById();
+    }
+
+    public ArrayList<Song> getSongsByArtist(int artistId) {
+        return new ArrayList<>();
+    }
+
+    public ArrayList<Song> getSongsInAlbum(int albumId) {
+        return new ArrayList<>();
+    }
+
+    public ArrayList<Song> getSongsInPlaylist(int playlistId) {
+        return new ArrayList<>();
+
     }
 
     public boolean addSong(Song song){
         try {
-            //add song
+            ((SongDAO)songDAOFactory.getDAO()).create(song);
         } catch (IllegalArgumentException e) {
             System.out.println("Song was not added.");
+            return false;
         }
         return true;
     }
@@ -74,12 +87,17 @@ public class Server {
     }
 
     public ArrayList<Playlist> getPlaylists() {
-        ArrayList<Playlist> playlists = new ArrayList<>();
-        return playlists;
+        return ((PlaylistDAO)playlistDAOFactory.getDAO()).listById();
     }
 
-    public void addPlaylist(Playlist playlist){
-
+    public boolean addPlaylist(Playlist playlist){
+        try {
+            ((PlaylistDAO)playlistDAOFactory.getDAO()).create(playlist);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not added.");
+            return false;
+        }
+        return true;
     }
 
     public void deletePlaylist(String name){
@@ -99,14 +117,17 @@ public class Server {
     }
 
     public ArrayList<Album> getAlbums(){
-        ArrayList<Album> albums = new ArrayList<>();
-
-        return albums;
-
+        return ((AlbumDAO)albumDAOFactory.getDAO()).listById();
     }
 
-    public void addAlbum(Album album){
-
+    public boolean addAlbum(Album album){
+        try {
+            ((AlbumDAO)albumDAOFactory.getDAO()).create(album);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not added.");
+            return false;
+        }
+        return true;
     }
 
     public void deleteAlbum(String name){
@@ -126,8 +147,7 @@ public class Server {
     }
 
     public ArrayList<User> getUsers(){
-        ArrayList<User> users = new ArrayList<>();
-        return users;
+        return ((UserDAO)userDAOFactory.getDAO()).listById();
     }
 
     public boolean addUser(User user){
@@ -151,12 +171,19 @@ public class Server {
     }
 
     public ArrayList<Artist> getArtists(){
-        ArrayList<Artist> artists = new ArrayList<>();
-        return artists;
+        return ((ArtistDAO)artistDAOFactory.getDAO()).listById();
     }
 
-    public void addArtist(Artist artist){
-
+    public boolean addArtist(Artist artist){
+        try {
+            ArtistDAO artistDAO = ((ArtistDAO)artistDAOFactory.getDAO());
+            if (artistDAO.existUsername(artist.getUserName())) return false;
+            artistDAO.create(artist);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public void editArtist(String name){

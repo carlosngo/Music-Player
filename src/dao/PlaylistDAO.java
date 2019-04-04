@@ -123,7 +123,13 @@ public class PlaylistDAO implements DataAccessObject {
         }
     }
 
-    public ArrayList<Playlist> listById(int userId) {
+    public ArrayList<Playlist> listById() {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+
+        return playlists;
+    }
+
+    public ArrayList<Playlist> listByUserId(int userId) {
         ArrayList<Playlist> playlists = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();

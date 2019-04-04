@@ -158,7 +158,13 @@ public class AlbumDAO implements DataAccessObject {
         }
     }
 
-    public ArrayList<Album> listById(int userId) {
+    public ArrayList<Album> listById() {
+        ArrayList<Album> albums = new ArrayList<>();
+
+        return albums;
+    }
+
+    public ArrayList<Album> listByUserId(int userId) {
         ArrayList<Album> albums = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
@@ -249,7 +255,7 @@ public class AlbumDAO implements DataAccessObject {
 //        System.out.println("User successfully updated: " + album);
 
 //         List all albums of a user.
-//        List<Album> users = userDAO.listById(14);
+//        List<Album> users = userDAO.listByUserId(14);
 //        System.out.println("List of users successfully queried: " + users);
 //        System.out.println("Thus, amount of users in database is: " + users.size());
 
@@ -275,7 +281,7 @@ public class AlbumDAO implements DataAccessObject {
 //        System.out.println("Another user successfully deleted: " + foundAnotherUser);
 
         // List all users again.
-//        users = userDAO.listById();
+//        users = userDAO.listByUserId();
 //        System.out.println("List of users successfully queried: " + users);
 //        System.out.println("Thus, amount of users in database is: " + users.size());
 

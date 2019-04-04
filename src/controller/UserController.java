@@ -207,9 +207,9 @@ public class UserController {
 	public void load() {
 		genres = new TreeSet<>();
 		artists = new TreeSet<>();
-		playlists = new TreeSet(mc.getPlaylistDAO().listById(user.getUserId()));
-		albums = new TreeSet(mc.getAlbumDAO().listById(user.getUserId()));
-		songs = new TreeSet(mc.getSongDAO().listById(user.getUserId()));
+		playlists = new TreeSet(mc.getPlaylistDAO().listByUserId(user.getUserId()));
+		albums = new TreeSet(mc.getAlbumDAO().listByUserId(user.getUserId()));
+		songs = new TreeSet(mc.getSongDAO().listByUserId(user.getUserId()));
 		for(Song s : songs) {
 			if (s.getAlbum() != null) {
 				s.setAlbum(albums.floor(s.getAlbum()));

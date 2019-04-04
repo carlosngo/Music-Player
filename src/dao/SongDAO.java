@@ -175,7 +175,12 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> listById(int userId) {
+    public ArrayList<Song> listById() {
+        ArrayList<Song> songs = new ArrayList<>();
+        return songs;
+    }
+
+    public ArrayList<Song> listByUserId(int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();

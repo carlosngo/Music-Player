@@ -215,7 +215,7 @@ public class UserDAO implements DataAccessObject {
 //        System.out.println("User successfully updated: " + user);
 //
 //        // List all users.
-//        List<User> users = userDAO.listById();
+//        List<User> users = userDAO.listByUserId();
 //        System.out.println("List of users successfully queried: " + users);
 //        System.out.println("Thus, amount of users in database is: " + users.size());
 //
@@ -241,7 +241,7 @@ public class UserDAO implements DataAccessObject {
 //        System.out.println("Another user successfully deleted: " + foundAnotherUser);
 //
 //        // List all users again.
-//        users = userDAO.listById();
+//        users = userDAO.listByUserId();
 //        System.out.println("List of users successfully queried: " + users);
 //        System.out.println("Thus, amount of users in database is: " + users.size());
 
