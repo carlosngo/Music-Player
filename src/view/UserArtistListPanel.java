@@ -88,7 +88,7 @@ public class UserArtistListPanel extends JPanel {
         isNormalPlaylist = normalPlaylist;
     }
 
-    public void addRow(String category, String subCategoryName) {
+    public void addRow(String category, String personName) {
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
@@ -98,29 +98,38 @@ public class UserArtistListPanel extends JPanel {
         follow.setOpaque(false);
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
-        follow.setVisible(false);
 
         try {
-            URL resource = getClass().getClassLoader().getResource("images/follow.png");
-            BufferedImage img = ImageIO.read(resource);
+//            URL resource = getClass().getClassLoader().getResource("images/follow.png");
+//            BufferedImage img = ImageIO.read(resource);
+            URL resource;
+            BufferedImage img;
+            if (controller.isFollow(personName)) {
+                resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                img = ImageIO.read(resource);
+            } else {
+                resource = getClass().getClassLoader().getResource("images/follow.png");
+                img = ImageIO.read(resource);
+            }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        subOptionButton.setText(subCategoryName);
+        subOptionButton.setText(personName);
 
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // show user/artist info panel
+                //show user/artist info panel
             }
         });
 
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // follow user/artist
+                //follow user/artist
+                //set icon to cyanFollow.png
             }
         });
 
@@ -130,11 +139,8 @@ public class UserArtistListPanel extends JPanel {
         cons.gridy = i;
         cons.gridwidth = 1;
         block.add(subOptionButton, cons);
-
         cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 2;
-        cons.gridy = i;
-        cons.gridwidth = 1;
+        cons.gridx = 3;
         block.add(follow, cons);
     }
 }
