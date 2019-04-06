@@ -39,6 +39,10 @@ public class Server {
 
     }
 
+    public Song getSong(int songId) {
+        return ((SongDAO)songDAOFactory.getDAO()).find(songId);
+    }
+
     public ArrayList<Song> getSongs(){
         return ((SongDAO)songDAOFactory.getDAO()).listById();
     }
@@ -78,8 +82,8 @@ public class Server {
 
     }
 
-    public void playSong(String name){
-
+    public void incrementPlayCount(int songId){
+        
     }
 
     public void followSong(String name){

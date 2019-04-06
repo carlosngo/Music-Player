@@ -18,32 +18,32 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_FIND_BY_ID =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_FIND_BY_GENRE =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY FK_GenreID";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY FK_GenreID";
     private static final String SQL_FIND_BY_ALBUM =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY FK_AlbumID";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY FK_AlbumID";
     private static final String SQL_FIND_BY_YEAR =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY year";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY year";
     private static final String SQL_INSERT =
-            "INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_UserID, FK_AlbumID, Name, Genre, Year, Favorite, PlayTime, LastPlayed, File, DateCreated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_ArtistID, FK_AlbumID, Name, Genre, Year, Favorite, PlayTime, LastPlayed, File, DateCreated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
             "DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_UPDATE =
-            "UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_UserID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
+            "UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
     private static final String SQL_LIST_BY_ID =
-            "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ?";
+            "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ?";
     private static final String SQL_LIST_BY_GENRE =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_UserID = ?";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_ALBUM =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_AlbumID = ? AND FK_UserID = ?";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_AlbumID = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_FAVORITE =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE Favorite = ? AND FK_UserID = ?";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE Favorite = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_PLAYLIST =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.PLAYLISTSONG_TABLE + " ON " + Database.SONG_TABLE + ".PK_SongID = " + Database.PLAYLISTSONG_TABLE + ".FK_SongID " +
-                    "INNER JOIN " + Database.PLAYLIST_TABLE + " ON " + Database.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + Database.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + Database.SONG_TABLE + ".FK_UserID = ? AND " + Database.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
+                    "INNER JOIN " + Database.PLAYLIST_TABLE + " ON " + Database.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + Database.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + Database.SONG_TABLE + ".FK_ArtistID = ? AND " + Database.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
     private static final String SQL_LIST_BY_YEAR =
-            "SELECT * FROM " + Database.SONG_TABLE + " WHERE Year = ? AND FK_UserID = ?";
+            "SELECT * FROM " + Database.SONG_TABLE + " WHERE Year = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_PLAYTIME =
-            "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_UserID = ? ORDER BY PlayTime DESC";
+            "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY PlayTime DESC";
     private static final String SQL_LIST_BY_ARTIST = 
     		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ARTIST_TABLE + " ON " + Database.SONG_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + 
     		Database.ARTIST_TABLE + ".Name = ?";
@@ -53,7 +53,7 @@ public class SongDAO implements DataAccessObject {
     public SongDAO(DAOFactory db) { this.db = db; }
 
     private Song map(ResultSet rs) throws SQLException{
-        UserDAO userDAO = new UserDAO(db);
+        ArtistDAO userDAO = new ArtistDAO(db);
         AlbumDAO albumDAO = new AlbumDAO(db);
         ArtistDAO artistDAO = new ArtistDAO(db);
         Song song = new Song();
@@ -62,9 +62,9 @@ public class SongDAO implements DataAccessObject {
 
         song.setSongId(rs.getInt("PK_SongID"));
 
-        User u = userDAO.find(rs.getInt("FK_UserID"));
-        song.setUser(u);
-//        song.setUserId(rs.getInt("FK_UserID"));
+        Artist u = userDAO.find(rs.getInt("FK_ArtistID"));
+        song.setArtist(u);
+//        song.setArtistId(rs.getInt("FK_ArtistID"));
 //        song.setAlbumId(rs.getInt("FK_AlbumID"));
         Album a = albumDAO.find(rs.getInt("FK_AlbumID"));
         song.setAlbum(a);
@@ -180,7 +180,7 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> listByUserId(int userId) {
+    public ArrayList<Song> listByArtistId(int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
@@ -317,7 +317,7 @@ public class SongDAO implements DataAccessObject {
                 statement.setInt(1, song.getArtist().getArtistId());
             else
                 statement.setObject(1, null);
-            statement.setInt(2, song.getUser().getUserId());
+            statement.setInt(2, song.getArtist().getArtistId());
             if (song.getAlbum() != null)
                 statement.setInt(3, song.getAlbum().getAlbumId());
             else
@@ -375,7 +375,7 @@ public class SongDAO implements DataAccessObject {
     public void update(Song song) throws IllegalArgumentException {
         try {
             if (song.getSongId() == -1) {
-                throw new IllegalArgumentException("User is not created yet, the user ID is null.");
+                throw new IllegalArgumentException("Artist is not created yet, the user ID is null.");
             }
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
@@ -384,7 +384,7 @@ public class SongDAO implements DataAccessObject {
                 statement.setInt(1, song.getArtist().getArtistId());
             else
                 statement.setObject(1, null);
-            statement.setInt(2, song.getUser().getUserId());
+            statement.setInt(2, song.getArtist().getArtistId());
             if (song.getAlbum() != null)
                 statement.setInt(3, song.getAlbum().getAlbumId());
             else
@@ -427,7 +427,7 @@ public class SongDAO implements DataAccessObject {
 //        PlaylistSongDAO psDAO = db.getPlaylistSongDAO();
 //        PlaylistDAO playlistDAO = db.getPlaylistDAO();
 //        Playlist playlist = playlistDAO.find(2);
-//        song.setUserId(12);
+//        song.setArtistId(12);
 //        song.setAlbumId(1);
 //        song.setGenreId(1);
 //        song.setName("Guitar");

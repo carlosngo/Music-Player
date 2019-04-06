@@ -22,6 +22,22 @@ public class Client {
 
     public static Client getInstance() { return singleton; }
 
+    public void startConnection() throws IOException {
+        socket = new Socket(Server.IP_ADDRESS, Server.PORT_NUMBER);
+        outToServer = new PrintWriter(socket.getOutputStream(), true);
+        inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+
+    public void closeConnection() throws IOException {
+        try {
+            outToServer.close();
+            inFromServer.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Song> getSongs(){
         ArrayList<Song> songs = new ArrayList<>();
         outToServer.println(Protocol.GETSONGS);
@@ -55,8 +71,9 @@ public class Client {
 
     }
 
-    public void playSong(String name){
-
+    public void playSong(int songId){
+        outToServer.println(Protocol.PLAYSONG);
+        outToServer.println(songId);
     }
 
     public void followSong(String name){
@@ -220,8 +237,41 @@ public class Client {
 
     }
 
-    public void getSongFile(){
+    public void getSongFile(int songId){
+        outToServer.println(Protocol.GETSONGFILE);
+        outToServer.println(songId);
+        try {
 
+            int fileSize = Integer.parseInt(inFromServer.readLine());
+
+            byte[] mybytearray = new byte[fileSize + 1000];
+            InputStream is = socket.getInputStream();
+            File dir = new File("resources/songs");
+            dir.mkdirs();
+            File wav = new File(dir, songId + "");
+            wav.createNewFile();
+            FileOutputStream fos = new FileOutputStream(wav);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            System.out.println("Getting a " + fileSize + " bytes file from the server.");
+            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+            int current = bytesRead;
+
+            do {
+                System.out.println(current);
+                bytesRead =
+                        is.read(mybytearray, current, (mybytearray.length - current));
+                if (bytesRead >= 0) current += bytesRead;
+            } while (bytesRead > -1 && current < fileSize);
+
+            bos.write(mybytearray, 0, current);
+            bos.flush();
+            System.out.println("File " + wav
+                    + " downloaded (" + current + " bytes read)");
+        } catch (IOException e) {
+            e.printStackTrace();
+            outToServer.println(Protocol.NO);
+        }
+        outToServer.println(Protocol.OK);
     }
 
 
@@ -250,5 +300,15 @@ public class Client {
     public void logOut(int userId) {
         outToServer.println(Protocol.LOGOUT);
         outToServer.println(userId);
+    }
+
+    public static void main(String[] args) {
+        try {
+            Client c = new Client();
+            c.startConnection();
+            c.getSongFile(22);
+        } catch (IOException e ) {
+            e.printStackTrace();
+        }
     }
 }

@@ -151,13 +151,13 @@ public class UserController {
 				Artist artist = s.getArtist();
 
 				try {
-					s.setUser(user);
+//					s.setUser(user);
 					if (artist != null) {
 						if (artist.getArtistId() == -1) mc.getArtistDAO().create(artist);
 						else mc.getArtistDAO().update(artist);
 					}
 					if (album != null) {
-						album.setUser(user);
+//						album.setUser(user);
 						if (album.getAlbumId() == -1) mc.getAlbumDAO().create(album);
 						else mc.getAlbumDAO().update(album);
 					}
@@ -209,7 +209,7 @@ public class UserController {
 		artists = new TreeSet<>();
 		playlists = new TreeSet(mc.getPlaylistDAO().listByUserId(user.getUserId()));
 		albums = new TreeSet(mc.getAlbumDAO().listByUserId(user.getUserId()));
-		songs = new TreeSet(mc.getSongDAO().listByUserId(user.getUserId()));
+//		songs = new TreeSet(mc.getSongDAO().listByUserId(user.getUserId()));
 		for(Song s : songs) {
 			if (s.getAlbum() != null) {
 				s.setAlbum(albums.floor(s.getAlbum()));

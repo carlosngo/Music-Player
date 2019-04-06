@@ -63,7 +63,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.editSong(song);
                         break;
                     case PLAYSONG:
-                        server.playSong(messageFromClient.substring(8));
+                        server.incrementPlayCount(Integer.parseInt(in.readLine()));
                         break;
                     case FOLLOWSONG:
                         server.followSong(messageFromClient.substring(10));
@@ -147,7 +147,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         for (int i = 0; i < artists.size(); i++) {
                             if (i > 0) reply.append("\n");
                             reply.append(artists.get(i).toString());
-                        }                       
+                        }
                         break;
                     case ADDARTIST:
                         artist = Artist.parseArtist(in.readLine());
@@ -168,8 +168,20 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.setImageFile();
                         break;
                     case GETSONGFILE:
-                        server.getSongFile();
-
+                        song = server.getSong(Integer.parseInt(in.readLine()));
+                        File myFile = song.getWAV();
+                        out.println(myFile.length());
+                        byte [] mybytearray  = new byte [(int)myFile.length()];
+                        FileInputStream fis = new FileInputStream(myFile);;
+                        BufferedInputStream bis = new BufferedInputStream(fis);
+                        bis.read(mybytearray,0,mybytearray.length);
+                        OutputStream os = socket.getOutputStream();
+                        System.out.println("Sending " + myFile + "(" + mybytearray.length + " bytes)");
+                        os.write(mybytearray,0,mybytearray.length);
+                        os.flush();
+                        System.out.println("File successfully transferred.");
+                        if (in.readLine().equals(Protocol.OK)) System.out.println("Client receieved the file.");
+                        else System.out.println("Client did not receive the file.");
                         break;
                     case SETSONGFILE:
                         server.setSongFile();

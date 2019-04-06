@@ -2,6 +2,8 @@ package dao;
 
 import static util.DAOUtil.prepareStatement;
 
+import model.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,8 +42,8 @@ public class AlbumDAO implements DataAccessObject {
         String fileName = rs.getString("Name") + rs.getInt("PK_AlbumID") + fileFormat;
 
         album.setAlbumId(rs.getInt("PK_AlbumID"));
-        User u = userDAO.find(rs.getInt("FK_UserID"));
-        album.setUser(u);
+//        Artist u = userDAO.find(rs.getInt("FK_UserID"));
+//        album.setArtist(u);
         album.setName(rs.getString("Name"));
 //        album.setArtist(rs.getString("Artist"));
 //        album.setFile(rs.getBlob("Cover"));
@@ -97,7 +99,7 @@ public class AlbumDAO implements DataAccessObject {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
 //            statement.setInt(1, album.getArtist())
-            statement.setInt(1, album.getUser().getUserId());
+            statement.setInt(1, album.getArtist().getArtistId());
             statement.setString(2, album.getName());
             File img = album.getCover();
             if (img != null) statement.setBinaryStream(3, new FileInputStream(img));
@@ -142,7 +144,7 @@ public class AlbumDAO implements DataAccessObject {
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 //            System.out.println(album.getAlbumId());
 //            System.out.println(album.getName());
-            statement.setInt(1, album.getUser().getUserId());
+            statement.setInt(1, album.getArtist().getArtistId());
             statement.setString(2, album.getName());
             File img = album.getCover();
             if (img != null) statement.setBinaryStream(3, new FileInputStream(img));
@@ -228,7 +230,7 @@ public class AlbumDAO implements DataAccessObject {
 //        album.setName("Carlos's Album");
 //        album.setCoverPath("nocover.jpg");
 //        album.setArtist("Carlos");
-//        album.setUserId(12);
+//        album.setArtistId(12);
 
 //        userDAO.create(album);
 //        System.out.println("User successfully created: " + album);
@@ -239,7 +241,7 @@ public class AlbumDAO implements DataAccessObject {
 //        album2.setName("Album2");
 //        album2.setCoverPath("nocover.jpg");
 //        album2.setArtist("Carlos");
-//        album2.setUserId(12);
+//        album2.setArtistId(12);
 //        userDAO.create(album2);
 //        System.out.println("Another user successfully created: " + album2);
 
