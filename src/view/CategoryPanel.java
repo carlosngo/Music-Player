@@ -106,6 +106,10 @@ public class CategoryPanel extends JPanel {
         addToQueue.setOpaque(false);
         addToQueue.setContentAreaFilled(false);
         addToQueue.setBorderPainted(false);
+        JButton follow = new JButton();
+        follow.setOpaque(false);
+        follow.setContentAreaFilled(false);
+        follow.setBorderPainted(false);
         JButton remove = new JButton();
         //remove.setVisible(false);
         remove.setOpaque(false);
@@ -146,6 +150,18 @@ public class CategoryPanel extends JPanel {
             favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/changeCover.png");
             img = ImageIO.read(resource);
+
+            if (controller.isFollow(subCategoryName)) {
+                resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                img = ImageIO.read(resource);
+            } else {
+                resource = getClass().getClassLoader().getResource("images/follow.png");
+                img = ImageIO.read(resource);
+            }
+            follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/changeCover.png");
+            img = ImageIO.read(resource);
+
             changeCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
             img = ImageIO.read(resource);
@@ -233,6 +249,27 @@ public class CategoryPanel extends JPanel {
                         img = ImageIO.read(resource);
                     }
                     favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        follow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.toggleFollow(subCategoryName);
+                try {
+                    URL resource;
+                    BufferedImage img;
+                    if (controller.isFollow(subCategoryName)) {
+                        resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                        img = ImageIO.read(resource);
+                    } else {
+                        resource = getClass().getClassLoader().getResource("images/follow.png");
+                        img = ImageIO.read(resource);
+                    }
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

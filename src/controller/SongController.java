@@ -611,4 +611,33 @@ public class SongController {
         Playlist p = mc.getPlaylists().floor(temp);
         p.setFavorite(!p.isFavorite());
     }
+
+    public void toggleFollow(String objectKind, String objectName) {
+        switch (objectKind){
+            case "artist":
+                Artist tempArtist = new Artist();
+                tempArtist.setName(objectName);
+                Artist a = mc.getArtists().floor(tempArtist);
+                a.setFollow(!a.setFollow());
+                break;
+            case "user":
+                User tempUser = new User();
+                tempUser.setName(objectName);
+                User u = mc.getUsers().floor(tempUser);
+                u.setFollow(!u.setFollow());
+                break;
+            case "album":
+                Album tempAlbum = new Album();
+                tempAlbum.setName(objectName);
+                Album album = mc.getAlbums().floor(tempAlbum);
+                album.setFollow(!album.setFollow());
+                break;
+            case "playlist":
+                Playlist temp = new Playlist();
+                temp.setName(objectName);
+                Playlist p = mc.getPlaylists().floor(temp);
+                p.setFollow(!p.setFollow());
+                break;
+        }
+    }
 }
