@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class ControlPanel extends JPanel implements ActionListener {
     private SongController controller;
-    private JButton mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs, favPlaylists;
+    private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs, favPlaylists;
 
     public ControlPanel(SongController controller){
         this.controller = controller;
@@ -23,6 +23,44 @@ public class ControlPanel extends JPanel implements ActionListener {
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(15,0)));
+
+        search = new JButton();
+        search.setActionCommand("Search");
+        search.addActionListener(this);
+        search.setForeground(Color.white);
+        search.setOpaque(false);
+        search.setContentAreaFilled(false);
+        search.setBorderPainted(false);
+        search.setMaximumSize(new Dimension(200, 40));
+        search.setMinimumSize(new Dimension(200, 40));
+        search.setPreferredSize(new Dimension(200, 40));
+        search.setFont(new Font("Arial", Font.BOLD, 14));
+        search.addMouseListener(new MouseAdapter() {
+            Color oldColor = search.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanBrowse.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    search.setText("Most Played");
+                } catch(Exception exception){
+
+                }
+                search.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/browse.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    search.setText("Most Played");
+                } catch(Exception exception){
+
+                }
+                search.setForeground(oldColor);
+            }
+        });
+        add(search);
 
         mostFrqntlyPlyd = new JButton();
         mostFrqntlyPlyd.setActionCommand("Most Frequently Played");
@@ -415,6 +453,10 @@ public class ControlPanel extends JPanel implements ActionListener {
             BufferedImage img = ImageIO.read(resource);
             mostFrqntlyPlyd.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             mostFrqntlyPlyd.setText("Most Played");
+            resource = getClass().getClassLoader().getResource("images/browse.png");
+            img = ImageIO.read(resource);
+            search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            search.setText("Search");
             resource = getClass().getClassLoader().getResource("images/songs.png");
             img = ImageIO.read(resource);
             songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -463,6 +505,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == mostFrqntlyPlyd){
             controller.showMostFrequentlyPlayed();
+        }
+        if(e.getSource() == search){
+            //controller.showBrowsePanel();
         }
         if(e.getSource() == playlists){
             controller.showPlaylists();
