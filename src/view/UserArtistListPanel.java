@@ -98,6 +98,8 @@ public class UserArtistListPanel extends JPanel {
         follow.setOpaque(false);
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
+        follow.setVisible(false);
+        if(category.equals("Artists")) follow.setVisible(true);
 
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/follow.png");
@@ -121,7 +123,7 @@ public class UserArtistListPanel extends JPanel {
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //show user/artist info panel
+                //show info panel of selected user or artist
             }
         });
 
