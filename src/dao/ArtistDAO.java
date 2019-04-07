@@ -20,7 +20,9 @@ public class ArtistDAO implements DataAccessObject {
 	private static final String SQL_ORDER_BY_ID = "SELECT * FROM " + Database.ARTIST_TABLE + " ORDER BY PK_ArtistID";
 	private static final String SQL_LIST_BY_NAME = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE Name = ?";
 	private static final String SQL_LIST_BY_GENRE = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE genre = ?";
-
+	private static final String SQL_EXIST_USERNAME =
+			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.ACCOUNT_TABLE + " ON " + Database.ARTIST_TABLE + ".FK_AccountID = "+
+					Database.ACCOUNT_TABLE + ".PK_AccountID WHERE " + Database.ACCOUNT_TABLE + ".Username = ?";
 	public ArtistDAO(DAOFactory db) {
 		this.db = db;
 	}
@@ -92,7 +94,7 @@ public class ArtistDAO implements DataAccessObject {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Artist find(long userId) {
 		return find(SQL_FIND_BY_ID, userId);
 	}
@@ -169,7 +171,19 @@ public class ArtistDAO implements DataAccessObject {
 	}
 
 	public boolean existUsername(String username) {
-		return false;
+		Object[] values = {
+				username
+		};
+		boolean exist = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_EXIST_USERNAME, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			exist = resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return exist;
 	}
 
 	public Artist map(ResultSet rs) throws SQLException {
