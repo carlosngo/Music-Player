@@ -83,7 +83,7 @@ public class Server {
     }
 
     public void incrementPlayCount(int songId){
-        
+
     }
 
     public void followSong(String name){
@@ -118,6 +118,10 @@ public class Server {
 
     public void followPlaylist(String name){
 
+    }
+
+    public Album getAlbum(int albumId) {
+        return ((AlbumDAO)albumDAOFactory.getDAO()).find(albumId);
     }
 
     public ArrayList<Album> getAlbums(){
@@ -202,7 +206,7 @@ public class Server {
 
     }
 
-    public void setImageFile(){
+    public void setImageFile(int albumId, File img){
 
     }
 
@@ -211,7 +215,7 @@ public class Server {
     }
 
 
-    public void setSongFile(){
+    public void setSongFile(int songId, File wav){
 
     }
 
