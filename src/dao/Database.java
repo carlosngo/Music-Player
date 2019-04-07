@@ -31,7 +31,9 @@ public final class Database {
     public static final String ARTIST_COLUMNS =
             "PK_ArtistID, Name, Genre";
 
-
+    public static final String ACCOUNT_TABLE = "musicplayer.account";
+    public static final String ACCOUNT_COLUMNS =
+    		"PK_AccountID, Username, Password";
 
     private static Connection con = null;
 

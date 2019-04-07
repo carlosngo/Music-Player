@@ -42,12 +42,7 @@ public class AlbumDAO implements DataAccessObject {
         String fileName = rs.getString("Name") + rs.getInt("PK_AlbumID") + fileFormat;
 
         album.setAlbumId(rs.getInt("PK_AlbumID"));
-//        Artist u = userDAO.find(rs.getInt("FK_UserID"));
-//        album.setArtist(u);
         album.setName(rs.getString("Name"));
-//        album.setArtist(rs.getString("Artist"));
-//        album.setFile(rs.getBlob("Cover"));
-//        album.setCoverPath(fileName);
         if (rs.getBlob("Cover") != null) {
             BlobParser.setStrategy(new BlobToFile());
             File dir = new File("resources/images");
@@ -162,7 +157,6 @@ public class AlbumDAO implements DataAccessObject {
 
     public ArrayList<Album> listById() {
         ArrayList<Album> albums = new ArrayList<>();
-
         return albums;
     }
 
