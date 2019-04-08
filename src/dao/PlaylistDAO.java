@@ -24,6 +24,9 @@ public class PlaylistDAO implements DataAccessObject {
             "SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Favorite = ?";
     private static final String SQL_EXIST_PLAYLIST =
             "SELECT * FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Name = ?";
+    private static final String SQL_LIST_BY_PLAYLIST_ID = 
+    		"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
+    
 
     public PlaylistDAO(DAOFactory db) {
         this.db = db;
@@ -123,9 +126,22 @@ public class PlaylistDAO implements DataAccessObject {
         }
     }
 
-    public ArrayList<Playlist> listById() {
+    public ArrayList<Playlist> listById(int userId) {
         ArrayList<Playlist> playlists = new ArrayList<>();
+        
+        try {
+            Connection connection = Database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_PLAYLIST_ID);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
 
+            while(rs.next()) {
+                playlists.add(map(rs));
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
         return playlists;
     }
 

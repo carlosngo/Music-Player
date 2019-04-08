@@ -27,7 +27,7 @@ public class AlbumDAO implements DataAccessObject {
     private static final String SQL_EXIST_ALBUM = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name = ? AND FK_UserID = ?";
     private static final String SQL_LIST_BY_ARTIST = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 
     		+ " ON " + Database.ALBUM_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + Database.ARTIST_TABLE + ".Name = ?";
-    
+    private static final String SQL_LIST_BY_ALBUM_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE PK_AlbumID = ?";
     
     private static final String PATH = "resources/images/";
 
@@ -155,8 +155,23 @@ public class AlbumDAO implements DataAccessObject {
         }
     }
 
-    public ArrayList<Album> listById() {
+    public ArrayList<Album> listById(int userId) {
         ArrayList<Album> albums = new ArrayList<>();
+        
+        try {
+        	Connection connection = Database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ALBUM_ID);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            
+            while(rs.next()) {
+                albums.add(map(rs));
+            }
+            
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
         return albums;
     }
 
