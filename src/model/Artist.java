@@ -6,6 +6,7 @@ import java.util.*;
 public class Artist extends User implements Comparable<Artist>{
 	private int artistId;
 	private String genre;
+	private boolean isFollowed;
 
 	public Artist() {
 		artistId = -1;
@@ -26,6 +27,10 @@ public class Artist extends User implements Comparable<Artist>{
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
+
+	public boolean isFollowed(){ return isFollowed; }
+
+	public void setFollowed(boolean followed){ isFollowed = followed; }
 
 	public static Artist parseArtist(String s) {
 		Artist artist = new Artist();

@@ -15,11 +15,11 @@ import java.net.URL;
 public class PlayerPanel extends JPanel implements ActionListener {
 
     private PlayerController pc;
-    private JButton repeat, shuffle, prev, next, favSong;
+    private JButton repeat, shuffle, prev, next, favSong, follow;
     private JLabel albumCover, titleLbl, artistLbl;
     private Component controlPnl;
     private JPanel p3;
-    private boolean isShuffle, isRepeat, isFavorite;
+    private boolean isShuffle, isRepeat, isFavorite, isFollowed;
 
 
     public PlayerPanel(PlayerController pc){
@@ -27,6 +27,9 @@ public class PlayerPanel extends JPanel implements ActionListener {
         isShuffle = false;
         isRepeat = false;
         isFavorite = false;
+
+        isFollowed = false;
+
 //        setLayout(new BorderLayout());
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setOpaque(true);
@@ -62,6 +65,15 @@ public class PlayerPanel extends JPanel implements ActionListener {
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
         p2.setOpaque(false);
+
+        follow = new JButton();
+        follow.setActionCommand("follow");
+        follow.setOpaque(false);
+        follow.setContentAreaFilled(false);
+        follow.setBorderPainted(false);
+        follow.addActionListener(this);
+        add(follow);
+        add(Box.createRigidArea(new Dimension(5,0)));
 
         favSong = new JButton();
         favSong.setActionCommand("favSong");
@@ -282,6 +294,21 @@ public class PlayerPanel extends JPanel implements ActionListener {
                     resource = getClass().getClassLoader().getResource("images/favSongs.png");
                     img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                }
+
+            } else if (e.getActionCommand().equals("follow")) {
+                pc.getCurrentSong().setFollowed(!pc.getCurrentSong().isFollowed());
+                isFollowed = pc.getCurrentSong().isFollowed();
+                if (isFollowed) {
+                    System.out.println("Unfavorited" + pc.getCurrentSong().getName());
+                    resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                    img = ImageIO.read(resource);
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } else {
+                    System.out.println("Favorited" + pc.getCurrentSong().getName());
+                    resource = getClass().getClassLoader().getResource("images/follow.png");
+                    img = ImageIO.read(resource);
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
 
             }

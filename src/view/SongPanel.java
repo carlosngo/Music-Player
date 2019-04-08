@@ -876,6 +876,9 @@ public class SongPanel extends JPanel implements ActionListener{
             JMenuItem delete = new JMenuItem("Delete");
             delete.setActionCommand("delete");
 
+//            JMenuItem follow = new JMenuItem("Follow");
+//            follow.setActionCommand("follow");
+
             MenuItemListener menuItemListener = new MenuItemListener();
 
             addToQueue.addActionListener(menuItemListener);
@@ -883,6 +886,7 @@ public class SongPanel extends JPanel implements ActionListener{
             removeFromPlaylist.addActionListener(menuItemListener);
             edit.addActionListener(menuItemListener);
             delete.addActionListener(menuItemListener);
+            //follow.addActionListener(menuItemListener);
 
             settingsMenu.add(addToQueue);
             settingsMenu.add(add_to_playlist);
@@ -891,6 +895,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 settingsMenu.add(removeFromPlaylist);
             settingsMenu.add(edit);
             settingsMenu.add(delete);
+            //settingsMenu.add(follow);
 
 //        mainFrame.addMouseListener(new MouseAdapter() {
 //            public void mouseClicked(MouseEvent e) {
@@ -916,6 +921,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanRemoveFromPlaylist.png");
                 img = ImageIO.read(resource);
                 removeFromPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                resource = getClass().getClassLoader().getResource("images/songFollow.png");
+//                img = ImageIO.read(resource);
+//                follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
             catch(Exception e){
 
@@ -950,6 +958,9 @@ public class SongPanel extends JPanel implements ActionListener{
                         if (choice == JOptionPane.YES_OPTION)
                             controller.removeSong(currentRow);
                         break;
+//                    case "follow":
+//                        //follow
+//                        break;
                 }
             }
         }

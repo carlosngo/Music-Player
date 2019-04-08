@@ -16,6 +16,7 @@ public class User {
     private ArrayList<Song> library;
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
+    private boolean isFollowed;
 
 
     public User() {
@@ -89,6 +90,10 @@ public class User {
     public void removeFollower(Account follower) {
         account.getFollowers().remove(follower);
     }
+
+    public boolean isFollowed(){ return isFollowed; }
+
+    public void setFollowed(boolean followed){ isFollowed = followed; }
 
     public static User parseUser(String s) {
         User user = new User();
