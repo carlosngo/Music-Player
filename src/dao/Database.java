@@ -9,7 +9,7 @@ public final class Database {
 
     public static final String USER_TABLE = "musicplayer.user";
     public static final String USER_COLUMNS =
-            "PK_UserID, Username, Password, FirstName, LastName, Gender, Birthday";
+            "PK_UserID, FK_AccountID, FirstName, LastName, Gender, Birthday";
 
     public static final String SONG_TABLE = "musicplayer.song";
     public static final String SONG_COLUMNS =
@@ -25,11 +25,11 @@ public final class Database {
 
     public static final String ALBUM_TABLE = "musicplayer.album";
     public static final String ALBUM_COLUMNS =
-            "PK_AlbumID, FK_ArtistID, FK_UserID, Name, Artist, Cover, DateCreated";
+            "PK_AlbumID, FK_ArtistID, FK_UserID, Name, Cover, DateCreated";
 
     public static final String ARTIST_TABLE = "musicplayer.artist";
     public static final String ARTIST_COLUMNS =
-            "PK_ArtistID, Name, Genre";
+            "PK_ArtistID, FK_AccountID, Name, Genre";
 
     public static final String ACCOUNT_TABLE = "musicplayer.account";
     public static final String ACCOUNT_COLUMNS =
