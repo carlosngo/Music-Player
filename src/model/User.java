@@ -16,7 +16,6 @@ public class User {
     private ArrayList<Song> library;
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
-    private boolean isFollowed;
 
 
     public User() {
@@ -45,6 +44,22 @@ public class User {
 
     public void setAccount(Account account) {
     	this.account = account;
+    }
+
+    public String getUserName() {
+        return account.getUserName();
+    }
+    
+    public void setUserName(String userName) {
+    	account.setUserName(userName);
+    }
+
+    public String getPassword() {
+        return account.getPassword();
+    }
+
+    public void setPassword(String password) {
+        account.setPassword(password);
     }
 
     public String getFirstName() {
@@ -91,16 +106,12 @@ public class User {
         account.getFollowers().remove(follower);
     }
 
-    public boolean isFollowed(){ return isFollowed; }
-
-    public void setFollowed(boolean followed){ isFollowed = followed; }
-
     public static User parseUser(String s) {
         User user = new User();
         String[] biodata = s.split("\\|");
         user.setUserId(Integer.parseInt(biodata[0]));
-        user.getAccount().setUserName(biodata[1]);
-        user.getAccount().setPassword(biodata[2]);
+        user.setUserName(biodata[1]);
+        user.setPassword(biodata[2]);
         user.setFirstName(biodata[3]);
         user.setLastName(biodata[4]);
         user.setGender(biodata[5]);
@@ -118,9 +129,9 @@ public class User {
         StringBuilder sb = new StringBuilder();
         sb.append(getUserId());
         sb.append("|");
-        sb.append(getAccount().getUserName());
+        sb.append(getUserName());
         sb.append("|");
-        sb.append(getAccount().getPassword());
+        sb.append(getPassword());
         sb.append("|");
         sb.append(getFirstName());
         sb.append("|");

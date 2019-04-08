@@ -198,8 +198,6 @@ public class AlbumDAO implements DataAccessObject {
 		return albums;
 	}
 
-
-
 	public ArrayList<Album> listByArtistName(String name){
 		Object[] values = {
 				name
