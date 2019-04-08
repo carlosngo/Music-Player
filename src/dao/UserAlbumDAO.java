@@ -15,7 +15,7 @@ public class UserAlbumDAO implements DataAccessObject {
 	private DAOFactory db;
 	
 	private static final String SQL_INSERT = "INSERT INTO " + Database.USERALBUM_TABLE + " (" + Database.USERALBUM_COLUMNS + ") VALUES (?, ?, ?)";
-	private static final String SQL_DELETE = "DELETE FROM " + Database.USERALBUM_TABLE + " WHERE FK_AlbumID = ? AND FK_UserID = ?";
+	private static final String SQL_DELETE = "DELETE FROM " + Database.USERALBUM_TABLE + " WHERE FK_UserID = ? AND FK_AlbumID = ?";
 	private static final String SQL_LIST_BY_USER_ID = "SELECT FK_AlbumID FROM " + Database.USERALBUM_TABLE + " WHERE FK_UserID = ?";
 	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT FK_UserID FROM " + Database.USERALBUM_TABLE + " WHERE FK_AlbumID = ?";
  	
@@ -26,7 +26,8 @@ public class UserAlbumDAO implements DataAccessObject {
 	public void join(User u, Album a) {
 		Object[] values = {
 				u.getUserId(),
-				a.getAlbumId()
+				a.getAlbumId(),
+				null
 		};
 		try {
 			Connection con = Database.getConnection();
