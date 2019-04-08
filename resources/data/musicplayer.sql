@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `musicplayer` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `musicplayer`;
--- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: musicplayer
 -- ------------------------------------------------------
--- Server version	8.0.13
+-- Server version	8.0.12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -52,15 +52,12 @@ DROP TABLE IF EXISTS `album`;
 CREATE TABLE `album` (
   `PK_AlbumID` int(11) NOT NULL AUTO_INCREMENT,
   `FK_ArtistID` int(11) DEFAULT NULL,
-  `FK_UserID` int(11) DEFAULT NULL,
   `Name` varchar(45) DEFAULT NULL,
   `Cover` longblob,
   `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_AlbumID`),
-  KEY `FK_UserID_idx` (`FK_UserID`),
   KEY `FK_ArtistID_idx` (`FK_ArtistID`),
-  CONSTRAINT `FK_ArtistID` FOREIGN KEY (`FK_ArtistID`) REFERENCES `artist` (`pk_artistid`),
-  CONSTRAINT `FK_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`) ON DELETE CASCADE
+  CONSTRAINT `FK_ArtistID` FOREIGN KEY (`FK_ArtistID`) REFERENCES `artist` (`pk_artistid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -164,19 +161,16 @@ DROP TABLE IF EXISTS `song`;
 CREATE TABLE `song` (
   `PK_SongID` int(11) NOT NULL AUTO_INCREMENT,
   `FK_ArtistID` int(11) DEFAULT NULL,
-  `FK_UserID` int(11) DEFAULT NULL,
   `FK_AlbumID` int(11) DEFAULT NULL,
   `Name` varchar(45) NOT NULL,
   `Genre` varchar(45) DEFAULT NULL,
   `Year` year(4) DEFAULT NULL,
   `File` longblob,
   PRIMARY KEY (`PK_SongID`),
-  KEY `Song_UserID_idx` (`FK_UserID`),
   KEY `Song_AlbumID_idx` (`FK_AlbumID`),
   KEY `Song_ArtistID_idx` (`FK_ArtistID`),
   CONSTRAINT `Song_AlbumID` FOREIGN KEY (`FK_AlbumID`) REFERENCES `album` (`pk_albumid`) ON DELETE SET NULL,
-  CONSTRAINT `Song_ArtistID` FOREIGN KEY (`FK_ArtistID`) REFERENCES `artist` (`pk_artistid`),
-  CONSTRAINT `Song_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`) ON DELETE CASCADE
+  CONSTRAINT `Song_ArtistID` FOREIGN KEY (`FK_ArtistID`) REFERENCES `artist` (`pk_artistid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -241,6 +235,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,1,'john','ing','m',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,4 +333,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-08 17:57:42
+-- Dump completed on 2019-04-09  3:09:01
