@@ -1,5 +1,6 @@
 package net;
 
+import util.FileUtil;
 import util.Protocol;
 import model.*;
 
@@ -229,54 +230,37 @@ public class Client {
 
     }
 
-    public void getImageFile(){
-
+    public File getImageFile(int albumId){
+        outToServer.println(Protocol.GETIMAGEFILE);
+        outToServer.println(albumId);
+        File dir = new File("resources/images");
+        dir.mkdirs();
+        File img = new File(dir, albumId + "");
+        FileUtil.downloadFile(socket, inFromServer, outToServer, img);
+        return img;
     }
 
-    public void setImageFile(){
-
+    public void setImageFile(int albumId, File img) {
+        outToServer.println(Protocol.SETIMAGEFILE);
+        outToServer.println(albumId);
+        FileUtil.uploadFile(socket, inFromServer, outToServer, img);
     }
 
-    public void getSongFile(int songId){
+    public File getSongFile(int songId){
         outToServer.println(Protocol.GETSONGFILE);
         outToServer.println(songId);
-        try {
-
-            int fileSize = Integer.parseInt(inFromServer.readLine());
-
-            byte[] mybytearray = new byte[fileSize + 1000];
-            InputStream is = socket.getInputStream();
-            File dir = new File("resources/songs");
-            dir.mkdirs();
-            File wav = new File(dir, songId + "");
-            wav.createNewFile();
-            FileOutputStream fos = new FileOutputStream(wav);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            System.out.println("Getting a " + fileSize + " bytes file from the server.");
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            int current = bytesRead;
-
-            do {
-                System.out.println(current);
-                bytesRead =
-                        is.read(mybytearray, current, (mybytearray.length - current));
-                if (bytesRead >= 0) current += bytesRead;
-            } while (bytesRead > -1 && current < fileSize);
-
-            bos.write(mybytearray, 0, current);
-            bos.flush();
-            System.out.println("File " + wav
-                    + " downloaded (" + current + " bytes read)");
-        } catch (IOException e) {
-            e.printStackTrace();
-            outToServer.println(Protocol.NO);
-        }
-        outToServer.println(Protocol.OK);
+        File dir = new File("resources/songs");
+        dir.mkdirs();
+        File wav = new File(dir, songId + "");
+        FileUtil.downloadFile(socket, inFromServer, outToServer, wav);
+        return wav;
     }
 
 
-    public void setSongFile(){
-
+    public void setSongFile(int songId, File wav){
+        outToServer.println(Protocol.SETSONGFILE);
+        outToServer.println(songId);
+        FileUtil.uploadFile(socket, inFromServer, outToServer, wav);
     }
 
     public User logIn(String username, String password) {
@@ -301,6 +285,8 @@ public class Client {
         outToServer.println(Protocol.LOGOUT);
         outToServer.println(userId);
     }
+
+
 
     public static void main(String[] args) {
         try {

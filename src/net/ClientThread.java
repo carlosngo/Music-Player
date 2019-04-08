@@ -2,6 +2,7 @@ package net;
 
 import events.*;
 import model.*;
+import util.FileUtil;
 import util.Protocol;
 
 import java.text.ParseException;
@@ -162,30 +163,30 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.followArtist(messageFromClient.substring(12));
                         break;
                     case GETIMAGEFILE:
-                        server.getImageFile();
+                        album = server.getAlbum(Integer.parseInt(in.readLine()));
+                        File img = album.getCover();
+                        FileUtil.uploadFile(socket, in, out, img);
                         break;
                     case SETIMAGEFILE:
-                        server.setImageFile();
+                        int albumId = Integer.parseInt(in.readLine());
+                        File dir = new File("resources/images");
+                        dir.mkdirs();
+                        img = new File(dir, albumId + "");
+                        FileUtil.downloadFile(socket, in, out, img);
+                        server.setImageFile(albumId, img);
                         break;
                     case GETSONGFILE:
                         song = server.getSong(Integer.parseInt(in.readLine()));
-                        File myFile = song.getWAV();
-                        out.println(myFile.length());
-                        byte [] mybytearray  = new byte [(int)myFile.length()];
-                        FileInputStream fis = new FileInputStream(myFile);;
-                        BufferedInputStream bis = new BufferedInputStream(fis);
-                        bis.read(mybytearray,0,mybytearray.length);
-                        OutputStream os = socket.getOutputStream();
-                        System.out.println("Sending " + myFile + "(" + mybytearray.length + " bytes)");
-                        os.write(mybytearray,0,mybytearray.length);
-                        os.flush();
-                        System.out.println("File successfully transferred.");
-                        if (in.readLine().equals(Protocol.OK)) System.out.println("Client receieved the file.");
-                        else System.out.println("Client did not receive the file.");
+                        File wav = song.getWAV();
+                        FileUtil.uploadFile(socket, in, out, wav);
                         break;
                     case SETSONGFILE:
-                        server.setSongFile();
-
+                        int songId = Integer.parseInt(in.readLine());
+                        dir = new File("resources/songs");
+                        dir.mkdirs();
+                        wav = new File(dir, songId + "");
+                        FileUtil.downloadFile(socket, in, out, wav);
+                        server.setSongFile(songId, wav);
                         break;
                     case LOGIN:
                         String username = in.readLine();
