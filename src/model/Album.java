@@ -11,6 +11,7 @@ public class Album implements Comparable<Album>, Media {
     private Artist artist;
     private File cover;
     private Date dateCreated;
+    private boolean isFollowed;
 
 	public Album() {
     	albumId = -1;
@@ -49,6 +50,10 @@ public class Album implements Comparable<Album>, Media {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    public boolean isFollowed(){ return isFollowed; }
+
+    public void setFollowed(boolean followed){ isFollowed = followed; }
 
     public static Album parseAlbum(String s) {
 		Album album = new Album();

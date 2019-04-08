@@ -14,6 +14,7 @@ public class Song implements Comparable<Song>, Media {
     private String name;
     private int year;
     private File wav;
+    private boolean isFollowed;
 
     // client-specific variables
     /*private boolean favorite;
@@ -76,6 +77,10 @@ public class Song implements Comparable<Song>, Media {
     public void setYear(int year) {
         this.year = year;
     }
+
+    public boolean isFollowed(){ return isFollowed; }
+
+    public void setFollowed(boolean followed){ isFollowed = followed; }
 
 /*    public Date getDateCreated() {
     	return dateCreated;
