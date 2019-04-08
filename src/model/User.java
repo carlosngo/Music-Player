@@ -7,8 +7,7 @@ import java.text.SimpleDateFormat;
 
 public class User {
     private int userId;
-    private String userName;
-    private String password;
+    private Account account;
     private String name;
     private String firstName;
     private String lastName;
@@ -17,7 +16,6 @@ public class User {
     private ArrayList<Song> library;
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
-    private ArrayList<User> followers;
 
 
     public User() {
@@ -40,20 +38,28 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public Account getAccount() {
+    	return account;
     }
 
+    public void setAccount(Account account) {
+    	this.account = account;
+    }
+
+    public String getUserName() {
+        return account.getUserName();
+    }
+    
     public void setUserName(String userName) {
-        this.userName = userName;
+    	account.setUserName(userName);
     }
 
     public String getPassword() {
-        return password;
+        return account.getPassword();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        account.setPassword(password);
     }
 
     public String getFirstName() {
@@ -88,16 +94,16 @@ public class User {
         this.birthday = birthday;
     }
 
-    public ArrayList<User> getFollowers() {
-        return followers;
+    public ArrayList<Account> getFollowers() {
+        return account.getFollowers();
     }
 
-    public void addFollower(User follower) {
-        followers.add(follower);
+    public void addFollower(Account follower) {
+        account.getFollowers().add(follower);
     }
 
-    public void removeFollower(User follower) {
-        followers.remove(follower);
+    public void removeFollower(Account follower) {
+        account.getFollowers().remove(follower);
     }
 
     public static User parseUser(String s) {

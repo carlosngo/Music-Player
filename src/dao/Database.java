@@ -34,6 +34,10 @@ public final class Database {
     public static final String ACCOUNT_TABLE = "musicplayer.account";
     public static final String ACCOUNT_COLUMNS =
     		"PK_AccountID, Username, Password";
+    
+    public static final String SUBSCRIPTION_TABLE = "musicplayer.subscription";
+    public static final String SUBSCRIPTION_COLUMNS =
+    		"FK_SubscriberID, FK_SubscribeeID";
 
     private static Connection con = null;
 
