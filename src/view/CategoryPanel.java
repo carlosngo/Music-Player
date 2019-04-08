@@ -151,7 +151,7 @@ public class CategoryPanel extends JPanel {
             resource = getClass().getClassLoader().getResource("images/changeCover.png");
             img = ImageIO.read(resource);
 
-            if (controller.isFollow(subCategoryName)) {
+            if (controller.isFollowed(subCategoryName)) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -262,7 +262,7 @@ public class CategoryPanel extends JPanel {
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (controller.isFollow(subCategoryName)) {
+                    if (controller.isFollowed(subCategoryName)) {
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     } else {

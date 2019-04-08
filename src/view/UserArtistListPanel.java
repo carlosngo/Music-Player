@@ -106,7 +106,7 @@ public class UserArtistListPanel extends JPanel {
 //            BufferedImage img = ImageIO.read(resource);
             URL resource;
             BufferedImage img;
-            if (controller.isFollow(personName)) {
+            if (controller.isFollowed(personName)) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
