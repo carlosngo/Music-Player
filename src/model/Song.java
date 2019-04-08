@@ -16,10 +16,10 @@ public class Song implements Comparable<Song>, Media {
     private File wav;
 
     // client-specific variables
-    private boolean favorite;
+    /*private boolean favorite;
     private long playTime;
     private Date lastPlayed;
-    private Date dateCreated;
+    private Date dateCreated;*/
 
 
 
@@ -27,13 +27,6 @@ public class Song implements Comparable<Song>, Media {
 	    songId = -1;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
 
     public Artist getArtist() {
         return artist;
@@ -59,13 +52,6 @@ public class Song implements Comparable<Song>, Media {
         this.genre = genre;
     }
 
-    public Date getLastPlayed() {
-        return lastPlayed;
-    }
-
-    public void setLastPlayed(Date lastPlayed) {
-        this.lastPlayed = lastPlayed;
-    }
 
     public int getSongId() {
         return songId;
@@ -91,6 +77,20 @@ public class Song implements Comparable<Song>, Media {
         this.year = year;
     }
 
+/*    public Date getDateCreated() {
+    	return dateCreated;
+    }
+    
+    public void setDateCreated(Date dateCreated) {
+    	this.dateCreated = dateCreated;
+    }
+    public Date getLastPlayed() {
+    	return lastPlayed;
+    }
+    
+    public void setLastPlayed(Date lastPlayed) {
+    	this.lastPlayed = lastPlayed;
+    }
     public boolean isFavorite() {
         return favorite;
     }
@@ -106,7 +106,7 @@ public class Song implements Comparable<Song>, Media {
     public void setPlayTime(long playTime) {
         this.playTime = playTime;
     }
-
+*/
     public File getWAV() {
         return wav;
     }
@@ -128,7 +128,7 @@ public class Song implements Comparable<Song>, Media {
         song.setGenre(songdata[3]);
         song.setName(songdata[4]);
         song.setYear(Integer.parseInt(songdata[5]));
-        song.setFavorite(Boolean.parseBoolean(songdata[6]));
+       /* song.setFavorite(Boolean.parseBoolean(songdata[6]));
         song.setPlayTime(Long.parseLong(songdata[7]));
         try {
             Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[8]);
@@ -137,7 +137,7 @@ public class Song implements Comparable<Song>, Media {
             song.setDateCreated(dc);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
 	    return song;
     }
@@ -158,14 +158,14 @@ public class Song implements Comparable<Song>, Media {
         sb.append(getName());
         sb.append("|");
         sb.append(getYear());
-        sb.append("|");
+       /* sb.append("|");
         sb.append(isFavorite());
         sb.append("|");
         sb.append(getPlayTime());
         sb.append("|");
         sb.append(getLastPlayed());
         sb.append("|");
-        sb.append(getDateCreated());
+        sb.append(getDateCreated());*/
         return sb.toString();
     }
 

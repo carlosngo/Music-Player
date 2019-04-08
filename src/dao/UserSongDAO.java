@@ -12,27 +12,24 @@ import model.Playlist;
 import model.Song;
 import model.User;
 
-public class UserPlaylistDAO implements DataAccessObject {
-
-	private static String SQL_LIST_BY_USER_ID = "SELECT FK_PlaylistID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
-	private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_UserID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
-	private static String SQL_INSERT =
-			"INSERT INTO " + Database.USERPLAYLIST_TABLE + " (" + Database.USERPLAYLIST_COLUMNS + ") VALUES (?, ?)";
-	private static String SQL_DELETE =
-			"DELETE FROM " + Database.USERPLAYLIST_TABLE + " WHERE FK_PlaylistID = ? AND FK_UserID = ?";
-
-	private static String SQL_LIST_BY_FAVORITE = "";
-
+public class UserSongDAO implements DataAccessObject {
 	private DAOFactory db;
 
-	public UserPlaylistDAO(DAOFactory db) {
+	private static String SQL_LIST_BY_SONG_ID = "SELECT FK_UserID FROM " + Database.USERSONG_TABLE + " WHERE FK_SongID = ?";
+	private static String SQL_LIST_BY_USER_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
+	private static String SQL_INSERT =
+			"INSERT INTO " + Database.USERSONG_TABLE + " (" + Database.USERSONG_COLUMNS + ") VALUES (?, ?, ?, ?, ?)";
+	private static String SQL_DELETE =
+			"DELETE FROM " + Database.USERSONG_TABLE + " WHERE FK_UserID = ? AND FK_SongID = ?";
+
+	public UserSongDAO(DAOFactory db) {
 		this.db = db;
 	}
 
-	public void join(User u, Playlist p) {
+	public void join(User u, Song s) {
 		Object[] values = {
 				u.getUserId(),
-				p.getPlaylistId()
+				s.getSongId()
 		};
 		try {
 			Connection con = Database.getConnection();
@@ -44,12 +41,12 @@ public class UserPlaylistDAO implements DataAccessObject {
 		}
 	}
 
-	public void separate(User u, Playlist p) {
-		if (p.getPlaylistId() == -1 || u.getUserId() == -1)
+	public void separate(User u, Song s) {
+		if (u.getUserId() == -1 || s.getSongId() == -1)
 			return;
 		Object[] values = {
 				u.getUserId(),
-				p.getPlaylistId()
+				s.getSongId()
 		};
 		try {
 			Connection con = Database.getConnection();
@@ -61,23 +58,7 @@ public class UserPlaylistDAO implements DataAccessObject {
 		}
 	}
 
-	public ArrayList<Integer> listByPlaylistId(int playlistId) {
-		ArrayList<Integer> keys = new ArrayList<>();
-		Connection con = Database.getConnection();
-		try (
-				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_PLAYLIST_ID, false, playlistId);
-				ResultSet rs = stmt.executeQuery()) {
-			while (rs.next()) {
-				keys.add(rs.getInt(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return keys;
-	}
-
-	public ArrayList<Integer> listBySongId(int userId) {
+	public ArrayList<Integer> listByUserId(int userId) {
 		ArrayList<Integer> keys = new ArrayList<>();
 		Connection con = Database.getConnection();
 		try (
@@ -93,7 +74,19 @@ public class UserPlaylistDAO implements DataAccessObject {
 		return keys;
 	}
 
+	public ArrayList<Integer> listBySongId(int songId) {
+		ArrayList<Integer> keys = new ArrayList<>();
+		Connection con = Database.getConnection();
+		try (
+				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_SONG_ID, false, songId);
+				ResultSet rs = stmt.executeQuery()) {
+			while (rs.next()) {
+				keys.add(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-
-
+		return keys;
+	}
 }

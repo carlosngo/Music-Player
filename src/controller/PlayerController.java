@@ -133,9 +133,9 @@ public class PlayerController implements ControllerListener, ActionListener {
             terminate();
             return;
         }
-        song.setPlayTime(song.getPlayTime() + 1); // increment play time
+/*        song.setPlayTime(song.getPlayTime() + 1); // increment play time
         song.setLastPlayed(Calendar.getInstance().getTime());
-        System.out.println("Incremented play count of " + song.getName() + " to " + song.getPlayTime());
+        System.out.println("Incremented play count of " + song.getName() + " to " + song.getPlayTime());*/
         unplayed.remove(song);
         played.push(song);
         File wav = song.getWAV();

@@ -76,10 +76,10 @@ public class SongDAO implements DataAccessObject {
 
         song.setName(rs.getString("Name"));
         song.setYear(rs.getInt("Year"));
-        song.setFavorite(rs.getBoolean("Favorite"));
+       /* song.setFavorite(rs.getBoolean("Favorite"));
         song.setPlayTime(rs.getLong("PlayTime"));
         song.setLastPlayed(rs.getTimestamp("LastPlayed"));
-        song.setDateCreated(rs.getTimestamp("DateCreated"));
+        song.setDateCreated(rs.getTimestamp("DateCreated"));*/
         Blob b = rs.getBlob("File");
         if (b != null) {
             BlobParser.setStrategy(new BlobToFile());
@@ -252,7 +252,7 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> listFavorites(int userId) {
+/*    public ArrayList<Song> listFavorites(int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
@@ -270,7 +270,7 @@ public class SongDAO implements DataAccessObject {
         }
         return songs;
     }
-
+*/
     public ArrayList<Song> listByPlaytime(int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
@@ -328,19 +328,19 @@ public class SongDAO implements DataAccessObject {
             else
                 statement.setObject(5, null);
             statement.setInt(6, song.getYear());
-            statement.setBoolean(7, song.isFavorite());
+           /* statement.setBoolean(7, song.isFavorite());
             statement.setLong(8, song.getPlayTime());
             if (song.getLastPlayed() != null)
                 statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
             else {
                 statement.setObject(9, null);
-            }
+            }*/
 //            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
 //            File wav = Paths.get(resource.toURI()).toFile();
             File wav = song.getWAV();
             statement.setBinaryStream(10, new FileInputStream(wav));
 
-            statement.setTimestamp(11, new Timestamp(song.getDateCreated().getTime()));
+//            statement.setTimestamp(11, new Timestamp(song.getDateCreated().getTime()));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -395,13 +395,13 @@ public class SongDAO implements DataAccessObject {
             else
                 statement.setObject(5, null);
             statement.setInt(6, song.getYear());
-            statement.setBoolean(7, song.isFavorite());
+           /* statement.setBoolean(7, song.isFavorite());
             statement.setLong(8, song.getPlayTime());
             if (song.getLastPlayed() != null)
                 statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
             else {
                 statement.setObject(9, null);
-            }
+            }*/
             statement.setInt(10, song.getSongId());
             statement.executeUpdate();
 

@@ -163,7 +163,7 @@ public class PlaylistDAO implements DataAccessObject {
         return playlists;
     }
 
-    public ArrayList<Playlist> listFavorites(int userId) {
+/*    public ArrayList<Playlist> listFavorites(int userId) {
         ArrayList<Playlist> playlists = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
@@ -180,7 +180,7 @@ public class PlaylistDAO implements DataAccessObject {
             e.printStackTrace();
         }
         return playlists;
-    }
+    }*/
 
     public Playlist findByName(String playlistName, int userId) {
         Playlist playlist = null;

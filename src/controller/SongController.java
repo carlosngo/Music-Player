@@ -300,7 +300,7 @@ public class SongController {
 
     }
 
-    public void showMostFrequentlyPlayed() {
+    /*public void showMostFrequentlyPlayed() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         displayedSongs = new ArrayList<>(mc.getSongs());
         Collections.sort(displayedSongs, new Comparator<Song>() {
@@ -317,7 +317,7 @@ public class SongController {
         sp = new SongPanel(this, "Most Played Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
-
+*/
     public void showSongsByAlbum(String name) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         ArrayList<Song> songs = new ArrayList<>();
@@ -391,7 +391,7 @@ public class SongController {
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
-    public void showFavoriteSongs() {
+   /* public void showFavoriteSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         ArrayList<Song> songs = new ArrayList<>();
         for (Song s : mc.getSongs()) {
@@ -403,7 +403,7 @@ public class SongController {
         displayedSongs = new ArrayList<>(songs);
         sp = new SongPanel(this, "Favorite Songs", data);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
-    }
+    }*/
 
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();
@@ -426,8 +426,8 @@ public class SongController {
             list.add(s.getGenre());
         else
             list.add("");
-        list.add(s.getDateCreated().toString());
-        list.add(s.getPlayTime() + "");
+       /* list.add(s.getDateCreated().toString());
+        list.add(s.getPlayTime() + "");*/
         return list;
     }
 
@@ -481,12 +481,12 @@ public class SongController {
     public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
-        s.setUser(mc.getAccountController().getUser());
+//        s.setUser(mc.getAccountController().getUser());
 
         s.setGenre(getGenre(genreName));
         s.setAlbum(getAlbum(albumName));
         s.setArtist(getArtist(artistName));
-        s.setDateCreated(Calendar.getInstance().getTime());
+//        s.setDateCreated(Calendar.getInstance().getTime());
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
