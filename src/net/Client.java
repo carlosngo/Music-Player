@@ -65,11 +65,13 @@ public class Client {
     }
 
     public void deleteSong(Song song){
-
+        outToServer.println(Protocol.DELETESONG);
+        outToServer.println(song);
     }
 
-    public void editSong(Song song){
-
+    public void updateSong(Song song){
+        outToServer.println(Protocol.UPDATESONG);
+        outToServer.println(song);
     }
 
     public void playSong(int songId){
@@ -106,15 +108,17 @@ public class Client {
         return true;
     }
 
-    public void deletePlaylist(String name){
-
+    public void deletePlaylist(Playlist playlist){
+        outToServer.println(Protocol.DELETEPLAYLIST);
+        outToServer.println(playlist);
     }
 
-    public void editPlaylist(String name){
-
+    public void updatePlaylist(Playlist playlist){
+        outToServer.println(Protocol.UPDATEPLAYLIST);
+        outToServer.println(playlist);
     }
 
-    public void playPlaylist(String name){
+    public void playPlaylist(Playlist playlist){
 
     }
 
@@ -148,12 +152,14 @@ public class Client {
         return true;
     }
 
-    public void deleteAlbum(String name){
-
+    public void deleteAlbum(Album album){
+        outToServer.println(Protocol.DELETEALBUM);
+        outToServer.println(album);
     }
 
-    public void editAlbum(String name){
-
+    public void updateAlbum(Album album){
+        outToServer.println(Protocol.UPDATEALBUM);
+        outToServer.println(album);
     }
 
     public void playAlbum(String name){
@@ -189,8 +195,9 @@ public class Client {
         return true;
     }
 
-    public void editUser(String name){
-
+    public void updateUser(User user){
+        outToServer.println(Protocol.UPDATEUSER);
+        outToServer.println(user);
     }
 
     public void followUser(String name){
@@ -222,11 +229,12 @@ public class Client {
         return true;
     }
 
-    public void editArtist(String name){
-
+    public void updateArtist(Artist artist){
+        outToServer.println(Protocol.UPDATEARTIST);
+        outToServer.println(artist);
     }
 
-    public void followArtist(String name){
+    public void followArtist(Artist artist){
 
     }
 
@@ -255,7 +263,6 @@ public class Client {
         FileUtil.downloadFile(socket, inFromServer, outToServer, wav);
         return wav;
     }
-
 
     public void setSongFile(int songId, File wav){
         outToServer.println(Protocol.SETSONGFILE);
