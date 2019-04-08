@@ -72,17 +72,21 @@ public class Server {
 
     public void deleteSong(Song song){
         try {
-            //remove song
+            ((SongDAO)songDAOFactory.getDAO()).delete(song);
         } catch (IllegalArgumentException e) {
             System.out.println("Quiz was not deleted.");
         }
     }
 
-    public void editSong(Song song){
-
+    public void updateSong(Song song){
+        try {
+            ((SongDAO)songDAOFactory.getDAO()).update(song);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Quiz was not deleted.");
+        }
     }
 
-    public void incrementPlayCount(int songId){
+    public void playSong(int songId){
 
     }
 
@@ -104,12 +108,20 @@ public class Server {
         return true;
     }
 
-    public void deletePlaylist(String name){
-
+    public void deletePlaylist(Playlist playlist){
+        try {
+            ((PlaylistDAO)playlistDAOFactory.getDAO()).delete(playlist);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Quiz was not deleted.");
+        }
     }
 
-    public void editPlaylist(String name){
-
+    public void updatePlaylist(Playlist playlist){
+        try {
+            ((PlaylistDAO)playlistDAOFactory.getDAO()).update(playlist);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Quiz was not deleted.");
+        }
     }
 
     public void playPlaylist(String name){
@@ -138,15 +150,23 @@ public class Server {
         return true;
     }
 
-    public void deleteAlbum(String name){
-
+    public void deleteAlbum(Album album){
+        try {
+            ((AlbumDAO)albumDAOFactory.getDAO()).delete(album);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not added.");
+        }
     }
 
-    public void editAlbum(String name){
-
+    public void updateAlbum(Album album){
+        try {
+            ((AlbumDAO)albumDAOFactory.getDAO()).delete(album);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not added.");
+        }
     }
 
-    public void playAlbum(String name){
+    public void playAlbum(Album album){
 
     }
 
@@ -170,8 +190,12 @@ public class Server {
         return true;
     }
 
-    public void editUser(String name){
-
+    public void updateUser(User user){
+        try {
+            ((UserDAO)userDAOFactory.getDAO()).update(user);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public void followUser(String name){
@@ -194,8 +218,12 @@ public class Server {
         return true;
     }
 
-    public void editArtist(String name){
-
+    public void updateArtist(Artist artist){
+        try {
+            ((ArtistDAO)artistDAOFactory.getDAO()).update(artist);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public void followArtist(String name){
