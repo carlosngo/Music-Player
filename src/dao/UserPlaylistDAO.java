@@ -17,11 +17,10 @@ public class UserPlaylistDAO implements DataAccessObject {
 	private static String SQL_LIST_BY_USER_ID = "SELECT FK_PlaylistID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
 	private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_UserID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
 	private static String SQL_INSERT =
-			"INSERT INTO " + Database.USERPLAYLIST_TABLE + " (" + Database.USERPLAYLIST_COLUMNS + ") VALUES (?, ?)";
+			"INSERT INTO " + Database.USERPLAYLIST_TABLE + " (" + Database.USERPLAYLIST_COLUMNS + ") VALUES (?, ?, ?)";
 	private static String SQL_DELETE =
-			"DELETE FROM " + Database.USERPLAYLIST_TABLE + " WHERE FK_PlaylistID = ? AND FK_UserID = ?";
-
-	private static String SQL_LIST_BY_FAVORITE = "";
+			"DELETE FROM " + Database.USERPLAYLIST_TABLE + " WHERE FK_UserID = ? AND FK_PlaylistID = ?";
+	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.USERPLAYLIST_TABLE + "WHERE FK_UserID = ? AND isFavorite = ?";
 
 	private DAOFactory db;
 
@@ -32,11 +31,11 @@ public class UserPlaylistDAO implements DataAccessObject {
 	public void join(User u, Playlist p) {
 		Object[] values = {
 				u.getUserId(),
-				p.getPlaylistId()
+				p.getPlaylistId(),
+				false
 		};
 		try {
 			Connection con = Database.getConnection();
-
 			PreparedStatement stmt = prepareStatement(con, SQL_INSERT, false, values);
 			stmt.executeUpdate();
 
@@ -93,7 +92,21 @@ public class UserPlaylistDAO implements DataAccessObject {
 		return keys;
 	}
 
+	public ArrayList<Integer> listByUserFavorites(int userId){
+		ArrayList<Integer> keys = new ArrayList<>();
+		Connection con = Database.getConnection();
+		try (
+				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_USER_FAVORITE, false, userId, true);
+				ResultSet rs = stmt.executeQuery()) {
+			while (rs.next()) {
+				keys.add(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
+		return keys;
+	}
 
 
 }

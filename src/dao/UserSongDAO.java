@@ -29,7 +29,10 @@ public class UserSongDAO implements DataAccessObject {
 	public void join(User u, Song s) {
 		Object[] values = {
 				u.getUserId(),
-				s.getSongId()
+				s.getSongId(),
+				false,
+				null,
+				null
 		};
 		try {
 			Connection con = Database.getConnection();
