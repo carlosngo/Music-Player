@@ -7,8 +7,8 @@ import java.io.*;
 
 public class Album implements Comparable<Album>, Media {
     private int albumId;
-	private String name;
     private Artist artist;
+	private String name;
     private File cover;
     private Date dateCreated;
 

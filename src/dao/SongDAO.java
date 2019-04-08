@@ -15,21 +15,23 @@ import java.io.*;
 public class SongDAO implements DataAccessObject {
     private DAOFactory db;
 
+    private static final String SQL_INSERT =
+    		"INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_AlbumID, Name, Genre, Year, File) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String SQL_DELETE =
+    		"DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
+    private static final String SQL_UPDATE =
+    		"UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ? WHERE PK_SongID = ?";
     private static final String SQL_FIND_BY_ID =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
-    private static final String SQL_FIND_BY_GENRE =
+    private static final String SQL_FIND_BY_ARTIST_ID_ORDER_BY_GENRE =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY FK_GenreID";
-    private static final String SQL_FIND_BY_ALBUM =
+    private static final String SQL_FIND_BY_ARTIST_ID_ORDER_BY_ALBUM =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY FK_AlbumID";
-    private static final String SQL_FIND_BY_YEAR =
+    private static final String SQL_FIND_BY_ARTIST_ID_ORDER_BY_YEAR =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ? ORDER BY year";
-    private static final String SQL_INSERT =
-            "INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_ArtistID, FK_AlbumID, Name, Genre, Year, Favorite, PlayTime, LastPlayed, File, DateCreated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_DELETE =
-            "DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
-    private static final String SQL_UPDATE =
-            "UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ?, Favorite = ?, PlayTime = ?, LastPlayed = ? WHERE PK_SongID = ?";
     private static final String SQL_LIST_BY_ID =
+    		"SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " ORDER BY PK_SongID";
+    private static final String SQL_LIST_BY_ARTIST_ID = 
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ?";
     private static final String SQL_LIST_BY_GENRE =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_ArtistID = ?";
@@ -118,13 +120,13 @@ public class SongDAO implements DataAccessObject {
         return song;
     }
 
-    public ArrayList<Song> findByGenre(int userId) {
+    public ArrayList<Song> findByGenre(int artistId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_GENRE);
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ARTIST_ID_ORDER_BY_GENRE);
 
-            statement.setInt(1, userId);
+            statement.setInt(1, artistId);
 
             ResultSet rs = statement.executeQuery();
 
@@ -138,13 +140,13 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> findByAlbum(int userId) {
+    public ArrayList<Song> findByAlbum(int artistId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ALBUM);
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ARTIST_ID_ORDER_BY_ALBUM);
 
-            statement.setInt(1, userId);
+            statement.setInt(1, artistId);
             ResultSet rs = statement.executeQuery();
 
             while(rs.next()) {
@@ -156,13 +158,13 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> findByYear(int userId) {
+    public ArrayList<Song> findByYear(int artistId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
 
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_YEAR);
-            statement.setInt(1, userId);
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ARTIST_ID_ORDER_BY_YEAR);
+            statement.setInt(1, artistId);
 
             ResultSet rs = statement.executeQuery();
 
@@ -177,14 +179,27 @@ public class SongDAO implements DataAccessObject {
 
     public ArrayList<Song> listById() {
         ArrayList<Song> songs = new ArrayList<>();
-        return songs;
+        
+        Object[] values = {};
+        
+        Connection connection = Database.getConnection();
+        try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ID, false, values);) {
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				songs.add(map(rs));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return songs;
     }
 
     public ArrayList<Song> listByArtistId(int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ARTIST_ID);
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
@@ -215,15 +230,13 @@ public class SongDAO implements DataAccessObject {
     }
 
     public ArrayList<Song> listByPlaylist(int playlistId, int userId) {
-        // TODO Auto-generated method stub
-        Object[] values = {
-                userId,
-                playlistId
-        };
         ArrayList<Song> songs = new ArrayList<>();
-        try {
-            Connection con = Database.getConnection();
-            PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_PLAYLIST, false, values);
+        Object[] values = {
+        		userId,
+        		playlistId
+        };
+        Connection con = Database.getConnection();
+        try(PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_PLAYLIST, false, values);) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 songs.add(map(rs));
@@ -236,13 +249,14 @@ public class SongDAO implements DataAccessObject {
 
     public ArrayList<Song> listByAlbum(int albumId, int userId) {
         ArrayList<Song> songs = new ArrayList<>();
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ALBUM);
-            statement.setInt(1, albumId);
-            statement.setInt(2, userId);
+        Object[] values = {
+        		albumId,
+        		userId
+        };
+        Connection connection = Database.getConnection();
+        
+        try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ALBUM, false, values);) {
             ResultSet rs = statement.executeQuery();
-
             while(rs.next()) {
                 songs.add(map(rs));
             }
@@ -289,13 +303,12 @@ public class SongDAO implements DataAccessObject {
     }
     
     public ArrayList<Song> listByArtist(String name){
-    	Object[] values = {
-    		name
-    	};
     	 ArrayList<Song> songs = new ArrayList<>();
-         try {
-             Connection connection = Database.getConnection();
-             PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ARTIST, false, values);
+    	 Object[] values = {
+    			 name
+    	 };
+    	 Connection connection = Database.getConnection();
+         try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ARTIST, false, values);) {
              ResultSet rs = statement.executeQuery();
              while(rs.next()) {
                  songs.add(map(rs));
@@ -317,17 +330,16 @@ public class SongDAO implements DataAccessObject {
                 statement.setInt(1, song.getArtist().getArtistId());
             else
                 statement.setObject(1, null);
-            statement.setInt(2, song.getArtist().getArtistId());
             if (song.getAlbum() != null)
-                statement.setInt(3, song.getAlbum().getAlbumId());
+                statement.setInt(2, song.getAlbum().getAlbumId());
             else
-                statement.setObject(3, null);
-            statement.setString(4, song.getName());
+                statement.setObject(2, null);
+            statement.setString(3, song.getName());
             if (song.getGenre() != null)
-                statement.setString(5, song.getGenre());
+                statement.setString(4, song.getGenre());
             else
-                statement.setObject(5, null);
-            statement.setInt(6, song.getYear());
+                statement.setObject(4, null);
+            statement.setInt(5, song.getYear());
            /* statement.setBoolean(7, song.isFavorite());
             statement.setLong(8, song.getPlayTime());
             if (song.getLastPlayed() != null)
@@ -338,9 +350,7 @@ public class SongDAO implements DataAccessObject {
 //            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
 //            File wav = Paths.get(resource.toURI()).toFile();
             File wav = song.getWAV();
-            statement.setBinaryStream(10, new FileInputStream(wav));
-
-//            statement.setTimestamp(11, new Timestamp(song.getDateCreated().getTime()));
+            statement.setBinaryStream(6, new FileInputStream(wav));
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -361,7 +371,6 @@ public class SongDAO implements DataAccessObject {
             }
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
-
             statement.setInt(1, song.getSongId());
             statement.executeUpdate();
             statement.close();
@@ -384,25 +393,17 @@ public class SongDAO implements DataAccessObject {
                 statement.setInt(1, song.getArtist().getArtistId());
             else
                 statement.setObject(1, null);
-            statement.setInt(2, song.getArtist().getArtistId());
             if (song.getAlbum() != null)
-                statement.setInt(3, song.getAlbum().getAlbumId());
+                statement.setInt(2, song.getAlbum().getAlbumId());
             else
-                statement.setObject(3, null);
-            statement.setString(4, song.getName());
+                statement.setObject(2, null);
+            statement.setString(3, song.getName());
             if (song.getGenre() != null)
-                statement.setString(5, song.getGenre());
+                statement.setString(4, song.getGenre());
             else
-                statement.setObject(5, null);
-            statement.setInt(6, song.getYear());
-           /* statement.setBoolean(7, song.isFavorite());
-            statement.setLong(8, song.getPlayTime());
-            if (song.getLastPlayed() != null)
-                statement.setTimestamp(9, new Timestamp(song.getLastPlayed().getTime()));
-            else {
-                statement.setObject(9, null);
-            }*/
-            statement.setInt(10, song.getSongId());
+                statement.setObject(4, null);
+            statement.setInt(5, song.getYear());
+            statement.setInt(6, song.getSongId());
             statement.executeUpdate();
 
             statement.close();

@@ -1,5 +1,6 @@
 package dao;
 
+import model.Account;
 import model.User;
 
 import java.sql.*;
@@ -13,16 +14,14 @@ public class UserDAO implements DataAccessObject {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT * FROM " + Database.USER_TABLE + " WHERE PK_UserID = ?";
-    private static final String SQL_FIND_BY_EMAIL_AND_PASSWORD =
-            "SELECT * FROM " + Database.USER_TABLE + " WHERE UserName = ? AND Password = ?";
     private static final String SQL_LIST_BY_ID =
             "SELECT * FROM " + Database.USER_TABLE + " ORDER BY PK_UserID";
     private static final String SQL_INSERT =
-            "INSERT INTO " + Database.USER_TABLE + " (UserName, Password, FirstName, LastName, Gender, Birthday) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO " + Database.USER_TABLE + " (FK_AccountID, FirstName, LastName, Gender, Birthday) VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
             "DELETE FROM " + Database.USER_TABLE + " WHERE PK_UserID = ?";
     private static final String SQL_UPDATE =
-            "UPDATE " + Database.USER_TABLE + " SET UserName = ?, Password = ?, FirstName = ?, LastName = ?, Gender = ?, Birthday = ? WHERE PK_UserID = ?";
+            "UPDATE " + Database.USER_TABLE + " SET FK_AccountID, FirstName = ?, LastName = ?, Gender = ?, Birthday = ? WHERE PK_UserID = ?";
     private static final String SQL_EXIST_USERNAME =
             "SELECT PK_UserID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
 
@@ -34,9 +33,6 @@ public class UserDAO implements DataAccessObject {
         return find(SQL_FIND_BY_ID, userId);
     }
 
-    public User find(String email, String password) {
-        return find(SQL_FIND_BY_EMAIL_AND_PASSWORD, email, password);
-    }
 
     private User find(String sql, Object... values) {
         User user = null;
@@ -74,8 +70,7 @@ public class UserDAO implements DataAccessObject {
         }
 
         Object[] values = {
-                user.getUserName(),
-                user.getPassword(),
+        		user.getAccount().getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getGender(),
@@ -104,8 +99,7 @@ public class UserDAO implements DataAccessObject {
         }
 
         Object[] values = {
-                user.getUserName(),
-                user.getPassword(),
+                user.getAccount().getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getGender(),
@@ -167,10 +161,11 @@ public class UserDAO implements DataAccessObject {
 
     private static User map(ResultSet rs) {
         User user = new User();
+        AccountDAO accountDAO = (AccountDAO) new AccountDAOFactory().createDAO();
         try {
             user.setUserId(rs.getInt("PK_UserID"));
-            user.setUserName(rs.getString("UserName"));
-            user.setPassword(rs.getString("Password"));
+            Account a = accountDAO.find(rs.getInt("FK_AccountID"));
+            user.setAccount(a);
             user.setFirstName(rs.getString("FirstName"));
             user.setLastName(rs.getString("LastName"));
             user.setGender(rs.getString("Gender"));

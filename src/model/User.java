@@ -46,22 +46,6 @@ public class User {
     	this.account = account;
     }
 
-    public String getUserName() {
-        return account.getUserName();
-    }
-    
-    public void setUserName(String userName) {
-    	account.setUserName(userName);
-    }
-
-    public String getPassword() {
-        return account.getPassword();
-    }
-
-    public void setPassword(String password) {
-        account.setPassword(password);
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -110,8 +94,8 @@ public class User {
         User user = new User();
         String[] biodata = s.split("\\|");
         user.setUserId(Integer.parseInt(biodata[0]));
-        user.setUserName(biodata[1]);
-        user.setPassword(biodata[2]);
+        user.getAccount().setUserName(biodata[1]);
+        user.getAccount().setPassword(biodata[2]);
         user.setFirstName(biodata[3]);
         user.setLastName(biodata[4]);
         user.setGender(biodata[5]);
@@ -129,9 +113,9 @@ public class User {
         StringBuilder sb = new StringBuilder();
         sb.append(getUserId());
         sb.append("|");
-        sb.append(getUserName());
+        sb.append(getAccount().getUserName());
         sb.append("|");
-        sb.append(getPassword());
+        sb.append(getAccount().getPassword());
         sb.append("|");
         sb.append(getFirstName());
         sb.append("|");

@@ -11,8 +11,6 @@ public class Playlist implements Comparable<Playlist>, Media {
     private ArrayList<Song> songs;
     private Date dateCreated;
 
-    private boolean isFavorite;
-
     public Playlist() {
         playlistId = -1;
         songs = new ArrayList<>();
@@ -58,13 +56,13 @@ public class Playlist implements Comparable<Playlist>, Media {
         this.name = name;
     }
 
-    public boolean isFavorite() {
+    /*public boolean isFavorite() {
         return isFavorite;
     }
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
-    }
+    }*/
 
     public static Playlist parsePlaylist(String s) {
         Playlist playlist = new Playlist();
