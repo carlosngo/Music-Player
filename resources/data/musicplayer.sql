@@ -112,7 +112,6 @@ CREATE TABLE `playlist` (
   `PK_PlaylistID` int(11) NOT NULL AUTO_INCREMENT,
   `FK_UserID` int(11) DEFAULT NULL,
   `Name` varchar(45) DEFAULT NULL,
-  `Favorite` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'No',
   `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_PlaylistID`),
   KEY `Playlist_UserID_idx` (`FK_UserID`),
@@ -170,11 +169,7 @@ CREATE TABLE `song` (
   `Name` varchar(45) NOT NULL,
   `Genre` varchar(45) DEFAULT NULL,
   `Year` year(4) DEFAULT NULL,
-  `Favorite` varchar(45) DEFAULT NULL,
-  `PlayTime` int(11) DEFAULT NULL,
-  `LastPlayed` timestamp(4) NULL DEFAULT NULL,
   `File` longblob,
-  `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_SongID`),
   KEY `Song_UserID_idx` (`FK_UserID`),
   KEY `Song_AlbumID_idx` (`FK_AlbumID`),
@@ -343,4 +338,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-08 14:59:27
+-- Dump completed on 2019-04-08 17:57:42
