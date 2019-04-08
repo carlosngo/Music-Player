@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `musicplayer` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `musicplayer`;
--- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: musicplayer
 -- ------------------------------------------------------
--- Server version	8.0.12
+-- Server version	8.0.13
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -87,7 +87,7 @@ CREATE TABLE `artist` (
   `Genre` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`PK_ArtistID`),
   KEY `Artist_AccountID_idx` (`FK_AccountID`),
-  CONSTRAINT `Artist_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`PK_AccountID`)
+  CONSTRAINT `Artist_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`pk_accountid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,7 +112,6 @@ CREATE TABLE `playlist` (
   `PK_PlaylistID` int(11) NOT NULL AUTO_INCREMENT,
   `FK_UserID` int(11) DEFAULT NULL,
   `Name` varchar(45) DEFAULT NULL,
-  `Favorite` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'No',
   `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_PlaylistID`),
   KEY `Playlist_UserID_idx` (`FK_UserID`),
@@ -170,11 +169,7 @@ CREATE TABLE `song` (
   `Name` varchar(45) NOT NULL,
   `Genre` varchar(45) DEFAULT NULL,
   `Year` year(4) DEFAULT NULL,
-  `Favorite` varchar(45) DEFAULT NULL,
-  `PlayTime` int(11) DEFAULT NULL,
-  `LastPlayed` timestamp(4) NULL DEFAULT NULL,
   `File` longblob,
-  `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_SongID`),
   KEY `Song_UserID_idx` (`FK_UserID`),
   KEY `Song_AlbumID_idx` (`FK_AlbumID`),
@@ -236,7 +231,7 @@ CREATE TABLE `user` (
   `Birthday` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_UserID`),
   KEY `User_AccountID_idx` (`FK_AccountID`),
-  CONSTRAINT `User_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`PK_AccountID`)
+  CONSTRAINT `User_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`pk_accountid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -247,6 +242,34 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `useralbum`
+--
+
+DROP TABLE IF EXISTS `useralbum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `useralbum` (
+  `FK_UserID` int(11) NOT NULL,
+  `FK_AlbumID` int(11) NOT NULL,
+  `isFavorite` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`FK_UserID`,`FK_AlbumID`),
+  KEY `Useralbum_AlbumID_idx` (`FK_AlbumID`),
+  KEY `Useralbum_UserID_idx` (`FK_UserID`),
+  CONSTRAINT `Useralbum_AlbumID` FOREIGN KEY (`FK_AlbumID`) REFERENCES `album` (`pk_albumid`),
+  CONSTRAINT `Useralbum_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `useralbum`
+--
+
+LOCK TABLES `useralbum` WRITE;
+/*!40000 ALTER TABLE `useralbum` DISABLE KEYS */;
+/*!40000 ALTER TABLE `useralbum` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -315,4 +338,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-07 20:44:22
+-- Dump completed on 2019-04-08 17:57:42

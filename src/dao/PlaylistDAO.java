@@ -20,13 +20,15 @@ public class PlaylistDAO implements DataAccessObject {
             "UPDATE " + Database.PLAYLIST_TABLE + " SET FK_UserID = ?, Name = ?, Favorite = ? WHERE PK_PlaylistID = ?";
     private static final String SQL_LIST_BY_ID =
             "SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ?";
-    private static final String SQL_LIST_FAVORITES =
-            "SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Favorite = ?";
+   
+   // private static final String SQL_LIST_FAVORITES =
+    //        "SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Favorite = ?";
+   
     private static final String SQL_EXIST_PLAYLIST =
             "SELECT * FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ? AND Name = ?";
     private static final String SQL_LIST_BY_PLAYLIST_ID = 
     		"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE;
-    
+ 
 
     public PlaylistDAO(DAOFactory db) {
         this.db = db;

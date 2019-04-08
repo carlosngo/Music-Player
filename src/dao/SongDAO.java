@@ -35,8 +35,8 @@ public class SongDAO implements DataAccessObject {
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_ALBUM =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_AlbumID = ? AND FK_ArtistID = ?";
-    private static final String SQL_LIST_BY_FAVORITE =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE Favorite = ? AND FK_ArtistID = ?";
+   // private static final String SQL_LIST_BY_FAVORITE =
+    //        "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE Favorite = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_PLAYLIST =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.PLAYLISTSONG_TABLE + " ON " + Database.SONG_TABLE + ".PK_SongID = " + Database.PLAYLISTSONG_TABLE + ".FK_SongID " +
                     "INNER JOIN " + Database.PLAYLIST_TABLE + " ON " + Database.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + Database.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + Database.SONG_TABLE + ".FK_ArtistID = ? AND " + Database.PLAYLIST_TABLE + ".PK_PlaylistID = ?";

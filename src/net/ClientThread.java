@@ -5,7 +5,6 @@ import model.*;
 import util.FileUtil;
 import util.Protocol;
 
-import java.text.ParseException;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -59,12 +58,12 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         song = Song.parseSong(in.readLine());
                         server.deleteSong(song);
                         break;
-                    case EDITSONG:
+                    case UPDATESONG:
                         song = Song.parseSong(in.readLine());
-                        server.editSong(song);
+                        server.updateSong(song);
                         break;
                     case PLAYSONG:
-                        server.incrementPlayCount(Integer.parseInt(in.readLine()));
+                        server.playSong(Integer.parseInt(in.readLine()));
                         break;
                     case FOLLOWSONG:
                         server.followSong(messageFromClient.substring(10));
@@ -84,10 +83,12 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         else reply.append("NO");
                         break;
                     case DELETEPLAYLIST:
-                        server.deletePlaylist(messageFromClient.substring(14));
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        server.deletePlaylist(playlist);
                         break;
-                    case EDITPLAYLIST:
-                        server.editPlaylist(messageFromClient.substring(12));
+                    case UPDATEPLAYLIST:
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        server.updatePlaylist(playlist);
                         break;
                     case PLAYPLAYLIST:
                         server.playPlaylist(messageFromClient.substring(12));
@@ -110,10 +111,12 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         else reply.append("NO");
                         break;
                     case DELETEALBUM:
-                        server.deleteAlbum(messageFromClient.substring(11));
+                        album = Album.parseAlbum(in.readLine());
+                        server.deleteAlbum(album);
                         break;
-                    case EDITALBUM:
-                        server.editAlbum(messageFromClient.substring(9));
+                    case UPDATEALBUM:
+                        album = Album.parseAlbum(in.readLine());
+                        server.updateAlbum(album);
                         break;
                     case PLAYALBUM:
                         server.playAlbum(messageFromClient.substring(9));
@@ -135,8 +138,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         if (server.addUser(user)) reply.append(Protocol.OK);
                         else reply.append(Protocol.NO);
                         break;
-                    case EDITUSER:
-                        server.editUser(messageFromClient.substring(8));
+                    case UPDATEUSER:
+                        user = User.parseUser(in.readLine());
+                        server.updateUser(user);
                         break;
                     case FOLLOWUSER:
                         server.followUser(messageFromClient.substring(10));
@@ -155,9 +159,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         if (server.addArtist(artist)) reply.append(Protocol.OK);
                         else reply.append(Protocol.NO);
                         break;
-                    case EDITARTIST:
-                        server.editArtist(messageFromClient.substring(10));
-
+                    case UPDATEARTIST:
+                        artist = Artist.parseArtist(in.readLine());
+                        server.updateArtist(artist);
                         break;
                     case FOLLOWARTIST:
                         server.followArtist(messageFromClient.substring(12));
