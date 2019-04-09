@@ -26,7 +26,8 @@ public class PlaylistDAO implements DataAccessObject {
 			"SELECT * FROM " + Database.PLAYLIST_TABLE + " WHERE Name = ? AND FK_AccountID = ?";
 	private static final String SQL_LIST_BY_PLAYLIST_ID = 
 			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE;
-
+	private static final String SQL_SEARCH_BY_KEYWORD =
+			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE Name LIKE ?";
 
 	public PlaylistDAO(DAOFactory db) {
 		this.db = db;
@@ -49,27 +50,27 @@ public class PlaylistDAO implements DataAccessObject {
 	public Playlist find(int playlistId) {
 		return find(SQL_FIND_BY_ID, playlistId);
 	}
-	
+
 	public Playlist findByName(String playlistName, int userId) {
 		return find(SQL_FIND_BY_PLAYLIST_NAME, playlistName, userId);
 	}
-	
+
 	private Playlist find(String sql, Object... values) {
-        Playlist playlist = null;
-        Connection connection = Database.getConnection();
-        try (
-             PreparedStatement statement = prepareStatement(connection, sql, false, values);
-             ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
-                playlist = map(resultSet);
-            }
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        return playlist;
-    }
-	
-	
+		Playlist playlist = null;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, sql, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			if (resultSet.next()) {
+				playlist = map(resultSet);
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return playlist;
+	}
+
+
 
 	public void create(Playlist playlist) throws IllegalArgumentException {
 		if (playlist.getPlaylistId() != -1) {
@@ -151,9 +152,9 @@ public class PlaylistDAO implements DataAccessObject {
 		ArrayList<Playlist> playlists = new ArrayList<>();
 
 		Object[] values = {
-				
+
 		};
-		
+
 		Connection connection = Database.getConnection();
 		try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_PLAYLIST_ID, false, values);) {
 			ResultSet rs = statement.executeQuery();
@@ -173,7 +174,7 @@ public class PlaylistDAO implements DataAccessObject {
 		Object[] values = {
 				accId
 		};
-		
+
 		Connection connection = Database.getConnection();
 		try (PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ACCOUNT_ID, false, values);) {
 			ResultSet rs = statement.executeQuery();
@@ -182,6 +183,24 @@ public class PlaylistDAO implements DataAccessObject {
 				playlists.add(map(rs));
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return playlists;
+	}
+
+	public ArrayList<Playlist> search(String name){
+		ArrayList<Playlist> playlists = new ArrayList<>();
+		Object[] values = {
+				"%" + name + "%"
+		};
+		Connection connection = Database.getConnection();
+
+		try(PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_BY_KEYWORD, false, values);){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				playlists.add(map(rs));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return playlists;
@@ -206,7 +225,7 @@ public class PlaylistDAO implements DataAccessObject {
         return playlists;
     }*/
 
-	
+
 
 	public static void main(String[] args) {
 		//        DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
