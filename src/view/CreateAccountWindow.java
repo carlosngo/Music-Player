@@ -11,7 +11,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
     private UserController controller;
     private JTextField usernameInput, firstNameInput, lastNameInput;
     private JPasswordField passwordInput;
-    private JComboBox mon, day, yr, gender;
+    private JComboBox mon, day, yr, gender, userType;
     private JButton cancel, createAccount;
 
     public CreateAccountWindow(UserController controller){
@@ -127,6 +127,25 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         p.add(p4);
         p.add(Box.createRigidArea(new Dimension(0,7))); // add space
 
+        JPanel P8 = new JPanel();
+        P8.setOpaque(false);
+        P8.setLayout(new BoxLayout(P8, BoxLayout.X_AXIS));
+        P8.add(Box.createRigidArea(new Dimension(15,0))); // add space
+        JLabel userTypeLbl = new JLabel("User Type:");
+        userTypeLbl.setForeground(Color.white);
+        userTypeLbl.setFont(new Font("Arial", Font.BOLD, 22));
+        P8.add(userTypeLbl);
+        String[] typeList = {"Choose user type", "Listener", "Artist"};
+        userType = new JComboBox(typeList);
+        userType.setFont(new Font("Arial", Font.PLAIN, 16));
+        //userType.setEnabled(false);
+        //userType.setBackground(new Color(152,251,152));
+        userType.addActionListener(this);
+        P8.add(userType);
+        P8.add(Box.createRigidArea(new Dimension(15,0))); // add space
+        p.add(P8);
+        p.add(Box.createRigidArea(new Dimension(0,7))); // add space
+
         JPanel p5 = new JPanel();
         p5.setOpaque(false);
         p5.setLayout(new BoxLayout(p5, BoxLayout.X_AXIS));
@@ -187,6 +206,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         createAccount.setBackground(new Color(1,121,150));
         createAccount.setOpaque(true);
         createAccount.setBorderPainted(false);
+        createAccount.setEnabled(false);
         p7.add(createAccount);
         p.add(p7);
         p.add(Box.createRigidArea(new Dimension(0,7))); // add space
@@ -204,7 +224,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         String pw = new String(passwordInput.getPassword());
         if (!usernameInput.getText().trim().equals("") && !firstNameInput.getText().trim().equals("")
                 && !lastNameInput.getText().trim().equals("") && !pw.equals("") ) {
-            if (gender.getSelectedIndex() != 0) {
+            if ((gender.getSelectedIndex() != 0) && (userType.getSelectedIndex() != 0)) {
                 if (yr.getSelectedIndex() != 0) {
                     if (mon.getSelectedIndex() != 0) {
                         if (day.getSelectedIndex() != 0 ) {
@@ -229,7 +249,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
             Calendar c = Calendar.getInstance();
             c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
             boolean success = controller.register(usernameInput.getText(), pw, firstNameInput.getText(),
-                    lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
+                    lastNameInput.getText(), (String)gender.getSelectedItem(), (String) userType.getSelectedItem(), c.getTime());
             if (!success) {
                 JOptionPane.showMessageDialog(null, "Username already exists.",
                         "Registration Error", JOptionPane.ERROR_MESSAGE);

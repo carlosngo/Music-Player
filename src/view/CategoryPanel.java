@@ -22,12 +22,12 @@ public class CategoryPanel extends JPanel {
     private JLabel headerName;
     private JScrollPane scroll;
     private JPanel block;
-    private ArrayList<String> data;
+    private ArrayList<ArrayList<String>> data;
     private boolean isNormalPlaylist = false;
 
     private int i;
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
-    public CategoryPanel(SongController controller, String category, ArrayList<String> subCategoryList){
+    public CategoryPanel(SongController controller, String category, ArrayList<ArrayList<String>> subCategoryList){
         this.controller = controller;
         data = subCategoryList;
 
@@ -70,7 +70,7 @@ public class CategoryPanel extends JPanel {
         }
         else{
             for(i=0; i<subCategoryList.size(); i++){
-                addRow(category, subCategoryList.get(i));
+                addRow(category, subCategoryList.get(i).get(0), subCategoryList.get(i).get(1));
             }
             add(scroll);
         }
@@ -86,12 +86,19 @@ public class CategoryPanel extends JPanel {
         isNormalPlaylist = normalPlaylist;
     }
 
-    public void addRow(String category, String subCategoryName) {
+    public void addRow(String category, String subCategoryName, String subCategoryCreator) {
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
         subOptionButton.setBorderPainted(false);
         subOptionButton.setForeground(Color.white);
+
+        JButton creator = new JButton();
+        creator.setOpaque(false);
+        creator.setContentAreaFilled(false);
+        creator.setBorderPainted(false);
+        creator.setForeground(Color.magenta);
+
         JButton favPlaylist = new JButton();
         favPlaylist.setOpaque(false);
         favPlaylist.setContentAreaFilled(false);
@@ -195,6 +202,15 @@ public class CategoryPanel extends JPanel {
                         controller.showSongsByArtist(subCategoryName);
                         break;
                 }
+            }
+        });
+
+        creator.setText(subCategoryName);
+
+        creator.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.showSongsByArtist(subCategoryName);
             }
         });
 
@@ -356,24 +372,27 @@ public class CategoryPanel extends JPanel {
         cons.gridy = i;
         cons.gridwidth = 1;
         block.add(subOptionButton, cons);
-        cons.insets = new Insets(5, 0, 0, 0);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 2;
+        block.add(creator, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 3;
+        block.add(play, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 4;
+        block.add(addToQueue, cons);
+        cons.insets = new Insets(5, 0, 0, 0);
+        cons.gridx = 5;
         cons.gridwidth = 1;
         block.add(edit, cons);
         cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 5;
+        cons.gridx = 6;
         block.add(remove, cons);
         cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 2;
-        block.add(play, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 6;
+        cons.gridx = 7;
         block.add(favPlaylist, cons);
         cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 6;
+        cons.gridx = 8;
         block.add(changeCover, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 3;
-        block.add(addToQueue, cons);
     }
 }

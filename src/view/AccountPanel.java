@@ -72,7 +72,7 @@ public class AccountPanel extends JPanel {
             }
         });
 //        add(addSongs);
-        p.add(addSongs, BorderLayout.EAST);
+        //p.add(addSongs, BorderLayout.EAST);
         //add(Box.createRigidArea(new Dimension(5,0)));
 
         logIn = new JButton("Log In");

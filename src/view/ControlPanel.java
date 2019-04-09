@@ -5,19 +5,22 @@ import util.ImageResizer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 
 public class ControlPanel extends JPanel implements ActionListener {
     private SongController controller;
-    private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs, favPlaylists;
+    private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs,
+            favPlaylists, addSong;
 
-    public ControlPanel(SongController controller){
+    public ControlPanel(SongController controller, boolean isArtist){
         this.controller = controller;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -448,6 +451,45 @@ public class ControlPanel extends JPanel implements ActionListener {
         });
         add(addPlaylist);
 
+        addSong = new JButton();
+        addSong.setActionCommand("Add Song");
+        addSong.setForeground(Color.white);
+        addSong.addActionListener(this);
+        addSong.setOpaque(false);
+        addSong.setContentAreaFilled(false);
+        addSong.setBorderPainted(false);
+        addSong.setMaximumSize(new Dimension(200, 40));
+        addSong.setMinimumSize(new Dimension(200, 40));
+        addSong.setPreferredSize(new Dimension(200, 40));
+        addSong.setFont(new Font("Arial", Font.BOLD, 14));
+        addSong.addMouseListener(new MouseAdapter() {
+            Color oldColor = addSong.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAddSong.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addSong.setText("Add Song");
+                } catch(Exception exception){
+
+                }
+                addSong.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/addSong.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addSong.setText("Add Song");
+                } catch(Exception exception){
+
+                }
+                addSong.setForeground(oldColor);
+            }
+        });
+        if(isArtist)
+            add(addSong);
+
         try{
             URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
             BufferedImage img = ImageIO.read(resource);
@@ -493,6 +535,10 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = ImageIO.read(resource);
             artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             artists.setText("Artists");
+            resource = getClass().getClassLoader().getResource("images/addSong.png");
+            img = ImageIO.read(resource);
+            artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            artists.setText("AddSong");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -536,6 +582,9 @@ public class ControlPanel extends JPanel implements ActionListener {
         if(e.getSource() == addPlaylist){
             controller.openAddPlaylistWindow();
 //            AddPlaylistWindow apw = new AddPlaylistWindow();
+        }
+        if(e.getSource() == addSong){
+            controller.getMainController().getAc().openAddSongWindow();
         }
     }
 }
