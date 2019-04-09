@@ -8,19 +8,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.Account;
 import model.Playlist;
 import model.Song;
 import model.User;
 
 public class AccountPlaylistDAO implements DataAccessObject {
 
-	private static String SQL_LIST_BY_USER_ID = "SELECT FK_PlaylistID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
-	private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_UserID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
+	private static String SQL_LIST_BY_ACCOUNT_ID = "SELECT FK_PlaylistID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_AccountID = ?";
+	private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_AccountID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
 	private static String SQL_INSERT =
 			"INSERT INTO " + Database.ACCOUNTPLAYLIST_TABLE + " (" + Database.ACCOUNTPLAYLIST_COLUMNS + ") VALUES (?, ?, ?)";
 	private static String SQL_DELETE =
-			"DELETE FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_UserID = ? AND FK_PlaylistID = ?";
-	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_UserID = ? AND isFavorite = ?";
+			"DELETE FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND isFavorite = ?";
 
 	private DAOFactory db;
 
@@ -28,9 +29,9 @@ public class AccountPlaylistDAO implements DataAccessObject {
 		this.db = db;
 	}
 
-	public void join(User u, Playlist p) {
+	public void join(Account acc, Playlist p) {
 		Object[] values = {
-				u.getUserId(),
+				acc.getId(),
 				p.getPlaylistId(),
 				false
 		};
@@ -43,11 +44,11 @@ public class AccountPlaylistDAO implements DataAccessObject {
 		}
 	}
 
-	public void separate(User u, Playlist p) {
-		if (p.getPlaylistId() == -1 || u.getUserId() == -1)
+	public void separate(Account acc, Playlist p) {
+		if (p.getPlaylistId() == -1 || acc.getId() == -1)
 			return;
 		Object[] values = {
-				u.getUserId(),
+				acc.getId(),
 				p.getPlaylistId()
 		};
 		try {
@@ -76,11 +77,11 @@ public class AccountPlaylistDAO implements DataAccessObject {
 		return keys;
 	}
 
-	public ArrayList<Integer> listBySongId(int userId) {
+	public ArrayList<Integer> listBySongId(int accId) {
 		ArrayList<Integer> keys = new ArrayList<>();
 		Connection con = Database.getConnection();
 		try (
-				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_USER_ID, false, userId);
+				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ACCOUNT_ID, false, accId);
 				ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				keys.add(rs.getInt(1));
@@ -92,11 +93,11 @@ public class AccountPlaylistDAO implements DataAccessObject {
 		return keys;
 	}
 
-	public ArrayList<Integer> listByUserFavorites(int userId){
+	public ArrayList<Integer> listByUserFavorites(int accId){
 		ArrayList<Integer> keys = new ArrayList<>();
 		Connection con = Database.getConnection();
 		try (
-				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_USER_FAVORITE, false, userId, true);
+				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_USER_FAVORITE, false, accId, true);
 				ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				keys.add(rs.getInt(1));

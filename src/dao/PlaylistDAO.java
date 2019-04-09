@@ -15,15 +15,15 @@ public class PlaylistDAO implements DataAccessObject {
 	private static final String SQL_FIND_BY_ID =
 			"SELECT " + Database.PLAYLIST_COLUMNS +" FROM " + Database.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
 	private static final String SQL_INSERT =
-			"INSERT INTO " + Database.PLAYLIST_TABLE + " (FK_UserID, Name, DateCreated) VALUES (?, ?, ?)";
+			"INSERT INTO " + Database.PLAYLIST_TABLE + " (FK_AccountID, Name, DateCreated) VALUES (?, ?, ?)";
 	private static final String SQL_DELETE =
 			"DELETE FROM " + Database.PLAYLIST_TABLE + " WHERE PK_PlaylistID = ?";
 	private static final String SQL_UPDATE =
-			"UPDATE " + Database.PLAYLIST_TABLE + " SET FK_UserID = ?, Name = ?, DateCreated = ? WHERE PK_PlaylistID = ?";
-	private static final String SQL_LIST_BY_USER_ID =
-			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE FK_UserID = ?";
+			"UPDATE " + Database.PLAYLIST_TABLE + " SET FK_AccountID = ?, Name = ?, DateCreated = ? WHERE PK_PlaylistID = ?";
+	private static final String SQL_LIST_BY_ACCOUNT_ID =
+			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE FK_AccountID = ?";
 	private static final String SQL_FIND_BY_PLAYLIST_NAME =
-			"SELECT * FROM " + Database.PLAYLIST_TABLE + " WHERE Name = ? AND FK_UserID = ?";
+			"SELECT * FROM " + Database.PLAYLIST_TABLE + " WHERE Name = ? AND FK_AccountID = ?";
 	private static final String SQL_LIST_BY_PLAYLIST_ID = 
 			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE;
 
@@ -165,15 +165,15 @@ public class PlaylistDAO implements DataAccessObject {
 		return playlists;
 	}
 
-	public ArrayList<Playlist> listByUserId(int userId) {
+	public ArrayList<Playlist> listByUserId(int accId) {
 		ArrayList<Playlist> playlists = new ArrayList<>();
 
 		Object[] values = {
-				userId
+				accId
 		};
 		
 		Connection connection = Database.getConnection();
-		try (PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_USER_ID, false, values);) {
+		try (PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ACCOUNT_ID, false, values);) {
 			ResultSet rs = statement.executeQuery();
 
 			while(rs.next()) {

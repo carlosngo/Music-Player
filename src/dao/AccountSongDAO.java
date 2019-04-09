@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.Account;
 import model.Playlist;
 import model.Song;
 import model.User;
@@ -15,20 +16,20 @@ import model.User;
 public class AccountSongDAO implements DataAccessObject {
 	private DAOFactory db;
 
-	private static String SQL_LIST_BY_SONG_ID = "SELECT FK_UserID FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_SongID = ?";
-	private static String SQL_LIST_BY_USER_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
+	private static String SQL_LIST_BY_SONG_ID = "SELECT FK_AccountID FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_SongID = ?";
+	private static String SQL_LIST_BY_ACCOUNT_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_AccountID = ?";
 	private static String SQL_INSERT =
 			"INSERT INTO " + Database.ACCOUNTSONG_TABLE + " (" + Database.ACCOUNTSONG_COLUMNS + ") VALUES (?, ?, ?, ?, ?)";
 	private static String SQL_DELETE =
-			"DELETE FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_UserID = ? AND FK_SongID = ?";
+			"DELETE FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
 
 	public AccountSongDAO(DAOFactory db) {
 		this.db = db;
 	}
 
-	public void join(User u, Song s) {
+	public void join(Account acc, Song s) {
 		Object[] values = {
-				u.getUserId(),
+				acc.getId(),
 				s.getSongId(),
 				false,
 				null,
@@ -44,11 +45,11 @@ public class AccountSongDAO implements DataAccessObject {
 		}
 	}
 
-	public void separate(User u, Song s) {
-		if (u.getUserId() == -1 || s.getSongId() == -1)
+	public void separate(Account acc, Song s) {
+		if (acc.getId() == -1 || s.getSongId() == -1)
 			return;
 		Object[] values = {
-				u.getUserId(),
+				acc.getId(),
 				s.getSongId()
 		};
 		try {
@@ -61,11 +62,11 @@ public class AccountSongDAO implements DataAccessObject {
 		}
 	}
 
-	public ArrayList<Integer> listByUserId(int userId) {
+	public ArrayList<Integer> listByUserId(int accId) {
 		ArrayList<Integer> keys = new ArrayList<>();
 		Connection con = Database.getConnection();
 		try (
-				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_USER_ID, false, userId);
+				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ACCOUNT_ID, false, accId);
 				ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				keys.add(rs.getInt(1));
