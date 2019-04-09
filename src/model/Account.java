@@ -39,4 +39,24 @@ public class Account {
 	public void setFollowers(ArrayList<Account> followers) {
 		this.followers = followers;
 	}
+
+	public static Account parseAccount(String s){
+		Account account = new Account();
+		String[] accountData = s.split("\\|");
+		account.setId(Integer.parseInt(accountData[0]));
+		account.setUserName(accountData[1]);
+		account.setPassword(accountData[2]);
+		return account;
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append(getId());
+		sb.append("|");
+		sb.append(getUserName());
+		sb.append("|");
+		sb.append(getPassword());
+		return sb.toString();
+	}
 }
