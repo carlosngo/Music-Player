@@ -77,7 +77,8 @@ public class PlaylistDAO implements DataAccessObject {
 		}
 
 		Object[] values = {
-				playlist.getUser().getUserId(),
+				//playlist.getUser().getUserId(),
+				playlist.getAccount().getId(),
 				playlist.getName(),
 				playlist.getDateCreated()
 		};
@@ -127,7 +128,8 @@ public class PlaylistDAO implements DataAccessObject {
 		}
 
 		Object[] values = {
-				playlist.getUser().getUserId(),
+				//playlist.getUser().getUserId(),
+				playlist.getAccount().getId(),
 				playlist.getName(),
 				playlist.getPlaylistId()
 		};

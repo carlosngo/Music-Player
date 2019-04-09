@@ -7,6 +7,7 @@ import java.util.*;
 public class Playlist implements Comparable<Playlist>, Media {
     private int playlistId;
     private User user;
+    private Account account;
     private String name;
     private ArrayList<Song> songs;
     private Date dateCreated;
@@ -32,6 +33,14 @@ public class Playlist implements Comparable<Playlist>, Media {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public Account getAccount() {
+    	return account;
+    }
+    
+    public void setAccount(Account acc) {
+    	this.account = acc;
     }
 
     public ArrayList<Song> getSongs() {
@@ -74,9 +83,12 @@ public class Playlist implements Comparable<Playlist>, Media {
         Playlist playlist = new Playlist();
         String[] playlistData = s.split("\\|");
         playlist.setPlaylistId(Integer.parseInt(playlistData[0]));
-        User user = new User();
-        user.setUserId(Integer.parseInt(playlistData[1]));
-        playlist.setUser(user);
+        //User user = new User();
+        //user.setUserId(Integer.parseInt(playlistData[1]));
+        //playlist.setUser(user);
+        Account acc = new Account();
+        acc.setId(Integer.parseInt(playlistData[1]));
+        playlist.setAccount(acc);
         playlist.setName(playlistData[2]);
         try {
             Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(playlistData[3]);
@@ -92,7 +104,8 @@ public class Playlist implements Comparable<Playlist>, Media {
         StringBuilder sb = new StringBuilder();
         sb.append(getPlaylistId());
         sb.append("|");
-        sb.append(getUser().getUserId());
+        //sb.append(getUser().getUserId());
+        sb.append(getAccount().getId());
         sb.append("|");
         sb.append(getName());
         sb.append("|");
