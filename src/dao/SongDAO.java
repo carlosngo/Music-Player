@@ -49,7 +49,7 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_LIST_BY_ARTIST = 
     		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ARTIST_TABLE + " ON " + Database.SONG_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + 
     		Database.ARTIST_TABLE + ".Name = ?";
-    private static final String SQL_SEARCH_FOR_KEYWORD = 
+    private static final String SQL_SEARCH_BY_KEYWORD = 
     		"SELECT * FROM " + Database.SONG_TABLE + " WHERE Name LIKE ?";
     private static final String PATH =
             "resources/music/";
@@ -422,7 +422,7 @@ public class SongDAO implements DataAccessObject {
     	};
     	Connection connection = Database.getConnection();
     	
-    	try(PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_FOR_KEYWORD, false, values);){
+    	try(PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_BY_KEYWORD, false, values);){
     		ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 songs.add(map(rs));

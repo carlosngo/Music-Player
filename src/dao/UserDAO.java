@@ -1,6 +1,7 @@
 package dao;
 
 import model.Account;
+import model.Playlist;
 import model.User;
 
 import java.sql.*;
@@ -27,7 +28,8 @@ public class UserDAO implements DataAccessObject {
 			"UPDATE " + Database.USER_TABLE + " SET FK_AccountID, FirstName = ?, LastName = ?, Gender = ?, Birthday = ? WHERE PK_UserID = ?";
 	private static final String SQL_EXIST_USERNAME =
 			"SELECT PK_UserID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
-
+	private static final String SQL_SEARCH_BY_KEYWORD = 
+			"SELECT * FROM " + Database.USER_TABLE + " WHERE FirstName LIKE ? OR LastName LIKE ?";
 	public UserDAO(DAOFactory db) {
 		this.db = db;
 	}
@@ -180,6 +182,25 @@ public class UserDAO implements DataAccessObject {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	public ArrayList<User> search(String name){
+		ArrayList<User> users = new ArrayList<>();
+		Object[] values = {
+				"%" + name + "%",
+				"%" + name + "%"
+		};
+		Connection connection = Database.getConnection();
+
+		try(PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_BY_KEYWORD, false, values);){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				users.add(map(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 	public static void main(String[] args) {
