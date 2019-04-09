@@ -6,6 +6,11 @@ public class PlayEvent {
     Object source;
     Song songPlayed;
 
+    public PlayEvent(Object source, Song song) {
+        this.source = source;
+        songPlayed = song;
+    }
+
     public Object getSource() {
         return source;
     }

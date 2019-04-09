@@ -6,6 +6,11 @@ public class UploadEvent {
     private Object source;
     private Media mediaUploaded;
 
+    public UploadEvent(Object source, Media media) {
+        this.source = source;
+        mediaUploaded = media;
+    }
+
     public Object getSource() {
         return source;
     }

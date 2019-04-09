@@ -36,6 +36,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 Album album;
                 User user;
                 Artist artist;
+                Account account;
                 StringBuilder sb;
                 Protocol protocol = Protocol.valueOf(messageFromClient);
                 StringBuilder reply = new StringBuilder();
@@ -51,8 +52,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDSONG:
                         song = Song.parseSong(in.readLine());
-                        if (server.addSong(song)) reply.append("OK");
-                        else reply.append("NO");
+                        if (server.addSong(song)) {
+                            reply.append("OK\n");
+                            reply.append(song.getSongId());
+                        } else reply.append("NO");
                         break;
                     case DELETESONG:
                         song = Song.parseSong(in.readLine());
@@ -63,10 +66,12 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.updateSong(song);
                         break;
                     case PLAYSONG:
-                        server.playSong(Integer.parseInt(in.readLine()));
+                        server.playSong(Account.parseAccount(in.readLine()), Song.parseSong(in.readLine()));
                         break;
                     case FOLLOWSONG:
-                        server.followSong(messageFromClient.substring(10));
+                        account = Account.parseAccount(in.readLine());
+                        song = Song.parseSong(in.readLine());
+                        server.followSong(account, song);
                         break;
                     case GETPLAYLISTS:
                         ArrayList<Playlist> playlists = server.getPlaylists();
@@ -79,8 +84,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDPLAYLIST:
                         playlist = Playlist.parsePlaylist(in.readLine());
-                        if (server.addPlaylist(playlist)) reply.append("OK");
-                        else reply.append("NO");
+                        if (server.addPlaylist(playlist)) {
+                            reply.append("OK\n");
+                            reply.append(playlist.getPlaylistId());
+                        } else reply.append("NO");
                         break;
                     case DELETEPLAYLIST:
                         playlist = Playlist.parsePlaylist(in.readLine());
@@ -90,11 +97,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         playlist = Playlist.parsePlaylist(in.readLine());
                         server.updatePlaylist(playlist);
                         break;
-                    case PLAYPLAYLIST:
-                        server.playPlaylist(messageFromClient.substring(12));
-                        break;
                     case FOLLOWPLAYLIST:
-                        server.followPlaylist(messageFromClient.substring(14));
+                        account = Account.parseAccount(in.readLine());
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        server.followPlaylist(account, playlist);
                         break;
                     case GETALBUMS:
                         ArrayList<Album> albums = server.getAlbums();
@@ -107,8 +113,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDALBUM:
                         album = Album.parseAlbum(in.readLine());
-                        if (server.addAlbum(album)) reply.append("OK");
-                        else reply.append("NO");
+                        if (server.addAlbum(album)) {
+                            reply.append("OK\n");
+                            reply.append(album.getAlbumId());
+                        } else reply.append("NO");
                         break;
                     case DELETEALBUM:
                         album = Album.parseAlbum(in.readLine());
@@ -118,11 +126,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         album = Album.parseAlbum(in.readLine());
                         server.updateAlbum(album);
                         break;
-                    case PLAYALBUM:
-                        server.playAlbum(messageFromClient.substring(9));
-                        break;
                     case FOLLOWALBUM:
-                        server.followAlbum(messageFromClient.substring(11));
+                        account = Account.parseAccount(in.readLine());
+                        album = Album.parseAlbum(in.readLine());
+                        server.followAlbum(account, album);
                         break;
                     case GETUSERS:
                         ArrayList<User> users = server.getUsers();
@@ -135,15 +142,19 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDUSER:
                         user = User.parseUser(in.readLine());
-                        if (server.addUser(user)) reply.append(Protocol.OK);
-                        else reply.append(Protocol.NO);
+                        if (server.addUser(user)) {
+                            reply.append("OK\n");
+                            reply.append(user.getUserId());
+                        } else reply.append(Protocol.NO);
                         break;
                     case UPDATEUSER:
                         user = User.parseUser(in.readLine());
                         server.updateUser(user);
                         break;
                     case FOLLOWUSER:
-                        server.followUser(messageFromClient.substring(10));
+                        account = Account.parseAccount(in.readLine());
+                        user = User.parseUser(in.readLine());
+                        server.followUser(account, user);
                         break;
                     case GETARTISTS:
                         ArrayList<Artist> artists = server.getArtists();
@@ -156,15 +167,19 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDARTIST:
                         artist = Artist.parseArtist(in.readLine());
-                        if (server.addArtist(artist)) reply.append(Protocol.OK);
-                        else reply.append(Protocol.NO);
+                        if (server.addArtist(artist)) {
+                            reply.append("OK\n");
+                            reply.append(artist.getArtistId());
+                        } else reply.append(Protocol.NO);
                         break;
                     case UPDATEARTIST:
                         artist = Artist.parseArtist(in.readLine());
                         server.updateArtist(artist);
                         break;
                     case FOLLOWARTIST:
-                        server.followArtist(messageFromClient.substring(12));
+                        account = Account.parseAccount(in.readLine());
+                        artist = Artist.parseArtist(in.readLine());
+                        server.followArtist(account, artist);
                         break;
                     case GETIMAGEFILE:
                         album = server.getAlbum(Integer.parseInt(in.readLine()));

@@ -1,6 +1,9 @@
 package net;
 
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import dao.*;
+import events.PlayEvent;
+import events.UploadEvent;
 import model.*;
 
 import java.util.concurrent.*;
@@ -15,7 +18,12 @@ public class Server {
     private static final Server singleton = new Server();
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final Map<Integer, ClientThread> onlineUsers = Collections.synchronizedMap(new HashMap<>());
+
     private final UserDAOFactory userDAOFactory = new UserDAOFactory();
+    private final AccountSongDAOFactory accountSongDAOFactory = new AccountSongDAOFactory();
+    private final AccountPlaylistDAOFactory accountPlaylistDAOFactory = new AccountPlaylistDAOFactory();
+    private final AccountAlbumDAOFactory accountAlbumDAOFactory = new AccountAlbumDAOFactory();
+    private final SubscriptionDAOFactory subscriptionDAOFactory = new SubscriptionDAOFactory();
     private final SongDAOFactory songDAOFactory = new SongDAOFactory();
     private final AlbumDAOFactory albumDAOFactory = new AlbumDAOFactory();
     private final PlaylistDAOFactory playlistDAOFactory = new PlaylistDAOFactory();
@@ -67,6 +75,12 @@ public class Server {
             System.out.println("Song was not added.");
             return false;
         }
+        Artist artist = song.getArtist();
+        ArrayList<Integer> followers =
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(artist.getAccount().getId());
+        for (int i = 0; i < followers.size(); i++) {
+            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist, song));
+        }
         return true;
     }
 
@@ -86,12 +100,21 @@ public class Server {
         }
     }
 
-    public void playSong(int songId){
-
+    public void playSong(Account account, Song song){
+        ArrayList<Integer> followers =
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(account.getId());
+        for (int i = 0; i < followers.size(); i++) {
+            onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
+        }
+        ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
     }
 
-    public void followSong(String name){
-
+    public void followSong(Account account, Song song) {
+        try {
+            ((AccountSongDAO)accountSongDAOFactory.getDAO()).join(account, song);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not followed");
+        }
     }
 
     public ArrayList<Playlist> getPlaylists() {
@@ -104,6 +127,12 @@ public class Server {
         } catch (IllegalArgumentException e) {
             System.out.println("Song was not added.");
             return false;
+        }
+        Account account = playlist.getAccount();
+        ArrayList<Integer> followers =
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(account.getId());
+        for (int i = 0; i < followers.size(); i++) {
+            onlineUsers.get(followers.get(i)).listen(new UploadEvent(account, playlist));
         }
         return true;
     }
@@ -124,12 +153,12 @@ public class Server {
         }
     }
 
-    public void playPlaylist(String name){
-
-    }
-
-    public void followPlaylist(String name){
-
+    public void followPlaylist(Account account, Playlist playlist){
+        try {
+            ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).join(account, playlist);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not followed");
+        }
     }
 
     public Album getAlbum(int albumId) {
@@ -146,6 +175,12 @@ public class Server {
         } catch (IllegalArgumentException e) {
             System.out.println("Song was not added.");
             return false;
+        }
+        Artist artist = album.getArtist();
+        ArrayList<Integer> followers =
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(artist.getAccount().getId());
+        for (int i = 0; i < followers.size(); i++) {
+            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist, album));
         }
         return true;
     }
@@ -166,12 +201,12 @@ public class Server {
         }
     }
 
-    public void playAlbum(Album album){
-
-    }
-
-    public void followAlbum(String name){
-
+    public void followAlbum(Account account, Album album){
+        try {
+            ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).join(account, album);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not followed");
+        }
     }
 
     public ArrayList<User> getUsers(){
@@ -198,8 +233,12 @@ public class Server {
         }
     }
 
-    public void followUser(String name){
-
+    public void followUser(Account account, User user){
+        try {
+            ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).join(account, user.getAccount());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not followed");
+        }
     }
 
     public ArrayList<Artist> getArtists(){
@@ -226,11 +265,15 @@ public class Server {
         }
     }
 
-    public void followArtist(String name){
-
+    public void followArtist(Account account, Artist artist){
+        try {
+            ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).join(account, artist.getAccount());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Song was not followed");
+        }
     }
 
-    public void getImageFile(){
+    public File getImageFile(){
 
     }
 
@@ -238,7 +281,7 @@ public class Server {
 
     }
 
-    public void getSongFile(){
+    public File getSongFile(){
 
     }
 

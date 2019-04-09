@@ -58,6 +58,7 @@ public class Client {
         outToServer.println(song);
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+            else song.setSongId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,13 +75,16 @@ public class Client {
         outToServer.println(song);
     }
 
-    public void playSong(int songId){
+    public void playSong(int accountId, int songId){
         outToServer.println(Protocol.PLAYSONG);
+        outToServer.println(accountId);
         outToServer.println(songId);
     }
 
-    public void followSong(String name){
-
+    public void followSong(Account follower, Song song){
+        outToServer.println(Protocol.FOLLOWSONG);
+        outToServer.println(follower);
+        outToServer.println(song);
     }
 
     public ArrayList<Playlist> getPlaylists() {
@@ -102,6 +106,7 @@ public class Client {
         outToServer.println(playlist);
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+            else playlist.setPlaylistId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,12 +123,10 @@ public class Client {
         outToServer.println(playlist);
     }
 
-    public void playPlaylist(Playlist playlist){
-
-    }
-
-    public void followPlaylist(String name){
-
+    public void followPlaylist(Account follower, Playlist playlist){
+        outToServer.println(Protocol.FOLLOWPLAYLIST);
+        outToServer.println(follower);
+        outToServer.println(playlist);
     }
 
     public ArrayList<Album> getAlbums(){
@@ -146,6 +149,7 @@ public class Client {
         outToServer.println(album);
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+            else album.setAlbumId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -162,12 +166,10 @@ public class Client {
         outToServer.println(album);
     }
 
-    public void playAlbum(String name){
-
-    }
-
-    public void followAlbum(String name){
-
+    public void followAlbum(Account follower, Album album){
+        outToServer.println(Protocol.FOLLOWALBUM);
+        outToServer.println(follower);
+        outToServer.println(album);
     }
 
     public ArrayList<User> getUsers(){
@@ -189,6 +191,7 @@ public class Client {
         outToServer.println(user);
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+            else user.setUserId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -200,8 +203,10 @@ public class Client {
         outToServer.println(user);
     }
 
-    public void followUser(String name){
-
+    public void followUser(Account follower, User user){
+        outToServer.println(Protocol.FOLLOWUSER);
+        outToServer.println(follower);
+        outToServer.println(user);
     }
 
     public ArrayList<Artist> getArtists(String name){
@@ -223,6 +228,7 @@ public class Client {
         outToServer.println(artist);
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
+            else artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,8 +240,10 @@ public class Client {
         outToServer.println(artist);
     }
 
-    public void followArtist(Artist artist){
-
+    public void followArtist(Account follower, Artist artist){
+        outToServer.println(Protocol.FOLLOWARTIST);
+        outToServer.println(follower);
+        outToServer.println(artist);
     }
 
     public File getImageFile(int albumId){
