@@ -35,10 +35,10 @@ public class PlaylistDAO implements DataAccessObject {
 
 	private Playlist map(ResultSet rs) throws SQLException {
 		Playlist playlist = new Playlist();
-		UserDAO userDAO = (UserDAO) new UserDAOFactory().createDAO();
+		AccountDAO accountDAO = (AccountDAO) new AccountDAOFactory().createDAO();
 		playlist.setPlaylistId(rs.getInt("PK_PlaylistID"));
-		User u = userDAO.find(rs.getInt("FK_UserID"));
-		playlist.setUser(u);
+		Account a = accountDAO.find(rs.getInt("FK_AccountID"));
+		playlist.setAccount(a);
 		//        playlist.setUserId(rs.getInt("FK_UserID"));
 		playlist.setName(rs.getString("Name"));
 		//        playlist.setFavorite(rs.getBoolean("Favorite"));

@@ -6,7 +6,6 @@ import java.util.*;
 
 public class Playlist implements Comparable<Playlist>, Media {
     private int playlistId;
-    private User user;
     private Account account;
     private String name;
     private ArrayList<Song> songs;
@@ -27,14 +26,6 @@ public class Playlist implements Comparable<Playlist>, Media {
         this.dateCreated = dateCreated;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
     public Account getAccount() {
     	return account;
     }
