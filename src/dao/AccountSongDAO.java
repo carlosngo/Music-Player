@@ -12,17 +12,17 @@ import model.Playlist;
 import model.Song;
 import model.User;
 
-public class UserSongDAO implements DataAccessObject {
+public class AccountSongDAO implements DataAccessObject {
 	private DAOFactory db;
 
-	private static String SQL_LIST_BY_SONG_ID = "SELECT FK_UserID FROM " + Database.USERSONG_TABLE + " WHERE FK_SongID = ?";
+	private static String SQL_LIST_BY_SONG_ID = "SELECT FK_UserID FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_SongID = ?";
 	private static String SQL_LIST_BY_USER_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
 	private static String SQL_INSERT =
-			"INSERT INTO " + Database.USERSONG_TABLE + " (" + Database.USERSONG_COLUMNS + ") VALUES (?, ?, ?, ?, ?)";
+			"INSERT INTO " + Database.ACCOUNTSONG_TABLE + " (" + Database.ACCOUNTSONG_COLUMNS + ") VALUES (?, ?, ?, ?, ?)";
 	private static String SQL_DELETE =
-			"DELETE FROM " + Database.USERSONG_TABLE + " WHERE FK_UserID = ? AND FK_SongID = ?";
+			"DELETE FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_UserID = ? AND FK_SongID = ?";
 
-	public UserSongDAO(DAOFactory db) {
+	public AccountSongDAO(DAOFactory db) {
 		this.db = db;
 	}
 

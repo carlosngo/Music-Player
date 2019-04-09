@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import model.Album;
 import model.User;
 
-public class UserAlbumDAO implements DataAccessObject {
+public class AccountAlbumDAO implements DataAccessObject {
 	private DAOFactory db;
 	
-	private static final String SQL_INSERT = "INSERT INTO " + Database.USERALBUM_TABLE + " (" + Database.USERALBUM_COLUMNS + ") VALUES (?, ?, ?)";
-	private static final String SQL_DELETE = "DELETE FROM " + Database.USERALBUM_TABLE + " WHERE FK_UserID = ? AND FK_AlbumID = ?";
-	private static final String SQL_LIST_BY_USER_ID = "SELECT FK_AlbumID FROM " + Database.USERALBUM_TABLE + " WHERE FK_UserID = ?";
-	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT FK_UserID FROM " + Database.USERALBUM_TABLE + " WHERE FK_AlbumID = ?";
+	private static final String SQL_INSERT = "INSERT INTO " + Database.ACCOUNTALBUM_TABLE + " (" + Database.ACCOUNTALBUM_COLUMNS + ") VALUES (?, ?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM " + Database.ACCOUNTALBUM_TABLE + " WHERE FK_UserID = ? AND FK_AlbumID = ?";
+	private static final String SQL_LIST_BY_USER_ID = "SELECT FK_AlbumID FROM " + Database.ACCOUNTALBUM_TABLE + " WHERE FK_UserID = ?";
+	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT FK_UserID FROM " + Database.ACCOUNTALBUM_TABLE + " WHERE FK_AlbumID = ?";
  	
-	public UserAlbumDAO(DAOFactory db) {
+	public AccountAlbumDAO(DAOFactory db) {
 		this.db = db;
 	}
 	

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `musicplayer` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `musicplayer`;
--- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: musicplayer
 -- ------------------------------------------------------
--- Server version	8.0.12
+-- Server version	8.0.13
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,6 +40,90 @@ LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
 INSERT INTO `account` VALUES (1,'andrew','ing');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accountalbum`
+--
+
+DROP TABLE IF EXISTS `accountalbum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `accountalbum` (
+  `FK_AccountID` int(11) NOT NULL,
+  `FK_AlbumID` int(11) NOT NULL,
+  `isFavorite` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`FK_AlbumID`,`FK_AccountID`),
+  KEY `Useralbum_AlbumID_idx` (`FK_AlbumID`),
+  KEY `accountalbum_AccountID_idx` (`FK_AccountID`),
+  CONSTRAINT `accountalbum_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`pk_accountid`),
+  CONSTRAINT `accountalbum_AlbumID` FOREIGN KEY (`FK_AlbumID`) REFERENCES `album` (`pk_albumid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accountalbum`
+--
+
+LOCK TABLES `accountalbum` WRITE;
+/*!40000 ALTER TABLE `accountalbum` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accountalbum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accountplaylist`
+--
+
+DROP TABLE IF EXISTS `accountplaylist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `accountplaylist` (
+  `FK_AccountID` int(11) NOT NULL,
+  `FK_PlaylistID` int(11) NOT NULL,
+  `isFavorite` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`FK_AccountID`,`FK_PlaylistID`),
+  KEY `Userplaylist_PlaylistID_idx` (`FK_PlaylistID`),
+  CONSTRAINT `accountplaylist_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`pk_accountid`),
+  CONSTRAINT `accountplaylist_PlaylistID` FOREIGN KEY (`FK_PlaylistID`) REFERENCES `playlist` (`pk_playlistid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accountplaylist`
+--
+
+LOCK TABLES `accountplaylist` WRITE;
+/*!40000 ALTER TABLE `accountplaylist` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accountplaylist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accountsong`
+--
+
+DROP TABLE IF EXISTS `accountsong`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `accountsong` (
+  `FK_AccountID` int(11) NOT NULL,
+  `FK_SongID` int(11) NOT NULL,
+  `isFavorite` tinyint(4) DEFAULT NULL,
+  `playTime` int(11) DEFAULT NULL,
+  `LastPlayed` timestamp(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`FK_AccountID`,`FK_SongID`),
+  KEY `SongID_idx` (`FK_SongID`),
+  CONSTRAINT `accountsong_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`pk_accountid`),
+  CONSTRAINT `accountsong_SongID` FOREIGN KEY (`FK_SongID`) REFERENCES `song` (`pk_songid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accountsong`
+--
+
+LOCK TABLES `accountsong` WRITE;
+/*!40000 ALTER TABLE `accountsong` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accountsong` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -107,12 +191,12 @@ DROP TABLE IF EXISTS `playlist`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `playlist` (
   `PK_PlaylistID` int(11) NOT NULL AUTO_INCREMENT,
-  `FK_UserID` int(11) DEFAULT NULL,
+  `FK_AccountID` int(11) DEFAULT NULL,
   `Name` varchar(45) DEFAULT NULL,
   `DateCreated` timestamp(4) NULL DEFAULT NULL,
   PRIMARY KEY (`PK_PlaylistID`),
-  KEY `Playlist_UserID_idx` (`FK_UserID`),
-  CONSTRAINT `Playlist_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`) ON DELETE CASCADE
+  KEY `playlist_AccountID_idx` (`FK_AccountID`),
+  CONSTRAINT `playlist_AccountID` FOREIGN KEY (`FK_AccountID`) REFERENCES `account` (`pk_accountid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -238,91 +322,6 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,1,'john','ing','m',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `useralbum`
---
-
-DROP TABLE IF EXISTS `useralbum`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `useralbum` (
-  `FK_UserID` int(11) NOT NULL,
-  `FK_AlbumID` int(11) NOT NULL,
-  `isFavorite` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`FK_UserID`,`FK_AlbumID`),
-  KEY `Useralbum_AlbumID_idx` (`FK_AlbumID`),
-  KEY `Useralbum_UserID_idx` (`FK_UserID`),
-  CONSTRAINT `Useralbum_AlbumID` FOREIGN KEY (`FK_AlbumID`) REFERENCES `album` (`pk_albumid`),
-  CONSTRAINT `Useralbum_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `useralbum`
---
-
-LOCK TABLES `useralbum` WRITE;
-/*!40000 ALTER TABLE `useralbum` DISABLE KEYS */;
-/*!40000 ALTER TABLE `useralbum` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `userplaylist`
---
-
-DROP TABLE IF EXISTS `userplaylist`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `userplaylist` (
-  `FK_UserID` int(11) NOT NULL,
-  `FK_PlaylistID` int(11) NOT NULL,
-  `isFavorite` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`FK_UserID`,`FK_PlaylistID`),
-  KEY `Userplaylist_UserID_idx` (`FK_UserID`),
-  KEY `Userplaylist_PlaylistID_idx` (`FK_PlaylistID`),
-  CONSTRAINT `Userplaylist_PlaylistID` FOREIGN KEY (`FK_PlaylistID`) REFERENCES `playlist` (`pk_playlistid`),
-  CONSTRAINT `Userplaylist_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `userplaylist`
---
-
-LOCK TABLES `userplaylist` WRITE;
-/*!40000 ALTER TABLE `userplaylist` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userplaylist` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `usersong`
---
-
-DROP TABLE IF EXISTS `usersong`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `usersong` (
-  `FK_UserID` int(11) NOT NULL,
-  `FK_SongID` int(11) NOT NULL,
-  `isFavorite` tinyint(4) DEFAULT NULL,
-  `playTime` int(11) DEFAULT NULL,
-  `LastPlayed` timestamp(4) NULL DEFAULT NULL,
-  PRIMARY KEY (`FK_UserID`,`FK_SongID`),
-  KEY `SongID_idx` (`FK_SongID`),
-  CONSTRAINT `usersong_SongID` FOREIGN KEY (`FK_SongID`) REFERENCES `song` (`pk_songid`),
-  CONSTRAINT `usersong_UserID` FOREIGN KEY (`FK_UserID`) REFERENCES `user` (`pk_userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `usersong`
---
-
-LOCK TABLES `usersong` WRITE;
-/*!40000 ALTER TABLE `usersong` DISABLE KEYS */;
-/*!40000 ALTER TABLE `usersong` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -333,4 +332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-09  3:09:01
+-- Dump completed on 2019-04-09 15:51:39

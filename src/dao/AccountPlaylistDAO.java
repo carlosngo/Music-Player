@@ -12,19 +12,19 @@ import model.Playlist;
 import model.Song;
 import model.User;
 
-public class UserPlaylistDAO implements DataAccessObject {
+public class AccountPlaylistDAO implements DataAccessObject {
 
 	private static String SQL_LIST_BY_USER_ID = "SELECT FK_PlaylistID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_UserID = ?";
 	private static String SQL_LIST_BY_PLAYLIST_ID = "SELECT FK_UserID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_PlaylistID = ?";
 	private static String SQL_INSERT =
-			"INSERT INTO " + Database.USERPLAYLIST_TABLE + " (" + Database.USERPLAYLIST_COLUMNS + ") VALUES (?, ?, ?)";
+			"INSERT INTO " + Database.ACCOUNTPLAYLIST_TABLE + " (" + Database.ACCOUNTPLAYLIST_COLUMNS + ") VALUES (?, ?, ?)";
 	private static String SQL_DELETE =
-			"DELETE FROM " + Database.USERPLAYLIST_TABLE + " WHERE FK_UserID = ? AND FK_PlaylistID = ?";
-	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.USERPLAYLIST_TABLE + "WHERE FK_UserID = ? AND isFavorite = ?";
+			"DELETE FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_UserID = ? AND FK_PlaylistID = ?";
+	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_UserID = ? AND isFavorite = ?";
 
 	private DAOFactory db;
 
-	public UserPlaylistDAO(DAOFactory db) {
+	public AccountPlaylistDAO(DAOFactory db) {
 		this.db = db;
 	}
 
