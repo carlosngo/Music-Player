@@ -36,12 +36,12 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_LIST_BY_GENRE =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_ALBUM =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_AlbumID = ? AND FK_ArtistID = ?";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_AlbumID = ?";
    // private static final String SQL_LIST_BY_FAVORITE =
     //        "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE Favorite = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_PLAYLIST =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.PLAYLISTSONG_TABLE + " ON " + Database.SONG_TABLE + ".PK_SongID = " + Database.PLAYLISTSONG_TABLE + ".FK_SongID " +
-                    "INNER JOIN " + Database.PLAYLIST_TABLE + " ON " + Database.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + Database.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + Database.SONG_TABLE + ".FK_ArtistID = ? AND " + Database.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
+                    "INNER JOIN " + Database.PLAYLIST_TABLE + " ON " + Database.PLAYLISTSONG_TABLE + ".FK_PlaylistID = " + Database.PLAYLIST_TABLE + ".PK_PlaylistID WHERE " + Database.PLAYLIST_TABLE + ".PK_PlaylistID = ?";
     private static final String SQL_LIST_BY_YEAR =
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE Year = ? AND FK_ArtistID = ?";
     private static final String SQL_LIST_BY_PLAYTIME =
@@ -231,10 +231,9 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> listByPlaylist(int playlistId, int userId) {
+    public ArrayList<Song> listByPlaylist(int playlistId) {
         ArrayList<Song> songs = new ArrayList<>();
         Object[] values = {
-        		userId,
         		playlistId
         };
         Connection con = Database.getConnection();
@@ -249,11 +248,10 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> listByAlbum(int albumId, int userId) {
+    public ArrayList<Song> listByAlbum(int albumId) {
         ArrayList<Song> songs = new ArrayList<>();
         Object[] values = {
-        		albumId,
-        		userId
+        		albumId
         };
         Connection connection = Database.getConnection();
         

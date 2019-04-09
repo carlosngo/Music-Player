@@ -11,7 +11,7 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 
-public class Server {
+public final class Server {
     public static final int PORT_NUMBER = 5555;
     public static final String IP_ADDRESS = "127.0.0.1";
 
@@ -26,6 +26,7 @@ public class Server {
     private final SubscriptionDAOFactory subscriptionDAOFactory = new SubscriptionDAOFactory();
     private final SongDAOFactory songDAOFactory = new SongDAOFactory();
     private final AlbumDAOFactory albumDAOFactory = new AlbumDAOFactory();
+    private final AlbumSongDAOFactory albumSongDAOFactory = new AlbumSongDAOFactory();
     private final PlaylistDAOFactory playlistDAOFactory = new PlaylistDAOFactory();
     private final PlaylistSongDAOFactory playlistSongDAOFactory = new PlaylistSongDAOFactory();
     private final ArtistDAOFactory artistDAOFactory = new ArtistDAOFactory();
@@ -43,10 +44,6 @@ public class Server {
         executor.submit(thread);
     }
 
-    public void loadData() {
-
-    }
-
     public Song getSong(int songId) {
         return ((SongDAO)songDAOFactory.getDAO()).find(songId);
     }
@@ -55,17 +52,20 @@ public class Server {
         return ((SongDAO)songDAOFactory.getDAO()).listById();
     }
 
+    public ArrayList<Song> getSongsByAccount(int accountId) {
+        return ((SongDAO)songDAOFactory.getDAO()).listByAccount(accountId);
+    }
+
     public ArrayList<Song> getSongsByArtist(int artistId) {
-        return new ArrayList<>();
+        return ((SongDAO)songDAOFactory.getDAO()).listByArtistId(artistId);
     }
 
     public ArrayList<Song> getSongsInAlbum(int albumId) {
-        return new ArrayList<>();
+        return ((SongDAO)songDAOFactory.getDAO()).listByAlbum(albumId);
     }
 
     public ArrayList<Song> getSongsInPlaylist(int playlistId) {
-        return new ArrayList<>();
-
+        return ((SongDAO)songDAOFactory.getDAO()).listByPlaylist(playlistId);
     }
 
     public boolean addSong(Song song){
@@ -84,12 +84,28 @@ public class Server {
         return true;
     }
 
+    public void addSongToPlaylist(Song song, Playlist playlist) {
+        ((PlaylistSongDAO)playlistDAOFactory.getDAO()).join(playlist, song);
+    }
+
+    public void addSongToAlbum(Song song, Album album) {
+        ((AlbumSongDAO)albumSongDAOFactory.getDAO()).join(album, song);
+    }
+
     public void deleteSong(Song song){
         try {
             ((SongDAO)songDAOFactory.getDAO()).delete(song);
         } catch (IllegalArgumentException e) {
             System.out.println("Quiz was not deleted.");
         }
+    }
+
+    public void removeSongFromPlaylist(Song song, Playlist playlist) {
+        ((PlaylistSongDAO)playlistDAOFactory.getDAO()).separate(playlist, song);
+    }
+
+    public void removeSongFromAlbum(Song song, Album album) {
+        ((AlbumSongDAO)albumSongDAOFactory.getDAO()).separate(album, song);
     }
 
     public void updateSong(Song song){
@@ -110,15 +126,19 @@ public class Server {
     }
 
     public void followSong(Account account, Song song) {
-        try {
-            ((AccountSongDAO)accountSongDAOFactory.getDAO()).join(account, song);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not followed");
-        }
+        ((AccountSongDAO)accountSongDAOFactory.getDAO()).join(account, song);
+    }
+
+    public void unfollowSong(Account account, Song song) {
+        ((AccountSongDAO)accountSongDAOFactory.getDAO()).separate(account, song);
     }
 
     public ArrayList<Playlist> getPlaylists() {
         return ((PlaylistDAO)playlistDAOFactory.getDAO()).listById();
+    }
+
+    public ArrayList<Playlist> getPlaylistsByAccount(int accountId) {
+        return ((PlaylistDAO)playlistDAOFactory.getDAO()).listByUserId(accountId);
     }
 
     public boolean addPlaylist(Playlist playlist){
@@ -154,11 +174,11 @@ public class Server {
     }
 
     public void followPlaylist(Account account, Playlist playlist){
-        try {
-            ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).join(account, playlist);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not followed");
-        }
+        ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).join(account, playlist);
+    }
+
+    public void unfollowPlaylist(Account account, Playlist playlist){
+        ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).separate(account, playlist);
     }
 
     public Album getAlbum(int albumId) {
@@ -167,6 +187,10 @@ public class Server {
 
     public ArrayList<Album> getAlbums(){
         return ((AlbumDAO)albumDAOFactory.getDAO()).listById();
+    }
+
+    public ArrayList<Album> getAlbumsByAccount(int accountId) {
+        return ((AlbumDAO)albumDAOFactory.getDAO()).listByAccount(accountId);
     }
 
     public boolean addAlbum(Album album){
@@ -202,11 +226,11 @@ public class Server {
     }
 
     public void followAlbum(Account account, Album album){
-        try {
-            ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).join(account, album);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not followed");
-        }
+        ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).join(account, album);
+    }
+
+    public void unfollowAlbum(Account account, Album album){
+        ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).separate(account, album);
     }
 
     public ArrayList<User> getUsers(){
@@ -234,11 +258,11 @@ public class Server {
     }
 
     public void followUser(Account account, User user){
-        try {
-            ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).join(account, user.getAccount());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not followed");
-        }
+        ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).join(account, user.getAccount());
+    }
+
+    public void unfollowUser(Account account, User user){
+        ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).separate(account, user.getAccount());
     }
 
     public ArrayList<Artist> getArtists(){
@@ -266,28 +290,25 @@ public class Server {
     }
 
     public void followArtist(Account account, Artist artist){
-        try {
-            ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).join(account, artist.getAccount());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not followed");
-        }
+        ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).join(account, artist.getAccount());
     }
 
-    public File getImageFile(){
-
+    public void unfollowArtist(Account account, Artist artist){
+        ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).separate(account, artist.getAccount());
     }
 
     public void setImageFile(int albumId, File img){
-
+        AlbumDAO albumDAO = ((AlbumDAO)albumDAOFactory.getDAO());
+        Album album = albumDAO.find(albumId);
+        album.setCover(img);
+        updateAlbum(album);
     }
-
-    public File getSongFile(){
-
-    }
-
 
     public void setSongFile(int songId, File wav){
-
+        SongDAO songDAO = ((SongDAO)songDAOFactory.getDAO());
+        Song song = songDAO.find(songId);
+        song.setWAV(wav);
+        updateSong(song);
     }
 
 
@@ -303,7 +324,6 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = Server.getInstance();
-        server.loadData();
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(PORT_NUMBER);

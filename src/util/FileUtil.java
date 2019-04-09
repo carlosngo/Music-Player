@@ -3,7 +3,7 @@ package util;
 import java.io.*;
 import java.net.Socket;
 
-public class FileUtil {
+public final class FileUtil {
     private FileUtil() { }
 
     public static void downloadFile(Socket socket, BufferedReader in, PrintWriter out, File dest) {

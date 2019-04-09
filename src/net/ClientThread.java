@@ -1,5 +1,6 @@
 package net;
 
+import dao.PlaylistSongDAO;
 import events.*;
 import model.*;
 import util.FileUtil;
@@ -25,7 +26,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
     }
 
     @Override
-    public void run() {System.out.println("Started thread for client.");
+    public void run() {
+        System.out.println("Started thread for client.");
         Server server = Server.getInstance();
         String messageFromClient;
         try {
@@ -37,12 +39,51 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 User user;
                 Artist artist;
                 Account account;
-                StringBuilder sb;
                 Protocol protocol = Protocol.valueOf(messageFromClient);
                 StringBuilder reply = new StringBuilder();
                 switch (protocol) {
                     case GETSONGS:
                         ArrayList<Song> songs = server.getSongs();
+                        reply.append(songs.size());
+                        reply.append("\n");
+                        for (int i = 0; i < songs.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(songs.get(i).toString());
+                        }
+                        break;
+                    case GETSONGSBYARTIST:
+                        int artistId = Integer.parseInt(in.readLine());
+                        songs = server.getSongsByArtist(artistId);
+                        reply.append(songs.size());
+                        reply.append("\n");
+                        for (int i = 0; i < songs.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(songs.get(i).toString());
+                        }
+                        break;
+                    case GETSONGSBYACCOUNT:
+                        int accountId = Integer.parseInt(in.readLine());
+                        songs = server.getSongsByAccount(accountId);
+                        reply.append(songs.size());
+                        reply.append("\n");
+                        for (int i = 0; i < songs.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(songs.get(i).toString());
+                        }
+                        break;
+                    case GETSONGSINALBUM:
+                        int albumId = Integer.parseInt(in.readLine());
+                        songs = server.getSongsInAlbum(albumId);
+                        reply.append(songs.size());
+                        reply.append("\n");
+                        for (int i = 0; i < songs.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(songs.get(i).toString());
+                        }
+                        break;
+                    case GETSONGSINPLAYLIST:
+                        int playlistId = Integer.parseInt(in.readLine());
+                        songs = server.getSongsInPlaylist(playlistId);
                         reply.append(songs.size());
                         reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
@@ -57,9 +98,29 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(song.getSongId());
                         } else reply.append("NO");
                         break;
+                    case ADDSONGTOPLAYLIST:
+                        song = Song.parseSong(in.readLine());
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        server.addSongToPlaylist(song, playlist);
+                        break;
+                    case ADDSONGTOALBUM:
+                        song = Song.parseSong(in.readLine());
+                        album = Album.parseAlbum(in.readLine());
+                        server.addSongToAlbum(song, album);
+                        break;
                     case DELETESONG:
                         song = Song.parseSong(in.readLine());
                         server.deleteSong(song);
+                        break;
+                    case REMOVESONGFROMPLAYLIST:
+                        song = Song.parseSong(in.readLine());
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        server.removeSongFromPlaylist(song, playlist);
+                        break;
+                    case REMOVESONGFROMALBUM:
+                        song = Song.parseSong(in.readLine());
+                        album = Album.parseAlbum(in.readLine());
+                        server.removeSongFromAlbum(song, album);
                         break;
                     case UPDATESONG:
                         song = Song.parseSong(in.readLine());
@@ -73,8 +134,23 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         song = Song.parseSong(in.readLine());
                         server.followSong(account, song);
                         break;
+                    case UNFOLLOWSONG:
+                        account = Account.parseAccount(in.readLine());
+                        song = Song.parseSong(in.readLine());
+                        server.unfollowSong(account, song);
+                        break;
                     case GETPLAYLISTS:
                         ArrayList<Playlist> playlists = server.getPlaylists();
+                        reply.append(playlists.size());
+                        reply.append("\n");
+                        for (int i = 0; i < playlists.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(playlists.get(i).toString());
+                        }
+                        break;
+                    case GETPLAYLISTSBYACCOUNT:
+                        accountId = Integer.parseInt(in.readLine());
+                        playlists = server.getPlaylistsByAccount(accountId);
                         reply.append(playlists.size());
                         reply.append("\n");
                         for (int i = 0; i < playlists.size(); i++) {
@@ -102,8 +178,23 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         playlist = Playlist.parsePlaylist(in.readLine());
                         server.followPlaylist(account, playlist);
                         break;
+                    case UNFOLLOWPLAYLIST:
+                        account = Account.parseAccount(in.readLine());
+                        playlist = Playlist.parsePlaylist(in.readLine());
+                        server.unfollowPlaylist(account, playlist);
+                        break;
                     case GETALBUMS:
                         ArrayList<Album> albums = server.getAlbums();
+                        reply.append(albums.size());
+                        reply.append("\n");
+                        for (int i = 0; i < albums.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(albums.get(i).toString());
+                        }
+                        break;
+                    case GETALBUMSBYACCOUNT:
+                        accountId = Integer.parseInt(in.readLine());
+                        albums = server.getAlbumsByAccount(accountId);
                         reply.append(albums.size());
                         reply.append("\n");
                         for (int i = 0; i < albums.size(); i++) {
@@ -131,6 +222,11 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         album = Album.parseAlbum(in.readLine());
                         server.followAlbum(account, album);
                         break;
+                    case UNFOLLOWALBUM:
+                        account = Account.parseAccount(in.readLine());
+                        album = Album.parseAlbum(in.readLine());
+                        server.unfollowAlbum(account, album);
+                        break;
                     case GETUSERS:
                         ArrayList<User> users = server.getUsers();
                         reply.append(users.size());
@@ -155,6 +251,11 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         account = Account.parseAccount(in.readLine());
                         user = User.parseUser(in.readLine());
                         server.followUser(account, user);
+                        break;
+                    case UNFOLLOWUSER:
+                        account = Account.parseAccount(in.readLine());
+                        user = User.parseUser(in.readLine());
+                        server.unfollowUser(account, user);
                         break;
                     case GETARTISTS:
                         ArrayList<Artist> artists = server.getArtists();
@@ -181,13 +282,18 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         artist = Artist.parseArtist(in.readLine());
                         server.followArtist(account, artist);
                         break;
+                    case UNFOLLOWARTIST:
+                        account = Account.parseAccount(in.readLine());
+                        artist = Artist.parseArtist(in.readLine());
+                        server.unfollowArtist(account, artist);
+                        break;
                     case GETIMAGEFILE:
                         album = server.getAlbum(Integer.parseInt(in.readLine()));
                         File img = album.getCover();
                         FileUtil.uploadFile(socket, in, out, img);
                         break;
                     case SETIMAGEFILE:
-                        int albumId = Integer.parseInt(in.readLine());
+                        albumId = Integer.parseInt(in.readLine());
                         File dir = new File("resources/images");
                         dir.mkdirs();
                         img = new File(dir, albumId + "");
