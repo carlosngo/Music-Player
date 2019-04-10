@@ -928,7 +928,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanRemoveFromPlaylist.png");
                 img = ImageIO.read(resource);
                 removeFromPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/cyanRemoveFromAlbum.png");
+                resource = getClass().getClassLoader().getResource("images/violetRemoveFromAlbum.png");
                 img = ImageIO.read(resource);
                 removeFromAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //                resource = getClass().getClassLoader().getResource("images/songFollow.png");
