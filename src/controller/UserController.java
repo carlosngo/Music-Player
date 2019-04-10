@@ -25,6 +25,7 @@ public class UserController {
 	private CreateAccountWindow caw;
 	private ViewAccountWindow vaw;
 	private EditAccountWindow eaw;
+	private AddAlbumWindow aaw;
 	
 	private AbstractHashGenerator hash = new MD5HashGenerator();
 
@@ -90,6 +91,8 @@ public class UserController {
 	public void openAddSongWindow() {
 		mc.getSongController().openAddSongWindow();
 	}
+
+	public void openAddAlbumWindow() { mc.getSongController().openAddSongWindow(); }
 
 	// logs in the user. check for errors.
 	public boolean logIn(String username, String password) {

@@ -11,6 +11,7 @@ public class SongController {
     private MainController mc;
 
     private AddSongWindow asw;
+    private AddAlbumWindow aaw;
     private AddPlaylistWindow apw;
     private AddToPlaylistWindow atpw;
     private EditSongProfileWindow espw;
@@ -63,6 +64,8 @@ public class SongController {
         asw = new AddSongWindow(this);
     }
 
+    public void openAddAlbumWindow() { aaw = new AddAlbumWindow(this); }
+
     public void openAddPlaylistWindow() { apw = new AddPlaylistWindow(this); }
 
     public void openAddToPlaylistWindow(int index) {
@@ -83,6 +86,14 @@ public class SongController {
         p.setDateCreated(Calendar.getInstance().getTime());
         mc.getPlaylists().add(p);
         showPlaylists();
+    }
+
+    public void addAlbum(String albumName) {
+        Album a = new Album();
+        a.setName(albumName);
+        a.setDateCreated(Calendar.getInstance().getTime());
+        mc.getAlbums().add(a);
+        showAlbums();
     }
 
     // play song at index of displayedSongs
@@ -233,18 +244,45 @@ public class SongController {
     }
 
     public void showGenres() {
+//        TreeSet<String> subCategories = new TreeSet<>();
+//        for (Song s : mc.getSongs()) {
+//            if (s.getGenre() != null && !s.getGenre().equals("")) subCategories.add(s.getGenre());
+//        }
+//        cp = new CategoryPanel(this, "Genres", new ArrayList(subCategories));
+//        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+
         TreeSet<String> subCategories = new TreeSet<>();
         for (Song s : mc.getSongs()) {
             if (s.getGenre() != null && !s.getGenre().equals("")) subCategories.add(s.getGenre());
         }
-        cp = new CategoryPanel(this, "Genres", new ArrayList(subCategories));
+        ArrayList<ArrayList<String>> subCategoriesArrayList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> subCategoriesContent;
+        for(String s : subCategories){
+            subCategoriesContent = new ArrayList<String>();
+            subCategoriesContent.add(s);
+            subCategoriesContent.add("");
+            subCategoriesArrayList.add(subCategoriesContent);
+        }
+        cp = new CategoryPanel(this, "Genres", subCategoriesArrayList);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showPlaylists() {
-        ArrayList<String> subCategories = new ArrayList<>();
+//        ArrayList<String> subCategories = new ArrayList<>();
+//        for (Playlist p: mc.getPlaylists()) {
+//            subCategories.add(p.getName());
+//        }
+//        cp = new CategoryPanel(this, "Playlists", subCategories);
+//
+//        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+
+        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
+        ArrayList<String> subCategoriesContent;
         for (Playlist p: mc.getPlaylists()) {
-            subCategories.add(p.getName());
+            subCategoriesContent = new ArrayList<String>();
+            subCategoriesContent.add(p.getName());
+            subCategoriesContent.add(p.getAccount().getUserName());
+            subCategories.add(subCategoriesContent);
         }
         cp = new CategoryPanel(this, "Playlists", subCategories);
 
@@ -252,9 +290,23 @@ public class SongController {
     }
 
     public void showYears() {
-        ArrayList<String> subCategories = new ArrayList<>();
+//        ArrayList<String> subCategories = new ArrayList<>();
+//        for(Integer y : mc.getYears()){
+//            if (y != 0) subCategories.add(y.toString());
+//        }
+//        cp = new CategoryPanel(this, "Years", subCategories);
+//
+//        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+
+        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
+        ArrayList<String> subCategoriesContent;
         for(Integer y : mc.getYears()){
-            if (y != 0) subCategories.add(y.toString());
+            if (y != 0) {
+                subCategoriesContent = new ArrayList<String>();
+                subCategoriesContent.add(y.toString());
+                subCategoriesContent.add("");
+                subCategories.add(subCategoriesContent);
+            }
         }
         cp = new CategoryPanel(this, "Years", subCategories);
 
@@ -262,11 +314,26 @@ public class SongController {
     }
 
     public void showAlbums() {
+//        TreeSet<String> subCategories = new TreeSet<>();
+//        for (Song s : mc.getSongs()) {
+//            if (s.getAlbum() != null) subCategories.add(s.getAlbum().getName());
+//        }
+//        cp = new CategoryPanel(this, "Albums", new ArrayList(subCategories));
+//        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+
         TreeSet<String> subCategories = new TreeSet<>();
         for (Song s : mc.getSongs()) {
             if (s.getAlbum() != null) subCategories.add(s.getAlbum().getName());
         }
-        cp = new CategoryPanel(this, "Albums", new ArrayList(subCategories));
+        ArrayList<ArrayList<String>> subCategoriesArrayList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> subCategoriesContent;
+        for(String s : subCategories){
+            subCategoriesContent = new ArrayList<String>();
+            subCategoriesContent.add(s);
+            subCategoriesContent.add("");
+            subCategoriesArrayList.add(subCategoriesContent);
+        }
+        cp = new CategoryPanel(this, "Albums", subCategoriesArrayList);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -275,8 +342,8 @@ public class SongController {
         for (Song s : mc.getSongs()) {
             if (s.getArtist() != null) subCategories.add(s.getArtist().getName());
         }
-        cp = new CategoryPanel(this, "Artists", new ArrayList(subCategories));
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        uap = new UserArtistListPanel(this, "Artists", new ArrayList(subCategories));
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(uap);
     }
 
     public void showFavoritePlaylists() {
@@ -288,9 +355,14 @@ public class SongController {
 //        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
 
         ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
+        ArrayList<String> subCategoriesContent;
         for (Playlist p: mc.getPlaylists()) {
-            ArrayList<String> subCategories content;
-            if(p.isFavorite()) subCategories.add({p.getName(), p.getAccount().getUserName()});
+            if(p.isFavorite()) {
+                subCategoriesContent = new ArrayList<String>();
+                subCategoriesContent.add(p.getName());
+                subCategoriesContent.add(p.getAccount().getUserName());
+                subCategories.add(subCategoriesContent);
+            }
         }
         cp = new CategoryPanel(this, "Favorite Playlists", subCategories);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
@@ -642,32 +714,32 @@ public class SongController {
         p.setFavorite(!p.isFavorite());
     }
 
-    public void toggleFollow(String objectKind, String objectName) {
-        switch (objectKind){
-            case "artist":
-                Artist tempArtist = new Artist();
-                tempArtist.setName(objectName);
-                Artist a = mc.getArtists().floor(tempArtist);
-                a.setFollow(!a.setFollow());
-                break;
-            case "user":
-                User tempUser = new User();
-                tempUser.setName(objectName);
-                User u = mc.getUsers().floor(tempUser);
-                u.setFollow(!u.setFollow());
-                break;
-            case "album":
-                Album tempAlbum = new Album();
-                tempAlbum.setName(objectName);
-                Album album = mc.getAlbums().floor(tempAlbum);
-                album.setFollow(!album.setFollow());
-                break;
-            case "playlist":
-                Playlist temp = new Playlist();
-                temp.setName(objectName);
-                Playlist p = mc.getPlaylists().floor(temp);
-                p.setFollow(!p.setFollow());
-                break;
-        }
-    }
+//    public void toggleFollow(String objectKind, String objectName) {
+//        switch (objectKind){
+//            case "artist":
+//                Artist tempArtist = new Artist();
+//                tempArtist.setName(objectName);
+//                Artist a = mc.getArtists().floor(tempArtist);
+//                a.setFollow(!a.setFollow());
+//                break;
+//            case "user":
+//                User tempUser = new User();
+//                tempUser.setName(objectName);
+//                User u = mc.getUsers().floor(tempUser);
+//                u.setFollow(!u.setFollow());
+//                break;
+//            case "album":
+//                Album tempAlbum = new Album();
+//                tempAlbum.setName(objectName);
+//                Album album = mc.getAlbums().floor(tempAlbum);
+//                album.setFollow(!album.setFollow());
+//                break;
+//            case "playlist":
+//                Playlist temp = new Playlist();
+//                temp.setName(objectName);
+//                Playlist p = mc.getPlaylists().floor(temp);
+//                p.setFollow(!p.setFollow());
+//                break;
+//        }
+//    }
 }
