@@ -17,6 +17,7 @@ public class SongController {
     private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
+    private UserArtistListPanel uap;
 
     private ArrayList<Song> displayedSongs;
 
@@ -279,9 +280,17 @@ public class SongController {
     }
 
     public void showFavoritePlaylists() {
-        ArrayList<String> subCategories = new ArrayList<>();
+//        ArrayList<String> subCategories = new ArrayList<>();
+//        for (Playlist p: mc.getPlaylists()) {
+//            if(p.isFavorite()) subCategories.add(p.getName());
+//        }
+//        cp = new CategoryPanel(this, "Favorite Playlists", subCategories);
+//        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+
+        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
         for (Playlist p: mc.getPlaylists()) {
-            if(p.isFavorite()) subCategories.add(p.getName());
+            ArrayList<String> subCategories content;
+            if(p.isFavorite()) subCategories.add({p.getName(), p.getAccount().getUserName()});
         }
         cp = new CategoryPanel(this, "Favorite Playlists", subCategories);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
@@ -437,7 +446,28 @@ public class SongController {
         return genres.toArray(new String[genres.size()]);
     }
 
+    public String[] getAllPossibleAlbums() {
+        TreeSet<String> albums = new TreeSet<String>();
+        for(Album album : mc.getAlbums()){
+            albums.add(album.getName());
+        }
+        return albums.toArray(new String[albums.size()]);
+    }
+
     public Artist getArtist(String artistName) {
+//        Artist a = new Artist();
+//        if (artistName.equals("")) return null;
+//        else a.setName(artistName);
+//        if (mc.getArtists().contains(a)) {
+//            a = mc.getArtists().floor(a);
+//        } else {
+//            mc.getArtists().add(a);
+//            if (cp != null) {
+//                cp.addRow("Arists", a.getName());
+//            }
+//        }
+//        return a;
+
         Artist a = new Artist();
         if (artistName.equals("")) return null;
         else a.setName(artistName);
@@ -445,8 +475,8 @@ public class SongController {
             a = mc.getArtists().floor(a);
         } else {
             mc.getArtists().add(a);
-            if (cp != null) {
-                cp.addRow("Arists", a.getName());
+            if (uap != null) {
+                uap.addRow("Arists", a.getName());
             }
         }
         return a;
@@ -462,7 +492,7 @@ public class SongController {
             mc.getAlbums().add(a);
             a.setDateCreated(Calendar.getInstance().getTime());
             if (cp != null)
-                cp.addRow("Albums", a.getName());
+                cp.addRow("Albums", a.getName(), a.getArtist().getName());
         }
         return a;
     }
@@ -472,7 +502,7 @@ public class SongController {
         if (!mc.getGenres().contains(genreName)) { // if genre does not currently exist
             mc.getGenres().add(genreName); // add the new genre
             if (cp != null)
-                cp.addRow("Genres", genreName);
+                cp.addRow("Genres", genreName, "");
 
         }
         return mc.getGenres().floor(genreName);

@@ -18,7 +18,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
     private JPanel fileReaderPnl;
     private JLabel selectedFileName;
     private File selectedFile;
-    private JComboBox genreChoices;
+    private JComboBox genreChoices, albumChoices;
 
     public AddSongWindow(SongController controller){
         this.controller = controller;
@@ -67,13 +67,26 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         albumLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p6.add(albumLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
-        albumInput = new JTextField("" , 15);
-        albumInput.addActionListener(this);
-        albumInput.getDocument().addDocumentListener(this);
-        albumInput.setFont(new Font("Arial", Font.BOLD, 22));
-        //albumInput.setEditable(false);
-        //titleInput.setBackground(new Color(152,251,152));
-        p6.add(albumInput);
+//        albumInput = new JTextField("" , 15);
+//        albumInput.addActionListener(this);
+//        albumInput.getDocument().addDocumentListener(this);
+//        albumInput.setFont(new Font("Arial", Font.BOLD, 22));
+//        //albumInput.setEditable(false);
+//        //titleInput.setBackground(new Color(152,251,152));
+//        p6.add(albumInput);
+        String[] sChoices = controller.getAllPossibleAlbums();
+        albumChoices = new JComboBox();
+        albumChoices.addItem("");
+        for (int i = 0; i < sChoices.length; i++) {
+            albumChoices.addItem(sChoices[i]);
+        }
+        albumChoices.setEditable(false);
+        p6.add(albumChoices);
+//        genreInput = new JTextField("" , 15);
+//        genreInput.addActionListener(this);
+//        genreInput.getDocument().addDocumentListener(this);
+//        genreInput.setFont(new Font("Arial", Font.PLAIN, 22));
+//        p2.add(genreInput);
         p6.add(Box.createRigidArea(new Dimension(15,0)));
         p6.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(p6);
@@ -87,8 +100,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         genreLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         genreLabel.setForeground(Color.white);
         p2.add(genreLabel);
-        String[] sChoices = controller.getAllPossibleGenres();
-
+        sChoices = controller.getAllPossibleGenres();
         genreChoices = new JComboBox();
         genreChoices.addItem("");
         for (int i = 0; i < sChoices.length; i++) {
@@ -227,7 +239,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
             String genre = genreChoices.getSelectedItem().toString();
             String artist= artistInput.getText();
             String year = yearInput.getText();
-            String album = albumInput.getText();
+            String album = albumChoices.getSelectedItem().toString();
             controller.addSong(songTitle, genre,album, artist, year, selectedFile);
             dispose();
         }
@@ -238,7 +250,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty() || albumInput.getText().isEmpty())
+        if (songTitleInput.getText().isEmpty())
             selectFile.setEnabled(false);
         else
             selectFile.setEnabled(true);
@@ -246,7 +258,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty() || albumInput.getText().isEmpty())
+        if (songTitleInput.getText().isEmpty())
             selectFile.setEnabled(false);
         else
             selectFile.setEnabled(true);
@@ -254,7 +266,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty() || albumInput.getText().isEmpty())
+        if (songTitleInput.getText().isEmpty())
             selectFile.setEnabled(false);
         else
             selectFile.setEnabled(true);
