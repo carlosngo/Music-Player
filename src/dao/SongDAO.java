@@ -441,10 +441,10 @@ public class SongDAO implements DataAccessObject {
     	return songs;
     }
     
-    public ArrayList<Song> listByAccount(Account account){
+    public ArrayList<Song> listByAccount(int accountId){
     	ArrayList<Song> songs = new ArrayList<>();
     	Object[] values = {
-    			account.getId()
+    			accountId
     	};
     	
     	Connection connection = Database.getConnection();
@@ -458,6 +458,10 @@ public class SongDAO implements DataAccessObject {
 		}
     	
     	return songs;
+    }
+    
+    public ArrayList<Song> listByAccount(Account account){
+    	return listByAccount(account.getId());
     }
     
     public ArrayList<String> getGenres() {

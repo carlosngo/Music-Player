@@ -237,26 +237,30 @@ public class AlbumDAO implements DataAccessObject {
 		return albums;
 	}
 
-	public ArrayList<Album> listByAccount(Account account){
+	public ArrayList<Album> listByAccount(int accountId){
 		ArrayList<Album> albums = new ArrayList<>();
-		
+
 		Object[] values = {
-				account.getId()
+				accountId
 		};
-		
+
 		Connection connection = Database.getConnection();
 		try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ACCOUNT, false, values);){
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				albums.add(map(rs));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		return albums;
+
+
+		return albums;	
+	}
+
+	public ArrayList<Album> listByAccount(Account account){
+		return listByAccount(account.getId());
 	}
 
 
