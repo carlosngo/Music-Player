@@ -15,7 +15,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     private String title, album, genre, year, artist;
     private boolean choice;
     private int selectedRow;
-    private JComboBox genreChoices;
+    private JComboBox genreChoices, albumChoices;
 
     public EditSongProfileWindow(SongController controller, ArrayList<String> data, int selectedRow){
         this.controller = controller;
@@ -62,13 +62,21 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         albumLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p2.add(albumLabel);
         //p2.add(Box.createRigidArea(new Dimension(5,0))); // add space
-        albumInput = new JTextField("" , 15);
-        albumInput.addActionListener(this);
-        albumInput.getDocument().addDocumentListener(this);
-        albumInput.setFont(new Font("Arial", Font.BOLD, 22));
-        //albumInput.setEditable(false);
-        //titleInput.setBackground(new Color(152,251,152));
-        p2.add(albumInput);
+//        albumInput = new JTextField("" , 15);
+//        albumInput.addActionListener(this);
+//        albumInput.getDocument().addDocumentListener(this);
+//        albumInput.setFont(new Font("Arial", Font.BOLD, 22));
+//        //albumInput.setEditable(false);
+//        //titleInput.setBackground(new Color(152,251,152));
+//        p2.add(albumInput);
+        String[] sChoices = controller.getAllPossibleAlbums();
+        albumChoices = new JComboBox();
+        albumChoices.addItem("");
+        for (int i = 0; i < sChoices.length; i++) {
+            albumChoices.addItem(sChoices[i]);
+        }
+        albumChoices.setEditable(false);
+        p2.add(albumChoices);
         p2.add(Box.createRigidArea(new Dimension(15,0)));
         p2.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(p2);
@@ -82,8 +90,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         genreLabel.setForeground(Color.WHITE);
         genreLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p3.add(genreLabel);
-
-        String[] sChoices = controller.getAllPossibleGenres();
+        sChoices = controller.getAllPossibleGenres();
         genreChoices = new JComboBox();
         genreChoices.addItem("");
         for (int i = 0; i < sChoices.length; i++) {

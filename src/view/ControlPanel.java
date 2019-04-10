@@ -18,7 +18,7 @@ import java.net.URL;
 public class ControlPanel extends JPanel implements ActionListener {
     private SongController controller;
     private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs,
-            favPlaylists, addAlbum, addSong;
+            favPlaylists, addAlbum, addSong, friends;
 
     public ControlPanel(SongController controller, boolean isArtist){
         this.controller = controller;
@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         add(Box.createRigidArea(new Dimension(15,0)));
 
         search = new JButton();
-        search.setActionCommand("Search");
+        search.setActionCommand("Browse");
         search.addActionListener(this);
         search.setForeground(Color.white);
         search.setOpaque(false);
@@ -101,7 +101,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 mostFrqntlyPlyd.setForeground(oldColor);
             }
         });
-        add(mostFrqntlyPlyd);
+        //add(mostFrqntlyPlyd);
 
         favPlaylists = new JButton();
         favPlaylists.setActionCommand("Favorite Playlists");
@@ -139,7 +139,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 favPlaylists.setForeground(oldColor);
             }
         });
-        add(favPlaylists);
+        //add(favPlaylists);
 
         favSongs = new JButton();
         favSongs.setActionCommand("Favorite Songs");
@@ -215,48 +215,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 songs.setForeground(oldColor);
             }
         });
-        //buttonsPnl.add(songs);
         add(songs);
-        playlists = new JButton();
-        playlists.setActionCommand("Playlists");
-        //playlists.setAlignmentX(Component.LEFT_ALIGNMENT);
-        playlists.setForeground(Color.white);
-        playlists.addActionListener(this);
-        playlists.setOpaque(false);
-        playlists.setContentAreaFilled(false);
-        playlists.setBorderPainted(false);
-        playlists.setMaximumSize(new Dimension(200, 40));
-        playlists.setMinimumSize(new Dimension(200, 40));
-        playlists.setPreferredSize(new Dimension(200, 40));
-        playlists.setFont(new Font("Arial", Font.BOLD, 14));
-        playlists.addMouseListener(new MouseAdapter() {
-            Color oldColor = playlists.getForeground();
-            public void mouseEntered(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/cyanPlaylists.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    playlists.setText("Playlists");
-                } catch(Exception exception){
-
-                }
-                playlists.setForeground(new Color(0,255,255));
-            }
-            public void mouseExited(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/playlists.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    playlists.setText("Playlists");
-                } catch(Exception exception){
-
-                }
-                playlists.setForeground(oldColor);
-            }
-        });
-        //buttonsPnl.add(playlists);
-        add(playlists);
-
 
         albums = new JButton();
         albums.setActionCommand("Albums");
@@ -298,6 +257,46 @@ public class ControlPanel extends JPanel implements ActionListener {
         //buttonsPnl.add(albums);
         add(albums);
 
+        playlists = new JButton();
+        playlists.setActionCommand("Playlists");
+        //playlists.setAlignmentX(Component.LEFT_ALIGNMENT);
+        playlists.setForeground(Color.white);
+        playlists.addActionListener(this);
+        playlists.setOpaque(false);
+        playlists.setContentAreaFilled(false);
+        playlists.setBorderPainted(false);
+        playlists.setMaximumSize(new Dimension(200, 40));
+        playlists.setMinimumSize(new Dimension(200, 40));
+        playlists.setPreferredSize(new Dimension(200, 40));
+        playlists.setFont(new Font("Arial", Font.BOLD, 14));
+        playlists.addMouseListener(new MouseAdapter() {
+            Color oldColor = playlists.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanPlaylists.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    playlists.setText("Playlists");
+                } catch(Exception exception){
+
+                }
+                playlists.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/playlists.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    playlists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    playlists.setText("Playlists");
+                } catch(Exception exception){
+
+                }
+                playlists.setForeground(oldColor);
+            }
+        });
+        //buttonsPnl.add(playlists);
+        add(playlists);
+
         genres = new JButton();
         genres.setActionCommand("Genres");
         //genres.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -335,7 +334,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 genres.setForeground(oldColor);
             }
         });
-        add(genres);
+        //add(genres);
 
         artists = new JButton();
         artists.setActionCommand("Artists");
@@ -375,6 +374,44 @@ public class ControlPanel extends JPanel implements ActionListener {
         });
         add(artists);
 
+        friends = new JButton();
+        friends.setActionCommand("Friends");
+        friends.setForeground(Color.white);
+        friends.addActionListener(this);
+        friends.setOpaque(false);
+        friends.setContentAreaFilled(false);
+        friends.setBorderPainted(false);
+        friends.setMaximumSize(new Dimension(200, 40));
+        friends.setMinimumSize(new Dimension(200, 40));
+        friends.setPreferredSize(new Dimension(200, 40));
+        friends.setFont(new Font("Arial", Font.BOLD, 14));
+        friends.addMouseListener(new MouseAdapter() {
+            Color oldColor = friends.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanFriends.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    friends.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    friends.setText("Friends");
+                } catch(Exception exception){
+
+                }
+                friends.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/friends.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    friends.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    friends.setText("Friends");
+                } catch(Exception exception){
+
+                }
+                friends.setForeground(oldColor);
+            }
+        });
+        add(friends);
+
         years = new JButton();
         years.setActionCommand("Years");
         years.setForeground(Color.white);
@@ -411,7 +448,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 years.setForeground(oldColor);
             }
         });
-        add(years);
+        //add(years);
 
         addPlaylist = new JButton();
         addPlaylist.setActionCommand("Add Playlist");
@@ -582,6 +619,10 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = ImageIO.read(resource);
             addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             addAlbum.setText("Add Album");
+            resource = getClass().getClassLoader().getResource("images/friends.png");
+            img = ImageIO.read(resource);
+            friends.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            friends.setText("Friends");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -592,35 +633,26 @@ public class ControlPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource() == mostFrqntlyPlyd){
-            controller.showMostFrequentlyPlayed();
-        }
         if(e.getSource() == search){
             //controller.showBrowsePanel();
-        }
-        if(e.getSource() == playlists){
-            controller.showPlaylists();
-        }
-        if(e.getSource() == favPlaylists){
-            controller.showFavoritePlaylists();
         }
         if(e.getSource() == favSongs){
             controller.showFavoriteSongs();
         }
-        if(e.getSource() == years){
-            controller.showYears();
+        if(e.getSource() == songs){
+            controller.showAllSongs();
         }
         if(e.getSource() == albums){
             controller.showAlbums();
         }
+        if(e.getSource() == playlists){
+            controller.showPlaylists();
+        }
         if(e.getSource() == artists){
             controller.showArtists();
         }
-        if(e.getSource() == songs){
-            controller.showAllSongs();
-        }
-        if(e.getSource() == genres){
-            controller.showGenres();
+        if(e.getSource() == friends){
+            controller.showFriends();
         }
         if(e.getSource() == addPlaylist){
             controller.openAddPlaylistWindow();
@@ -632,5 +664,17 @@ public class ControlPanel extends JPanel implements ActionListener {
         if(e.getSource() == addAlbum){
             controller.getMainController().getAc().openAddAlbumWindow();
         }
+//        if(e.getSource() == mostFrqntlyPlyd){
+//            controller.showMostFrequentlyPlayed();
+//        }
+//        if(e.getSource() == favPlaylists){
+//            controller.showFavoritePlaylists();
+//        }
+//        if(e.getSource() == years){
+//            controller.showYears();
+//        }
+//        if(e.getSource() == genres){
+//            controller.showGenres();
+//        }
     }
 }

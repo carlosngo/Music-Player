@@ -20,6 +20,7 @@ public final class Server {
     private final Map<Integer, ClientThread> onlineUsers = Collections.synchronizedMap(new HashMap<>());
 
     private final UserDAOFactory userDAOFactory = new UserDAOFactory();
+    private final AccountDAOFactory accountDAOFactory = new AccountDAOFactory();
     private final AccountSongDAOFactory accountSongDAOFactory = new AccountSongDAOFactory();
     private final AccountPlaylistDAOFactory accountPlaylistDAOFactory = new AccountPlaylistDAOFactory();
     private final AccountAlbumDAOFactory accountAlbumDAOFactory = new AccountAlbumDAOFactory();
@@ -68,6 +69,10 @@ public final class Server {
         return ((SongDAO)songDAOFactory.getDAO()).listByPlaylist(playlistId);
     }
 
+    public ArrayList<Song> getSongsWithGenre(String genre) {
+        return ((SongDAO)songDAOFactory.getDAO()).listByGenre(genre);
+    }
+
     public boolean addSong(Song song){
         try {
             ((SongDAO)songDAOFactory.getDAO()).create(song);
@@ -88,10 +93,6 @@ public final class Server {
         ((PlaylistSongDAO)playlistDAOFactory.getDAO()).join(playlist, song);
     }
 
-    public void addSongToAlbum(Song song, Album album) {
-        ((AlbumSongDAO)albumSongDAOFactory.getDAO()).join(album, song);
-    }
-
     public void deleteSong(Song song){
         try {
             ((SongDAO)songDAOFactory.getDAO()).delete(song);
@@ -102,10 +103,6 @@ public final class Server {
 
     public void removeSongFromPlaylist(Song song, Playlist playlist) {
         ((PlaylistSongDAO)playlistDAOFactory.getDAO()).separate(playlist, song);
-    }
-
-    public void removeSongFromAlbum(Song song, Album album) {
-        ((AlbumSongDAO)albumSongDAOFactory.getDAO()).separate(album, song);
     }
 
     public void updateSong(Song song){
@@ -132,6 +129,8 @@ public final class Server {
     public void unfollowSong(Account account, Song song) {
         ((AccountSongDAO)accountSongDAOFactory.getDAO()).separate(account, song);
     }
+
+    public Playlist getPlaylist(int playlistId) { return ((PlaylistDAO)playlistDAOFactory.getDAO()).find(playlistId); }
 
     public ArrayList<Playlist> getPlaylists() {
         return ((PlaylistDAO)playlistDAOFactory.getDAO()).listById();
@@ -233,14 +232,22 @@ public final class Server {
         ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).separate(account, album);
     }
 
+    public User getUser(int userId) { return ((UserDAO)userDAOFactory.getDAO()).find(userId); }
+
     public ArrayList<User> getUsers(){
         return ((UserDAO)userDAOFactory.getDAO()).listById();
+    }
+
+    public ArrayList<User> getFollowedUsers(int accountId) {
+        return ((UserDAO)userDAOFactory.getDAO()).listFollowedUsers(accountId);
     }
 
     public boolean addUser(User user){
         try {
             UserDAO userDAO = ((UserDAO)userDAOFactory.getDAO());
-            if (userDAO.existUserName(user.getUserName())) return false;
+            AccountDAO accountDAO = ((AccountDAO)accountDAOFactory.getDAO());
+            if (accountDAO.existUserName(user.getUserName())) return false;
+            accountDAO.insert(user.getAccount());
             userDAO.create(user);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -265,14 +272,22 @@ public final class Server {
         ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).separate(account, user.getAccount());
     }
 
+    public Artist getArtist(int artistId) { return ((ArtistDAO)artistDAOFactory.getDAO()).find(artistId); }
+
     public ArrayList<Artist> getArtists(){
         return ((ArtistDAO)artistDAOFactory.getDAO()).listById();
+    }
+
+    public ArrayList<Artist> getFollowedArtists (int accountId) {
+        return ((ArtistDAO)artistDAOFactory.getDAO()).listFollowedArtists(accountId);
     }
 
     public boolean addArtist(Artist artist){
         try {
             ArtistDAO artistDAO = ((ArtistDAO)artistDAOFactory.getDAO());
-            if (artistDAO.existUsername(artist.getUserName())) return false;
+            AccountDAO accountDAO = ((AccountDAO)accountDAOFactory.getDAO());
+            if (accountDAO.existUserName(artist.getUserName())) return false;
+            accountDAO.insert(artist.getAccount());
             artistDAO.create(artist);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -313,13 +328,15 @@ public final class Server {
 
 
     public User login(String username, String password, ClientThread thread){
-        User user = ((UserDAO)(userDAOFactory.getDAO())).find(username, password);
-        if (user != null) onlineUsers.put(user.getUserId(), thread);
+        Account account = ((AccountDAO)accountDAOFactory.getDAO()).find(username, password);
+        User user = ((UserDAO)userDAOFactory.getDAO()).findByAccountID(account.getId());
+        if (user == null) user = ((ArtistDAO)artistDAOFactory.getDAO()).findByAccountID(account.getId());
+        if (user != null) onlineUsers.put(user.getAccount().getId(), thread);
         return user;
     }
 
-    public void logout(int userId){
-        onlineUsers.remove(userId);
+    public void logout(int accountId){
+        onlineUsers.remove(accountId);
     }
 
     public static void main(String[] args) {

@@ -355,9 +355,9 @@ public class CategoryPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser chooser = new JFileChooser();
-                chooser.setDialogTitle("Import Song");
-                chooser.addChoosableFileFilter(new FileNameExtensionFilter(
-                        "MP3 File", "mp3"));
+                chooser.setDialogTitle("Import Cover Photo");
+//                chooser.addChoosableFileFilter(new FileNameExtensionFilter(
+//                        "MP3 File", "mp3"));
                 int returnVal = chooser.showOpenDialog(null);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = chooser.getSelectedFile();
