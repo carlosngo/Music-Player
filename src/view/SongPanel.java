@@ -868,7 +868,10 @@ public class SongPanel extends JPanel implements ActionListener{
             add_to_playlist.setActionCommand("add");
 
             JMenuItem removeFromPlaylist = new JMenuItem("Remove from playlist");
-            removeFromPlaylist.setActionCommand("remove");
+            removeFromPlaylist.setActionCommand("removeFromPLaylist");
+
+            JMenuItem removeFromAlbum = new JMenuItem("Remove from album");
+            removeFromPlaylist.setActionCommand("removeFromAlbum");
 
             JMenuItem edit = new JMenuItem("Edit");
             edit.setActionCommand("edit");
@@ -884,6 +887,7 @@ public class SongPanel extends JPanel implements ActionListener{
             addToQueue.addActionListener(menuItemListener);
             add_to_playlist.addActionListener(menuItemListener);
             removeFromPlaylist.addActionListener(menuItemListener);
+            removeFromAlbum.addActionListener(menuItemListener);
             edit.addActionListener(menuItemListener);
             delete.addActionListener(menuItemListener);
             //follow.addActionListener(menuItemListener);
@@ -891,8 +895,11 @@ public class SongPanel extends JPanel implements ActionListener{
             settingsMenu.add(addToQueue);
             settingsMenu.add(add_to_playlist);
             String[] split = headerName.getText().split(" ");
-            if (split.length > 1 && split[1].equals("IN"))
+            if (split.length > 1 && split[1].equals("IN")){
                 settingsMenu.add(removeFromPlaylist);
+                //settingsMenu.add(removeFromAlbum);
+            }
+            settingsMenu.add(removeFromAlbum);
             settingsMenu.add(edit);
             settingsMenu.add(delete);
             //settingsMenu.add(follow);
@@ -921,6 +928,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanRemoveFromPlaylist.png");
                 img = ImageIO.read(resource);
                 removeFromPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                resource = getClass().getClassLoader().getResource("images/cyanRemoveFromAlbum.png");
+                img = ImageIO.read(resource);
+                removeFromAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //                resource = getClass().getClassLoader().getResource("images/songFollow.png");
 //                img = ImageIO.read(resource);
 //                follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -941,12 +951,20 @@ public class SongPanel extends JPanel implements ActionListener{
                     case "add":
                         controller.openAddToPlaylistWindow(currentRow);
                         break;
-                    case "remove":
+                    case "removeFromPLaylist":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to remove this song?", "Confirm Remove Song from Playlist", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
                             controller.removeFromPlaylist(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
+                        }
+                        break;
+                    case "removeFromAlbum":
+                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+                                " to remove this song?", "Confirm Remove Song from Album", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION) {
+//                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
+                            controller.removeFromAlbum(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
                         }
                         break;
                     case "edit":
