@@ -18,7 +18,7 @@ import java.net.URL;
 public class ControlPanel extends JPanel implements ActionListener {
     private SongController controller;
     private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs,
-            favPlaylists, addSong;
+            favPlaylists, addAlbum, addSong;
 
     public ControlPanel(SongController controller, boolean isArtist){
         this.controller = controller;
@@ -451,6 +451,45 @@ public class ControlPanel extends JPanel implements ActionListener {
         });
         add(addPlaylist);
 
+        addAlbum = new JButton();
+        addAlbum.setActionCommand("Add Playlist");
+        addAlbum.setForeground(Color.white);
+        addAlbum.addActionListener(this);
+        addAlbum.setOpaque(false);
+        addAlbum.setContentAreaFilled(false);
+        addAlbum.setBorderPainted(false);
+        addAlbum.setMaximumSize(new Dimension(200, 40));
+        addAlbum.setMinimumSize(new Dimension(200, 40));
+        addAlbum.setPreferredSize(new Dimension(200, 40));
+        addAlbum.setFont(new Font("Arial", Font.BOLD, 14));
+        addAlbum.addMouseListener(new MouseAdapter() {
+            Color oldColor = addAlbum.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAddAlbum.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addAlbum.setText("Add Playlist");
+                } catch(Exception exception){
+
+                }
+                addAlbum.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/addAlbum.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addAlbum.setText("Add Playlist");
+                } catch(Exception exception){
+
+                }
+                addAlbum.setForeground(oldColor);
+            }
+        });
+        if(isArtist)
+            add(addAlbum);
+
         addSong = new JButton();
         addSong.setActionCommand("Add Song");
         addSong.setForeground(Color.white);
@@ -537,8 +576,12 @@ public class ControlPanel extends JPanel implements ActionListener {
             artists.setText("Artists");
             resource = getClass().getClassLoader().getResource("images/addSong.png");
             img = ImageIO.read(resource);
-            artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            artists.setText("AddSong");
+            addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            addSong.setText("Add Song");
+            resource = getClass().getClassLoader().getResource("images/addAlbum.png");
+            img = ImageIO.read(resource);
+            addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            addAlbum.setText("Add Album");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -585,6 +628,9 @@ public class ControlPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == addSong){
             controller.getMainController().getAc().openAddSongWindow();
+        }
+        if(e.getSource() == addAlbum){
+            controller.getMainController().getAc().openAddAlbumWindow();
         }
     }
 }
