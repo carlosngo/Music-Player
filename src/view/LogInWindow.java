@@ -12,12 +12,12 @@ import java.awt.event.*;
  * @author User
  */
 public class LogInWindow extends JFrame implements ActionListener, DocumentListener {
-    UserController controller;
+    AccountController controller;
     private JTextField usernameInput;
     private JPasswordField passwordInput;
     private JButton logIn, cancel;
 
-    public LogInWindow(UserController controller) {
+    public LogInWindow(AccountController controller) {
         this.controller = controller;
         initHomeScreen();
     }

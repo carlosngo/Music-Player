@@ -39,6 +39,17 @@ public final class Client {
         }
     }
 
+    public Song getSong(int songId) {
+        outToServer.println(Protocol.GETSONG);
+        outToServer.println(songId);
+        try {
+            return Song.parseSong(inFromServer.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<Song> getSongs(){
         ArrayList<Song> songs = new ArrayList<>();
         outToServer.println(Protocol.GETSONGS);
@@ -78,6 +89,14 @@ public final class Client {
         return songs;
     }
 
+    public ArrayList<Song> getSongsWithGenre(String genre) {
+        ArrayList<Song> songs = new ArrayList<>();
+        outToServer.println(Protocol.GETSONGSWITHGENRE);
+        outToServer.println(genre);
+        readSongs(songs);
+        return songs;
+    }
+
     private void readSongs(ArrayList<Song> songs) {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
@@ -107,12 +126,6 @@ public final class Client {
         outToServer.println(playlist);
     }
 
-    public void addSongToAlbum(Song song, Album album) {
-        outToServer.println(Protocol.ADDSONGTOALBUM);
-        outToServer.println(song);
-        outToServer.println(album);
-    }
-
     public void deleteSong(Song song){
         outToServer.println(Protocol.DELETESONG);
         outToServer.println(song);
@@ -122,12 +135,6 @@ public final class Client {
         outToServer.println(Protocol.REMOVESONGFROMPLAYLIST);
         outToServer.println(song);
         outToServer.println(playlist);
-    }
-
-    public void removeSongFromAlbum(Song song, Album album) {
-        outToServer.println(Protocol.REMOVESONGFROMALBUM);
-        outToServer.println(song);
-        outToServer.println(album);
     }
 
     public void updateSong(Song song){
@@ -151,6 +158,17 @@ public final class Client {
         outToServer.println(Protocol.UNFOLLOWSONG);
         outToServer.println(follower);
         outToServer.println(song);
+    }
+
+    public Playlist getPlaylist(int playlistId) {
+        outToServer.println(Protocol.GETPLAYLIST);
+        outToServer.println(playlistId);
+        try {
+            return Playlist.parsePlaylist(inFromServer.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ArrayList<Playlist> getPlaylists() {
@@ -216,6 +234,16 @@ public final class Client {
         outToServer.println(playlist);
     }
 
+    public Album getAlbum(int albumId) {
+        outToServer.println(Protocol.GETALBUM);
+        outToServer.println(albumId);
+        try {
+            return Album.parseAlbum(inFromServer.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public ArrayList<Album> getAlbums(){
         ArrayList<Album> albums = new ArrayList<>();
         outToServer.println(Protocol.GETALBUMS);
@@ -280,6 +308,17 @@ public final class Client {
         outToServer.println(album);
     }
 
+    public User getUser(int userId) {
+        outToServer.println(Protocol.GETUSER);
+        outToServer.println(userId);
+        try {
+            return User.parseUser(inFromServer.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<User> getUsers(){
         ArrayList<User> users = new ArrayList<>();
         outToServer.println(Protocol.GETUSERS);
@@ -321,6 +360,17 @@ public final class Client {
         outToServer.println(Protocol.UNFOLLOWUSER);
         outToServer.println(follower);
         outToServer.println(user);
+    }
+
+    public Artist getArtist(int artistId) {
+        outToServer.println(Protocol.GETARTIST);
+        outToServer.println(artistId);
+        try {
+            return Artist.parseArtist(inFromServer.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ArrayList<Artist> getArtists(String name){
@@ -407,7 +457,9 @@ public final class Client {
             Protocol protocol = Protocol.valueOf(inFromServer.readLine());
             switch (protocol) {
                 case OK:
-                    user = User.parseUser(inFromServer.readLine());
+                    String userInfo = inFromServer.readLine();
+                    if (userInfo.split("\\|").length > 6) user = Artist.parseArtist(userInfo);
+                    else user = User.parseUser(userInfo);
                     break;
             }
         } catch (IOException e) {

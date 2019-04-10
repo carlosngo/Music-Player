@@ -11,13 +11,13 @@ import java.util.Calendar;
 import model.*;
 
 public class ViewAccountWindow extends JFrame implements ActionListener {
-    private UserController ac;
+    private AccountController ac;
     private JTextField usernameInput, passwordInput, firstNameInput, lastNameInput;
     private JComboBox mon, day ,yr, gender;
     private JButton back, editAccount;
     private User user;
 
-    public ViewAccountWindow(UserController ac){
+    public ViewAccountWindow(AccountController ac){
         this.ac = ac;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));

@@ -9,6 +9,7 @@ public class Artist extends User implements Comparable<Artist>{
 	private boolean isFollowed;
 
 	public Artist() {
+		super();
 		artistId = -1;
 	}
 

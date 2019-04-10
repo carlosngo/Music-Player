@@ -20,6 +20,7 @@ public class User {
 
     public User() {
         userId = -1;
+        account = new Account();
     }
 
     public String getGender() {

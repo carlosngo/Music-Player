@@ -9,13 +9,13 @@ import java.awt.event.*;
 import java.util.Calendar;
 
 public class EditAccountWindow extends JFrame implements ActionListener, DocumentListener {
-    private UserController controller;
+    private AccountController controller;
     private JTextField usernameInput, firstNameInput, lastNameInput;
     private JComboBox mon, day, yr, gender;
     private JButton cancel, save;
     private JPasswordField passwordInput;
 
-    public EditAccountWindow(UserController controller){
+    public EditAccountWindow(AccountController controller){
         this.controller = controller;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
