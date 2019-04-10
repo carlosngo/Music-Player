@@ -38,13 +38,14 @@ public class Artist extends User implements Comparable<Artist>{
 	public static Artist parseArtist(String s) {
 		Artist artist = new Artist();
 		String[] artistData = s.split("\\|");
-		artist.setArtistId(Integer.parseInt(artistData[0]));
-		artist.setGenre(artistData[1]);
-		artist.setFirstName(artistData[2]);
-		artist.setLastName(artistData[3]);
-		artist.setGender(artistData[4]);
+		artist.getAccount().setId(Integer.parseInt(artistData[0]));
+		artist.setArtistId(Integer.parseInt(artistData[1]));
+		artist.setGenre(artistData[2]);
+		artist.setFirstName(artistData[3]);
+		artist.setLastName(artistData[4]);
+		artist.setGender(artistData[5]);
 		try {
-			Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(artistData[5]);
+			Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(artistData[6]);
 			artist.setBirthday(bday);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -55,6 +56,8 @@ public class Artist extends User implements Comparable<Artist>{
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
+		sb.append(getAccount().getId());
+		sb.append("|");
 		sb.append(getArtistId());
 		sb.append("|");
 		sb.append(getGenre());
