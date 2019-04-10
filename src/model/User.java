@@ -17,7 +17,6 @@ public class User {
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
 
-
     public User() {
         userId = -1;
         account = new Account();
@@ -110,14 +109,13 @@ public class User {
     public static User parseUser(String s) {
         User user = new User();
         String[] biodata = s.split("\\|");
-        user.setUserId(Integer.parseInt(biodata[0]));
-        user.setUserName(biodata[1]);
-        user.setPassword(biodata[2]);
-        user.setFirstName(biodata[3]);
-        user.setLastName(biodata[4]);
-        user.setGender(biodata[5]);
+        user.getAccount().setId(Integer.parseInt(biodata[0]));
+        user.setUserId(Integer.parseInt(biodata[1]));
+        user.setFirstName(biodata[2]);
+        user.setLastName(biodata[3]);
+        user.setGender(biodata[4]);
         try {
-            Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(biodata[6]);
+            Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(biodata[5]);
             user.setBirthday(bday);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -128,11 +126,9 @@ public class User {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
+        sb.append(getAccount().getId());
+        sb.append("|");
         sb.append(getUserId());
-        sb.append("|");
-        sb.append(getUserName());
-        sb.append("|");
-        sb.append(getPassword());
         sb.append("|");
         sb.append(getFirstName());
         sb.append("|");

@@ -26,9 +26,12 @@ public class AlbumDAO implements DataAccessObject {
 	private static final String SQL_LIST_BY_ARTIST = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 
 			+ " ON " + Database.ALBUM_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + Database.ARTIST_TABLE + ".Name = ?";
 	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE PK_AlbumID = ?";
-	
 	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name LIKE ?";
-	
+	private static final String SQL_LIST_BY_ACCOUNT = 
+			"SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ACCOUNTALBUM_TABLE + " ON " + Database.ALBUM_TABLE + ".PK_AlbumID = "
+					+ Database.ACCOUNTALBUM_TABLE + ".FK_AlbumID WHERE FK_AccountID = ?";
+
+
 	private static final String PATH = "resources/images/";
 
 	public AlbumDAO(DAOFactory db) {
@@ -215,26 +218,52 @@ public class AlbumDAO implements DataAccessObject {
 		}
 		return albums;
 	}
-	
+
 	public ArrayList<Album> search(String name){
-    	ArrayList<Album> albums = new ArrayList<>();
-    	Object[] values = {
-    			"%" + name + "%"
-    	};
-    	Connection connection = Database.getConnection();
-    	
-    	try(PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_BY_KEYWORD, false, values);){
-    		ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
-            	albums.add(map(rs));
-            }
-    	} catch (SQLException e) {
+		ArrayList<Album> albums = new ArrayList<>();
+		Object[] values = {
+				"%" + name + "%"
+		};
+		Connection connection = Database.getConnection();
+
+		try(PreparedStatement statement = prepareStatement(connection, SQL_SEARCH_BY_KEYWORD, false, values);){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				albums.add(map(rs));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	return albums;
-    }
-	
-	
+		return albums;
+	}
+
+	public ArrayList<Album> listByAccount(int accountId){
+		ArrayList<Album> albums = new ArrayList<>();
+
+		Object[] values = {
+				accountId
+		};
+
+		Connection connection = Database.getConnection();
+		try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ACCOUNT, false, values);){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				albums.add(map(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+
+		return albums;	
+	}
+
+	public ArrayList<Album> listByAccount(Account account){
+		return listByAccount(account.getId());
+	}
+
+
 	public static void main(String[] args) {
 		//            DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
 		//            AlbumDAO userDAO = db.getAlbumDAO();

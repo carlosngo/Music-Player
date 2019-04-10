@@ -15,6 +15,8 @@ public class UserDAO implements DataAccessObject {
 
 	private static final String SQL_FIND_BY_ID =
 			"SELECT * FROM " + Database.USER_TABLE + " WHERE PK_UserID = ?";
+	private static final String SQL_FIND_BY_ACCOUNTID = 
+			"SELECT * FROM" + Database.USER_TABLE + "WHERE FK_AccountID = ?";
 	private static final String SQL_FIND_BY_USERNAME_PASSWORD =
 			"SELECT * FROM " + Database.USER_TABLE + " INNER JOIN " + Database.ACCOUNT_TABLE + " ON " + Database.USER_TABLE + ".FK_AccountID = "
 					+ Database.ACCOUNT_TABLE + ".PK_AccountID WHERE Username = ? AND Password = ?";
@@ -36,6 +38,10 @@ public class UserDAO implements DataAccessObject {
 
 	public User find(long userId) {
 		return find(SQL_FIND_BY_ID, userId);
+	}
+	
+	public User findByAccountID(long accId) {
+		return find(SQL_FIND_BY_ACCOUNTID, accId);
 	}
 
 	public User find(String username, String password) {
