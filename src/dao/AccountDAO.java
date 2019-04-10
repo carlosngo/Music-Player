@@ -19,6 +19,9 @@ public class AccountDAO implements DataAccessObject {
     private static final String SQL_UPDATE = "UPDATE " + Database.ACCOUNT_TABLE + " SET Username = ?, Password = ? WHERE PK_AccountID = ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM " + Database.ACCOUNT_TABLE + " WHERE PK_AccountID = ?";
     private static final String SQL_FIND_BY_USERNAME_PASSWORD = "SELECT * FROM " + Database.ACCOUNT_TABLE + " WHERE Username = ? AND Password = ?";
+    private static final String SQL_EXIST_USERNAME =
+			"SELECT PK_AccountID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
+    
     public AccountDAO(DAOFactory db) {
         this.db = db;
     }
@@ -127,5 +130,21 @@ public class AccountDAO implements DataAccessObject {
         }
 
     }
+    
+    public boolean existUserName(String userName) {
+		Object[] values = {
+				userName
+		};
+		boolean exist = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_EXIST_USERNAME, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			exist = resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return exist;
+	}
 
 }

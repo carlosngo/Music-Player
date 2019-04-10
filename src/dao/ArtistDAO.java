@@ -1,5 +1,6 @@
 package dao;
 
+import model.Account;
 import model.Artist;
 import model.Song;
 
@@ -24,8 +25,8 @@ public class ArtistDAO implements DataAccessObject {
 	private static final String SQL_EXIST_USERNAME =
 			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.ACCOUNT_TABLE + " ON " + Database.ARTIST_TABLE + ".FK_AccountID = "+
 					Database.ACCOUNT_TABLE + ".PK_AccountID WHERE " + Database.ACCOUNT_TABLE + ".Username = ?";
-	
 	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE Name LIKE ?";
+	private static final String SQL_FIND_BY_ACCOUNTID = "SELECT * FROM" + Database.ARTIST_TABLE + "WHERE FK_AccountID = ?" ;
 	
 	public ArtistDAO(DAOFactory db) {
 		this.db = db;
@@ -104,7 +105,10 @@ public class ArtistDAO implements DataAccessObject {
 	public Artist find(long userId) {
 		return find(SQL_FIND_BY_ID, userId);
 	}
-
+	
+	public Artist findByAccountID(long accId) {
+		return find(SQL_FIND_BY_ACCOUNTID, accId);
+	}
 
 	private Artist find(String sql, Object... values) {
 		Artist artist = null;
@@ -121,7 +125,11 @@ public class ArtistDAO implements DataAccessObject {
 		}
 		return artist;
 	}
-
+	
+	public Artist findByAccount(Account acc) {
+		return findByAccountID(acc.getId());
+	}
+	
 	public ArrayList<Artist> listById(){
 		ArrayList<Artist> artists = new ArrayList<>();
 		Connection connection = Database.getConnection();

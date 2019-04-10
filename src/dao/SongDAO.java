@@ -9,6 +9,9 @@ import static util.DAOUtil.*;
 
 import java.sql.*;
 import java.util.*;
+
+import com.mysql.cj.jdbc.util.ResultSetUtil;
+
 import java.io.*;
 
 
@@ -34,7 +37,7 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_LIST_BY_ARTIST_ID = 
             "SELECT * FROM " + Database.SONG_TABLE + " WHERE FK_ArtistID = ?";
     private static final String SQL_LIST_BY_GENRE =
-            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_GenreID = ? AND FK_ArtistID = ?";
+            "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE Genre LIKE ?";
     private static final String SQL_LIST_BY_ALBUM =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE FK_AlbumID = ?";
    // private static final String SQL_LIST_BY_FAVORITE =
@@ -51,6 +54,12 @@ public class SongDAO implements DataAccessObject {
     		Database.ARTIST_TABLE + ".Name = ?";
     private static final String SQL_SEARCH_BY_KEYWORD = 
     		"SELECT * FROM " + Database.SONG_TABLE + " WHERE Name LIKE ?";
+    private static final String SQL_GET_DISTINCT_GENRES = 
+    		"SELECT DISTINCT genre FROM " + Database.SONG_TABLE;
+    private static final String SQL_LIST_BY_ACCOUNT = 
+    		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ACCOUNTSONG_TABLE + " ON " + Database.SONG_TABLE + ".PK_SongID = "
+    				+ Database.ACCOUNTSONG_TABLE + ".FK_SongID WHERE FK_AccountID = ?";
+    
     private static final String PATH =
             "resources/music/";
 
@@ -213,15 +222,16 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-    public ArrayList<Song> listByGenre(int genreId, int userId) {
-        ArrayList<Song> songs = new ArrayList<>();
-        try {
-            Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_GENRE);
-            statement.setInt(1, genreId);
-            statement.setInt(2, userId);
-            ResultSet rs = statement.executeQuery();
+    public ArrayList<Song> listByGenre(String genreName) {
+    	ArrayList<Song> songs = new ArrayList<>();
+    	
+    	Object[] values = {
+    			"%"+ genreName+ "%"
+    	};
+    	Connection connection = Database.getConnection();
 
+    	try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_GENRE, false, values)) {
+            ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 songs.add(map(rs));
             }
@@ -429,6 +439,48 @@ public class SongDAO implements DataAccessObject {
 			e.printStackTrace();
 		}
     	return songs;
+    }
+    
+    public ArrayList<Song> listByAccount(int accountId){
+    	ArrayList<Song> songs = new ArrayList<>();
+    	Object[] values = {
+    			accountId
+    	};
+    	
+    	Connection connection = Database.getConnection();
+    	try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ACCOUNT, false, values);){
+    		ResultSet rs = statement.executeQuery();
+    		while(rs.next()) {
+    			songs.add(map(rs));
+    		}
+    	} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return songs;
+    }
+    
+    public ArrayList<Song> listByAccount(Account account){
+    	return listByAccount(account.getId());
+    }
+    
+    public ArrayList<String> getGenres() {
+    	ArrayList<String> genres = new ArrayList<>();
+    	Object[] values = {
+    			
+    	};
+    	
+    	Connection connection = Database.getConnection();
+    	try(PreparedStatement statement = prepareStatement(connection, SQL_GET_DISTINCT_GENRES, false, values);){
+    		ResultSet rs = statement.executeQuery();
+    		while(rs.next()) {
+    			genres.add(rs.getString("genre"));
+    		}
+    	} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return genres;
     }
 
 

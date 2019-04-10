@@ -17,7 +17,6 @@ public class User {
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
 
-
     public User() {
         userId = -1;
     }
