@@ -89,7 +89,18 @@ public class SongPanel extends JPanel implements ActionListener{
             for(int i=0 ; i<_data.size() ; i++){
                 model.add(data.get(i));
             }
-            categoryTable = new JTable(model);
+            categoryTable = new JTable(model){
+                public Component prepareRenderer(
+                        TableCellRenderer renderer, int row, int column)
+                {
+                    Component c = super.prepareRenderer(renderer, row, column);
+
+                    if (!isRowSelected(row))
+                        c.setBackground(Color.BLACK);
+
+                    return c;
+                }
+            };
             categoryTable.setShowGrid(false);
             categoryTable.setIntercellSpacing(new Dimension(0, 0));
             //categoryTable.setShowVerticalLines(false);
