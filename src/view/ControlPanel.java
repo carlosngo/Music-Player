@@ -411,7 +411,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 years.setForeground(oldColor);
             }
         });
-        add(years);
+        //add(years);
 
         addPlaylist = new JButton();
         addPlaylist.setActionCommand("Add Playlist");
@@ -607,9 +607,9 @@ public class ControlPanel extends JPanel implements ActionListener {
         if(e.getSource() == favSongs){
             controller.showFavoriteSongs();
         }
-        if(e.getSource() == years){
-            controller.showYears();
-        }
+//        if(e.getSource() == years){
+//            controller.showYears();
+//        }
         if(e.getSource() == albums){
             controller.showAlbums();
         }
