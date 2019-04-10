@@ -32,11 +32,6 @@ public class UserDAO implements DataAccessObject {
 			"SELECT PK_UserID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
 	private static final String SQL_SEARCH_BY_KEYWORD = 
 			"SELECT * FROM " + Database.USER_TABLE + " WHERE FirstName LIKE ? OR LastName LIKE ?";
-	
-	private static final String SQL_LIST_BY_FOLLOWED_USERS = 
-			"SELECT * FROM " + Database.USER_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.USER_TABLE + ".FK_AccountID = " + 
-			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubcriberID = ?";
-	
 	public UserDAO(DAOFactory db) {
 		this.db = db;
 	}
@@ -73,26 +68,6 @@ public class UserDAO implements DataAccessObject {
 		Connection connection = Database.getConnection();
 		try (
 				PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_ID);
-				ResultSet resultSet = statement.executeQuery()) {
-			while (resultSet.next()) {
-				users.add(map(resultSet));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return users;
-	}
-	
-	public ArrayList<User> listByFollowedUsers(int accountId) {
-		ArrayList<User> users = new ArrayList<>();
-		
-		Object[] values = {
-				accountId
-		};
-		
-		Connection connection = Database.getConnection();
-		try (
-				PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_FOLLOWED_USERS, false, values);
 				ResultSet resultSet = statement.executeQuery()) {
 			while (resultSet.next()) {
 				users.add(map(resultSet));

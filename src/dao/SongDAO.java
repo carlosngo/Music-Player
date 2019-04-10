@@ -59,7 +59,7 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_LIST_BY_ACCOUNT = 
     		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ACCOUNTSONG_TABLE + " ON " + Database.SONG_TABLE + ".PK_SongID = "
     				+ Database.ACCOUNTSONG_TABLE + ".FK_SongID WHERE FK_AccountID = ?";
-
+    
     private static final String PATH =
             "resources/music/";
 
@@ -482,6 +482,7 @@ public class SongDAO implements DataAccessObject {
     	
     	return genres;
     }
+
 
     public static void main(String[] args) {
 //        DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");
