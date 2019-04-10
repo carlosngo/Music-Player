@@ -333,6 +333,21 @@ public final class Client {
         return users;
     }
 
+    public ArrayList<User> getFollowedUsers(int accountId) {
+        ArrayList<User> users = new ArrayList<>();
+        outToServer.println(Protocol.GETFOLLOWEDUSERS);
+        outToServer.println(accountId);
+        try {
+            int n = Integer.parseInt(inFromServer.readLine());
+            for (int i = 0; i < n; i++) {
+                users.add(User.parseUser(inFromServer.readLine()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public boolean addUser(User user){
         outToServer.println(Protocol.ADDUSER);
         outToServer.println(user);
@@ -373,9 +388,24 @@ public final class Client {
         return null;
     }
 
-    public ArrayList<Artist> getArtists(String name){
+    public ArrayList<Artist> getArtists(){
         ArrayList<Artist> artists = new ArrayList<>();
         outToServer.println(Protocol.GETARTISTS);
+        try {
+            int n = Integer.parseInt(inFromServer.readLine());
+            for (int i = 0; i < n; i++) {
+                artists.add(Artist.parseArtist(inFromServer.readLine()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return artists;
+    }
+
+    public ArrayList<Artist> getFollowedArtists(int accountId) {
+        ArrayList<Artist> artists = new ArrayList<>();
+        outToServer.println(Protocol.GETFOLLOWEDARTISTS);
+        outToServer.println(accountId);
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {

@@ -238,6 +238,10 @@ public final class Server {
         return ((UserDAO)userDAOFactory.getDAO()).listById();
     }
 
+    public ArrayList<User> getFollowedUsers(int accountId) {
+        return ((UserDAO)userDAOFactory.getDAO()).listFollowedUsers(accountId);
+    }
+
     public boolean addUser(User user){
         try {
             UserDAO userDAO = ((UserDAO)userDAOFactory.getDAO());
@@ -272,6 +276,10 @@ public final class Server {
 
     public ArrayList<Artist> getArtists(){
         return ((ArtistDAO)artistDAOFactory.getDAO()).listById();
+    }
+
+    public ArrayList<Artist> getFollowedArtists (int accountId) {
+        return ((ArtistDAO)artistDAOFactory.getDAO()).listFollowedArtists(accountId);
     }
 
     public boolean addArtist(Artist artist){
@@ -321,8 +329,8 @@ public final class Server {
 
     public User login(String username, String password, ClientThread thread){
         Account account = ((AccountDAO)accountDAOFactory.getDAO()).find(username, password);
-        User user = ((UserDAO)userDAOFactory.getDAO()).findByAccount(account.getId());
-        if (user == null) user = ((ArtistDAO)artistDAOFactory.getDAO()).findByAccount(account.getId());
+        User user = ((UserDAO)userDAOFactory.getDAO()).findByAccountID(account.getId());
+        if (user == null) user = ((ArtistDAO)artistDAOFactory.getDAO()).findByAccountID(account.getId());
         if (user != null) onlineUsers.put(user.getAccount().getId(), thread);
         return user;
     }

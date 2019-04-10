@@ -94,16 +94,6 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(songs.get(i).toString());
                         }
                         break;
-                    case GETSONGSWITHGENRE:
-                        String genre = in.readLine();
-                        songs = server.getSongsWithGenre(genre);
-                        reply.append(songs.size());
-                        reply.append("\n");
-                        for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
-                            reply.append(songs.get(i).toString());
-                        }
-                        break;
                     case ADDSONG:
                         song = Song.parseSong(in.readLine());
                         if (server.addSong(song)) {
@@ -248,6 +238,15 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(users.get(i).toString());
                         }
                         break;
+                    case GETFOLLOWEDUSERS:
+                        users = server.getFollowedUsers(Integer.parseInt(in.readLine()));
+                        reply.append(users.size());
+                        reply.append("\n");
+                        for (int i = 0; i < users.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(users.get(i).toString());
+                        }
+                        break;
                     case ADDUSER:
                         user = User.parseUser(in.readLine());
                         if (server.addUser(user)) {
@@ -274,6 +273,15 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case GETARTISTS:
                         ArrayList<Artist> artists = server.getArtists();
+                        reply.append(artists.size());
+                        reply.append("\n");
+                        for (int i = 0; i < artists.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(artists.get(i).toString());
+                        }
+                        break;
+                    case GETFOLLOWEDARTISTS:
+                        artists = server.getFollowedArtists(Integer.parseInt(in.readLine()));
                         reply.append(artists.size());
                         reply.append("\n");
                         for (int i = 0; i < artists.size(); i++) {

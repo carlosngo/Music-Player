@@ -125,11 +125,7 @@ public class ArtistDAO implements DataAccessObject {
 		}
 		return artist;
 	}
-	
-	public Artist findByAccount(Account acc) {
-		return findByAccountID(acc.getId());
-	}
-	
+
 	public ArrayList<Artist> listById(){
 		ArrayList<Artist> artists = new ArrayList<>();
 		Connection connection = Database.getConnection();
