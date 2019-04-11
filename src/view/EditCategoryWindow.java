@@ -1,7 +1,9 @@
 package view;
 
 import controller.SongController;
-
+import model.Album;
+import model.Playlist;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,13 +15,29 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
     private SongController controller;
     private JTextField nameInput;
     private JButton save, cancel;
-    String category, oldName;
+    private String category, oldName;
     private boolean isChanged;
+    private int objID, artistID;
+    private File file;
 
-    public EditCategoryWindow(SongController controller, String category, String subCategoryName) {
+    public EditCategoryWindow(SongController controller, String category, Object obj) {
         this.controller = controller;
         this.category = category;
-        oldName = subCategoryName;
+        String name;
+        if(obj instanceof Album){
+            Album album = (Album) obj;
+            name = album.getName();
+            objID = album.getAlbumId();
+            artistID = album.getArtist().getArtistId();
+            file = album.getCover();
+        }
+        else{
+            Playlist playlist = (Playlist) obj;
+            name = playlist.getName();
+            objID = playlist.getPlaylistId();
+            artistID = playlist.getAccount().getId();
+        }
+        oldName = name;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -42,7 +60,7 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
         inputLabel.setForeground(Color.white);
         inputPnl.add(inputLabel);
         inputPnl.add(Box.createRigidArea(new Dimension(5,0)));
-        nameInput = new JTextField(subCategoryName,10);
+        nameInput = new JTextField(name,10);
         nameInput.addActionListener(this);
         nameInput.getDocument().addDocumentListener(this);
         nameInput.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -96,20 +114,20 @@ public class EditCategoryWindow extends JFrame implements ActionListener, Docume
         }
         if(e.getSource() == save){
             switch (category) {
-                case "Genres":
-                    controller.updateGenre(oldName, nameInput.getText());
-                    break;
+//                case "Genres":
+//                    controller.updateGenre(oldName, nameInput.getText());
+//                    break;
                 case "Albums":
-                    controller.updateAlbum(oldName, nameInput.getText());
+                    controller.updateAlbum(objID, nameInput.getText(), file);
                     break;
                 case "Playlists":
-                    controller.updatePlaylist(oldName, nameInput.getText());
+                    controller.updatePlaylist(objID, nameInput.getText());
                     break;
-                case "Years":
-//                    controller.updateYear(oldName, nameInput.getText());
-                    break;
-                case "Favorite Playlists":
-                    controller.updatePlaylist(oldName, nameInput.getText());
+//                case "Years":
+////                    controller.updateYear(oldName, nameInput.getText());
+//                    break;
+//                case "Favorite Playlists":
+//                    controller.updatePlaylist(oldName, nameInput.getText());
             }
             dispose();
         }

@@ -652,7 +652,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.showArtists();
         }
         if(e.getSource() == friends){
-            controller.showFriends();
+            controller.
         }
         if(e.getSource() == addPlaylist){
             controller.openAddPlaylistWindow();
@@ -662,7 +662,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.getMainController().getAc().openAddSongWindow();
         }
         if(e.getSource() == addAlbum){
-            controller.getMainController().getAc().openAddAlbumWindow();
+            controller.openAddAlbumWindow();
         }
 //        if(e.getSource() == mostFrqntlyPlyd){
 //            controller.showMostFrequentlyPlayed();

@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.Song;
 import util.ImageResizer;
 
 import javax.imageio.ImageIO;
@@ -31,16 +32,28 @@ public class SongPanel extends JPanel implements ActionListener{
 
     ArrayList<ArrayList<String>> data; //testing
 
-    public SongPanel(SongController controller, String header, ArrayList<ArrayList<String>> _data) {
+    public SongPanel(SongController controller, String header, ArrayList<Song> songs) {
+        //SongController controller, String header, ArrayList<ArrayList<String>> _data
         //this.controller = controller;
-
-        data = _data;
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+        ArrayList<String> _dataContent;
+        for(Song s : songs){
+            _dataContent = new ArrayList<String>();
+            _dataContent.add(s.getName());
+            _dataContent.add(s.getAlbum().getName());
+            _dataContent.add(s.getArtist().getName());
+            _dataContent.add(""+s.getYear());
+            _dataContent.add(s.getGenre());
+            _dataContent.add(""+s.getDateCreated());
+            _dataContent.add(""+s.getPlayTime());
+            data.add(_dataContent);
+        }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
 
-        if(_data.size()==0){
+        if(data.size()==0){
             JLabel blankMessage = new JLabel("No songs to show.");
             blankMessage.setForeground(Color.white);
             blankMessage.setFont(new Font("Arial", Font.BOLD, 26));
@@ -86,7 +99,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
             });
 
-            for(int i=0 ; i<_data.size() ; i++){
+            for(int i=0 ; i<data.size() ; i++){
                 model.add(data.get(i));
             }
             categoryTable = new JTable(model){
@@ -1037,7 +1050,8 @@ public class SongPanel extends JPanel implements ActionListener{
                                 " to remove this song?", "Confirm Remove Song from Playlist", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
-                            controller.removeFromPlaylist(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
+                            //int songId, int playlistId
+                            controller.removeFromPlaylist();
                         }
                         break;
                     case "removeFromAlbum":

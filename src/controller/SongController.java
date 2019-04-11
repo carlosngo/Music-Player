@@ -77,8 +77,8 @@ public class SongController {
         espw = new EditSongProfileWindow(this, data, index);
     }
 
-    public void openEditCategoryWindow(String category, String subCategoryName) {
-        ecw = new EditCategoryWindow(this, category, subCategoryName);
+    public void openEditCategoryWindow(String category, Object obj) {
+        ecw = new EditCategoryWindow(this, category, obj);
     }
 
     public void addPlaylist(String playlistName) {
