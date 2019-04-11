@@ -61,7 +61,6 @@ public class SongController {
         return espw;
     }
 
-
     public void openAddSongWindow() {
         asw = new AddSongWindow(this);
     }
@@ -174,15 +173,8 @@ public class SongController {
     }
 
     public void showAlbums() {
-        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
-        ArrayList<String> subCategoriesContent;
-        for (Album a : client.getAlbumsByAccount(mc.getAccountController().getUser().getAccount().getId())) {
-            subCategoriesContent = new ArrayList<String>();
-            subCategoriesContent.add(a.getName());
-            subCategoriesContent.add(a.getArtist().getAccount().getUserName());
-            subCategories.add(subCategoriesContent);
-        }
-        cp = new CategoryPanel(this, "Albums", subCategories);
+        ArrayList<Object> list = new ArrayList(client.getAlbumsByAccount(mc.getAccountController().getUser().getAccount().getId()));
+        cp = new CategoryPanel(this, "Albums", list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -206,6 +198,13 @@ public class SongController {
         }
     }
 
+    public void showFollowedListeners() {
+
+    }
+
+    public void showFollowedArtists() {
+
+    }
 
     public void showSongsByAlbum(int albumId) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
@@ -234,6 +233,7 @@ public class SongController {
        sp = new SongPanel(this, "Your Favorite Songs", data);
        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
+
 
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();
