@@ -89,14 +89,6 @@ public final class Client {
         return songs;
     }
 
-    public ArrayList<Song> getSongsWithGenre(String genre) {
-        ArrayList<Song> songs = new ArrayList<>();
-        outToServer.println(Protocol.GETSONGSWITHGENRE);
-        outToServer.println(genre);
-        readSongs(songs);
-        return songs;
-    }
-
     private void readSongs(ArrayList<Song> songs) {
         try {
             int n = Integer.parseInt(inFromServer.readLine());

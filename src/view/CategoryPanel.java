@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.*;
 import util.ImageResizer;
 
 import javax.imageio.ImageIO;
@@ -26,12 +27,25 @@ public class CategoryPanel extends JPanel {
     private boolean isNormalPlaylist = false;
 
     private int i;
-    //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
+    //needs a header name as string and an arraylist of Objects to extract the
     public CategoryPanel(SongController controller, String category, ArrayList<Object> listSource){
         //SongController controller, String category, ArrayList<ArrayList<String>> subCategoryList
 
+        ArrayList<ArrayList<String>> subCategoryList = new ArrayList<>();
+        ArrayList<String> subCategoryListContent;
         for(Object obj : listSource){
-
+            subCategoryListContent = new ArrayList<String>();
+            if(obj instanceof Playlist){
+                Playlist playlist = (Playlist) obj;
+                subCategoryListContent.add(playlist.getName());
+                subCategoryListContent.add(playlist.getAccount().getUserName());
+            }
+            if(obj instanceof Album){
+                Album album = (Album) obj;
+                subCategoryListContent.add(album.getName());
+                subCategoryListContent.add(album.getArtist().getName());
+            }
+            subCategoryList.add(subCategoryListContent);
         }
         ArrayList<ArrayList<String>> subCategoryList
         this.controller = controller;
