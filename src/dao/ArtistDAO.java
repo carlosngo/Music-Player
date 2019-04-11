@@ -29,7 +29,7 @@ public class ArtistDAO implements DataAccessObject {
 	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE Name LIKE ?";
 	private static final String SQL_FIND_BY_ACCOUNTID = "SELECT * FROM" + Database.ARTIST_TABLE + "WHERE FK_AccountID = ?" ;
 	private static final String SQL_LIST_BY_FOLLOWED_USERS = 
-			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.ARTIST_TABLE + ".FK_AccountID = " + 
+			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.ARTIST_TABLE + ".PK_ArtistID = " + 
 			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubcriberID = ?";
 	
 	public ArtistDAO(DAOFactory db) {
@@ -184,8 +184,8 @@ public class ArtistDAO implements DataAccessObject {
 		return artists;
 	}
 	
-	public ArrayList<User> listByFollowedUsers(int accountId) {
-		ArrayList<User> users = new ArrayList<>();
+	public ArrayList<Artist> listByFollowedArtists(int accountId) {
+		ArrayList<Artist> artists = new ArrayList<>();
 		
 		Object[] values = {
 				accountId
@@ -196,12 +196,12 @@ public class ArtistDAO implements DataAccessObject {
 				PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_FOLLOWED_USERS, false, values);
 				ResultSet resultSet = statement.executeQuery()) {
 			while (resultSet.next()) {
-				users.add(map(resultSet));
+				artists.add(map(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return users;
+		return artists;
 	}
 
 	public boolean existUsername(String username) {
