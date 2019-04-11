@@ -27,7 +27,13 @@ public class CategoryPanel extends JPanel {
 
     private int i;
     //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
-    public CategoryPanel(SongController controller, String category, ArrayList<ArrayList<String>> subCategoryList){
+    public CategoryPanel(SongController controller, String category, ArrayList<Object> listSource){
+        //SongController controller, String category, ArrayList<ArrayList<String>> subCategoryList
+
+        for(Object obj : listSource){
+
+        }
+        ArrayList<ArrayList<String>> subCategoryList
         this.controller = controller;
         data = subCategoryList;
 
@@ -391,8 +397,8 @@ public class CategoryPanel extends JPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 7;
         block.add(favPlaylist, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 8;
-        block.add(changeCover, cons);
+//        cons.insets = new Insets(5, 0, 0, 10);
+//        cons.gridx = 8;
+//        block.add(changeCover, cons);
     }
 }
