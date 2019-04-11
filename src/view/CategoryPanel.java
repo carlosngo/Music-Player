@@ -25,12 +25,13 @@ public class CategoryPanel extends JPanel {
     private JPanel block;
     private ArrayList<ArrayList<String>> data;
     private boolean isNormalPlaylist = false;
+    private ArrayList<Object> listSource;
 
     private int i;
     //needs a header name as string and an arraylist of Objects to extract the
     public CategoryPanel(SongController controller, String category, ArrayList<Object> listSource){
         //SongController controller, String category, ArrayList<ArrayList<String>> subCategoryList
-
+        this.listSource = listSource;
         ArrayList<ArrayList<String>> subCategoryList = new ArrayList<>();
         ArrayList<String> subCategoryListContent;
         for(Object obj : listSource){
@@ -53,13 +54,6 @@ public class CategoryPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
-
-        if(subCategoryList.size() == 0){
-
-        }
-        else{
-
-        }
         add(Box.createRigidArea(new Dimension(0,7)));
         headerName = new JLabel((category).toUpperCase());
         headerName.setFont(new Font("Arial", Font.BOLD, 26));
@@ -88,8 +82,11 @@ public class CategoryPanel extends JPanel {
             block.add(emptyLabel, cons);
         }
         else{
-            for(i=0; i<subCategoryList.size(); i++){
-                addRow(category, subCategoryList.get(i).get(0), subCategoryList.get(i).get(1));
+//            for(i=0; i<subCategoryList.size(); i++){
+//                addRow(category, subCategoryList.get(i).get(0), subCategoryList.get(i).get(1));
+//            }
+            for(Object object : listSource){
+                addRow(category, object);
             }
             add(scroll);
         }
@@ -105,7 +102,29 @@ public class CategoryPanel extends JPanel {
         isNormalPlaylist = normalPlaylist;
     }
 
-    public void addRow(String category, String subCategoryName, String subCategoryCreator) {
+    public void addRow(String category, Object obj) {
+        //String category, String subCategoryName, String subCategoryCreator
+        ArrayList<String> subCategoryListContent = new ArrayList<String>();
+        int artistID = 0;
+        int albumID = 0;
+        int playlistID = 0;
+        Playlist playlist = null;
+        Album album = null;
+        if(obj instanceof Playlist){
+            playlist = (Playlist) obj;
+            subCategoryListContent.add(playlist.getName());
+            subCategoryListContent.add(playlist.getAccount().getUserName());
+            artistID = playlist.getAccount().getId();
+            playlistID = playlist.getPlaylistId();
+        }
+        if(obj instanceof Album){
+            album = (Album) obj;
+            subCategoryListContent.add(album.getName());
+            subCategoryListContent.add(album.getArtist().getName());
+            artistID = album.getArtist().getArtistId();
+            albumID = album.getAlbumId();
+        }
+
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
@@ -166,18 +185,18 @@ public class CategoryPanel extends JPanel {
             img = ImageIO.read(resource);
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 
-            if (controller.isFavoritePlaylist(subCategoryName)) {
-                resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-                img = ImageIO.read(resource);
-            } else {
-                resource = getClass().getClassLoader().getResource("images/star.png");
-                img = ImageIO.read(resource);
-            }
-            favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            resource = getClass().getClassLoader().getResource("images/changeCover.png");
-            img = ImageIO.read(resource);
+//            if (controller.isFavoritePlaylist(subCategoryName)) {
+//                resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+//                img = ImageIO.read(resource);
+//            } else {
+//                resource = getClass().getClassLoader().getResource("images/star.png");
+//                img = ImageIO.read(resource);
+//            }
+//            favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            resource = getClass().getClassLoader().getResource("images/changeCover.png");
+//            img = ImageIO.read(resource);
 
-            if (controller.isFollowed(subCategoryName)) {
+            if (playlist.isFollowed()||album.isFollowed()) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -196,8 +215,11 @@ public class CategoryPanel extends JPanel {
             e.printStackTrace();
         }
 
-        subOptionButton.setText(subCategoryName);
+        subOptionButton.setText(subCategoryListContent.get(0));
 
+        int finalAlbumID = albumID;
+        int finalPlaylistID = playlistID;
+        int finalArtistID = artistID;
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,10 +228,10 @@ public class CategoryPanel extends JPanel {
 //                        controller.showSongsByGenre(subCategoryName);
 //                        break;
                     case "Albums":
-                        controller.showSongsByAlbum(subCategoryName);
+                        controller.showSongsByAlbum(finalAlbumID);
                         break;
                     case "Playlists":
-                        controller.showSongsByPlaylist(subCategoryName);
+                        controller.showSongsByPlaylist(finalPlaylistID);
                         break;
 //                    case "Years":
 //                        controller.showSongsByYear(subCategoryName);
@@ -218,21 +240,25 @@ public class CategoryPanel extends JPanel {
 //                        controller.showSongsByPlaylist(subCategoryName);
 //                        break;
                     case "Artists":
-                        controller.showSongsByArtist(subCategoryName);
+                        controller.showSongsByArtist(finalArtistID);
                         break;
                 }
             }
         });
 
-        creator.setText(subCategoryName);
+        creator.setText(subCategoryListContent.get(1));
 
+        int finalArtistID1 = artistID;
         creator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(subCategoryName);
+                controller.showSongsByArtist(finalArtistID1);
             }
         });
 
+        int finalAlbumID1 = albumID;
+        int finalPlaylistID1 = playlistID;
+        int finalArtistID2 = artistID;
         ActionListener addToQueueListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -242,10 +268,10 @@ public class CategoryPanel extends JPanel {
 //                        controller.addSongsInGenreToQueue(subCategoryName);
 //                        break;
                     case "Albums":
-                        controller.addSongsInAlbumToQueue(i);
+                        controller.addSongsInAlbumToQueue(finalAlbumID1);
                         break;
                     case "Playlists":
-                        controller.addSongsInPlaylistToQueue(i);
+                        controller.addSongsInPlaylistToQueue(finalPlaylistID1);
                         break;
 //                    case "Years":
 //                        controller.addSongsInYearToQueue(subCategoryName);
@@ -254,7 +280,7 @@ public class CategoryPanel extends JPanel {
 //                        controller.addSongsInPlaylistToQueue(subCategoryName);
 //                        break;
                     case "Artists":
-                        controller.addSongsByArtistToQueue(i);
+                        controller.addSongsByArtistToQueue(finalArtistID2);
                         break;
                 }
             }
@@ -271,33 +297,39 @@ public class CategoryPanel extends JPanel {
         favPlaylist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.toggleFavoritePlaylist(subCategoryName);
-
-                try {
-                    URL resource;
-                    BufferedImage img;
-                    if (controller.isFavoritePlaylist(subCategoryName)) {
-                        resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-                        img = ImageIO.read(resource);
-                    } else {
-                        resource = getClass().getClassLoader().getResource("images/star.png");
-                        img = ImageIO.read(resource);
-                    }
-                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+//                controller.toggleFavoritePlaylist(subCategoryName);
+//
+//                try {
+//                    URL resource;
+//                    BufferedImage img;
+//                    if (controller.isFavoritePlaylist(subCategoryName)) {
+//                        resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+//                        img = ImageIO.read(resource);
+//                    } else {
+//                        resource = getClass().getClassLoader().getResource("images/star.png");
+//                        img = ImageIO.read(resource);
+//                    }
+//                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
             }
         });
 
+        Album finalAlbum = album;
+        Playlist finalPlaylist = playlist;
+        Playlist finalPlaylist1 = playlist;
+        Album finalAlbum1 = album;
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.toggleFollow(subCategoryName);
+                //controller.toggleFollow(subCategoryName);
+                if(finalPlaylist1 != null) finalPlaylist1.setFollowed(!finalPlaylist1.isFollowed());
+                if(finalAlbum1 != null) finalAlbum1.setFollowed(!finalAlbum1.isFollowed());
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (controller.isFollowed(subCategoryName)) {
+                    if (finalAlbum.isFollowed() || finalPlaylist.isFollowed()) {
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     } else {
@@ -311,6 +343,8 @@ public class CategoryPanel extends JPanel {
             }
         });
 
+        int finalPlaylistID2 = playlistID;
+        int finalAlbumID2 = albumID;
         remove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -321,69 +355,77 @@ public class CategoryPanel extends JPanel {
 //                    controller.remove(category, subCategoryName);
                     switch (category) {
                         case "Playlists":
-                            controller.removePlaylist(subCategoryName);
+                            controller.removePlaylist(finalPlaylistID2);
                             break;
                         case "Albums":
-                            controller.removeAlbum(subCategoryName);
+                            controller.removeAlbum(finalAlbumID2);
                             break;
-                        case "Favorite Playlists":
-                            controller.removePlaylist(subCategoryName);
-                            break;
+//                        case "Favorite Playlists":
+//                            controller.removePlaylist(subCategoryName);
+//                            break;
                     }
                 }
             }
         });
 
+        Album finalAlbum2 = album;
+        Playlist finalPlaylist2 = playlist;
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.openEditCategoryWindow(category, subCategoryName);
+                if(finalAlbum2 != null)
+                    controller.openEditCategoryWindow(category, finalAlbum2);
+                if(finalPlaylist2 != null)
+                    controller.openEditCategoryWindow(category, finalPlaylist2);
             }
         });
         if (category.equals("Years")) edit.setVisible(false);
         if (category.equals("Years")) remove.setVisible(false);
+        int finalAlbumID3 = albumID;
+        int finalPlaylistID3 = playlistID;
+        int finalArtistID3 = artistID;
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (category) {
-                    case "Genres":
-                        controller.playSongsInGenre(subCategoryName);
-                        break;
                     case "Albums":
-                        controller.playSongsInAlbum(subCategoryName);
+                        controller.playSongsInAlbum(finalAlbumID3);
                         break;
                     case "Playlists":
-                        controller.playSongsInPlaylist(subCategoryName);
+                        controller.playSongsInPlaylist(finalPlaylistID3);
                         break;
-                    case "Years":
-                        controller.playSongsInYear(subCategoryName);
-                        break;
-                    case "Favorite Playlists":
-                        controller.playSongsInPlaylist(subCategoryName);
-                        break;
-                    case "Artists":
-                        controller.playSongsByArtist(subCategoryName);
-                        break;
+//                    case "Genres":
+//                        controller.playSongsInGenre(subCategoryName);
+//                        break;
+//                    case "Years":
+//                        controller.playSongsInYear(subCategoryName);
+//                        break;
+//                    case "Favorite Playlists":
+//                        controller.playSongsInPlaylist(subCategoryName);
+//                        break;
+//                    case "Artists":
+//                        controller.playSongsByArtist(finalArtistID3);
+//                        break;
                 }
 //                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
 //                        new Thread(pt).start();
 
             }
         });
-        changeCover.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.setDialogTitle("Import Cover Photo");
-//                chooser.addChoosableFileFilter(new FileNameExtensionFilter(
-//                        "MP3 File", "mp3"));
-                int returnVal = chooser.showOpenDialog(null);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    File file = chooser.getSelectedFile();
-                    controller.setAlbumCover(subCategoryName, file);
-                }
-            }
-        });
+//        changeCover.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                JFileChooser chooser = new JFileChooser();
+//                chooser.setDialogTitle("Import Cover Photo");
+////                chooser.addChoosableFileFilter(new FileNameExtensionFilter(
+////                        "MP3 File", "mp3"));
+//                int returnVal = chooser.showOpenDialog(null);
+//                if (returnVal == JFileChooser.APPROVE_OPTION) {
+//                    File file = chooser.getSelectedFile();
+//                    controller.setAlbumCover(subCategoryName, file);
+//                }
+//            }
+//        });
 
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
@@ -407,9 +449,9 @@ public class CategoryPanel extends JPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 6;
         block.add(remove, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 7;
-        block.add(favPlaylist, cons);
+//        cons.insets = new Insets(5, 0, 0, 10);
+//        cons.gridx = 7;
+//        block.add(favPlaylist, cons);
 //        cons.insets = new Insets(5, 0, 0, 10);
 //        cons.gridx = 8;
 //        block.add(changeCover, cons);
