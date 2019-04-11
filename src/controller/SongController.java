@@ -414,14 +414,31 @@ public class SongController {
         return mc.getGenres().floor(genreName);
     }
 
-    public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
+//    public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
+//        Song s = new Song();
+//        s.setName(songName);
+////        s.setUser(mc.getAccountController().getUser());
+//
+//        s.setGenre(getGenre(genreName));
+//        s.setAlbum(getAlbum(albumName));
+//        s.setArtist(getArtist(artistName));
+////        s.setDateCreated(Calendar.getInstance().getTime());
+//        if (!year.equals(""))
+//            s.setYear(Integer.parseInt(year));
+//        s.setWAV(wav);
+//        mc.getSongs().add(s);
+//        displayedSongs.add(s);
+//        showAllSongs();
+//    }
+
+    public void addSong(String songName, String genreName, String albumName, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
 //        s.setUser(mc.getAccountController().getUser());
 
         s.setGenre(getGenre(genreName));
         s.setAlbum(getAlbum(albumName));
-        s.setArtist(getArtist(artistName));
+        //s.setArtist(getArtist(artistName));
 //        s.setDateCreated(Calendar.getInstance().getTime());
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));

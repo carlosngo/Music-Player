@@ -183,21 +183,21 @@ public class CategoryPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (category) {
-                    case "Genres":
-                        controller.showSongsByGenre(subCategoryName);
-                        break;
+//                    case "Genres":
+//                        controller.showSongsByGenre(subCategoryName);
+//                        break;
                     case "Albums":
                         controller.showSongsByAlbum(subCategoryName);
                         break;
                     case "Playlists":
                         controller.showSongsByPlaylist(subCategoryName);
                         break;
-                    case "Years":
-                        controller.showSongsByYear(subCategoryName);
-                        break;
-                    case "Favorite Playlists":
-                        controller.showSongsByPlaylist(subCategoryName);
-                        break;
+//                    case "Years":
+//                        controller.showSongsByYear(subCategoryName);
+//                        break;
+//                    case "Favorite Playlists":
+//                        controller.showSongsByPlaylist(subCategoryName);
+//                        break;
                     case "Artists":
                         controller.showSongsByArtist(subCategoryName);
                         break;
@@ -219,23 +219,23 @@ public class CategoryPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 switch (category) {
-                    case "Genres":
-                        controller.addSongsInGenreToQueue(subCategoryName);
-                        break;
+//                    case "Genres":
+//                        controller.addSongsInGenreToQueue(subCategoryName);
+//                        break;
                     case "Albums":
-                        controller.addSongsInAlbumToQueue(subCategoryName);
+                        controller.addSongsInAlbumToQueue(i);
                         break;
                     case "Playlists":
-                        controller.addSongsInPlaylistToQueue(subCategoryName);
+                        controller.addSongsInPlaylistToQueue(i);
                         break;
-                    case "Years":
-                        controller.addSongsInYearToQueue(subCategoryName);
-                        break;
-                    case "Favorite Playlists":
-                        controller.addSongsInPlaylistToQueue(subCategoryName);
-                        break;
+//                    case "Years":
+//                        controller.addSongsInYearToQueue(subCategoryName);
+//                        break;
+//                    case "Favorite Playlists":
+//                        controller.addSongsInPlaylistToQueue(subCategoryName);
+//                        break;
                     case "Artists":
-                        controller.addSongsByArtistToQueue(subCategoryName);
+                        controller.addSongsByArtistToQueue(i);
                         break;
                 }
             }

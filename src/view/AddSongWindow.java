@@ -106,7 +106,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         for (int i = 0; i < sChoices.length; i++) {
             genreChoices.addItem(sChoices[i]);
         }
-        genreChoices.setEditable(true);
+        genreChoices.setEditable(false);
         p2.add(genreChoices);
 //        genreInput = new JTextField("" , 15);
 //        genreInput.addActionListener(this);
@@ -132,7 +132,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         artistInput.setFont(new Font("Arial", Font.PLAIN, 22));
         p3.add(artistInput);
         p3.add(Box.createRigidArea(new Dimension(15,0)));
-        p.add(p3);
+        //p.add(p3);
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p4 = new JPanel();
@@ -237,10 +237,10 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         if(e.getSource() == saveSong){
             String songTitle = songTitleInput.getText();
             String genre = genreChoices.getSelectedItem().toString();
-            String artist= artistInput.getText();
+            //String artist= artistInput.getText();
             String year = yearInput.getText();
             String album = albumChoices.getSelectedItem().toString();
-            controller.addSong(songTitle, genre,album, artist, year, selectedFile);
+            controller.addSong(songTitle, genre,album, year, selectedFile);
             dispose();
         }
         if(e.getSource() == cancel){
