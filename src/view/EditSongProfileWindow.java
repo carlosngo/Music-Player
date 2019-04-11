@@ -128,7 +128,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         artistInput.setFont(new Font("Arial", Font.PLAIN, 22));
         p6.add(artistInput);
         p6.add(Box.createRigidArea(new Dimension(15,0)));
-        p.add(p6);
+        //p.add(p6);
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p4 = new JPanel();
