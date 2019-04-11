@@ -27,7 +27,6 @@ public final class Server {
     private final SubscriptionDAOFactory subscriptionDAOFactory = new SubscriptionDAOFactory();
     private final SongDAOFactory songDAOFactory = new SongDAOFactory();
     private final AlbumDAOFactory albumDAOFactory = new AlbumDAOFactory();
-    private final AlbumSongDAOFactory albumSongDAOFactory = new AlbumSongDAOFactory();
     private final PlaylistDAOFactory playlistDAOFactory = new PlaylistDAOFactory();
     private final PlaylistSongDAOFactory playlistSongDAOFactory = new PlaylistSongDAOFactory();
     private final ArtistDAOFactory artistDAOFactory = new ArtistDAOFactory();
@@ -90,7 +89,7 @@ public final class Server {
     }
 
     public void addSongToPlaylist(Song song, Playlist playlist) {
-        ((PlaylistSongDAO)playlistDAOFactory.getDAO()).join(playlist, song);
+        ((PlaylistSongDAO)playlistSongDAOFactory.getDAO()).join(playlist, song);
     }
 
     public void deleteSong(Song song){
@@ -102,7 +101,7 @@ public final class Server {
     }
 
     public void removeSongFromPlaylist(Song song, Playlist playlist) {
-        ((PlaylistSongDAO)playlistDAOFactory.getDAO()).separate(playlist, song);
+        ((PlaylistSongDAO)playlistSongDAOFactory.getDAO()).separate(playlist, song);
     }
 
     public void updateSong(Song song){
@@ -239,7 +238,7 @@ public final class Server {
     }
 
     public ArrayList<User> getFollowedUsers(int accountId) {
-        return ((UserDAO)userDAOFactory.getDAO()).listFollowedUsers(accountId);
+        return ((UserDAO)userDAOFactory.getDAO()).listByFollowedUsers(accountId);
     }
 
     public boolean addUser(User user){
@@ -279,7 +278,7 @@ public final class Server {
     }
 
     public ArrayList<Artist> getFollowedArtists (int accountId) {
-        return ((ArtistDAO)artistDAOFactory.getDAO()).listFollowedArtists(accountId);
+        return ((ArtistDAO)artistDAOFactory.getDAO()).listByFollowedArtists(accountId);
     }
 
     public boolean addArtist(Artist artist){
