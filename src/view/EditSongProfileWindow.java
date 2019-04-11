@@ -1,6 +1,8 @@
 package view;
 
 import controller.*;
+import model.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -16,10 +18,13 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     private boolean choice;
     private int selectedRow;
     private JComboBox genreChoices, albumChoices;
+    private Song song;
+    private ArrayList<Album> albums;
 
-    public EditSongProfileWindow(SongController controller, ArrayList<String> data, int selectedRow){
+    public EditSongProfileWindow(SongController controller, ArrayList<Album> albums, Song song){
         this.controller = controller;
-        this.selectedRow = selectedRow;
+        this.song = song;
+        this.albums = albums;
         choice = false;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -174,11 +179,11 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
 
         add(p);
 
-        titleInput.setText(data.get(0));
-        albumInput.setText(data.get(1));
-        artistInput.setText(data.get(2));
-        yearInput.setText(data.get(3));
-        genreChoices.setSelectedItem(data.get(4));
+        titleInput.setText(song.getName());
+        albumChoices.setSelectedItem(song.getAlbum().getName());
+        artistInput.setText(song.getArtist().getName());
+        yearInput.setText(""+song.getYear());
+        genreChoices.setSelectedItem(song.getGenre());
         setVisible(true);
         setResizable(false);
         //setUndecorated(true);
@@ -205,12 +210,16 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         }
         if(e.getSource() == save){
             setTitle(titleInput.getText());
-            setAlbum(albumInput.getText());
+            setAlbum(albumChoices.getSelectedItem().toString());
+            int albumID = 0;
+            for(Album a : albums){
+                if(a.getName().equals(getAlbum())) albumID = a.getAlbumId();
+            }
             setYear(yearInput.getText());
             setGenre(genreChoices.getSelectedItem().toString());
             setArtist(artistInput.getText());
             choice = true;
-            controller.updateSong(selectedRow, getTitle(), getAlbum(), getArtist(), getYear(), getGenre()/*, getDateUploaded()*/);
+            controller.updateSong(song.getSongId(), getTitle(), albumID, getYear(), getGenre()/*, getDateUploaded()*/);
             dispose();
         }
     }
