@@ -47,7 +47,6 @@ public class CategoryPanel extends JPanel {
             }
             subCategoryList.add(subCategoryListContent);
         }
-        ArrayList<ArrayList<String>> subCategoryList
         this.controller = controller;
         data = subCategoryList;
 
@@ -117,7 +116,7 @@ public class CategoryPanel extends JPanel {
         creator.setOpaque(false);
         creator.setContentAreaFilled(false);
         creator.setBorderPainted(false);
-        creator.setForeground(Color.magenta);
+        creator.setForeground(Color.white);
 
         JButton favPlaylist = new JButton();
         favPlaylist.setOpaque(false);
