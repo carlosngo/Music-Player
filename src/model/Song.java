@@ -13,6 +13,7 @@ public class Song implements Comparable<Song>, Media {
     private String genre;
     private String name;
     private int year;
+    private Date dateCreated;
     private File wav;
     private boolean isFollowed;
 
@@ -20,7 +21,6 @@ public class Song implements Comparable<Song>, Media {
     private boolean favorite;
     private long playTime;
     private Date lastPlayed;
-    private Date dateCreated;
 
 
 

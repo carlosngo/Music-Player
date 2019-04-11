@@ -273,88 +273,6 @@ public class SongController {
         return albums.toArray(new String[albums.size()]);
     }
 
-<<<<<<< HEAD
-    public Artist getArtist(String artistName) {
-//        Artist a = new Artist();
-//        if (artistName.equals("")) return null;
-//        else a.setName(artistName);
-//        if (mc.getArtists().contains(a)) {
-//            a = mc.getArtists().floor(a);
-//        } else {
-//            mc.getArtists().add(a);
-//            if (cp != null) {
-//                cp.addRow("Arists", a.getName());
-//            }
-//        }
-//        return a;
-
-        Artist a = new Artist();
-        if (artistName.equals("")) return null;
-        else a.setName(artistName);
-        if (mc.getArtists().contains(a)) {
-            a = mc.getArtists().floor(a);
-        } else {
-            mc.getArtists().add(a);
-            if (uap != null) {
-                uap.addRow("Arists", a.getName());
-            }
-        }
-        return a;
-    }
-
-    public Album getAlbum(String albumName) {
-        Album a = new Album();
-        if (albumName.equals("")) return null;
-        else a.setName(albumName);
-        if (mc.getAlbums().contains(a)) {
-            a = mc.getAlbums().floor(a);
-        } else {
-            mc.getAlbums().add(a);
-            a.setDateCreated(Calendar.getInstance().getTime());
-            if (cp != null)
-                cp.addRow("Albums", a.getName(), a.getArtist().getName());
-        }
-        return a;
-    }
-
-    public String getGenre(String genreName) {
-        if (genreName == null || genreName.equals("")) return null;
-        if (!mc.getGenres().contains(genreName)) { // if genre does not currently exist
-            mc.getGenres().add(genreName); // add the new genre
-            if (cp != null)
-                cp.addRow("Genres", genreName, "");
-
-        }
-        return mc.getGenres().floor(genreName);
-    }
-
-//    public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
-//        Song s = new Song();
-//        s.setName(songName);
-////        s.setUser(mc.getAccountController().getUser());
-//
-//        s.setGenre(getGenre(genreName));
-//        s.setAlbum(getAlbum(albumName));
-//        s.setArtist(getArtist(artistName));
-////        s.setDateCreated(Calendar.getInstance().getTime());
-//        if (!year.equals(""))
-//            s.setYear(Integer.parseInt(year));
-//        s.setWAV(wav);
-//        mc.getSongs().add(s);
-//        displayedSongs.add(s);
-//        showAllSongs();
-//    }
-
-    public void addSong(String songName, String genreName, String albumName, String year, File wav) {
-        Song s = new Song();
-        s.setName(songName);
-//        s.setUser(mc.getAccountController().getUser());
-
-        s.setGenre(getGenre(genreName));
-        s.setAlbum(getAlbum(albumName));
-        //s.setArtist(getArtist(artistName));
-//        s.setDateCreated(Calendar.getInstance().getTime());
-=======
     public void addSong(String songName, String genre, int albumId, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
@@ -362,7 +280,6 @@ public class SongController {
         s.setAlbum(client.getAlbum(albumId));
         s.setArtist((Artist)mc.getAccountController().getUser());
         s.setDateCreated(Calendar.getInstance().getTime());
->>>>>>> a502158bdaf9d2663518fca0d238c301a8efe881
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
