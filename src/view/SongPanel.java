@@ -215,7 +215,21 @@ public class SongPanel extends JPanel implements ActionListener{
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
                     }
-                    categoryTable = new JTable(model);
+                    categoryTable = new JTable(model)
+                    {
+                        public Component prepareRenderer(
+                                TableCellRenderer renderer, int row, int column)
+                        {
+                            Component c = super.prepareRenderer(renderer, row, column);
+
+                            if (isRowSelected(row))
+                                c.setBackground(Color.LIGHT_GRAY);
+                            if (!isRowSelected(row))
+                                c.setBackground(Color.BLACK);
+
+                            return c;
+                        }
+                    };
                     categoryTable.setShowGrid(false);
                     renderer = new SongPanel.ActionPaneRenderer();
                     categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
@@ -260,7 +274,21 @@ public class SongPanel extends JPanel implements ActionListener{
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
                     }
-                    categoryTable = new JTable(model);
+                    categoryTable = new JTable(model)
+                    {
+                        public Component prepareRenderer(
+                                TableCellRenderer renderer, int row, int column)
+                        {
+                            Component c = super.prepareRenderer(renderer, row, column);
+
+                            if (isRowSelected(row))
+                                c.setBackground(Color.LIGHT_GRAY);
+                            if (!isRowSelected(row))
+                                c.setBackground(Color.BLACK);
+
+                            return c;
+                        }
+                    };
                     categoryTable.setShowGrid(false);
                     renderer = new SongPanel.ActionPaneRenderer();
                     categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
@@ -305,7 +333,21 @@ public class SongPanel extends JPanel implements ActionListener{
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
                     }
-                    categoryTable = new JTable(model);
+                    categoryTable = new JTable(model)
+                    {
+                        public Component prepareRenderer(
+                                TableCellRenderer renderer, int row, int column)
+                        {
+                            Component c = super.prepareRenderer(renderer, row, column);
+
+                            if (isRowSelected(row))
+                                c.setBackground(Color.LIGHT_GRAY);
+                            if (!isRowSelected(row))
+                                c.setBackground(Color.BLACK);
+
+                            return c;
+                        }
+                    };
                     categoryTable.setShowGrid(false);
                     renderer = new SongPanel.ActionPaneRenderer();
                     categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
@@ -349,7 +391,21 @@ public class SongPanel extends JPanel implements ActionListener{
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
                     }
-                    categoryTable = new JTable(model);
+                    categoryTable = new JTable(model)
+                    {
+                        public Component prepareRenderer(
+                                TableCellRenderer renderer, int row, int column)
+                        {
+                            Component c = super.prepareRenderer(renderer, row, column);
+
+                            if (isRowSelected(row))
+                                c.setBackground(Color.LIGHT_GRAY);
+                            if (!isRowSelected(row))
+                                c.setBackground(Color.BLACK);
+
+                            return c;
+                        }
+                    };
                     categoryTable.setShowGrid(false);
                     renderer = new SongPanel.ActionPaneRenderer();
                     categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
@@ -393,7 +449,21 @@ public class SongPanel extends JPanel implements ActionListener{
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
                     }
-                    categoryTable = new JTable(model);
+                    categoryTable = new JTable(model)
+                    {
+                        public Component prepareRenderer(
+                                TableCellRenderer renderer, int row, int column)
+                        {
+                            Component c = super.prepareRenderer(renderer, row, column);
+
+                            if (isRowSelected(row))
+                                c.setBackground(Color.LIGHT_GRAY);
+                            if (!isRowSelected(row))
+                                c.setBackground(Color.BLACK);
+
+                            return c;
+                        }
+                    };
                     categoryTable.setShowGrid(false);
                     renderer = new SongPanel.ActionPaneRenderer();
                     categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
