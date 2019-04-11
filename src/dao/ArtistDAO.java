@@ -3,6 +3,7 @@ package dao;
 import model.Account;
 import model.Artist;
 import model.Song;
+import model.User;
 
 import static util.DAOUtil.*;
 
@@ -27,6 +28,9 @@ public class ArtistDAO implements DataAccessObject {
 					Database.ACCOUNT_TABLE + ".PK_AccountID WHERE " + Database.ACCOUNT_TABLE + ".Username = ?";
 	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE Name LIKE ?";
 	private static final String SQL_FIND_BY_ACCOUNTID = "SELECT * FROM" + Database.ARTIST_TABLE + "WHERE FK_AccountID = ?" ;
+	private static final String SQL_LIST_BY_FOLLOWED_USERS = 
+			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.ARTIST_TABLE + ".FK_AccountID = " + 
+			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubcriberID = ?";
 	
 	public ArtistDAO(DAOFactory db) {
 		this.db = db;
@@ -178,6 +182,26 @@ public class ArtistDAO implements DataAccessObject {
 		}
 
 		return artists;
+	}
+	
+	public ArrayList<User> listByFollowedUsers(int accountId) {
+		ArrayList<User> users = new ArrayList<>();
+		
+		Object[] values = {
+				accountId
+		};
+		
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_FOLLOWED_USERS, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			while (resultSet.next()) {
+				users.add(map(resultSet));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 	public boolean existUsername(String username) {
