@@ -15,33 +15,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class ArtistPanel extends CategoryPanel {
-    private ArrayList<Artist> data;
 
-    public ArtistPanel(SongController controller, String userCategory, ArrayList<Artist> peopleList) {
-        super(controller, userCategory);
-
-        this.controller = controller;
-        data = peopleList;
-
-        if(peopleList.isEmpty()){
-            cons.insets = new Insets(10, 10, 2, 10);
-            cons.gridx = 0;
-            cons.gridy = 0;
-            cons.gridwidth = 3;
-            JLabel emptyLabel = new JLabel("No " + userCategory.toLowerCase() + " to display.");
-            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            block.add(emptyLabel, cons);
-        }
-        else{
-            for(Object object : peopleList){
-                addRow(userCategory, object);
-            }
-            add(scroll);
-        }
-
+    public ArtistPanel(SongController controller, String userCategory, ArrayList<Object> objects) {
+        super(controller, userCategory, objects);
     }
 
-    public void addRow(String category, Object object) { JButton subOptionButton = new JButton();
+    public void addRow(String category, Object object) {
+        Artist artist = (Artist) object;
+
+        JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
         subOptionButton.setBorderPainted(false);
@@ -51,14 +33,14 @@ public class ArtistPanel extends CategoryPanel {
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
         follow.setVisible(false);
-        if(category.equals("Artists")) follow.setVisible(true);
+        follow.setVisible(true);
 
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/follow.png");
 //            BufferedImage img = ImageIO.read(resource);
             URL resource;
             BufferedImage img;
-            if (controller.isFollowed(personName)) {
+            if (artist.isFollowed()) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -70,20 +52,33 @@ public class ArtistPanel extends CategoryPanel {
             e.printStackTrace();
         }
 
-        subOptionButton.setText(personName);
+        subOptionButton.setText(artist.getName());
 
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //show info panel of selected user or artist
+                controller.showSongsByArtist(artist.getArtistId());
             }
         });
 
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //follow user/artist
-                //set icon to cyanFollow.png
+                artist.setFollowed(!artist.isFollowed());
+                try {
+                    URL resource;
+                    BufferedImage img;
+                    if (artist.isFollowed()) {
+                        resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                        img = ImageIO.read(resource);
+                    } else {
+                        resource = getClass().getClassLoader().getResource("images/follow.png");
+                        img = ImageIO.read(resource);
+                    }
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 

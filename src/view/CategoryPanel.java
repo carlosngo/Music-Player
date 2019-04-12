@@ -26,7 +26,7 @@ public abstract class CategoryPanel extends JPanel {
     private boolean isNormalPlaylist = false;
     private JLabel headerName;
 
-    public CategoryPanel(SongController controller, String category){
+    public CategoryPanel(SongController controller, String category, ArrayList<Object> objects){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(0,7)));
@@ -45,6 +45,22 @@ public abstract class CategoryPanel extends JPanel {
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
         scroll.setPreferredSize(new Dimension(50,100));
+
+        if(objects.isEmpty()){
+            cons.insets = new Insets(10, 10, 2, 10);
+            cons.gridx = 0;
+            cons.gridy = 0;
+            cons.gridwidth = 3;
+            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            block.add(emptyLabel, cons);
+        }
+        else{
+            for(Object object : objects){
+                addRow(category, object);
+            }
+            add(scroll);
+        }
     }
 
     public abstract void addRow(String category, Object obj);

@@ -17,43 +17,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class PlaylistPanel extends CategoryPanel {
-    private ArrayList<ArrayList<String>> data;
-    private ArrayList<Playlist> listSource;
 
-    public PlaylistPanel(SongController controller, String category, ArrayList<Playlist> listSource) {
-        super(controller, category);
-
-        this.listSource = listSource;
-        ArrayList<ArrayList<String>> subCategoryList = new ArrayList<>();
-        ArrayList<String> subCategoryListContent;
-        for(Object obj : listSource){
-            subCategoryListContent = new ArrayList<String>();
-            Playlist playlist = (Playlist) obj;
-            subCategoryListContent.add(playlist.getName());
-            subCategoryListContent.add(playlist.getAccount().getUserName());
-            subCategoryList.add(subCategoryListContent);
-        }
-        this.controller = controller;
-        data = subCategoryList;
-
-        if(subCategoryList.isEmpty()){
-            cons.insets = new Insets(10, 10, 2, 10);
-            cons.gridx = 0;
-            cons.gridy = 0;
-            cons.gridwidth = 3;
-            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
-            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            block.add(emptyLabel, cons);
-        }
-        else{
-//            for(i=0; i<subCategoryList.size(); i++){
-//                addRow(category, subCategoryList.get(i).get(0), subCategoryList.get(i).get(1));
-//            }
-            for(Object object : listSource){
-                addRow(category, object);
-            }
-            add(scroll);
-        }
+    public PlaylistPanel(SongController controller, String category, ArrayList<Object> objects) {
+        super(controller, category, objects);
     }
 
     public void addRow(String category, Object obj) {
@@ -192,7 +158,7 @@ public class PlaylistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(playlist != null) playlist.setFollowed(!playlist.isFollowed());
+                playlist.setFollowed(!playlist.isFollowed());
                 try {
                     URL resource;
                     BufferedImage img;

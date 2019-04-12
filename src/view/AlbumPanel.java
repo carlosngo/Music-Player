@@ -17,43 +17,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class AlbumPanel extends CategoryPanel {
-    private ArrayList<ArrayList<String>> data;
-    private ArrayList<Album> listSource;
 
-    public AlbumPanel(SongController controller, String category, ArrayList<Album> listSource) {
-        super(controller, category);
-
-        this.listSource = listSource;
-        ArrayList<ArrayList<String>> subCategoryList = new ArrayList<>();
-        ArrayList<String> subCategoryListContent;
-        for(Object obj : listSource){
-            subCategoryListContent = new ArrayList<String>();
-            Album album = (Album) obj;
-            subCategoryListContent.add(album.getName());
-            subCategoryListContent.add(album.getArtist().getName());
-            subCategoryList.add(subCategoryListContent);
-        }
-        this.controller = controller;
-        data = subCategoryList;
-
-        if(subCategoryList.isEmpty()){
-            cons.insets = new Insets(10, 10, 2, 10);
-            cons.gridx = 0;
-            cons.gridy = 0;
-            cons.gridwidth = 3;
-            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
-            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            block.add(emptyLabel, cons);
-        }
-        else{
-//            for(i=0; i<subCategoryList.size(); i++){
-//                addRow(category, subCategoryList.get(i).get(0), subCategoryList.get(i).get(1));
-//            }
-            for(Object object : listSource){
-                addRow(category, object);
-            }
-            add(scroll);
-        }
+    public AlbumPanel(SongController controller, String category, ArrayList<Object> objects) {
+        super(controller, category, objects);
     }
 
     public void addRow(String category, Object obj) {
