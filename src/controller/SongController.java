@@ -160,15 +160,8 @@ public class SongController {
     }
 
     public void showPlaylists() {
-        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
-        ArrayList<String> subCategoriesContent;
-        for (Playlist p : client.getPlaylistsByAccount(mc.getAccountController().getUser().getAccount().getId())) {
-            subCategoriesContent = new ArrayList<String>();
-            subCategoriesContent.add(p.getName());
-            subCategoriesContent.add(p.getAccount().getUserName());
-            subCategories.add(subCategoriesContent);
-        }
-        cp = new CategoryPanel(this, "Playlists", subCategories);
+        ArrayList<Object> list = new ArrayList(client.getPlaylistsByAccount(mc.getAccountController().getUser().getAccount().getId()));
+        cp = new CategoryPanel(this, "Playlists", list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -187,6 +180,15 @@ public class SongController {
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(uap);
     }
 
+    public void showFriends() {
+        TreeSet<String> subCategories = new TreeSet<>();
+        for (User u : client.getFollowedUsers(mc.getAccountController().getUser().getAccount().getId())) {
+            subCategories.add(u.getName());
+        }
+        uap = new UserArtistListPanel(this, "Users", new ArrayList(subCategories));
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(uap);
+    }
+
     public void showAllSongs() {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         for (Song s : client.getSongsByAccount(mc.getAccountController().getUser().getAccount().getId())) {
@@ -198,13 +200,6 @@ public class SongController {
         }
     }
 
-    public void showFollowedListeners() {
-
-    }
-
-    public void showFollowedArtists() {
-
-    }
 
     public void showSongsByAlbum(int albumId) {
         ArrayList<ArrayList<String>> data = new ArrayList<>();
