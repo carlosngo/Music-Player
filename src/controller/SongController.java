@@ -22,8 +22,7 @@ public class SongController {
     private EditSongProfileWindow espw;
     private EditCategoryWindow ecw;
     private SongPanel sp;
-    private CategoryPanel cp;
-    private PeoplePanel pp;
+    private CategoryPanel cp, pp;
 
     private Client client = mc.getClient();
 
