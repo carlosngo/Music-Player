@@ -86,7 +86,6 @@ public class AlbumPanel extends CategoryPanel {
         remove.setContentAreaFilled(false);
         remove.setBorderPainted(false);
         JButton edit = new JButton();
-        //edit.setVisible(false);
         edit.setOpaque(false);
         edit.setContentAreaFilled(false);
         edit.setBorderPainted(false);

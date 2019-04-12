@@ -652,7 +652,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.showArtists();
         }
         if(e.getSource() == friends){
-            controller.
+            controller.showFriends();
         }
         if(e.getSource() == addPlaylist){
             controller.openAddPlaylistWindow();

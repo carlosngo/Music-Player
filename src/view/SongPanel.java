@@ -37,7 +37,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
     public SongPanel(SongController controller, String header, Object obj, ArrayList<Song> songs) {
         //SongController controller, String header, ArrayList<ArrayList<String>> _data
-        //this.controller = controller;
+        this.controller = controller;
         if( obj instanceof Playlist){
             Playlist playlist = (Playlist) obj;
             objID = playlist.getPlaylistId();
@@ -1036,7 +1036,7 @@ public class SongPanel extends JPanel implements ActionListener{
             addToQueue.addActionListener(menuItemListener);
             add_to_playlist.addActionListener(menuItemListener);
             removeFromPlaylist.addActionListener(menuItemListener);
-            removeFromAlbum.addActionListener(menuItemListener);
+            //removeFromAlbum.addActionListener(menuItemListener);
             edit.addActionListener(menuItemListener);
             delete.addActionListener(menuItemListener);
             //follow.addActionListener(menuItemListener);

@@ -23,7 +23,7 @@ public class SongController {
     private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
-    private UserArtistListPanel uap;
+    private PeoplePanel pp;
 
     private Client client = mc.getClient();
 
@@ -186,8 +186,8 @@ public class SongController {
         for (Artist a : client.getFollowedArtists(mc.getAccountController().getUser().getAccount().getId())) {
             subCategories.add(a.getName());
         }
-        uap = new UserArtistListPanel(this, "Artists", new ArrayList(subCategories));
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(uap);
+        pp = new ArtistPanel(this, "Artists", new ArrayList(subCategories));
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(pp);
     }
 
     public void showAllSongs() {
@@ -357,33 +357,4 @@ public class SongController {
         client.updatePlaylist(p);
         showPlaylists();
     }
-
-//    public void toggleFollow(String objectKind, String objectName) {
-//        switch (objectKind){
-//            case "artist":
-//                Artist tempArtist = new Artist();
-//                tempArtist.setName(objectName);
-//                Artist a = mc.getArtists().floor(tempArtist);
-//                a.setFollow(!a.setFollow());
-//                break;
-//            case "user":
-//                User tempUser = new User();
-//                tempUser.setName(objectName);
-//                User u = mc.getUsers().floor(tempUser);
-//                u.setFollow(!u.setFollow());
-//                break;
-//            case "album":
-//                Album tempAlbum = new Album();
-//                tempAlbum.setName(objectName);
-//                Album album = mc.getAlbums().floor(tempAlbum);
-//                album.setFollow(!album.setFollow());
-//                break;
-//            case "playlist":
-//                Playlist temp = new Playlist();
-//                temp.setName(objectName);
-//                Playlist p = mc.getPlaylists().floor(temp);
-//                p.setFollow(!p.setFollow());
-//                break;
-//        }
-//    }
 }

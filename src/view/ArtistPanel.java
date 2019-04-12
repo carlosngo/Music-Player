@@ -1,95 +1,47 @@
 package view;
 
-import controller.*;
+import controller.SongController;
+import model.Artist;
 import util.ImageResizer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class UserArtistListPanel extends JPanel {
-    private SongController controller;
-    private JLabel headerName;
-    private JScrollPane scroll;
-    private JPanel block;
-    private ArrayList<String> data;
-    private boolean isNormalPlaylist = false;
-    String category;
+public class ArtistPanel extends CategoryPanel {
+    private ArrayList<Artist> data;
 
-    private int i;
-    //needs a header name as string and an arraylist of arraylist as parameter input for diaplaying the list of [category]
-    public UserArtistListPanel(SongController controller, String usertype, ArrayList<String> peopleList){
-        category = usertype;
+    public ArtistPanel(SongController controller, String userCategory, ArrayList<Artist> peopleList) {
+        super(controller, userCategory);
+
         this.controller = controller;
         data = peopleList;
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        //setAlignmentX(Component.LEFT_ALIGNMENT);
-        setOpaque(false);
-
-        if(peopleList.size() == 0){
-
-        }
-        else{
-
-        }
-        add(Box.createRigidArea(new Dimension(0,7)));
-        headerName = new JLabel((category).toUpperCase());
-        headerName.setFont(new Font("Arial", Font.BOLD, 26));
-        headerName.setForeground(Color.white);
-        add(headerName);
-        add(Box.createRigidArea(new Dimension(0,10)));
-
-        block = new JPanel();
-        block.setLayout(new GridBagLayout());
-        block.setOpaque(false);
-        GridBagConstraints cons = new GridBagConstraints();
-        cons.fill = GridBagConstraints.HORIZONTAL;
-        scroll = new JScrollPane(block);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setPreferredSize(new Dimension(50,100));
-        //scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         if(peopleList.isEmpty()){
             cons.insets = new Insets(10, 10, 2, 10);
             cons.gridx = 0;
             cons.gridy = 0;
             cons.gridwidth = 3;
-            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+            JLabel emptyLabel = new JLabel("No " + userCategory.toLowerCase() + " to display.");
             emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
             block.add(emptyLabel, cons);
         }
         else{
-            for(i=0; i<peopleList.size(); i++){
-                addRow(category, peopleList.get(i));
+            for(Object object : peopleList){
+                addRow(userCategory, object);
             }
             add(scroll);
         }
 
     }
 
-    public void update() {
-        revalidate();
-        repaint();
-    }
-
-    public void isNormalPlaylist(boolean normalPlaylist) {
-        isNormalPlaylist = normalPlaylist;
-    }
-
-    public void addRow(String category, String personName) {
-        JButton subOptionButton = new JButton();
+    public void addRow(String category, Object object) { JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
         subOptionButton.setBorderPainted(false);
@@ -146,3 +98,5 @@ public class UserArtistListPanel extends JPanel {
         block.add(follow, cons);
     }
 }
+
+

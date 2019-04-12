@@ -57,46 +57,24 @@ public class PlaylistPanel extends CategoryPanel {
     }
 
     public void addRow(String category, Object obj) {
-        //String category, String subCategoryName, String subCategoryCreator
-        ArrayList<String> subCategoryListContent = new ArrayList<String>();
-        int artistID = 0;
-        int albumID = 0;
-        int playlistID = 0;
-        Playlist playlist = null;
-        Album album = null;
-        if(obj instanceof Playlist){
-            playlist = (Playlist) obj;
-            subCategoryListContent.add(playlist.getName());
-            subCategoryListContent.add(playlist.getAccount().getUserName());
-            artistID = playlist.getAccount().getId();
-            playlistID = playlist.getPlaylistId();
-        }
-        if(obj instanceof Album){
-            album = (Album) obj;
-            subCategoryListContent.add(album.getName());
-            subCategoryListContent.add(album.getArtist().getName());
-            artistID = album.getArtist().getArtistId();
-            albumID = album.getAlbumId();
-        }
+        Playlist playlist = (Playlist) obj;
 
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
         subOptionButton.setBorderPainted(false);
         subOptionButton.setForeground(Color.white);
-
         JButton creator = new JButton();
         creator.setOpaque(false);
         creator.setContentAreaFilled(false);
         creator.setBorderPainted(false);
         creator.setForeground(Color.white);
-
-        JButton favPlaylist = new JButton();
-        favPlaylist.setOpaque(false);
-        favPlaylist.setContentAreaFilled(false);
-        favPlaylist.setBorderPainted(false);
-        favPlaylist.setVisible(false);
-        if(category.equals("Playlists")) favPlaylist.setVisible(true);
+//        JButton favPlaylist = new JButton();
+//        favPlaylist.setOpaque(false);
+//        favPlaylist.setContentAreaFilled(false);
+//        favPlaylist.setBorderPainted(false);
+//        favPlaylist.setVisible(false);
+//        if(category.equals("Playlists")) favPlaylist.setVisible(true);
         JButton play = new JButton();
         play.setOpaque(false);
         play.setContentAreaFilled(false);
@@ -114,20 +92,11 @@ public class PlaylistPanel extends CategoryPanel {
         remove.setOpaque(false);
         remove.setContentAreaFilled(false);
         remove.setBorderPainted(false);
-        if (category.equals("Genres") || category.equals("Artists")) remove.setVisible(false);
-
         JButton edit = new JButton();
-        //edit.setVisible(false);
         edit.setOpaque(false);
         edit.setContentAreaFilled(false);
         edit.setBorderPainted(false);
-        if (category.equals("Genres") || category.equals("Artists")) edit.setVisible(false);
 
-        JButton changeCover = new JButton();
-        changeCover.setOpaque(false);
-        changeCover.setContentAreaFilled(false);
-        changeCover.setBorderPainted(false);
-        if (!category.equals("Albums")) changeCover.setVisible(false);
         try {
             URL resource = getClass().getClassLoader().getResource("images/delete.png");
             BufferedImage img = ImageIO.read(resource);
@@ -150,7 +119,7 @@ public class PlaylistPanel extends CategoryPanel {
 //            resource = getClass().getClassLoader().getResource("images/changeCover.png");
 //            img = ImageIO.read(resource);
 
-            if (playlist.isFollowed()||album.isFollowed()) {
+            if (playlist.isFollowed()) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -158,10 +127,6 @@ public class PlaylistPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            resource = getClass().getClassLoader().getResource("images/changeCover.png");
-            img = ImageIO.read(resource);
-
-            changeCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
             img = ImageIO.read(resource);
             addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -169,74 +134,28 @@ public class PlaylistPanel extends CategoryPanel {
             e.printStackTrace();
         }
 
-        subOptionButton.setText(subCategoryListContent.get(0));
+        subOptionButton.setText(playlist.getName());
 
-        int finalAlbumID = albumID;
-        int finalPlaylistID = playlistID;
-        int finalArtistID = artistID;
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switch (category) {
-//                    case "Genres":
-//                        controller.showSongsByGenre(subCategoryName);
-//                        break;
-                    case "Albums":
-                        controller.showSongsByAlbum(finalAlbumID);
-                        break;
-                    case "Playlists":
-                        controller.showSongsByPlaylist(finalPlaylistID);
-                        break;
-//                    case "Years":
-//                        controller.showSongsByYear(subCategoryName);
-//                        break;
-//                    case "Favorite Playlists":
-//                        controller.showSongsByPlaylist(subCategoryName);
-//                        break;
-                    case "Artists":
-                        controller.showSongsByArtist(finalArtistID);
-                        break;
-                }
+                controller.showSongsByPlaylist(playlist.getPlaylistId());
             }
         });
 
-        creator.setText(subCategoryListContent.get(1));
+        creator.setText(playlist.getAccount().getUserName());
 
-        int finalArtistID1 = artistID;
         creator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(finalArtistID1);
+                controller.showSongsByArtist(playlist.getAccount().getId());
             }
         });
 
-        int finalAlbumID1 = albumID;
-        int finalPlaylistID1 = playlistID;
-        int finalArtistID2 = artistID;
         ActionListener addToQueueListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                switch (category) {
-//                    case "Genres":
-//                        controller.addSongsInGenreToQueue(subCategoryName);
-//                        break;
-                    case "Albums":
-                        controller.addSongsInAlbumToQueue(finalAlbumID1);
-                        break;
-                    case "Playlists":
-                        controller.addSongsInPlaylistToQueue(finalPlaylistID1);
-                        break;
-//                    case "Years":
-//                        controller.addSongsInYearToQueue(subCategoryName);
-//                        break;
-//                    case "Favorite Playlists":
-//                        controller.addSongsInPlaylistToQueue(subCategoryName);
-//                        break;
-                    case "Artists":
-                        controller.addSongsByArtistToQueue(finalArtistID2);
-                        break;
-                }
+                controller.addSongsInPlaylistToQueue(playlist.getPlaylistId());
             }
         };
         addToQueue.addActionListener(addToQueueListener);
@@ -248,9 +167,9 @@ public class PlaylistPanel extends CategoryPanel {
             public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
         });
 
-        favPlaylist.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+//        favPlaylist.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
 //                controller.toggleFavoritePlaylist(subCategoryName);
 //
 //                try {
@@ -267,23 +186,17 @@ public class PlaylistPanel extends CategoryPanel {
 //                } catch (IOException e1) {
 //                    e1.printStackTrace();
 //                }
-            }
-        });
+//            }
+//        });
 
-        Album finalAlbum = album;
-        Playlist finalPlaylist = playlist;
-        Playlist finalPlaylist1 = playlist;
-        Album finalAlbum1 = album;
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //controller.toggleFollow(subCategoryName);
-                if(finalPlaylist1 != null) finalPlaylist1.setFollowed(!finalPlaylist1.isFollowed());
-                if(finalAlbum1 != null) finalAlbum1.setFollowed(!finalAlbum1.isFollowed());
+                if(playlist != null) playlist.setFollowed(!playlist.isFollowed());
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (finalAlbum.isFollowed() || finalPlaylist.isFollowed()) {
+                    if (playlist.isFollowed()) {
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     } else {
@@ -297,8 +210,6 @@ public class PlaylistPanel extends CategoryPanel {
             }
         });
 
-        int finalPlaylistID2 = playlistID;
-        int finalAlbumID2 = albumID;
         remove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -306,80 +217,24 @@ public class PlaylistPanel extends CategoryPanel {
                         "Are you sure you want to remove this " + category.toLowerCase().substring(0, category.length() - 2) + "?",
                         "Remove " + category.toLowerCase(), JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
-//                    controller.remove(category, subCategoryName);
-                    switch (category) {
-                        case "Playlists":
-                            controller.removePlaylist(finalPlaylistID2);
-                            break;
-                        case "Albums":
-                            controller.removeAlbum(finalAlbumID2);
-                            break;
-//                        case "Favorite Playlists":
-//                            controller.removePlaylist(subCategoryName);
-//                            break;
-                    }
+                    controller.removePlaylist(playlist.getPlaylistId());
                 }
             }
         });
 
-        Album finalAlbum2 = album;
-        Playlist finalPlaylist2 = playlist;
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(finalAlbum2 != null)
-                    controller.openEditCategoryWindow(category, finalAlbum2);
-                if(finalPlaylist2 != null)
-                    controller.openEditCategoryWindow(category, finalPlaylist2);
+                controller.openEditCategoryWindow(category, playlist);
             }
         });
-        if (category.equals("Years")) edit.setVisible(false);
-        if (category.equals("Years")) remove.setVisible(false);
-        int finalAlbumID3 = albumID;
-        int finalPlaylistID3 = playlistID;
-        int finalArtistID3 = artistID;
+
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switch (category) {
-                    case "Albums":
-                        controller.playSongsInAlbum(finalAlbumID3);
-                        break;
-                    case "Playlists":
-                        controller.playSongsInPlaylist(finalPlaylistID3);
-                        break;
-//                    case "Genres":
-//                        controller.playSongsInGenre(subCategoryName);
-//                        break;
-//                    case "Years":
-//                        controller.playSongsInYear(subCategoryName);
-//                        break;
-//                    case "Favorite Playlists":
-//                        controller.playSongsInPlaylist(subCategoryName);
-//                        break;
-//                    case "Artists":
-//                        controller.playSongsByArtist(finalArtistID3);
-//                        break;
-                }
-//                        PlayerThread pt = new PlayerThread(controller.getMainController().getPlayerController(), queue);
-//                        new Thread(pt).start();
-
+                controller.playSongsInPlaylist(playlist.getPlaylistId());
             }
         });
-//        changeCover.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                JFileChooser chooser = new JFileChooser();
-//                chooser.setDialogTitle("Import Cover Photo");
-////                chooser.addChoosableFileFilter(new FileNameExtensionFilter(
-////                        "MP3 File", "mp3"));
-//                int returnVal = chooser.showOpenDialog(null);
-//                if (returnVal == JFileChooser.APPROVE_OPTION) {
-//                    File file = chooser.getSelectedFile();
-//                    controller.setAlbumCover(subCategoryName, file);
-//                }
-//            }
-//        });
 
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
