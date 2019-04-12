@@ -1,6 +1,8 @@
 package view;
 
 import controller.*;
+import model.Album;
+import model.Playlist;
 import model.Song;
 import util.ImageResizer;
 
@@ -29,12 +31,20 @@ public class SongPanel extends JPanel implements ActionListener{
     private JTableHeader tableHeader;
     private int currentRow;
     private MyTableModel model;
+    private int objID;
+    private ArrayList<ArrayList<String>> biodata;
+    private ArrayList<ArrayList<String>> data;
 
-    ArrayList<ArrayList<String>> data; //testing
-
-    public SongPanel(SongController controller, String header, ArrayList<Song> songs) {
+    public SongPanel(SongController controller, String header, Object obj, ArrayList<Song> songs) {
         //SongController controller, String header, ArrayList<ArrayList<String>> _data
-        //this.controller = controller;
+        this.controller = controller;
+        if( obj instanceof Playlist){
+            Playlist playlist = (Playlist) obj;
+            objID = playlist.getPlaylistId();
+        }else{
+            Album album = (Album) obj;
+            objID = album.getAlbumId();
+        }
         ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
         ArrayList<String> _dataContent;
         for(Song s : songs){
@@ -47,6 +57,21 @@ public class SongPanel extends JPanel implements ActionListener{
             _dataContent.add(""+s.getDateCreated());
             _dataContent.add(""+s.getPlayTime());
             data.add(_dataContent);
+        }
+
+        biodata = new ArrayList<ArrayList<String>>();
+        ArrayList<String> biodataContent;
+        for(Song s : songs){
+            biodataContent = new ArrayList<String>();
+            biodataContent.add(s.getName());
+            biodataContent.add(s.getAlbum().getName());
+            biodataContent.add(s.getArtist().getName());
+            biodataContent.add(""+s.getYear());
+            biodataContent.add(s.getGenre());
+            biodataContent.add(""+s.getDateCreated());
+            biodataContent.add(""+s.getPlayTime());
+            biodataContent.add(""+ s.getSongId()); //index 7
+            biodata.add(biodataContent);
         }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -224,6 +249,12 @@ public class SongPanel extends JPanel implements ActionListener{
                             return one.get(1).compareTo(two.get(1));
                         }
                     });
+                    Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                        @Override
+                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+                            return one.get(1).compareTo(two.get(1));
+                        }
+                    });
                     model = new MyTableModel();
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
@@ -278,6 +309,12 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "Album":
                     tablePnl.removeAll();
                     Collections.sort(data, new Comparator<ArrayList<String>>() {
+                        @Override
+                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+                            return one.get(2).compareTo(two.get(2));
+                        }
+                    });
+                    Collections.sort(biodata, new Comparator<ArrayList<String>>() {
                         @Override
                         public int compare(ArrayList<String> one, ArrayList<String> two) {
                             return one.get(2).compareTo(two.get(2));
@@ -342,6 +379,12 @@ public class SongPanel extends JPanel implements ActionListener{
                             return one.get(3).compareTo(two.get(3));
                         }
                     });
+                    Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                        @Override
+                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+                            return one.get(3).compareTo(two.get(3));
+                        }
+                    });
                     model = new MyTableModel();
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
@@ -400,6 +443,12 @@ public class SongPanel extends JPanel implements ActionListener{
                             return one.get(4).compareTo(two.get(4));
                         }
                     });
+                    Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                        @Override
+                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+                            return one.get(4).compareTo(two.get(4));
+                        }
+                    });
                     model = new MyTableModel();
                     for(int i=0 ; i<data.size() ; i++){
                         model.add(data.get(i));
@@ -453,6 +502,12 @@ public class SongPanel extends JPanel implements ActionListener{
                 case "None":
                     tablePnl.removeAll();
                     Collections.sort(data, new Comparator<ArrayList<String>>() {
+                        @Override
+                        public int compare(ArrayList<String> one, ArrayList<String> two) {
+                            return one.get(0).compareTo(two.get(0));
+                        }
+                    });
+                    Collections.sort(biodata, new Comparator<ArrayList<String>>() {
                         @Override
                         public int compare(ArrayList<String> one, ArrayList<String> two) {
                             return one.get(0).compareTo(two.get(0));
@@ -981,7 +1036,7 @@ public class SongPanel extends JPanel implements ActionListener{
             addToQueue.addActionListener(menuItemListener);
             add_to_playlist.addActionListener(menuItemListener);
             removeFromPlaylist.addActionListener(menuItemListener);
-            removeFromAlbum.addActionListener(menuItemListener);
+            //removeFromAlbum.addActionListener(menuItemListener);
             edit.addActionListener(menuItemListener);
             delete.addActionListener(menuItemListener);
             //follow.addActionListener(menuItemListener);
@@ -993,7 +1048,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 settingsMenu.add(removeFromPlaylist);
                 //settingsMenu.add(removeFromAlbum);
             }
-            settingsMenu.add(removeFromAlbum);
+            //settingsMenu.add(removeFromAlbum);
             settingsMenu.add(edit);
             settingsMenu.add(delete);
             //settingsMenu.add(follow);
@@ -1051,19 +1106,19 @@ public class SongPanel extends JPanel implements ActionListener{
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
                             //int songId, int playlistId
-                            controller.removeFromPlaylist();
+                            controller.removeFromPlaylist(Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
                         }
                         break;
-                    case "removeFromAlbum":
-                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
-                                " to remove this song?", "Confirm Remove Song from Album", JOptionPane.YES_NO_OPTION);
-                        if (choice == JOptionPane.YES_OPTION) {
-//                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
-                            controller.removeFromAlbum(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
-                        }
-                        break;
+//                    case "removeFromAlbum":
+//                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+//                                " to remove this song?", "Confirm Remove Song from Album", JOptionPane.YES_NO_OPTION);
+//                        if (choice == JOptionPane.YES_OPTION) {
+////                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
+//                            controller.removeFromAlbum(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
+//                        }
+//                        break;
                     case "edit":
-                        controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
+                        controller.openEditSongProfileWindow(Integer.parseInt(biodata.get(currentRow-1).get(7)));
                         break;
                     case "delete":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +

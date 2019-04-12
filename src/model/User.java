@@ -13,6 +13,7 @@ public class User {
     private String lastName;
     private String gender;
     private Date birthday;
+    private boolean isFollowed;
     private ArrayList<Song> library;
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
@@ -20,6 +21,14 @@ public class User {
     public User() {
         userId = -1;
         account = new Account();
+    }
+
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean followed) {
+        isFollowed = followed;
     }
 
     public String getGender() {
