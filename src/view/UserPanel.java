@@ -50,12 +50,12 @@ public class UserPanel extends CategoryPanel {
             e.printStackTrace();
         }
 
-        subOptionButton.setText(personName);
+        subOptionButton.setText(user.getName());
 
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //show info panel of selected user or artist
+                controller.showSongsByUser(user.getUserId());
             }
         });
 
