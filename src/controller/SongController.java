@@ -73,9 +73,12 @@ public class SongController {
         atpw = new AddToPlaylistWindow(this, index);
     }
 
+    //i think this should take in songID as parameter, then get the song and feed it to the EditSongProfileWindow
+    // along with the list of albums
     public void openEditSongProfileWindow(int index, ArrayList<String> data) {
         espw = new EditSongProfileWindow(this, data, index);
     }
+
 
     public void openEditCategoryWindow(String category, Object obj) {
         ecw = new EditCategoryWindow(this, category, obj);

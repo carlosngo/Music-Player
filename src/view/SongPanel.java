@@ -1118,7 +1118,7 @@ public class SongPanel extends JPanel implements ActionListener{
 //                        }
 //                        break;
                     case "edit":
-                        controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
+                        controller.openEditSongProfileWindow(Integer.parseInt(biodata.get(currentRow-1).get(7)));
                         break;
                     case "delete":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
