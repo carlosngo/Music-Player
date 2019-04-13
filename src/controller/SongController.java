@@ -83,13 +83,14 @@ public class SongController {
     }
 
     // play song at index of displayedSongs
-    public void playSong(int songId) {
-        client.followSong(user.getAccount(), client.getSong(songId));
+    public void playSong(int index, int songId) {
+        Song song = client.getSong(songId);
+        client.followSong(user.getAccount(), song);
         client.playSong(user.getAccount().getId(), songId);
         ArrayList<Song> queue = new ArrayList<>();
-        queue.add(client.getSong(songId));
+        queue.add(song);
         mc.playSongs(queue);
-        sp.editRow(index, map(displayedSongs.get(index)));
+        sp.editRow(index, map(song));
     }
 
     // play song at index of displayedSongs
@@ -101,7 +102,7 @@ public class SongController {
         client.addSongToPlaylist(client.getSong(songId), client.getPlaylist(playlistId));
     }
 
-    public void removeFromPlaylist(int songId, int playlistId) {
+    public void removeFromPlaylist(int songIndex, int songId, int playlistId) {
         client.removeSongFromPlaylist(client.getSong(songId), client.getPlaylist(playlistId));
         sp.deleteRow(songIndex);
     }
@@ -312,7 +313,7 @@ public class SongController {
         showPlaylists();
     }
 
-    public void removeSong(int songId) {
+    public void removeSong(int index, int songId) {
         Song s = client.getSong(songId);
         if (s.getArtist().getArtistId() == ((Artist)user).getArtistId())
             client.deleteSong(s);
@@ -339,7 +340,7 @@ public class SongController {
         showPlaylists();
     }
 
-    public void updateSong(int songId, String title, int albumId, String year, String genre){
+    public void updateSong(int songIndex, int songId, String title, int albumId, String year, String genre){
         Song s = client.getSong(songId);
         System.out.println("Updating the song " + s.getName());
         s.setName(title);
