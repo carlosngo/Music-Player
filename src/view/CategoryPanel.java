@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,8 +14,17 @@ public abstract class CategoryPanel extends JPanel {
     protected int i;
     private boolean isNormalPlaylist = false;
     private JLabel headerName;
+    private String category;
 
-    public CategoryPanel(SongController controller, String category, ArrayList<Object> objects){
+    public CategoryPanel(SongController controller, ArrayList<Object> objects){
+        if(objects.get(0) instanceof Album)
+            setCategory("Albums");
+        else if (objects.get(0) instanceof Artist)
+            setCategory("Artists");
+        else if (objects.get(0) instanceof Playlist)
+            setCategory("Playlists");
+        else if(objects.get(0) instanceof User)
+            setCategory("Listeners");
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(0,7)));
@@ -60,6 +70,10 @@ public abstract class CategoryPanel extends JPanel {
 
     public void isNormalPlaylist(boolean normalPlaylist) {
         isNormalPlaylist = normalPlaylist;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
 

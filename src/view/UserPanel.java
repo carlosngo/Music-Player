@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class UserPanel extends CategoryPanel {
     private ArrayList<User> data;
 
-    public UserPanel(SongController controller, String userCategory, ArrayList<Object> objects) {
-        super(controller, userCategory, objects);
+    public UserPanel(SongController controller, ArrayList<Object> objects) {
+        super(controller, objects);
     }
 
     public void addRow(String category, Object object) {

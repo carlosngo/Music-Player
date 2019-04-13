@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class PlaylistPanel extends CategoryPanel {
 
-    public PlaylistPanel(SongController controller, String category, ArrayList<Object> objects) {
-        super(controller, category, objects);
+    public PlaylistPanel(SongController controller, ArrayList<Object> objects) {
+        super(controller, objects);
     }
 
     public void addRow(String category, Object obj) {

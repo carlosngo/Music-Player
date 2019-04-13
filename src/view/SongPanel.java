@@ -31,10 +31,12 @@ public class SongPanel extends JPanel implements ActionListener{
     private int objID;
     private ArrayList<ArrayList<String>> biodata;
     private ArrayList<ArrayList<String>> data;
+    private ArrayList<Song> songs;
 
     public SongPanel(SongController controller, String header, Object obj, ArrayList<Song> songs) {
         //SongController controller, String header, ArrayList<ArrayList<String>> _data
         this.controller = controller;
+        this.songs = songs;
         if( obj instanceof Playlist){
             Playlist playlist = (Playlist) obj;
             objID = playlist.getPlaylistId();
@@ -953,12 +955,11 @@ public class SongPanel extends JPanel implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
-//                    EditSongProfileWindow espw = new EditSongProfileWindow(data.get(currentRow));
-//                    while (!espw.isEdited());
-                    controller.openEditSongProfileWindow(currentRow, data.get(currentRow));
-//                    if (espw.isEdited()){
-
-//                    }
+                    Song songForEdit = null;
+                    for(Song song : songs){
+                        if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+                    }
+                    controller.openEditSongProfileWindow(songForEdit);
                     revalidate();
                     repaint();
                 }
@@ -1109,16 +1110,20 @@ public class SongPanel extends JPanel implements ActionListener{
                             controller.removeFromPlaylist(Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
                         }
                         break;
-//                    case "removeFromAlbum":
-//                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
-//                                " to remove this song?", "Confirm Remove Song from Album", JOptionPane.YES_NO_OPTION);
-//                        if (choice == JOptionPane.YES_OPTION) {
-////                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
-//                            controller.removeFromAlbum(currentRow, headerName.getText().substring(9, headerName.getText().length()).toLowerCase());
-//                        }
-//                        break;
+                    case "removeFromAlbum":
+                        choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+                                " to remove this song?", "Confirm Remove Song from Album", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION) {
+//                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
+                            controller.removeFromAlbum(Integer.parseInt(biodata.get(currentRow-1).get(7)));
+                        }
+                        break;
                     case "edit":
-                        controller.openEditSongProfileWindow(Integer.parseInt(biodata.get(currentRow-1).get(7)));
+                        Song songForEdit = null;
+                        for(Song song : songs){
+                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+                        }
+                        controller.openEditSongProfileWindow(songForEdit);
                         break;
                     case "delete":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
