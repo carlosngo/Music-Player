@@ -363,9 +363,11 @@ public final class Client {
     public boolean addUser(User user){
         outToServer.println(Protocol.ADDUSER);
         outToServer.println(user);
+        outToServer.println(user.getAccount());
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            else user.setUserId(Integer.parseInt(inFromServer.readLine()));
+            user.setUserId(Integer.parseInt(inFromServer.readLine()));
+            user.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -432,9 +434,11 @@ public final class Client {
     public boolean addArtist(Artist artist){
         outToServer.println(Protocol.ADDARTIST);
         outToServer.println(artist);
+        outToServer.println(artist.getAccount());
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            else artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
+            artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
+            artist.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
         } catch (IOException e) {
             e.printStackTrace();
         }

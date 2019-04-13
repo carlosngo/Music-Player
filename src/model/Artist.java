@@ -44,9 +44,10 @@ public class Artist extends User implements Comparable<Artist>{
 		artist.setGenre(artistData[2]);
 		artist.setFirstName(artistData[3]);
 		artist.setLastName(artistData[4]);
+		artist.setName(artist.getFirstName() + " " + artist.getLastName());
 		artist.setGender(artistData[5]);
 		try {
-			Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(artistData[6]);
+			Date bday = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(artistData[6]);
 			artist.setBirthday(bday);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -69,7 +70,8 @@ public class Artist extends User implements Comparable<Artist>{
 		sb.append("|");
 		sb.append(getGender());
 		sb.append("|");
-		sb.append(getBirthday());
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		sb.append(formatter.format(getBirthday()));
 		return sb.toString();
 	}
 

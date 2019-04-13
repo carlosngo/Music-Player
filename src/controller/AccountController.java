@@ -105,20 +105,22 @@ public class AccountController {
 
 	public boolean registerAsArtist(String username, String password, String firstName, String lastName, String gender, Date birthday) {
 		try {
-			user = new Artist();
-			user.getAccount().setUserName(username);
-			user.getAccount().setPassword(password);
+			Artist artist = new Artist();
+			artist.getAccount().setUserName(username);
+			artist.getAccount().setPassword(password);
 //			user.setPassword(hash.generateHash(password));
-			user.setFirstName(firstName);
-			user.setLastName(lastName);
-			user.setGender(gender);
-			user.setBirthday(birthday);
-			if(mc.getClient().addArtist((Artist)user)){
-				System.out.println("Artist " + user.getFirstName() + " is created.");
+			artist.setFirstName(firstName);
+			artist.setLastName(lastName);
+			artist.setName(firstName + " " + lastName);
+			artist.setGender(gender);
+			artist.setBirthday(birthday);
+			if(mc.getClient().addArtist(artist)){
+				System.out.println("Artist " + artist.getName() + " is created.");
 				logIn(username, password);
 			} else {
 				return false;
 			}
+			user = artist;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			return false;
