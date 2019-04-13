@@ -1,11 +1,7 @@
 package view;
 
 import controller.SongController;
-import model.Album;
-import model.Artist;
-import model.Playlist;
-import model.Song;
-
+import model.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -17,25 +13,23 @@ import java.util.ArrayList;
 public class BrowserPanel extends JPanel implements ActionListener, DocumentListener {
 
     private InfoPanel infoPnl, newInfoPnl;
-    private CategoryPanel userPnl, newUserPnl;
-    private String userPnlHeader;
     private JTextField input;
     private JButton search;
     private JLabel searchResultsTitle;
     private JPanel card;
     private SongController controller;
+    //private CategoryPanel userPnl, newUserPnl;
 
     //isInputted is true if the browser page is used as a search results page
-    public BrowserPanel(SongController sc, String songPnlHeader, String playlistPnlHeader, String albumPnlHeader,
-                        String artistPnlHeader, Object playlistForSongPnl, ArrayList<Song> songs, ArrayList<Object> playlists,
-                        ArrayList<Object> albums, ArrayList<Object> artists, ArrayList<Object> users, boolean isInputted){
+    public BrowserPanel(SongController sc, String songPanelheader, Object objectForSongPnl, ArrayList<Song> songs,
+                        ArrayList<Object> playlists, ArrayList<Object> albums, ArrayList<Object> artists,
+                        ArrayList<Object> users, boolean isInputted){
         controller = sc;
         setOpaque(false);
 
-        infoPnl = new InfoPanel(sc, songPnlHeader, playlistPnlHeader, albumPnlHeader, artistPnlHeader, playlistForSongPnl,
-                songs, playlists, albums, artists);
-        userPnlHeader = "Users";
-        userPnl = new UserPanel(sc, userPnlHeader, users);
+        infoPnl = new InfoPanel(sc, songPanelheader, objectForSongPnl,
+                songs, playlists, albums, artists, users);
+        //userPnl = new UserPanel(sc, users);
 
         JPanel searchBarPnl = new JPanel();
         searchBarPnl.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -67,7 +61,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         //card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setOpaque(false);
         card.add(infoPnl);
-        card.add(userPnl);
+        //card.add(userPnl);
     }
 
     @Override
@@ -77,9 +71,9 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
             searchResultsTitle.setVisible(true);
             card.removeAll();
             newInfoPnl = controller.searchForInfoPanel(input.getText());
-            newUserPnl = controller.searchForUserPanel(input.getText());
             card.add(newInfoPnl);
-            card.add(newUserPnl);
+            //newUserPnl = controller.searchForUserPanel(input.getText());
+            //card.add(newUserPnl);
             revalidate();
             repaint();
         }
