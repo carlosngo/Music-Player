@@ -211,6 +211,13 @@ public class SongController {
        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
+    public void showInfo(User user) {
+
+    }
+
+    public void showSearchResults(String keyword) {
+
+    }
 
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();
