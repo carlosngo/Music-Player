@@ -5,6 +5,8 @@ import static util.DAOUtil.prepareStatement;
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.xml.crypto.Data;
+
 import model.*;
 
 
@@ -28,7 +30,11 @@ public class PlaylistDAO implements DataAccessObject {
 			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE;
 	private static final String SQL_SEARCH_BY_KEYWORD =
 			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE Name LIKE ?";
-
+	private static final String SQL_LIST_FOLLOWED_PLAYLISTS =
+			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " INNER JOIN " + Database.ACCOUNTPLAYLIST_TABLE + " ON " +
+			Database.PLAYLIST_TABLE + ".PK_PlaylistID = " + Database.ACCOUNTPLAYLIST_TABLE + ".FK_AccountID = ?";
+	
+	
 	public PlaylistDAO(DAOFactory db) {
 		this.db = db;
 	}
@@ -203,6 +209,24 @@ public class PlaylistDAO implements DataAccessObject {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return playlists;
+	}
+	
+	public ArrayList<Playlist> listFollowedPlaylists(int accountId){
+		ArrayList<Playlist> playlists = new ArrayList<>();
+		Object[] values = {
+				accountId
+		};
+		Connection connection = Database.getConnection();
+		try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_FOLLOWED_PLAYLISTS, false, values)){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				playlists.add(map(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return playlists;
 	}
 

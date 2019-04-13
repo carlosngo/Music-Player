@@ -7,7 +7,6 @@ import model.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import javax.swing.*;
 import java.util.concurrent.*;
 
 
@@ -65,9 +64,9 @@ public final class Client {
         return songs;
     }
 
-    public ArrayList<Song> getSongsByAccount(int accountId) {
+    public ArrayList<Song> getFollowedSongs(int accountId) {
         ArrayList<Song> songs = new ArrayList<>();
-        outToServer.println(Protocol.GETSONGSBYACCOUNT);
+        outToServer.println(Protocol.GETFOLLOWEDSONGS);
         outToServer.println(accountId);
         readSongs(songs);
         return songs;
@@ -89,10 +88,10 @@ public final class Client {
         return songs;
     }
 
-    public ArrayList<Song> getSongsWithGenre(String genre) {
+    public ArrayList<Song> getFavoriteSongs(int accountId) {
         ArrayList<Song> songs = new ArrayList<>();
-        outToServer.println(Protocol.GETSONGSWITHGENRE);
-        outToServer.println(genre);
+        outToServer.println(Protocol.GETFAVORITESONGS);
+        outToServer.println(accountId);
         readSongs(songs);
         return songs;
     }
@@ -174,14 +173,7 @@ public final class Client {
     public ArrayList<Playlist> getPlaylists() {
         ArrayList<Playlist> playlists = new ArrayList<>();
         outToServer.println(Protocol.GETPLAYLISTS);
-        try {
-            int n = Integer.parseInt(inFromServer.readLine());
-            for (int i = 0; i < n; i++) {
-                playlists.add(Playlist.parsePlaylist(inFromServer.readLine()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        readPlaylists(playlists);
         return playlists;
     }
 
@@ -189,6 +181,19 @@ public final class Client {
         ArrayList<Playlist> playlists = new ArrayList<>();
         outToServer.println(Protocol.GETPLAYLISTSBYACCOUNT);
         outToServer.println(accountId);
+        readPlaylists(playlists);
+        return playlists;
+    }
+
+    public ArrayList<Playlist> getFollowedPlaylists(int accountId) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        outToServer.println(Protocol.GETFOLLOWEDPLAYLISTS);
+        outToServer.println(accountId);
+        readPlaylists(playlists);
+        return playlists;
+    }
+
+    private void readPlaylists(ArrayList<Playlist> playlists) {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
@@ -197,7 +202,6 @@ public final class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return playlists;
     }
 
     public boolean addPlaylist(Playlist playlist){
@@ -247,21 +251,27 @@ public final class Client {
     public ArrayList<Album> getAlbums(){
         ArrayList<Album> albums = new ArrayList<>();
         outToServer.println(Protocol.GETALBUMS);
-        try {
-            int n = Integer.parseInt(inFromServer.readLine());
-            for (int i = 0; i < n; i++) {
-                albums.add(Album.parseAlbum(inFromServer.readLine()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        readAlbums(albums);
         return albums;
     }
 
-    public ArrayList<Album> getAlbumsByAccount(int accountId){
+    public ArrayList<Album> getFollowedAlbums(int accountId){
         ArrayList<Album> albums = new ArrayList<>();
-        outToServer.println(Protocol.GETALBUMSBYACCOUNT);
+        outToServer.println(Protocol.GETFOLLOWEDALBUMS);
         outToServer.println(accountId);
+        readAlbums(albums);
+        return albums;
+    }
+
+    public ArrayList<Album> getAlbumsByArtist(int artistId) {
+        ArrayList<Album> albums = new ArrayList<>();
+        outToServer.println(Protocol.GETALBUMSBYARTIST);
+        outToServer.println(artistId);
+        readAlbums(albums);
+        return albums;
+    }
+
+    private void readAlbums(ArrayList<Album> albums) {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
@@ -270,8 +280,6 @@ public final class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return albums;
-
     }
 
     public boolean addAlbum(Album album){
@@ -501,6 +509,56 @@ public final class Client {
     public void logOut(int userId) {
         outToServer.println(Protocol.LOGOUT);
         outToServer.println(userId);
+    }
+
+    public ArrayList<Song> searchSongs(String keyword) {
+        ArrayList<Song> songs = new ArrayList<>();
+        outToServer.println(Protocol.SEARCHSONGS);
+        outToServer.println(keyword);
+        readSongs(songs);
+        return songs;
+    }
+
+    public ArrayList<Playlist> searchPlaylists(String keyword) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        outToServer.println(Protocol.SEARCHPLAYLISTS);
+        outToServer.println(keyword);
+        readPlaylists(playlists);
+        return playlists;
+    }
+
+    public ArrayList<Album> searchAlbums(String keyword) {
+        ArrayList<Album> albums = new ArrayList<>();
+        outToServer.println(Protocol.SEARCHALBUMS);
+        outToServer.println(keyword);
+        readAlbums(albums);
+        return albums;
+    }
+
+    public ArrayList<User> searchUsers(String keyword) {
+        ArrayList<User> users = new ArrayList<>();
+        outToServer.println(Protocol.SEARCHUSERS);
+        outToServer.println(keyword);
+        try {
+            int n = Integer.parseInt(inFromServer.readLine());
+            for (int i = 0; i < n; i++) users.add(User.parseUser(inFromServer.readLine()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public ArrayList<Artist> searchArtists(String keyword) {
+        ArrayList<Artist> artists = new ArrayList<>();
+        outToServer.println(Protocol.SEARCHARTISTS);
+        outToServer.println(keyword);
+        try {
+            int n = Integer.parseInt(inFromServer.readLine());
+            for (int i = 0; i < n; i++) artists.add(Artist.parseArtist(inFromServer.readLine()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return artists;
     }
 
     public static void main(String[] args) {

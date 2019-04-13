@@ -22,10 +22,9 @@ public class SongController {
     private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
-    private UserArtistListPanel uap;
 
     private Client client = mc.getClient();
-
+    private User user = mc.getAccountController().getUser();
 
     public SongController(MainController mc) {
         this.mc = mc;
@@ -60,48 +59,33 @@ public class SongController {
         return espw;
     }
 
-
     public void openAddSongWindow() {
-        asw = new AddSongWindow(this);
+        asw = new AddSongWindow(this, client.getAlbumsByArtist(((Artist)user).getArtistId()));
     }
 
     public void openAddAlbumWindow() { aaw = new AddAlbumWindow(this); }
 
     public void openAddPlaylistWindow() { apw = new AddPlaylistWindow(this); }
 
-    public void openAddToPlaylistWindow(int index) {
-        atpw = new AddToPlaylistWindow(this, index);
+    public void openAddToPlaylistWindow(int songId) {
+        atpw = new AddToPlaylistWindow(this, songId, client.getPlaylistsByAccount(user.getAccount().getId()));
     }
 
-    public void openEditSongProfileWindow(int index, ArrayList<String> data) {
-        espw = new EditSongProfileWindow(this, data, index);
+    //i think this should take in songID as parameter, then get the song and feed it to the EditSongProfileWindow
+    // along with the list of albums
+    public void openEditSongProfileWindow(Song song) {
+        espw = new EditSongProfileWindow(this, client.getAlbumsByArtist(((Artist)user).getArtistId()), song);
     }
 
-    public void openEditCategoryWindow(String category, String subCategoryName) {
-        ecw = new EditCategoryWindow(this, category, subCategoryName);
-    }
 
-    public void addPlaylist(String playlistName) {
-        Playlist p = new Playlist();
-        p.setName(playlistName);
-        p.setDateCreated(Calendar.getInstance().getTime());
-        p.setAccount(mc.getAccountController().getUser().getAccount());
-        client.addPlaylist(p);
-        showPlaylists();
-    }
-
-    public void addAlbum(String albumName) {
-        Album a = new Album();
-        a.setName(albumName);
-        a.setDateCreated(Calendar.getInstance().getTime());
-        a.setArtist((Artist)mc.getAccountController().getUser());
-        client.addAlbum(a);
-        showAlbums();
+    public void openEditCategoryWindow(String category, Object obj) {
+        ecw = new EditCategoryWindow(this, category, obj);
     }
 
     // play song at index of displayedSongs
     public void playSong(int songId) {
-        client.playSong(mc.getAccountController().getUser().getAccount().getId(), songId);
+        client.followSong(user.getAccount(), client.getSong(songId));
+        client.playSong(user.getAccount().getId(), songId);
         ArrayList<Song> queue = new ArrayList<>();
         queue.add(client.getSong(songId));
         mc.playSongs(queue);
@@ -122,6 +106,12 @@ public class SongController {
         sp.deleteRow(songIndex);
     }
 
+    public void removeFromAlbum(int songId) {
+        Song song = client.getSong(songId);
+        song.setArtist(null);
+        client.updateSong(song);
+    }
+
 //    public void addToPlaylist(ArrayList<String> songInfo, Playlist playlist){
 //        for (Song s : mc.getAccountController().getSongs()){
 //            if(s.getName().equals(songInfo.get(0)) && s.getAlbum().equals(songInfo.get(1))
@@ -130,15 +120,6 @@ public class SongController {
 //            }
 //        }
 //    }
-
-    public void playSongsInGenre(String genreName) {
-        ArrayList<Song> queue = client.getSongsWithGenre(genreName);
-        mc.playSongs(queue);
-    }
-
-    public void addSongsInGenreToQueue(String genreName) {
-        for (Song s : client.getSongsWithGenre(genreName)) mc.getPlayerController().addSong(s);
-    }
 
     public void playSongsInPlaylist(int playlistId) {
         ArrayList<Song> queue = client.getSongsInPlaylist(playlistId);
@@ -168,157 +149,68 @@ public class SongController {
     }
 
     public void showPlaylists() {
-        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
-        ArrayList<String> subCategoriesContent;
-        for (Playlist p : client.getPlaylistsByAccount(mc.getAccountController().getUser().getAccount().getId())) {
-            subCategoriesContent = new ArrayList<String>();
-            subCategoriesContent.add(p.getName());
-            subCategoriesContent.add(p.getAccount().getUserName());
-            subCategories.add(subCategoriesContent);
-        }
-        cp = new CategoryPanel(this, "Playlists", subCategories);
+        ArrayList<Object> list = new ArrayList<>();
+        list.addAll(client.getFollowedPlaylists(user.getAccount().getId()));
+        cp = new PlaylistPanel(this, "Playlists", list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showAlbums() {
-        ArrayList<ArrayList<String>> subCategories = new ArrayList<ArrayList<String>>();
-        ArrayList<String> subCategoriesContent;
-        for (Album a : client.getAlbumsByAccount(mc.getAccountController().getUser().getAccount().getId())) {
-            subCategoriesContent = new ArrayList<String>();
-            subCategoriesContent.add(a.getName());
-            subCategoriesContent.add(a.getArtist().getAccount().getUserName());
-            subCategories.add(subCategoriesContent);
-        }
-        cp = new CategoryPanel(this, "Albums", subCategories);
+        ArrayList<Object> list = new ArrayList(client.getFollowedAlbums(user.getAccount().getId()));
+        cp = new AlbumPanel(this, "Albums", list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showArtists() {
-        TreeSet<String> subCategories = new TreeSet<>();
-        for (Artist a : client.getFollowedArtists(mc.getAccountController().getUser().getAccount().getId())) {
-            subCategories.add(a.getName());
-        }
-        uap = new UserArtistListPanel(this, "Artists", new ArrayList(subCategories));
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(uap);
+        ArrayList<Object> list = new ArrayList(client.getFollowedArtists(user.getAccount().getId()));
+        cp = new ArtistPanel(this, "Artists", list);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+    }
+
+    public void showFriends() {
+        ArrayList<Object> list = new ArrayList(client.getFollowedUsers(user.getAccount().getId()));
+        cp = new UserPanel(this, "Users", new ArrayList(list));
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showAllSongs() {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        displayedSongs = new ArrayList<>(mc.getSongs());
-        for (Song s : displayedSongs) {
-            data.add(map(s));
-        }
-        sp = new SongPanel(this, "All Songs", data);
+        ArrayList<Song> songs = new ArrayList<>();
+        songs.addAll(client.getFollowedSongs(user.getAccount().getId()));
+        sp = new SongPanel(this, "All Songs", null, songs);
         if (mc.getDashboard() != null) {
             mc.getDashboard().changeCard(sp);
         }
-
     }
 
-    /*public void showMostFrequentlyPlayed() {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        displayedSongs = new ArrayList<>(mc.getSongs());
-        Collections.sort(displayedSongs, new Comparator<Song>() {
-            @Override
-            public int compare(Song a, Song b) {
-                return Long.compare(b.getPlayTime(), a.getPlayTime());
-            }
-        });
-        for (Song s : displayedSongs) {
-            ArrayList<String> list = map(s);
-            list.add((int)s.getPlayTime() + "");
-            data.add(list);
-        }
-        sp = new SongPanel(this, "Most Played Songs", data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
-    }
-*/
-    public void showSongsByAlbum(String name) {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
-
-            if (s.getAlbum() != null && s.getAlbum().getName().equals(name)) {
-                data.add(map(s));
-                songs.add(s);
-            }
-        }
-        displayedSongs = new ArrayList<>(songs);
-        sp = new SongPanel(this, "Songs by " + name, data);
+    public void showSongsFollowedByUser(int userId) {
+        User user = client.getUser(userId);
+        sp = new SongPanel(this, "Songs followed by ", null, client.getFollowedSongs(user.getAccount().getId()));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
-    public void showSongsByPlaylist(String name) {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        Playlist temp = new Playlist();
-        temp.setName(name);
-        Playlist p = mc.getPlaylists().floor(temp);
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : p.getSongs()) {
-
-            data.add(map(s));
-            songs.add(s);
-        }
-        displayedSongs = new ArrayList<>(songs);
-        sp = new SongPanel(this, "Songs in " + name, data);
+    public void showSongsByAlbum(int albumId) {
+        Album album = client.getAlbum(albumId);
+        sp = new SongPanel(this, "Songs in " + album.getName(), album, client.getSongsInAlbum(albumId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
-    public void showSongsByGenre(String name) {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
-            if (s.getGenre() != null && s.getGenre().equals(name)) {
-                data.add(map(s));
-                songs.add(s);
-            }
-        }
-        displayedSongs = new ArrayList<>(songs);
-        sp = new SongPanel(this, name + " Songs", data);
+    public void showSongsByPlaylist(int playlistId) {
+        Playlist playlist = client.getPlaylist(playlistId);
+        sp = new SongPanel(this, "Songs in " + playlist.getName(), playlist, client.getSongsInPlaylist(playlistId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
-    public void showSongsByYear(String yr) {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
-            if (s.getYear() != 0 && s.getYear()==Integer.parseInt(yr)) {
-                data.add(map(s));
-                songs.add(s);
-            }
-        }
-        displayedSongs = new ArrayList<>(songs);
-        sp = new SongPanel(this, yr + " Songs", data);
+    public void showSongsByArtist(int artistId) {
+        Artist artist = client.getArtist(artistId);
+        sp = new SongPanel(this, "Songs by " + artist.getAccount().getUserName(), artist, client.getSongsByArtist(artistId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
-    public void showSongsByArtist(String artistName) {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
-            if (s.getArtist() != null && s.getArtist().getName().equals(artistName)) {
-                data.add(map(s));
-                songs.add(s);
-            }
-        }
-        displayedSongs = new ArrayList<>(songs);
-        sp = new SongPanel(this, "Songs by " + artistName, data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+   public void showFavoriteSongs() {
+       sp = new SongPanel(this, "Your Favorite Songs", null, client.getFavoriteSongs(user.getAccount().getId()));
+       if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
     }
 
-   /* public void showFavoriteSongs() {
-        ArrayList<ArrayList<String>> data = new ArrayList<>();
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : mc.getSongs()) {
-            if (s.isFavorite()) {
-                data.add(map(s));
-                songs.add(s);
-            }
-        }
-        displayedSongs = new ArrayList<>(songs);
-        sp = new SongPanel(this, "Favorite Songs", data);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
-    }*/
 
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();
@@ -347,233 +239,109 @@ public class SongController {
     }
 
     public String[] getAllPossibleGenres() {
-        TreeSet<String> genres = mc.getGenres();
-        for (int i = 0; i < DEFAULT_GENRES.length; i++) genres.add(DEFAULT_GENRES[i]);
-        return genres.toArray(new String[genres.size()]);
+        return DEFAULT_GENRES;
     }
 
     public String[] getAllPossibleAlbums() {
         TreeSet<String> albums = new TreeSet<String>();
-        for(Album album : mc.getAlbums()){
+        for(Album album : client.getFollowedAlbums(user.getAccount().getId())){
             albums.add(album.getName());
         }
         return albums.toArray(new String[albums.size()]);
     }
 
-    public Artist getArtist(String artistName) {
-//        Artist a = new Artist();
-//        if (artistName.equals("")) return null;
-//        else a.setName(artistName);
-//        if (mc.getArtists().contains(a)) {
-//            a = mc.getArtists().floor(a);
-//        } else {
-//            mc.getArtists().add(a);
-//            if (cp != null) {
-//                cp.addRow("Arists", a.getName());
-//            }
-//        }
-//        return a;
-
-        Artist a = new Artist();
-        if (artistName.equals("")) return null;
-        else a.setName(artistName);
-        if (mc.getArtists().contains(a)) {
-            a = mc.getArtists().floor(a);
-        } else {
-            mc.getArtists().add(a);
-            if (uap != null) {
-                uap.addRow("Arists", a.getName());
-            }
-        }
-        return a;
-    }
-
-    public Album getAlbum(String albumName) {
-        Album a = new Album();
-        if (albumName.equals("")) return null;
-        else a.setName(albumName);
-        if (mc.getAlbums().contains(a)) {
-            a = mc.getAlbums().floor(a);
-        } else {
-            mc.getAlbums().add(a);
-            a.setDateCreated(Calendar.getInstance().getTime());
-            if (cp != null)
-                cp.addRow("Albums", a.getName(), a.getArtist().getName());
-        }
-        return a;
-    }
-
-    public String getGenre(String genreName) {
-        if (genreName == null || genreName.equals("")) return null;
-        if (!mc.getGenres().contains(genreName)) { // if genre does not currently exist
-            mc.getGenres().add(genreName); // add the new genre
-            if (cp != null)
-                cp.addRow("Genres", genreName, "");
-
-        }
-        return mc.getGenres().floor(genreName);
-    }
-
-    public void addSong(String songName, String genreName, String albumName, String artistName, String year, File wav) {
+    public void addSong(String songName, String genre, int albumId, String year, File wav) {
         Song s = new Song();
         s.setName(songName);
-//        s.setUser(mc.getAccountController().getUser());
-
-        s.setGenre(getGenre(genreName));
-        s.setAlbum(getAlbum(albumName));
-        s.setArtist(getArtist(artistName));
-//        s.setDateCreated(Calendar.getInstance().getTime());
+        s.setGenre(genre);
+        s.setAlbum(client.getAlbum(albumId));
+        s.setArtist((Artist)user);
+        s.setDateCreated(Calendar.getInstance().getTime());
         if (!year.equals(""))
             s.setYear(Integer.parseInt(year));
         s.setWAV(wav);
-        mc.getSongs().add(s);
-        displayedSongs.add(s);
+        client.addSong(s);
+        client.setSongFile(s.getSongId(), wav);
+        client.followSong(user.getAccount(),s);
         showAllSongs();
     }
 
-    public void removeSong(int index) {
-        Song s = displayedSongs.get(index);
-        try {
-            mc.getSongDAO().delete(s);
-        } catch(IllegalArgumentException e) {
+    public void addAlbum(String albumName, File cover) {
+        Album a = new Album();
+        a.setName(albumName);
+        if (cover != null) a.setCover(cover);
+        a.setArtist((Artist)user);
+        a.setDateCreated(Calendar.getInstance().getTime());
+        client.addAlbum(a);
+        if (cover != null) client.setImageFile(a.getAlbumId(), cover);
+        client.followAlbum(user.getAccount(), a);
+        showAlbums();
+    }
 
-        }
-        mc.getSongs().remove(s);
-        for (Playlist p : mc.getPlaylists()) {
-            p.getSongs().remove(s);
-        }
-        displayedSongs.remove(s);
+    public void addPlaylist(String playlistName) {
+        Playlist p = new Playlist();
+        p.setName(playlistName);
+        p.setDateCreated(Calendar.getInstance().getTime());
+        p.setAccount(user.getAccount());
+        client.addPlaylist(p);
+        client.followPlaylist(user.getAccount(), p);
+        showPlaylists();
+    }
+
+    public void removeSong(int songId) {
+        Song s = client.getSong(songId);
+        if (s.getArtist().getArtistId() == ((Artist)user).getArtistId())
+            client.deleteSong(s);
+        else
+            client.unfollowSong(user.getAccount(), s);
         sp.deleteRow(index);
         mc.getPlayerController().removeSong(s);
         mc.getPlayerController().getPlayerPanel().update();
     }
 
-    public void removeAlbum(String albumName) {
-        Album temp = new Album();
-        temp.setName(albumName);
-        Album a = mc.getAlbums().floor(temp);
-        mc.getAlbums().remove(a);
-        for (Song s : mc.getSongs()) {
-            if (s.getAlbum() != null && s.getAlbum().equals(a)) {
-                s.setAlbum(null);
-            }
-        }
-        try {
-            mc.getAlbumDAO().delete(a);
-        } catch (IllegalArgumentException e) {
-        }
+    public void removeAlbum(int albumId) {
+        Album a = client.getAlbum(albumId);
+        if (a.getArtist().getArtistId() == ((Artist)user).getArtistId())
+            client.deleteAlbum(a);
+        else client.unfollowAlbum(user.getAccount(), a);
         showAlbums();
     }
-    public void updateSong(int songIndex, String title, String album, String artist, String year, String genre){
-        Song s = displayedSongs.get(songIndex);
+
+    public void removePlaylist(int playlistId) {
+        Playlist p = client.getPlaylist(playlistId);
+        if (p.getAccount().getId() == user.getAccount().getId())
+            client.deletePlaylist(p);
+        else client.unfollowPlaylist(user.getAccount(), p);
+        showPlaylists();
+    }
+
+    public void updateSong(int songId, String title, int albumId, String year, String genre){
+        Song s = client.getSong(songId);
         System.out.println("Updating the song " + s.getName());
         s.setName(title);
-        s.setAlbum(getAlbum(album));
-        s.setArtist(getArtist(artist));
+        s.setAlbum(client.getAlbum(albumId));
         if (year.equals("")) s.setYear(0);
         else s.setYear(Integer.parseInt(year));
-        s.setGenre(getGenre(genre));
-        displayedSongs.set(songIndex, s);
+        s.setGenre(genre);
+        client.updateSong(s);
         sp.editRow(songIndex, map(s));
         showAllSongs();
         mc.getPlayerController().getPlayerPanel().update();
     }
 
-    public void updateGenre(String oldName, String newName) {
-        mc.getGenres().remove(oldName);
-        mc.getGenres().remove(newName);
-        for (Song s : mc.getSongs()) {
-            if (s.getGenre().equals(oldName)) s.setGenre(newName);
-        }
-        showGenres();
-    }
-
-    public void updateAlbum(String oldName, String newName) {
-        Album temp = new Album();
-        temp.setName(oldName);
-        Album g = mc.getAlbums().floor(temp);
-        g.setName(newName);
+    public void updateAlbum(int albumId, String newName, File newCover) {
+        Album album = client.getAlbum(albumId);
+        album.setName(newName);
+        album.setCover(newCover);
+        client.updateAlbum(album);
+        client.setImageFile(albumId, newCover);
         showAlbums();
     }
 
-    public void updatePlaylist(String oldName, String newName) {
-        Playlist temp = new Playlist();
-        temp.setName(oldName);
-        Playlist g = mc.getPlaylists().floor(temp);
-        g.setName(newName);
+    public void updatePlaylist(int playlistId, String newName) {
+        Playlist p = client.getPlaylist(playlistId);
+        p.setName(newName);
+        client.updatePlaylist(p);
         showPlaylists();
     }
-
-    public void updateArtist(String oldName, String newName) {
-        Artist temp = new Artist();
-        temp.setName(oldName);
-        Artist a = mc.getArtists().floor(temp);
-        a.setName(newName);
-        showArtists();
-    }
-
-
-    public void setAlbumCover(String albumName, File cover) {
-        Album temp = new Album();
-        temp.setName(albumName);
-        Album a = mc.getAlbums().floor(temp);
-        a.setCover(cover);
-        mc.getPlayerController().getPlayerPanel().update();
-    }
-
-    public void removePlaylist(String playlistName) {
-        Playlist temp = new Playlist();
-        temp.setName(playlistName);
-        Playlist p = mc.getPlaylists().floor(temp);
-        mc.getPlaylists().remove(p);
-        try {
-            mc.getPlaylistDAO().delete(p);
-        } catch (IllegalArgumentException e) {
-        }
-        showPlaylists();
-    }
-
-    public boolean isFavoritePlaylist(String playlistName) {
-        Playlist temp = new Playlist();
-        temp.setName(playlistName);
-        Playlist p = mc.getPlaylists().floor(temp);
-        if (p != null) return p.isFavorite();
-        return false;
-    }
-
-    public void toggleFavoritePlaylist(String playlistName) {
-        Playlist temp = new Playlist();
-        temp.setName(playlistName);
-        Playlist p = mc.getPlaylists().floor(temp);
-        p.setFavorite(!p.isFavorite());
-    }
-
-//    public void toggleFollow(String objectKind, String objectName) {
-//        switch (objectKind){
-//            case "artist":
-//                Artist tempArtist = new Artist();
-//                tempArtist.setName(objectName);
-//                Artist a = mc.getArtists().floor(tempArtist);
-//                a.setFollow(!a.setFollow());
-//                break;
-//            case "user":
-//                User tempUser = new User();
-//                tempUser.setName(objectName);
-//                User u = mc.getUsers().floor(tempUser);
-//                u.setFollow(!u.setFollow());
-//                break;
-//            case "album":
-//                Album tempAlbum = new Album();
-//                tempAlbum.setName(objectName);
-//                Album album = mc.getAlbums().floor(tempAlbum);
-//                album.setFollow(!album.setFollow());
-//                break;
-//            case "playlist":
-//                Playlist temp = new Playlist();
-//                temp.setName(objectName);
-//                Playlist p = mc.getPlaylists().floor(temp);
-//                p.setFollow(!p.setFollow());
-//                break;
-//        }
-//    }
 }

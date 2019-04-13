@@ -39,15 +39,15 @@ public final class Database {
     public static final String SUBSCRIPTION_COLUMNS =
     		"FK_SubscriberID, FK_SubscribeeID";
    
-    public static final String ACCOUNTPLAYLIST_TABLE = "musicplayer.userplaylist";
+    public static final String ACCOUNTPLAYLIST_TABLE = "musicplayer.accountplaylist";
     public static final String ACCOUNTPLAYLIST_COLUMNS = 
     		"FK_AccountID, FK_PlaylistID, isFavorite";
     
-    public static final String ACCOUNTALBUM_TABLE = "musicplayer.useralbum";
+    public static final String ACCOUNTALBUM_TABLE = "musicplayer.accountalbum";
     public static final String ACCOUNTALBUM_COLUMNS = 
     		"FK_AccountID, FK_AlbumID, isFavorite";
     
-    public static final String ACCOUNTSONG_TABLE = "musicplayer.useralbum";
+    public static final String ACCOUNTSONG_TABLE = "musicplayer.accountsong";
     public static final String ACCOUNTSONG_COLUMNS = 
     		"FK_AccountID, FK_SongID, isFavorite, playTime, LastPlayed";
 

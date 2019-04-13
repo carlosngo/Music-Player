@@ -1,7 +1,7 @@
 package view;
 
 import controller.SongController;
-
+import model.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -11,16 +11,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class AddAlbumWindow extends JFrame implements ActionListener, DocumentListener {
+public class EditAlbumWindow extends JFrame implements ActionListener, DocumentListener {
     private SongController controller;
     private JTextField nameInput;
     private JButton save, cancel, selectFile;
     private JPanel fileReaderPnl;
     private JLabel selectedFileName;
     private File selectedFile;
+    private Album album;
 
-    public AddAlbumWindow(SongController controller) {
+    public EditAlbumWindow(SongController controller, Album album) {
         this.controller = controller;
+        this.album = album;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setOpaque(true);
@@ -47,6 +49,7 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
         nameInput.addActionListener(this);
         nameInput.getDocument().addDocumentListener(this);
         nameInput.setFont(new Font("Arial", Font.PLAIN, 22));
+        nameInput.setText(album.getName());
         inputPnl.add(nameInput);
         inputPnl.add(Box.createRigidArea(new Dimension(15, 0)));
         p.add(inputPnl);
@@ -68,6 +71,7 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
         selectedFileName = new JLabel();
         selectedFileName.setFont(new Font("Arial", Font.PLAIN, 22));
         selectedFileName.setForeground(Color.white);
+        selectedFileName.setText(album.getCover().toString());
         fileReaderPnl.add(Box.createRigidArea(new Dimension(5,0)));
         fileReaderPnl.add(selectedFileName);
         p.add(fileReaderPnl);
@@ -136,6 +140,8 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
         if (e.getSource() == save) {
             if(selectedFile != null) controller.addAlbum(nameInput.getText(), selectedFile);
             else controller.addAlbum(nameInput.getText(), null);
+//            controller.addAlbum(nameInput.getText());
+//            controller.setAlbumCover(nameInput.getText(), selectedFile);
             dispose();
         }
     }

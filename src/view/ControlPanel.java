@@ -662,7 +662,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.getMainController().getAc().openAddSongWindow();
         }
         if(e.getSource() == addAlbum){
-            controller.getMainController().getAc().openAddAlbumWindow();
+            controller.openAddAlbumWindow();
         }
 //        if(e.getSource() == mostFrqntlyPlyd){
 //            controller.showMostFrequentlyPlayed();

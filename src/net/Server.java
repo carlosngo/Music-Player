@@ -27,7 +27,6 @@ public final class Server {
     private final SubscriptionDAOFactory subscriptionDAOFactory = new SubscriptionDAOFactory();
     private final SongDAOFactory songDAOFactory = new SongDAOFactory();
     private final AlbumDAOFactory albumDAOFactory = new AlbumDAOFactory();
-    private final AlbumSongDAOFactory albumSongDAOFactory = new AlbumSongDAOFactory();
     private final PlaylistDAOFactory playlistDAOFactory = new PlaylistDAOFactory();
     private final PlaylistSongDAOFactory playlistSongDAOFactory = new PlaylistSongDAOFactory();
     private final ArtistDAOFactory artistDAOFactory = new ArtistDAOFactory();
@@ -53,7 +52,7 @@ public final class Server {
         return ((SongDAO)songDAOFactory.getDAO()).listById();
     }
 
-    public ArrayList<Song> getSongsByAccount(int accountId) {
+    public ArrayList<Song> getFollowedSongs(int accountId) {
         return ((SongDAO)songDAOFactory.getDAO()).listByAccount(accountId);
     }
 
@@ -69,8 +68,8 @@ public final class Server {
         return ((SongDAO)songDAOFactory.getDAO()).listByPlaylist(playlistId);
     }
 
-    public ArrayList<Song> getSongsWithGenre(String genre) {
-        return ((SongDAO)songDAOFactory.getDAO()).listByGenre(genre);
+    public ArrayList<Song> getFavoriteSongs(int accountId) {
+        return ((SongDAO)songDAOFactory.getDAO()).listFavoriteSongs(accountId);
     }
 
     public boolean addSong(Song song){
@@ -90,7 +89,7 @@ public final class Server {
     }
 
     public void addSongToPlaylist(Song song, Playlist playlist) {
-        ((PlaylistSongDAO)playlistDAOFactory.getDAO()).join(playlist, song);
+        ((PlaylistSongDAO)playlistSongDAOFactory.getDAO()).join(playlist, song);
     }
 
     public void deleteSong(Song song){
@@ -102,7 +101,7 @@ public final class Server {
     }
 
     public void removeSongFromPlaylist(Song song, Playlist playlist) {
-        ((PlaylistSongDAO)playlistDAOFactory.getDAO()).separate(playlist, song);
+        ((PlaylistSongDAO)playlistSongDAOFactory.getDAO()).separate(playlist, song);
     }
 
     public void updateSong(Song song){
@@ -138,6 +137,10 @@ public final class Server {
 
     public ArrayList<Playlist> getPlaylistsByAccount(int accountId) {
         return ((PlaylistDAO)playlistDAOFactory.getDAO()).listByUserId(accountId);
+    }
+
+    public ArrayList<Playlist> getFollowedPlaylists(int accountId){
+        return ((PlaylistDAO)playlistDAOFactory.getDAO()).listFollowedPlaylists(accountId);
     }
 
     public boolean addPlaylist(Playlist playlist){
@@ -188,8 +191,12 @@ public final class Server {
         return ((AlbumDAO)albumDAOFactory.getDAO()).listById();
     }
 
-    public ArrayList<Album> getAlbumsByAccount(int accountId) {
+    public ArrayList<Album> getFollowedAlbums(int accountId) {
         return ((AlbumDAO)albumDAOFactory.getDAO()).listByAccount(accountId);
+    }
+
+    public ArrayList<Album> getAlbumsByArtist(int artistId) {
+        return ((AlbumDAO)albumDAOFactory.getDAO()).listByArtist(artistId);
     }
 
     public boolean addAlbum(Album album){
@@ -239,7 +246,7 @@ public final class Server {
     }
 
     public ArrayList<User> getFollowedUsers(int accountId) {
-        return ((UserDAO)userDAOFactory.getDAO()).listFollowedUsers(accountId);
+        return ((UserDAO)userDAOFactory.getDAO()).listByFollowedUsers(accountId);
     }
 
     public boolean addUser(User user){
@@ -279,7 +286,7 @@ public final class Server {
     }
 
     public ArrayList<Artist> getFollowedArtists (int accountId) {
-        return ((ArtistDAO)artistDAOFactory.getDAO()).listFollowedArtists(accountId);
+        return ((ArtistDAO)artistDAOFactory.getDAO()).listByFollowedArtists(accountId);
     }
 
     public boolean addArtist(Artist artist){
@@ -337,6 +344,26 @@ public final class Server {
 
     public void logout(int accountId){
         onlineUsers.remove(accountId);
+    }
+
+    public ArrayList<Song> searchSongs(String keyword) {
+        return ((SongDAO)songDAOFactory.getDAO()).search(keyword);
+    }
+
+    public ArrayList<Playlist> searchPlaylists(String keyword) {
+        return ((PlaylistDAO)playlistDAOFactory.getDAO()).search(keyword);
+    }
+
+    public ArrayList<Album> searchAlbums(String keyword) {
+        return ((AlbumDAO)albumDAOFactory.getDAO()).search(keyword);
+    }
+
+    public ArrayList<User> searchUsers(String keyword) {
+        return ((UserDAO)userDAOFactory.getDAO()).search(keyword);
+    }
+
+    public ArrayList<Artist> searchArtists(String keyword) {
+        return ((ArtistDAO)artistDAOFactory.getDAO()).search(keyword);
     }
 
     public static void main(String[] args) {

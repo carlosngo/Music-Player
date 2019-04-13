@@ -20,9 +20,11 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
     private JComboBox playlistChoices;
     private boolean confirmation;
     private int songIndex;
+    private ArrayList<Playlist> playlists;
 
-    public AddToPlaylistWindow(SongController controller, int index) {
+    public AddToPlaylistWindow(SongController controller, int index, ArrayList<Playlist> playlists) {
         this.controller = controller;
+        this.playlists = playlists;
         songIndex = index;
         confirmation = false;
         JPanel p = new JPanel();
@@ -52,12 +54,11 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
 //        nameInput.getDocument().addDocumentListener(this);
 //        nameInput.setFont(new Font("Arial", Font.PLAIN, 22));
 //        inputPnl.add(nameInput);
-        ArrayList<String> choices = new ArrayList<String>();
-        choices.add("Select a Playlist");
-        for(Playlist playlist : controller.getMainController().getPlaylists()){
-                choices.add(playlist.getName());
+        ArrayList<String> choiceSource = new ArrayList<String>();
+        for(Playlist playlist : playlists){
+            choiceSource.add(playlist.getName());
         }
-        String[] sChoices = choices.toArray(new String[choices.size()]);
+        String[] sChoices = choiceSource.toArray(new String[choiceSource.size()]);
         playlistChoices = new JComboBox(sChoices);
         inputPnl.add(playlistChoices);
         playlistChoices.addActionListener(this);
@@ -105,8 +106,8 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
     }
 
     public Playlist getPlaylist() {
-        for(Playlist playlist : controller.getMainController().getPlaylists()){
-            if(playlist.getName().equals(getName())){
+        for(Playlist playlist : playlists){
+            if(playlist.getName().equals(playlistChoices.getSelectedItem().toString())){
                 return playlist;
             }
         }

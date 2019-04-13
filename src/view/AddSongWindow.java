@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.Album;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class AddSongWindow extends JFrame implements ActionListener, DocumentListener {
     private SongController controller;
@@ -19,9 +21,11 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
     private JLabel selectedFileName;
     private File selectedFile;
     private JComboBox genreChoices, albumChoices;
+    private ArrayList<Album> albums;
 
-    public AddSongWindow(SongController controller){
+    public AddSongWindow(SongController controller, ArrayList<Album> albums){
         this.controller = controller;
+        this.albums = albums;
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -106,7 +110,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         for (int i = 0; i < sChoices.length; i++) {
             genreChoices.addItem(sChoices[i]);
         }
-        genreChoices.setEditable(true);
+        genreChoices.setEditable(false);
         p2.add(genreChoices);
 //        genreInput = new JTextField("" , 15);
 //        genreInput.addActionListener(this);
@@ -132,7 +136,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         artistInput.setFont(new Font("Arial", Font.PLAIN, 22));
         p3.add(artistInput);
         p3.add(Box.createRigidArea(new Dimension(15,0)));
-        p.add(p3);
+        //p.add(p3);
         p.add(Box.createRigidArea(new Dimension(0,7)));
 
         JPanel p4 = new JPanel();
@@ -237,10 +241,14 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         if(e.getSource() == saveSong){
             String songTitle = songTitleInput.getText();
             String genre = genreChoices.getSelectedItem().toString();
-            String artist= artistInput.getText();
+            //String artist= artistInput.getText();
             String year = yearInput.getText();
             String album = albumChoices.getSelectedItem().toString();
-            controller.addSong(songTitle, genre,album, artist, year, selectedFile);
+            int albumID = 0;
+            for(Album a : albums){
+                if(a.getName().equals(album)) albumID = a.getAlbumId();
+            }
+            controller.addSong(songTitle, genre, albumID, year, selectedFile);
             dispose();
         }
         if(e.getSource() == cancel){
