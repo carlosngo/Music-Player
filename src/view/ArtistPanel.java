@@ -90,6 +90,13 @@ public class ArtistPanel extends CategoryPanel {
             }
         });
 
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.playSongsByArtist(artist.getArtistId());
+            }
+        });
+
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
         cons.gridx = 0;
