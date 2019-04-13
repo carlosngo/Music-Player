@@ -21,14 +21,11 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
     //private CategoryPanel userPnl, newUserPnl;
 
     //isInputted is true if the browser page is used as a search results page
-    public BrowserPanel(SongController sc, String songPanelheader, Object objectForSongPnl, ArrayList<Song> songs,
-                        ArrayList<Object> playlists, ArrayList<Object> albums, ArrayList<Object> artists,
-                        ArrayList<Object> users, boolean isInputted){
+    public BrowserPanel(SongController sc, User user, boolean isInputted){
         controller = sc;
         setOpaque(false);
 
-        infoPnl = new InfoPanel(sc, songPanelheader, objectForSongPnl,
-                songs, playlists, albums, artists, users);
+        infoPnl = new InfoPanel(sc, user);
         //userPnl = new UserPanel(sc, users);
 
         JPanel searchBarPnl = new JPanel();

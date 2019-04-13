@@ -16,8 +16,25 @@ import java.util.ArrayList;
 
 public class ArtistPanel extends CategoryPanel {
 
-    public ArtistPanel(SongController controller, ArrayList<Object> objects) {
-        super(controller, objects);
+    public ArtistPanel(SongController controller, ArrayList<Artist> objects) {
+        super(controller);
+        setCategory("Artists");
+
+        if(objects.isEmpty()){
+            cons.insets = new Insets(10, 10, 2, 10);
+            cons.gridx = 0;
+            cons.gridy = 0;
+            cons.gridwidth = 3;
+            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            block.add(emptyLabel, cons);
+        }
+        else{
+            for(Artist object : objects){
+                addRow(category, object);
+            }
+            add(scroll);
+        }
     }
 
     public void addRow(String category, Object object) {

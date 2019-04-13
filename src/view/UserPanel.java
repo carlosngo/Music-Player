@@ -16,8 +16,26 @@ import java.util.ArrayList;
 public class UserPanel extends CategoryPanel {
     private ArrayList<User> data;
 
-    public UserPanel(SongController controller, ArrayList<Object> objects) {
-        super(controller, objects);
+    public UserPanel(SongController controller, ArrayList<User> objects) {
+        super(controller);
+        setCategory("Users");
+
+
+        if(objects.isEmpty()){
+            cons.insets = new Insets(10, 10, 2, 10);
+            cons.gridx = 0;
+            cons.gridy = 0;
+            cons.gridwidth = 3;
+            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            block.add(emptyLabel, cons);
+        }
+        else{
+            for(User object : objects){
+                addRow(category, object);
+            }
+            add(scroll);
+        }
     }
 
     public void addRow(String category, Object object) {
@@ -33,11 +51,11 @@ public class UserPanel extends CategoryPanel {
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
         follow.setVisible(false);
-        JButton play = new JButton();
-        play.setOpaque(false);
-        play.setContentAreaFilled(false);
-        play.setBorderPainted(false);
-        play.setVisible(false);
+//        JButton play = new JButton();
+//        play.setOpaque(false);
+//        play.setContentAreaFilled(false);
+//        play.setBorderPainted(false);
+//        play.setVisible(false);
 
         try {
             URL resource;
@@ -50,9 +68,9 @@ public class UserPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-            img = ImageIO.read(resource);
-            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+//            img = ImageIO.read(resource);
+//            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,12 +105,12 @@ public class UserPanel extends CategoryPanel {
             }
         });
 
-        play.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                controller.
-            }
-        });
+//        play.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                controller.playSongsByUser(user.getUserId());
+//            }
+//        });
 
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
@@ -102,9 +120,6 @@ public class UserPanel extends CategoryPanel {
         block.add(subOptionButton, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
-        block.add(play, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 4;
         block.add(follow, cons);
     }
 }
