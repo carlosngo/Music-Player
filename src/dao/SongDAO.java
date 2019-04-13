@@ -59,6 +59,10 @@ public class SongDAO implements DataAccessObject {
     private static final String SQL_LIST_BY_ACCOUNT = 
     		"SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ACCOUNTSONG_TABLE + " ON " + Database.SONG_TABLE + ".PK_SongID = "
     				+ Database.ACCOUNTSONG_TABLE + ".FK_SongID WHERE FK_AccountID = ?";
+    
+    private static final String SQL_LIST_FAVORITE_SONGS = 
+		    "SELECT * FROM " + Database.SONG_TABLE + " INNER JOIN " + Database.ACCOUNTSONG_TABLE + " ON "+ Database.SONG_TABLE + ".PK_SongID = " + 
+			Database.ACCOUNTSONG_TABLE + ".FK_SongID WHERE FK_AccountID = ? AND " + Database.ACCOUNTSONG_TABLE + ".isFavorite = ?";
 
     private static final String PATH =
             "resources/music/";
@@ -276,13 +280,13 @@ public class SongDAO implements DataAccessObject {
         return songs;
     }
 
-/*    public ArrayList<Song> listFavorites(int userId) {
+    public ArrayList<Song> listFavorites(int accId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_LIST_BY_FAVORITE);
-            statement.setBoolean(1, true);
-            statement.setInt(2, userId);
+            PreparedStatement statement = connection.prepareStatement(SQL_LIST_FAVORITE_SONGS);
+            statement.setInt(1, accId);
+            statement.setBoolean(2, true);
             ResultSet rs = statement.executeQuery();
 
             while(rs.next()) {
@@ -294,7 +298,7 @@ public class SongDAO implements DataAccessObject {
         }
         return songs;
     }
-*/
+
     public ArrayList<Song> listByPlaytime(int userId) {
         ArrayList<Song> songs = new ArrayList<>();
         try {
