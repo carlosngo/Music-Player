@@ -89,7 +89,7 @@ public class UserPanel extends CategoryPanel {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.pl
+                controller.
             }
         });
 
