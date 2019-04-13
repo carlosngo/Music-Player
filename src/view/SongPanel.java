@@ -872,7 +872,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
                             //int songId, int playlistId
-                            controller.removeFromPlaylist(currentRow, Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
+                            controller.removeFromPlaylist(currentRow-1, Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
                         }
                         break;
                     case "removeFromAlbum":
