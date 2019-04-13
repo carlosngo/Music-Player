@@ -67,7 +67,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         if (e.getSource() == search){
             searchResultsTitle.setVisible(true);
             card.removeAll();
-            newInfoPnl = controller.searchForInfoPanel(input.getText());
+            newInfoPnl = controller.showSearchResults(input.getText());
             card.add(newInfoPnl);
             //newUserPnl = controller.searchForUserPanel(input.getText());
             //card.add(newUserPnl);

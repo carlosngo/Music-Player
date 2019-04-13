@@ -21,7 +21,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     private Song song;
     private ArrayList<Album> albums;
 
-    public EditSongProfileWindow(SongController controller, ArrayList<Album> albums, Song song){
+    public EditSongProfileWindow(SongController controller, ArrayList<Album> albums, Song song, int selectedRow){
         this.controller = controller;
         this.song = song;
         this.albums = albums;
@@ -219,7 +219,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
             setGenre(genreChoices.getSelectedItem().toString());
             setArtist(artistInput.getText());
             choice = true;
-            controller.updateSong(song.getSongId(), getTitle(), albumID, getYear(), getGenre()/*, getDateUploaded()*/);
+            controller.updateSong(selectedRow, song.getSongId(), getTitle(), albumID, getYear(), getGenre());
             dispose();
         }
     }

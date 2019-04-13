@@ -69,7 +69,7 @@ final class Server {
     }
 
     ArrayList<Song> getFavoriteSongs(int accountId) {
-        return ((SongDAO)songDAOFactory.getDAO()).listFavoriteSongs(accountId);
+        return ((SongDAO)songDAOFactory.getDAO()).listFavorites(accountId);
     }
 
     boolean addSong(Song song){
