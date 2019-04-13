@@ -366,7 +366,7 @@ final class Server {
         return ((ArtistDAO)artistDAOFactory.getDAO()).search(keyword);
     }
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Server server = Server.getInstance();
         ServerSocket serverSocket = null;
         try {

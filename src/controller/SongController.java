@@ -23,13 +23,13 @@ public class SongController {
     private SongPanel sp;
     private CategoryPanel cp;
 
-    private Client client = mc.getClient();
-    private User user = mc.getAccountController().getUser();
+    private Client client;
+    private User user;
 
     public SongController(MainController mc) {
         this.mc = mc;
-        showAllSongs();
-        showPlaylists();
+        client = mc.getClient();
+        user = mc.getAccountController().getUser();
     }
     public SongPanel getSongPanel() {
         return sp;

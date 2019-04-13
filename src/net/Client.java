@@ -22,13 +22,17 @@ public final class Client {
 
     public static Client getInstance() { return singleton; }
 
-    public void startConnection() throws IOException {
-        socket = new Socket(Server.IP_ADDRESS, Server.PORT_NUMBER);
-        outToServer = new PrintWriter(socket.getOutputStream(), true);
-        inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    public void startConnection() {
+        try {
+            socket = new Socket(Server.IP_ADDRESS, Server.PORT_NUMBER);
+            outToServer = new PrintWriter(socket.getOutputStream(), true);
+            inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void closeConnection() throws IOException {
+    public void closeConnection() {
         try {
             outToServer.close();
             inFromServer.close();
@@ -562,12 +566,8 @@ public final class Client {
     }
 
     public static void main(String[] args) {
-        try {
-            Client c = new Client();
-            c.startConnection();
-            c.getSongFile(22);
-        } catch (IOException e ) {
-            e.printStackTrace();
-        }
+        Client c = new Client();
+        c.startConnection();
+        c.getSongFile(22);
     }
 }
