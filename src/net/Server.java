@@ -118,7 +118,7 @@ final class Server {
         for (int i = 0; i < followers.size(); i++) {
             onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
         }
-        ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
+       // ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
     }
 
     void followSong(Account account, Song song) {
