@@ -15,7 +15,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
     AccountController controller;
     private JTextField usernameInput;
     private JPasswordField passwordInput;
-    private JButton logIn, cancel;
+    private JButton logIn, cancel, createAccount;
 
     public LogInWindow(AccountController controller) {
         this.controller = controller;
@@ -84,9 +84,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         JPanel p3 = new JPanel();
         p3.setOpaque(false);
         p3.setLayout(new BoxLayout(p3, BoxLayout.X_AXIS));
-        //subP3.setLayout(new FlowLayout());
         cancel = new JButton("Cancel");
-        //cancel.setAlignmentX(Component.CENTER_ALIGNMENT);
         cancel.addActionListener(this);
         cancel.setFont(new Font("Arial", Font.PLAIN, 24));
         cancel.setForeground(Color.white);
@@ -95,6 +93,15 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         cancel.setBorderPainted(false);
         p3.add(cancel);
         p3.add(Box.createRigidArea(new Dimension(10,0))); // add space
+        createAccount = new JButton("Register");
+        createAccount.addActionListener(this);
+        createAccount.setFont(new Font("Arial", Font.PLAIN, 24));
+        createAccount.setForeground(Color.white);
+        createAccount.setBackground(new Color(1,121,150));
+        createAccount.setOpaque(true);
+        createAccount.setBorderPainted(false);
+        p3.add(createAccount);
+        p3.add(Box.createRigidArea(new Dimension(10,0)));
         logIn = new JButton("Log In");
         logIn.setAlignmentX(Component.CENTER_ALIGNMENT);
         logIn.addActionListener(this);
@@ -138,6 +145,9 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         }
         else if(e.getActionCommand().equals("Cancel")){
             dispose();
+        }
+        else if(e.getActionCommand().equals("Register")){
+            controller.openCreateAccountWindow();
         }
     }
 
