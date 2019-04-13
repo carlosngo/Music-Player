@@ -718,15 +718,15 @@ public class SongPanel extends JPanel implements ActionListener{
             ActionListener editListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                    Song songForEdit = null;
-                    for(Song song : songs){
-                        if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
-                    }
-                    controller.openEditSongProfileWindow(songForEdit);
-                    revalidate();
-                    repaint();
+//                    state = e.getActionCommand();
+//                    System.out.println("State = " + state);
+//                    Song songForEdit = null;
+//                    for(Song song : songs){
+//                        if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+//                    }
+//                    controller.openEditSongProfileWindow(songForEdit);
+//                    revalidate();
+//                    repaint();
                 }
             };
             edit.addActionListener(editListener);
@@ -888,7 +888,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         for(Song song : songs){
                             if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
                         }
-                        controller.openEditSongProfileWindow(songForEdit);
+                        controller.openEditSongProfileWindow(songForEdit, currentRow);
                         break;
                     case "delete":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
