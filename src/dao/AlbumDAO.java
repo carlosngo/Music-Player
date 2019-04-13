@@ -23,9 +23,11 @@ public class AlbumDAO implements DataAccessObject {
 	private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
 	private static final String SQL_FIND_BY_NAME_ARTIST_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name = ? AND FK_ArtistID = ?";
 	private static final String SQL_LIST_BY_ID = "SELECT * FROM " + Database.ALBUM_TABLE;
-	private static final String SQL_LIST_BY_ARTIST = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 
+	private static final String SQL_LIST_BY_ARTIST_NAME = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 
 			+ " ON " + Database.ALBUM_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + Database.ARTIST_TABLE + ".Name = ?";
-	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE PK_AlbumID = ?";
+	private static final String SQL_LIST_BY_ARTIST_ID = "SELECT *  FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE + 
+			" ON " + Database.ALBUM_TABLE + ".FK_ArtistID = " + Database.ARTIST_TABLE + ".PK_ArtistID WHERE " + Database.ARTIST_TABLE + ".PK_ArtistID = ?";
+ 	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE PK_AlbumID = ?";
 	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name LIKE ?";
 	private static final String SQL_LIST_BY_ACCOUNT = 
 			"SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ACCOUNTALBUM_TABLE + " ON " + Database.ALBUM_TABLE + ".PK_AlbumID = "
@@ -208,7 +210,7 @@ public class AlbumDAO implements DataAccessObject {
 		ArrayList<Album> albums = new ArrayList<>();
 		try {
 			Connection con = Database.getConnection();
-			PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ARTIST, false, values);
+			PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_ARTIST_NAME, false, values);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				albums.add(map(rs));
@@ -259,10 +261,28 @@ public class AlbumDAO implements DataAccessObject {
 		return albums;	
 	}
 
-	public ArrayList<Album> listByAccount(Account account){
+	public ArrayList<Album> listByAccountId(Account account){
 		return listByAccount(account.getId());
 	}
 
+	public ArrayList<Album> listByArtist(int artistId){
+		ArrayList<Album> albums = new ArrayList<>();
+		Object[] values = {
+				artistId
+		};
+		
+		Connection connection = Database.getConnection();
+		try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ARTIST_ID, false, values)){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				albums.add(map(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return albums;
+				
+	}
 
 	public static void main(String[] args) {
 		//            DAOFactory db = new DriverManagerDAOFactory("jdbc:mysql://localhost:3306/musicplayer", "root", "password");

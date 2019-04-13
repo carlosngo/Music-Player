@@ -125,7 +125,8 @@ public class AlbumPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                album.setFollowed(!album.isFollowed());
+                //album.setFollowed(!album.isFollowed());
+                controller.
                 try {
                     URL resource;
                     BufferedImage img;

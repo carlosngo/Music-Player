@@ -158,7 +158,7 @@ public class PlaylistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playlist.setFollowed(!playlist.isFollowed());
+                //playlist.setFollowed(!playlist.isFollowed());
                 try {
                     URL resource;
                     BufferedImage img;

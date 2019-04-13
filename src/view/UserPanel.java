@@ -33,7 +33,11 @@ public class UserPanel extends CategoryPanel {
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
         follow.setVisible(false);
-        follow.setVisible(true);
+        JButton play = new JButton();
+        play.setOpaque(false);
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
+        play.setVisible(false);
 
         try {
             URL resource;
@@ -70,6 +74,26 @@ public class UserPanel extends CategoryPanel {
                         img = ImageIO.read(resource);
                     } else {
                         resource = getClass().getClassLoader().getResource("images/follow.png");
+                        img = ImageIO.read(resource);
+                    }
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    URL resource;
+                    BufferedImage img;
+                    if (user.isFollowed()) {
+                        resource = getClass().getClassLoader().getResource("images/cyanPlay.png");
+                        img = ImageIO.read(resource);
+                    } else {
+                        resource = getClass().getClassLoader().getResource("images/play.png");
                         img = ImageIO.read(resource);
                     }
                     follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
