@@ -10,14 +10,13 @@ public class InfoPanel extends JPanel {
     private SongPanel sp;
     private CategoryPanel playlistPnl, albumPnl, artistPnl;
 
-    public InfoPanel(SongController sc, String songPnlHeader, String playlistPnlHeader, String albumPnlHeader,
-                     String artistPnlHeader, Object playlistForSongPanel, ArrayList<Song> songsData,
+    public InfoPanel(SongController sc, String songPanelHeaer, Object objectForSongPanel, ArrayList<Song> songsData,
                      ArrayList<Object> playlists, ArrayList<Object> albums, ArrayList<Object> artists){
 
-        sp = new SongPanel(sc, songPnlHeader, playlistForSongPanel, songsData);
-        playlistPnl = new PlaylistPanel(sc, playlistPnlHeader, playlists);
-        albumPnl = new AlbumPanel(sc, albumPnlHeader, albums);
-        artistPnl = new ArtistPanel(sc, artistPnlHeader, artists);
+        sp = new SongPanel(sc, songPanelHeaer, objectForSongPanel, songsData);
+        playlistPnl = new PlaylistPanel(sc, playlists);
+        albumPnl = new AlbumPanel(sc, albums);
+        artistPnl = new ArtistPanel(sc, artists);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);

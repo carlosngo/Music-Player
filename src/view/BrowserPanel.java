@@ -1,11 +1,7 @@
 package view;
 
 import controller.SongController;
-import model.Album;
-import model.Artist;
-import model.Playlist;
-import model.Song;
-
+import model.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -18,7 +14,6 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
 
     private InfoPanel infoPnl, newInfoPnl;
     private CategoryPanel userPnl, newUserPnl;
-    private String userPnlHeader;
     private JTextField input;
     private JButton search;
     private JLabel searchResultsTitle;
@@ -26,16 +21,15 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
     private SongController controller;
 
     //isInputted is true if the browser page is used as a search results page
-    public BrowserPanel(SongController sc, String songPnlHeader, String playlistPnlHeader, String albumPnlHeader,
-                        String artistPnlHeader, Object playlistForSongPnl, ArrayList<Song> songs, ArrayList<Object> playlists,
-                        ArrayList<Object> albums, ArrayList<Object> artists, ArrayList<Object> users, boolean isInputted){
+    public BrowserPanel(SongController sc, String songPanelheader, Object objectForSongPnl, ArrayList<Song> songs,
+                        ArrayList<Object> playlists, ArrayList<Object> albums, ArrayList<Object> artists,
+                        ArrayList<Object> users, boolean isInputted){
         controller = sc;
         setOpaque(false);
 
-        infoPnl = new InfoPanel(sc, songPnlHeader, playlistPnlHeader, albumPnlHeader, artistPnlHeader, playlistForSongPnl,
+        infoPnl = new InfoPanel(sc, songPanelheader, objectForSongPnl,
                 songs, playlists, albums, artists);
-        userPnlHeader = "Users";
-        userPnl = new UserPanel(sc, userPnlHeader, users);
+        userPnl = new UserPanel(sc, users);
 
         JPanel searchBarPnl = new JPanel();
         searchBarPnl.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
