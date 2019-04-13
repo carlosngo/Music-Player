@@ -291,7 +291,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         this.artist = artist;
     }
 
-    public static void main(String[] args){
-//        EditSongProfileWindow espw = new EditSongProfileWindow();
-    }
+//    public static void main(String[] args){
+////        EditSongProfileWindow espw = new EditSongProfileWindow();
+//    }
 }
