@@ -34,6 +34,11 @@ public class ArtistPanel extends CategoryPanel {
         follow.setBorderPainted(false);
         follow.setVisible(false);
         follow.setVisible(true);
+        JButton play = new JButton();
+        play.setOpaque(false);
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
+        play.setVisible(false);
 
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/follow.png");
@@ -48,6 +53,9 @@ public class ArtistPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+            img = ImageIO.read(resource);
+            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
