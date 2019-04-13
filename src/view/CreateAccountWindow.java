@@ -248,8 +248,17 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
         if (e.getSource() == createAccount){
             Calendar c = Calendar.getInstance();
             c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
-            boolean success = controller.register(usernameInput.getText(), pw, firstNameInput.getText(),
-                    lastNameInput.getText(), (String)gender.getSelectedItem(), (String) userType.getSelectedItem(), c.getTime());
+            boolean success = false;
+            switch ((String)userType.getSelectedItem()) {
+                case "Listener":
+                    controller.registerAsListener(usernameInput.getText(), pw, firstNameInput.getText(),
+                            lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
+                    break;
+                case "Artist":
+                    controller.registerAsArtist(usernameInput.getText(), pw, firstNameInput.getText(),
+                            lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
+                    break;
+            }
             if (!success) {
                 JOptionPane.showMessageDialog(null, "Username already exists.",
                         "Registration Error", JOptionPane.ERROR_MESSAGE);

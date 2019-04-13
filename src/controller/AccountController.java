@@ -158,4 +158,8 @@ public class AccountController {
         showAllSongs();
         mc.getPlayerController().getPlayerPanel().update();*/
 	}
+
+	public boolean isArtist() {
+		return user instanceof Artist;
+	}
 }

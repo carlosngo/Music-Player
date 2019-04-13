@@ -139,7 +139,7 @@ public class EditAlbumWindow extends JFrame implements ActionListener, DocumentL
         }
         if (e.getSource() == save) {
             if(selectedFile != null) controller.addAlbum(nameInput.getText(), selectedFile);
-            else controller.addAlbum(nameInput.getText());
+            else controller.addAlbum(nameInput.getText(), null);
 //            controller.addAlbum(nameInput.getText());
 //            controller.setAlbumCover(nameInput.getText(), selectedFile);
             dispose();

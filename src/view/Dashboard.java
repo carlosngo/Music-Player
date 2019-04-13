@@ -32,7 +32,7 @@ public class Dashboard extends JFrame {
         northPanel = controller.getAccountController().getAccountPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
 
-        westPanel = new ControlPanel(controller.getSongController());
+        westPanel = new ControlPanel(controller.getSongController(), controller.getAccountController().isArtist());
         contentPane.add(westPanel, BorderLayout.WEST);
 
         Border border = BorderFactory.createLineBorder(Color.white); // line for the border
