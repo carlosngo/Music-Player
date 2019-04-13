@@ -861,10 +861,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 //statusLabel.setText(e.getActionCommand() + " MenuItem clicked.");
                 switch (e.getActionCommand()){
                     case "queue":
-                        controller.addToQueue(currentRow);
+                        controller.addToQueue(Integer.parseInt(biodata.get(currentRow-1).get(7)));
                         break;
                     case "add":
-                        controller.openAddToPlaylistWindow(currentRow);
+                        controller.openAddToPlaylistWindow(Integer.parseInt(biodata.get(currentRow-1).get(7)));
                         break;
                     case "removeFromPlaylist":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
@@ -872,7 +872,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
                             //int songId, int playlistId
-                            controller.removeFromPlaylist(Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
+                            controller.removeFromPlaylist(currentRow, Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
                         }
                         break;
                     case "removeFromAlbum":
@@ -894,7 +894,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION)
-                            controller.removeSong(currentRow);
+                            controller.removeSong(currentRow, Integer.parseInt(biodata.get(currentRow-1).get(7)));
                         break;
 //                    case "follow":
 //                        //follow
