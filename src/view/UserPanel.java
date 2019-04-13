@@ -50,6 +50,9 @@ public class UserPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+            img = ImageIO.read(resource);
+            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,6 +69,7 @@ public class UserPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                controller.followUser(user);
                 try {
                     URL resource;
                     BufferedImage img;
@@ -86,20 +90,7 @@ public class UserPanel extends CategoryPanel {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    URL resource;
-                    BufferedImage img;
-                    if (user.isFollowed()) {
-                        resource = getClass().getClassLoader().getResource("images/cyanPlay.png");
-                        img = ImageIO.read(resource);
-                    } else {
-                        resource = getClass().getClassLoader().getResource("images/play.png");
-                        img = ImageIO.read(resource);
-                    }
-                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                controller.
             }
         });
 
@@ -111,6 +102,9 @@ public class UserPanel extends CategoryPanel {
         block.add(subOptionButton, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
+        block.add(play, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 4;
         block.add(follow, cons);
     }
 }

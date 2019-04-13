@@ -34,6 +34,11 @@ public class ArtistPanel extends CategoryPanel {
         follow.setBorderPainted(false);
         follow.setVisible(false);
         follow.setVisible(true);
+        JButton play = new JButton();
+        play.setOpaque(false);
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
+        play.setVisible(false);
 
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/follow.png");
@@ -48,6 +53,9 @@ public class ArtistPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+            img = ImageIO.read(resource);
+            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +72,7 @@ public class ArtistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //artist.setFollowed(!artist.isFollowed());
+                controller.followArtist(artist);
                 try {
                     URL resource;
                     BufferedImage img;
@@ -82,6 +90,13 @@ public class ArtistPanel extends CategoryPanel {
             }
         });
 
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.playSongsByArtist(artist.getArtistId());
+            }
+        });
+
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
         cons.gridx = 0;
@@ -90,6 +105,9 @@ public class ArtistPanel extends CategoryPanel {
         block.add(subOptionButton, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
+        block.add(play, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 4;
         block.add(follow, cons);
     }
 }
