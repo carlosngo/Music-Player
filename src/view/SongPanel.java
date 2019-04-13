@@ -1,11 +1,8 @@
 package view;
 
 import controller.*;
-import model.Album;
-import model.Playlist;
-import model.Song;
+import model.*;
 import util.ImageResizer;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -41,9 +38,12 @@ public class SongPanel extends JPanel implements ActionListener{
         if( obj instanceof Playlist){
             Playlist playlist = (Playlist) obj;
             objID = playlist.getPlaylistId();
-        }else{
+        }else if( obj instanceof Album){
             Album album = (Album) obj;
             objID = album.getAlbumId();
+        }else if( obj instanceof Artist){
+            Artist artist = (Artist) obj;
+            objID = artist.getArtistId();
         }
         ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
         ArrayList<String> _dataContent;
@@ -1017,7 +1017,7 @@ public class SongPanel extends JPanel implements ActionListener{
             add_to_playlist.setActionCommand("add");
 
             JMenuItem removeFromPlaylist = new JMenuItem("Remove from playlist");
-            removeFromPlaylist.setActionCommand("removeFromPLaylist");
+            removeFromPlaylist.setActionCommand("removeFromPlaylist");
 
             JMenuItem removeFromAlbum = new JMenuItem("Remove from album");
             removeFromPlaylist.setActionCommand("removeFromAlbum");
@@ -1100,7 +1100,7 @@ public class SongPanel extends JPanel implements ActionListener{
                     case "add":
                         controller.openAddToPlaylistWindow(currentRow);
                         break;
-                    case "removeFromPLaylist":
+                    case "removeFromPlaylist":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to remove this song?", "Confirm Remove Song from Playlist", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
