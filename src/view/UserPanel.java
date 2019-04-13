@@ -50,6 +50,9 @@ public class UserPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+            img = ImageIO.read(resource);
+            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,20 +89,7 @@ public class UserPanel extends CategoryPanel {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    URL resource;
-                    BufferedImage img;
-                    if (user.isFollowed()) {
-                        resource = getClass().getClassLoader().getResource("images/cyanPlay.png");
-                        img = ImageIO.read(resource);
-                    } else {
-                        resource = getClass().getClassLoader().getResource("images/play.png");
-                        img = ImageIO.read(resource);
-                    }
-                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                controller.pl
             }
         });
 
