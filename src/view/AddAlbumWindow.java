@@ -135,7 +135,7 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
         }
         if (e.getSource() == save) {
             if(selectedFile != null) controller.addAlbum(nameInput.getText(), selectedFile);
-            else controller.addAlbum(nameInput.getText());
+            else controller.addAlbum(nameInput.getText(), null);
             dispose();
         }
     }

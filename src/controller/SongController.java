@@ -182,6 +182,11 @@ public class SongController {
         }
     }
 
+    public void showSongsFollowedByUser(int userId) {
+        User user = client.getUser(userId);
+        sp = new SongPanel(this, "Songs followed by ", null, client.getFollowedSongs(user.getAccount().getId()));
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+    }
 
     public void showSongsByAlbum(int albumId) {
         Album album = client.getAlbum(albumId);
@@ -264,11 +269,11 @@ public class SongController {
     public void addAlbum(String albumName, File cover) {
         Album a = new Album();
         a.setName(albumName);
-        a.setCover(cover);
+        if (cover != null) a.setCover(cover);
         a.setArtist((Artist)user);
         a.setDateCreated(Calendar.getInstance().getTime());
         client.addAlbum(a);
-        client.setImageFile(a.getAlbumId(), cover);
+        if (cover != null) client.setImageFile(a.getAlbumId(), cover);
         client.followAlbum(user.getAccount(), a);
         showAlbums();
     }
