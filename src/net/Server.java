@@ -118,7 +118,7 @@ final class Server {
         for (int i = 0; i < followers.size(); i++) {
             onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
         }
-       // ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
+//        ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
     }
 
     void followSong(Account account, Song song) {
@@ -366,7 +366,7 @@ final class Server {
         return ((ArtistDAO)artistDAOFactory.getDAO()).search(keyword);
     }
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Server server = Server.getInstance();
         ServerSocket serverSocket = null;
         try {

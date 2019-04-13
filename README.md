@@ -5,14 +5,13 @@ A Java application that resembles a music player.
 Link to Lucidchart: 
 https://www.lucidchart.com/invitations/accept/b553ed4a-3e2a-4785-917a-3f8635c28624
 
-<b>TO-DO LIST
+<h1>HOW TO RUN THE PROGRAM</h1>
 
-Front-End
-
-- Screen Flow (see Lucidchart)
-
-Back-End
-
-- Design Model classes (see UML)
-
-
+<ol>
+  <li>Download/clone the files from GitHub</li>
+  <li>Make sure you have MySQL installed. In Database.java, change the username and password of the database accordingly</li>
+  <li>Import the libraries in the path Music-Player/resources/libraries. In IntelliJ, go to File > Project Structure > Libraries to import the libraries</li>
+  <li>Open MySQL Workbench and connect to your database. Open musicplayer.sql under the path Music-Player/resources/data/, and run the SQL script.
+  <li>Run the main class of Server.java</li>
+  <li>Run the main class of MusicPlayer.java</li>
+</ol>

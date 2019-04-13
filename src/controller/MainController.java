@@ -14,12 +14,14 @@ public class MainController {
     private PlayerController pc;
     private SongController sc;
 
-    private Client client = Client.getInstance();
+    private Client client;
 
     // views
     private static Dashboard dashboard;
 
     public MainController() {
+        client = Client.getInstance();
+        client.startConnection();
         ac = new AccountController(this);
         pc = new PlayerController(this);
         sc = new SongController(this);
