@@ -64,7 +64,7 @@ public class ArtistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                artist.setFollowed(!artist.isFollowed());
+                //artist.setFollowed(!artist.isFollowed());
                 try {
                     URL resource;
                     BufferedImage img;
