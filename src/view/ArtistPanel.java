@@ -98,6 +98,9 @@ public class ArtistPanel extends CategoryPanel {
         block.add(subOptionButton, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
+        block.add(play, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 4;
         block.add(follow, cons);
     }
 }
