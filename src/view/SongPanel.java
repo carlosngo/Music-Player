@@ -693,14 +693,14 @@ public class SongPanel extends JPanel implements ActionListener{
             ActionListener deleteListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
-                            " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
-                    if (choice == JOptionPane.YES_OPTION)
-                        controller.removeSong(currentRow);
-//                    state = e.getActionCommand();
-//                    System.out.println("State = " + state);
-//                    controller.deleteSong(data.get(currentRow));
-//                    model.remove(data.get(currentRow));
+//                    int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
+//                            " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
+//                    if (choice == JOptionPane.YES_OPTION)
+//                        controller.removeSong(currentRow);
+////                    state = e.getActionCommand();
+////                    System.out.println("State = " + state);
+////                    controller.deleteSong(data.get(currentRow));
+////                    model.remove(data.get(currentRow));
                 }
             };
             delete.addActionListener(deleteListener);

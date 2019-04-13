@@ -26,7 +26,6 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         setOpaque(false);
 
         infoPnl = new InfoPanel(sc, user);
-        //userPnl = new UserPanel(sc, users);
 
         JPanel searchBarPnl = new JPanel();
         searchBarPnl.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -58,7 +57,6 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         //card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setOpaque(false);
         card.add(infoPnl);
-        //card.add(userPnl);
     }
 
     @Override
@@ -67,10 +65,8 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         if (e.getSource() == search){
             searchResultsTitle.setVisible(true);
             card.removeAll();
-            newInfoPnl = controller.showSearchResults(input.getText());
+            newInfoPnl = new InfoPanel(controller, input.getText());
             card.add(newInfoPnl);
-            //newUserPnl = controller.searchForUserPanel(input.getText());
-            //card.add(newUserPnl);
             revalidate();
             repaint();
         }
