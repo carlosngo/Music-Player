@@ -32,7 +32,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         controller = sc;
         setOpaque(false);
 
-        infoPnl = new InfoPanel(sc, songPnlHeader, playlistPnlHeader, albumPnlHeader, artistPnlHeader, playlistForSongPnl
+        infoPnl = new InfoPanel(sc, songPnlHeader, playlistPnlHeader, albumPnlHeader, artistPnlHeader, playlistForSongPnl,
                 songs, playlists, albums, artists);
         userPnlHeader = "Users";
         userPnl = new UserPanel(sc, userPnlHeader, users);

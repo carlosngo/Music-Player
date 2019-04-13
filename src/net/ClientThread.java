@@ -1,6 +1,5 @@
 package net;
 
-import dao.PlaylistSongDAO;
 import events.*;
 import model.*;
 import util.FileUtil;
@@ -64,9 +63,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(songs.get(i).toString());
                         }
                         break;
-                    case GETSONGSBYACCOUNT:
+                    case GETFOLLOWEDSONGS:
                         int accountId = Integer.parseInt(in.readLine());
-                        songs = server.getSongsByAccount(accountId);
+                        songs = server.getFollowedSongs(accountId);
                         reply.append(songs.size());
                         reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
@@ -87,6 +86,16 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETSONGSINPLAYLIST:
                         int playlistId = Integer.parseInt(in.readLine());
                         songs = server.getSongsInPlaylist(playlistId);
+                        reply.append(songs.size());
+                        reply.append("\n");
+                        for (int i = 0; i < songs.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(songs.get(i).toString());
+                        }
+                        break;
+                    case GETFAVORITESONGS:
+                        accountId = Integer.parseInt(in.readLine());
+                        songs = server.getFavoriteSongs(accountId);
                         reply.append(songs.size());
                         reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
@@ -154,6 +163,16 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(playlists.get(i).toString());
                         }
                         break;
+                    case GETFOLLOWEDPLAYLISTS:
+                        accountId = Integer.parseInt(in.readLine());
+                        playlists = server.getFollowedPlaylists(accountId);
+                        reply.append(playlists.size());
+                        reply.append("\n");
+                        for (int i = 0; i < playlists.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(playlists.get(i).toString());
+                        }
+                        break;
                     case ADDPLAYLIST:
                         playlist = Playlist.parsePlaylist(in.readLine());
                         if (server.addPlaylist(playlist)) {
@@ -191,9 +210,19 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(albums.get(i).toString());
                         }
                         break;
-                    case GETALBUMSBYACCOUNT:
+                    case GETALBUMSBYARTIST:
+                        artistId = Integer.parseInt(in.readLine());
+                        albums = server.getAlbumsByArtist(artistId);
+                        reply.append(albums.size());
+                        reply.append("\n");
+                        for (int i = 0; i < albums.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(albums.get(i).toString());
+                        }
+                        break;
+                    case GETFOLLOWEDALBUMS:
                         accountId = Integer.parseInt(in.readLine());
-                        albums = server.getAlbumsByAccount(accountId);
+                        albums = server.getFollowedAlbums(accountId);
                         reply.append(albums.size());
                         reply.append("\n");
                         for (int i = 0; i < albums.size(); i++) {
@@ -351,7 +380,55 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int userId = Integer.parseInt(in.readLine());
                         server.logout(userId);
                         break;
-                    case SEARCH:
+                    case SEARCHSONGS:
+                        String keyword = in.readLine();
+                        songs = server.searchSongs(keyword);
+                        reply.append(songs.size());
+                        reply.append("\n");
+                        for (int i = 0; i < songs.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(songs.get(i).toString());
+                        }
+                        break;
+                    case SEARCHPLAYLISTS:
+                        keyword = in.readLine();
+                        playlists = server.searchPlaylists(keyword);
+                        reply.append(playlists.size());
+                        reply.append("\n");
+                        for (int i = 0; i < playlists.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(playlists.get(i).toString());
+                        }
+                        break;
+                    case SEARCHALBUMS:
+                        keyword = in.readLine();
+                        albums = server.searchAlbums(keyword);
+                        reply.append(albums.size());
+                        reply.append("\n");
+                        for (int i = 0; i < albums.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(albums.get(i).toString());
+                        }
+                        break;
+                    case SEARCHUSERS:
+                        keyword = in.readLine();
+                        users = server.searchUsers(keyword);
+                        reply.append(users.size());
+                        reply.append("\n");
+                        for (int i = 0; i < users.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(users.get(i).toString());
+                        }
+                        break;
+                    case SEARCHARTISTS:
+                        keyword = in.readLine();
+                        artists = server.searchArtists(keyword);
+                        reply.append(artists.size());
+                        reply.append("\n");
+                        for (int i = 0; i < artists.size(); i++) {
+                            if (i > 0) reply.append("\n");
+                            reply.append(artists.get(i).toString());
+                        }
                         break;
                 }
                 if (reply.length() > 0) {
