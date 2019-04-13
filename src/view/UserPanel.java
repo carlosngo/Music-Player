@@ -51,11 +51,11 @@ public class UserPanel extends CategoryPanel {
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
         follow.setVisible(false);
-        JButton play = new JButton();
-        play.setOpaque(false);
-        play.setContentAreaFilled(false);
-        play.setBorderPainted(false);
-        play.setVisible(false);
+//        JButton play = new JButton();
+//        play.setOpaque(false);
+//        play.setContentAreaFilled(false);
+//        play.setBorderPainted(false);
+//        play.setVisible(false);
 
         try {
             URL resource;
@@ -68,9 +68,9 @@ public class UserPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-            img = ImageIO.read(resource);
-            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+//            img = ImageIO.read(resource);
+//            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,12 +105,12 @@ public class UserPanel extends CategoryPanel {
             }
         });
 
-        play.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.p
-            }
-        });
+//        play.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                controller.playSongsByUser(user.getUserId());
+//            }
+//        });
 
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
@@ -120,9 +120,6 @@ public class UserPanel extends CategoryPanel {
         block.add(subOptionButton, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
-        block.add(play, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 4;
         block.add(follow, cons);
     }
 }
