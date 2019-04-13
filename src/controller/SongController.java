@@ -150,7 +150,7 @@ public class SongController {
     }
 
     public PlaylistPanel showPlaylists() {
-        ArrayList<Object> list = new ArrayList<>();
+        ArrayList<Playlist> list = new ArrayList<>();
         list.addAll(client.getFollowedPlaylists(user.getAccount().getId()));
         cp = new PlaylistPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
@@ -158,28 +158,28 @@ public class SongController {
     }
 
     public AlbumPanel showAlbums() {
-        ArrayList<Object> list = new ArrayList(client.getFollowedAlbums(user.getAccount().getId()));
+        ArrayList<Album> list = new ArrayList(client.getFollowedAlbums(user.getAccount().getId()));
         cp = new AlbumPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (AlbumPanel)cp;
     }
 
     public AlbumPanel showAlbumsByArtist(int artistId) {
-        ArrayList<Object> list = new ArrayList(client.getAlbumsByArtist(artistId));
+        ArrayList<Album> list = new ArrayList(client.getAlbumsByArtist(artistId));
         cp = new AlbumPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (AlbumPanel)cp;
     }
 
     public ArtistPanel showArtists() {
-        ArrayList<Object> list = new ArrayList(client.getFollowedArtists(user.getAccount().getId()));
+        ArrayList<Artist> list = new ArrayList(client.getFollowedArtists(user.getAccount().getId()));
         cp = new ArtistPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (ArtistPanel) cp;
     }
 
     public UserPanel showFriends() {
-        ArrayList<Object> list = new ArrayList(client.getFollowedUsers(user.getAccount().getId()));
+        ArrayList<User> list = new ArrayList(client.getFollowedUsers(user.getAccount().getId()));
         cp = new UserPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (UserPanel) cp;
