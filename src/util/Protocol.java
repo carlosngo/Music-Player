@@ -61,6 +61,4 @@ public enum Protocol {
     SEARCHARTISTS,
     OK,
     NO
-    ,SUBMITNAME
-    ,NAMEACCEPTED
 }
