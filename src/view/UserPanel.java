@@ -69,6 +69,7 @@ public class UserPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                controller.followUser(user);
                 try {
                     URL resource;
                     BufferedImage img;
