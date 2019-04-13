@@ -7,18 +7,36 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class InfoPanel extends JPanel {
+    private SongController controller;
     private SongPanel sp;
     private CategoryPanel playlistPnl, albumPnl, artistPnl, userPnl;
 
-    public InfoPanel(SongController sc, String songPanelHeaer, Object objectForSongPanel, ArrayList<Song> songsData,
-                     ArrayList<Object> playlists, ArrayList<Object> albums, ArrayList<Object> artists,
-                     ArrayList<Object> users){
+    public InfoPanel(SongController controller, User user){
+        this.controller = controller;
+        if (user instanceof Artist) {
+            sp = controller.showSongsByArtist(((Artist) user).getArtistId());
+            albumPnl = controller.showAlbumsByArtist(((Artist)user).getArtistId());
+        } else {
+            sp = controller.showSongsFollowedByUser(user.getUserId());
+            albumPnl = controller.showAlbums();
+        }
+        playlistPnl = controller.showPlaylists();
+        artistPnl = controller.showArtists();
+        userPnl = controller.showFriends();
+        init();
+    }
 
-        sp = new SongPanel(sc, songPanelHeaer, objectForSongPanel, songsData);
-        playlistPnl = new PlaylistPanel(sc, playlists);
-        albumPnl = new AlbumPanel(sc, albums);
-        artistPnl = new ArtistPanel(sc, artists);
-        userPnl = new UserPanel(sc, users);
+    public InfoPanel(SongController controller, String keyword) {
+        this.controller = controller;
+        sp = new SongPanel(controller, "Songs", null, controller.searchSongs(keyword));
+        playlistPnl = new PlaylistPanel(controller, controller.searchPlaylists(keyword));
+        albumPnl = new AlbumPanel(controller, controller.searchAlbums(keyword));
+        artistPnl = new ArtistPanel(controller, controller.searchArtists(keyword));
+        userPnl = new UserPanel(controller, controller.searchUsers(keyword));
+        init();
+    }
+
+    public void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);

@@ -148,67 +148,84 @@ public class SongController {
         for (Song s : client.getSongsByArtist(artistId)) mc.getPlayerController().addSong(s);
     }
 
-    public void showPlaylists() {
+    public PlaylistPanel showPlaylists() {
         ArrayList<Object> list = new ArrayList<>();
         list.addAll(client.getFollowedPlaylists(user.getAccount().getId()));
         cp = new PlaylistPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        return (PlaylistPanel)cp;
     }
 
-    public void showAlbums() {
+    public AlbumPanel showAlbums() {
         ArrayList<Object> list = new ArrayList(client.getFollowedAlbums(user.getAccount().getId()));
         cp = new AlbumPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        return (AlbumPanel)cp;
     }
 
-    public void showArtists() {
+    public AlbumPanel showAlbumsByArtist(int artistId) {
+        ArrayList<Object> list = new ArrayList(client.getAlbumsByArtist(artistId));
+        cp = new AlbumPanel(this, list);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        return (AlbumPanel)cp;
+    }
+
+    public ArtistPanel showArtists() {
         ArrayList<Object> list = new ArrayList(client.getFollowedArtists(user.getAccount().getId()));
         cp = new ArtistPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        return (ArtistPanel) cp;
     }
 
-    public void showFriends() {
+    public UserPanel showFriends() {
         ArrayList<Object> list = new ArrayList(client.getFollowedUsers(user.getAccount().getId()));
         cp = new UserPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        return (UserPanel) cp;
     }
 
-    public void showAllSongs() {
+    public SongPanel showAllSongs() {
         ArrayList<Song> songs = new ArrayList<>();
         songs.addAll(client.getFollowedSongs(user.getAccount().getId()));
         sp = new SongPanel(this, "All Songs", null, songs);
         if (mc.getDashboard() != null) {
             mc.getDashboard().changeCard(sp);
         }
+        return sp;
     }
 
-    public void showSongsFollowedByUser(int userId) {
+    public SongPanel showSongsFollowedByUser(int userId) {
         User user = client.getUser(userId);
         sp = new SongPanel(this, "Songs followed by ", null, client.getFollowedSongs(user.getAccount().getId()));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+        return sp;
     }
 
-    public void showSongsByAlbum(int albumId) {
+    public SongPanel showSongsByAlbum(int albumId) {
         Album album = client.getAlbum(albumId);
         sp = new SongPanel(this, "Songs in " + album.getName(), album, client.getSongsInAlbum(albumId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+        return sp;
     }
 
-    public void showSongsByPlaylist(int playlistId) {
+    public SongPanel showSongsByPlaylist(int playlistId) {
         Playlist playlist = client.getPlaylist(playlistId);
         sp = new SongPanel(this, "Songs in " + playlist.getName(), playlist, client.getSongsInPlaylist(playlistId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+        return sp;
     }
 
-    public void showSongsByArtist(int artistId) {
+    public SongPanel showSongsByArtist(int artistId) {
         Artist artist = client.getArtist(artistId);
         sp = new SongPanel(this, "Songs by " + artist.getAccount().getUserName(), artist, client.getSongsByArtist(artistId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+        return sp;
     }
 
-   public void showFavoriteSongs() {
+   public SongPanel showFavoriteSongs() {
        sp = new SongPanel(this, "Your Favorite Songs", null, client.getFavoriteSongs(user.getAccount().getId()));
        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
+       return sp;
     }
 
     public void showInfo(User user) {
@@ -370,5 +387,25 @@ public class SongController {
 
     public void followUser(User user) {
         client.followUser(this.user.getAccount(), user);
+    }
+
+    public ArrayList<Song> searchSongs(String keyword) {
+        return client.searchSongs(keyword);
+    }
+
+    public ArrayList<Playlist> searchPlaylists(String keyword) {
+        return client.searchPlaylists(keyword);
+    }
+
+    public ArrayList<Album> searchAlbums(String keyword) {
+        return client.searchAlbums(keyword);
+    }
+
+    public ArrayList<User> searchUsers(String keyword) {
+        return client.searchUsers(keyword);
+    }
+
+    public ArrayList<Artist> searchArtists(String keyword) {
+        return client.searchArtists(keyword);
     }
 }
