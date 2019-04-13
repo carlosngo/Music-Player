@@ -72,7 +72,7 @@ public class ArtistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //artist.setFollowed(!artist.isFollowed());
+                controller.followArtist(artist);
                 try {
                     URL resource;
                     BufferedImage img;
