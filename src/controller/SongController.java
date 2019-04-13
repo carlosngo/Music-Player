@@ -151,25 +151,25 @@ public class SongController {
     public void showPlaylists() {
         ArrayList<Object> list = new ArrayList<>();
         list.addAll(client.getFollowedPlaylists(user.getAccount().getId()));
-        cp = new PlaylistPanel(this, "Playlists", list);
+        cp = new PlaylistPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showAlbums() {
         ArrayList<Object> list = new ArrayList(client.getFollowedAlbums(user.getAccount().getId()));
-        cp = new AlbumPanel(this, "Albums", list);
+        cp = new AlbumPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showArtists() {
         ArrayList<Object> list = new ArrayList(client.getFollowedArtists(user.getAccount().getId()));
-        cp = new ArtistPanel(this, "Artists", list);
+        cp = new ArtistPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
     public void showFriends() {
         ArrayList<Object> list = new ArrayList(client.getFollowedUsers(user.getAccount().getId()));
-        cp = new UserPanel(this, "Users", new ArrayList(list));
+        cp = new UserPanel(this, list);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
     }
 
@@ -343,5 +343,25 @@ public class SongController {
         p.setName(newName);
         client.updatePlaylist(p);
         showPlaylists();
+    }
+
+    public void followSong(Song song) {
+        client.followSong(user.getAccount(), song);
+    }
+
+    public void followPlaylist(Playlist playlist) {
+        client.followPlaylist(user.getAccount(), playlist);
+    }
+
+    public void followAlbum(Album album) {
+        client.followAlbum(user.getAccount(), album);
+    }
+
+    public void followArtist(Artist artist) {
+        client.followArtist(user.getAccount(), artist);
+    }
+
+    public void followUser(User user) {
+        client.followUser(this.user.getAccount(), user);
     }
 }
