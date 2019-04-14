@@ -658,12 +658,12 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.openAddPlaylistWindow();
 //            AddPlaylistWindow apw = new AddPlaylistWindow();
         }
-        if(e.getSource() == addSong){
-            controller.getMainController().getAc().openAddSongWindow();
-        }
-        if(e.getSource() == addAlbum){
-            controller.openAddAlbumWindow();
-        }
+//        if(e.getSource() == addSong){
+//            controller.getMainController().getAc().openAddSongWindow();
+//        }
+//        if(e.getSource() == addAlbum){
+//            controller.openAddAlbumWindow();
+//        }
 //        if(e.getSource() == mostFrqntlyPlyd){
 //            controller.showMostFrequentlyPlayed();
 //        }
