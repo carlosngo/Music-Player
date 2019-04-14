@@ -7,24 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87abadfa-2c43-4800-8c3f-6b34dd3263c3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jmf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/jmf.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_15.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_15.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MusicPlayer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MusicPlayer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/Controller/SongController$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/DAO/PlaylistSongDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/DAO/PlaylistSongDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/DAO/PlaylistSongDAOJDBC.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/CategoryPanel$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/CategoryPanel$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/CategoryPanel$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/CategoryPanel$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/CategoryPanel$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/ControlPanel$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/View/ControlPanel$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/ControlPanel$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/View/ControlPanel$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/Dashboard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/View/Dashboard$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/View/EditCategoryWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/View/EditCategoryWindow.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MusicPlayer/images/edit.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicPlayer/images/edit.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -148,8 +132,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="170">
+              <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2361#2362#0" expanded="true" />
@@ -488,7 +472,7 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/Carlos/Documents/La Salle/SWDESPA/Music-Player/src/DAO/DAOFactory.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555246928338" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555248369265" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../NETWORK/QuizBee" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -583,18 +567,18 @@
       <workItem from="1554971511454" duration="10153000" />
       <workItem from="1554996802297" duration="3964000" />
       <workItem from="1555030765704" duration="24913000" />
-      <workItem from="1555213444671" duration="18642000" />
+      <workItem from="1555213444671" duration="19252000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191201000" />
+    <option name="totallyTimeSpent" value="191811000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.25340393" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.25340393" />
       <window_info id="Image Layers" order="1" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -603,7 +587,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49924356" weight="0.3295082" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3295082" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3295082" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1088,8 +1072,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="170">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2361#2362#0" expanded="true" />
