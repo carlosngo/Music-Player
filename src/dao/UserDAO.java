@@ -35,7 +35,7 @@ public class UserDAO implements DataAccessObject {
 	
 	private static final String SQL_LIST_BY_FOLLOWED_USERS = 
 			"SELECT * FROM " + Database.USER_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.USER_TABLE + ".FK_AccountID = " + 
-			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubcriberID = ?";
+			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubscriberID = ?";
 	
 	public UserDAO(DAOFactory db) {
 		this.db = db;

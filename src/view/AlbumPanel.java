@@ -19,8 +19,7 @@ import java.util.ArrayList;
 public class AlbumPanel extends CategoryPanel {
 
     public AlbumPanel(SongController controller, ArrayList<Album> objects) {
-        super(controller);
-        setCategory("Albums");
+        super(controller, "Albums");
 
         if(objects.isEmpty()){
             cons.insets = new Insets(10, 10, 2, 10);

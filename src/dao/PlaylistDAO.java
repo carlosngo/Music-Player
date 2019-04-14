@@ -32,7 +32,7 @@ public class PlaylistDAO implements DataAccessObject {
 			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " WHERE Name LIKE ?";
 	private static final String SQL_LIST_FOLLOWED_PLAYLISTS =
 			"SELECT " + Database.PLAYLIST_COLUMNS + " FROM " + Database.PLAYLIST_TABLE + " INNER JOIN " + Database.ACCOUNTPLAYLIST_TABLE + " ON " +
-			Database.PLAYLIST_TABLE + ".PK_PlaylistID = " + Database.ACCOUNTPLAYLIST_TABLE + ".FK_AccountID = ?";
+			Database.PLAYLIST_TABLE + ".PK_PlaylistID = " + Database.ACCOUNTPLAYLIST_TABLE + ".FK_PlaylistID WHERE " + Database.ACCOUNTPLAYLIST_TABLE + ".FK_AccountID = ?";
 	
 	
 	public PlaylistDAO(DAOFactory db) {
@@ -219,6 +219,7 @@ public class PlaylistDAO implements DataAccessObject {
 		};
 		Connection connection = Database.getConnection();
 		try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_FOLLOWED_PLAYLISTS, false, values)){
+			System.out.println(SQL_LIST_FOLLOWED_PLAYLISTS);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				playlists.add(map(rs));

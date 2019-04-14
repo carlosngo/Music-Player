@@ -25,7 +25,6 @@ public class AccountController {
 
 	public AccountController(MainController mc) {
 		this.mc = mc;
-		accountPanel = new AccountPanel(this);
 	}
 
 	public User getUser() {
@@ -73,9 +72,12 @@ public class AccountController {
 		user = mc.getClient().logIn(username, password);
 		if (user == null) return false;
 		System.out.println("Hi, " + user.getFirstName());
-		mc.getDashboard().setAccountPanel(new AccountPanel(this, user));
+		accountPanel = new AccountPanel(this, user);
+		mc.getSongController().setUser(user);
 		mc.getSongController().showAllSongs();
-		mc.getDashboard().update();
+		mc.getSongController().showAlbums();
+		mc.openDashboard();
+//		mc.getDashboard().update();
 		return true;
 	}
 

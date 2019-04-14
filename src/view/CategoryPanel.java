@@ -16,7 +16,9 @@ public abstract class CategoryPanel extends JPanel {
     private boolean isNormalPlaylist = false;
     private JLabel headerName;
 
-    public CategoryPanel(SongController controller){
+    public CategoryPanel(SongController controller, String category){
+        this.controller = controller;
+        this.category = category;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         add(Box.createRigidArea(new Dimension(0,7)));

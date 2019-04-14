@@ -31,8 +31,13 @@ public class SongController {
         client = mc.getClient();
         user = mc.getAccountController().getUser();
     }
+
     public SongPanel getSongPanel() {
         return sp;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setSongPanel(SongPanel sp) {

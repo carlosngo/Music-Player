@@ -17,8 +17,7 @@ public class UserPanel extends CategoryPanel {
     private ArrayList<User> data;
 
     public UserPanel(SongController controller, ArrayList<User> objects) {
-        super(controller);
-        setCategory("Users");
+        super(controller,"Users");
 
 
         if(objects.isEmpty()){

@@ -47,9 +47,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETSONGS:
                         ArrayList<Song> songs = server.getSongs();
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -57,9 +56,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int artistId = Integer.parseInt(in.readLine());
                         songs = server.getSongsByArtist(artistId);
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -67,9 +65,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int accountId = Integer.parseInt(in.readLine());
                         songs = server.getFollowedSongs(accountId);
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -77,9 +74,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int albumId = Integer.parseInt(in.readLine());
                         songs = server.getSongsInAlbum(albumId);
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -87,9 +83,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int playlistId = Integer.parseInt(in.readLine());
                         songs = server.getSongsInPlaylist(playlistId);
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -97,9 +92,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         accountId = Integer.parseInt(in.readLine());
                         songs = server.getFavoriteSongs(accountId);
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -147,9 +141,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETPLAYLISTS:
                         ArrayList<Playlist> playlists = server.getPlaylists();
                         reply.append(playlists.size());
-                        reply.append("\n");
                         for (int i = 0; i < playlists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(playlists.get(i).toString());
                         }
                         break;
@@ -157,9 +150,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         accountId = Integer.parseInt(in.readLine());
                         playlists = server.getPlaylistsByAccount(accountId);
                         reply.append(playlists.size());
-                        reply.append("\n");
                         for (int i = 0; i < playlists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(playlists.get(i).toString());
                         }
                         break;
@@ -167,9 +159,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         accountId = Integer.parseInt(in.readLine());
                         playlists = server.getFollowedPlaylists(accountId);
                         reply.append(playlists.size());
-                        reply.append("\n");
                         for (int i = 0; i < playlists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(playlists.get(i).toString());
                         }
                         break;
@@ -204,9 +195,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETALBUMS:
                         ArrayList<Album> albums = server.getAlbums();
                         reply.append(albums.size());
-                        reply.append("\n");
                         for (int i = 0; i < albums.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(albums.get(i).toString());
                         }
                         break;
@@ -214,9 +204,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         artistId = Integer.parseInt(in.readLine());
                         albums = server.getAlbumsByArtist(artistId);
                         reply.append(albums.size());
-                        reply.append("\n");
                         for (int i = 0; i < albums.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(albums.get(i).toString());
                         }
                         break;
@@ -224,9 +213,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         accountId = Integer.parseInt(in.readLine());
                         albums = server.getFollowedAlbums(accountId);
                         reply.append(albums.size());
-                        reply.append("\n");
                         for (int i = 0; i < albums.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(albums.get(i).toString());
                         }
                         break;
@@ -261,18 +249,16 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETUSERS:
                         ArrayList<User> users = server.getUsers();
                         reply.append(users.size());
-                        reply.append("\n");
                         for (int i = 0; i < users.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(users.get(i).toString());
                         }
                         break;
                     case GETFOLLOWEDUSERS:
                         users = server.getFollowedUsers(Integer.parseInt(in.readLine()));
                         reply.append(users.size());
-                        reply.append("\n");
                         for (int i = 0; i < users.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(users.get(i).toString());
                         }
                         break;
@@ -307,18 +293,16 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETARTISTS:
                         ArrayList<Artist> artists = server.getArtists();
                         reply.append(artists.size());
-                        reply.append("\n");
                         for (int i = 0; i < artists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(artists.get(i).toString());
                         }
                         break;
                     case GETFOLLOWEDARTISTS:
                         artists = server.getFollowedArtists(Integer.parseInt(in.readLine()));
                         reply.append(artists.size());
-                        reply.append("\n");
                         for (int i = 0; i < artists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(artists.get(i).toString());
                         }
                         break;
@@ -393,9 +377,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         String keyword = in.readLine();
                         songs = server.searchSongs(keyword);
                         reply.append(songs.size());
-                        reply.append("\n");
                         for (int i = 0; i < songs.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(songs.get(i).toString());
                         }
                         break;
@@ -403,9 +386,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         keyword = in.readLine();
                         playlists = server.searchPlaylists(keyword);
                         reply.append(playlists.size());
-                        reply.append("\n");
                         for (int i = 0; i < playlists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(playlists.get(i).toString());
                         }
                         break;
@@ -413,9 +395,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         keyword = in.readLine();
                         albums = server.searchAlbums(keyword);
                         reply.append(albums.size());
-                        reply.append("\n");
                         for (int i = 0; i < albums.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(albums.get(i).toString());
                         }
                         break;
@@ -423,9 +404,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         keyword = in.readLine();
                         users = server.searchUsers(keyword);
                         reply.append(users.size());
-                        reply.append("\n");
                         for (int i = 0; i < users.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(users.get(i).toString());
                         }
                         break;
@@ -433,9 +413,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         keyword = in.readLine();
                         artists = server.searchArtists(keyword);
                         reply.append(artists.size());
-                        reply.append("\n");
                         for (int i = 0; i < artists.size(); i++) {
-                            if (i > 0) reply.append("\n");
+                            reply.append("\n");
                             reply.append(artists.get(i).toString());
                         }
                         break;
