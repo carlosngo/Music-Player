@@ -7,6 +7,6 @@
 *.iml
 
 **/out
-**/idea
+**/.idea
 **/resources/songs
 **/deliverables
