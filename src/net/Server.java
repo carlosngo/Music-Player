@@ -253,7 +253,7 @@ final class Server {
         try {
             UserDAO userDAO = ((UserDAO)userDAOFactory.getDAO());
             AccountDAO accountDAO = ((AccountDAO)accountDAOFactory.getDAO());
-            if (accountDAO.existUserName(user.getUserName())) return false;
+            if (accountDAO.existUserName(user.getAccount().getUserName())) return false;
             accountDAO.insert(user.getAccount());
             userDAO.create(user);
         } catch (IllegalArgumentException e) {
@@ -293,7 +293,7 @@ final class Server {
         try {
             ArtistDAO artistDAO = ((ArtistDAO)artistDAOFactory.getDAO());
             AccountDAO accountDAO = ((AccountDAO)accountDAOFactory.getDAO());
-            if (accountDAO.existUserName(artist.getUserName())) return false;
+            if (accountDAO.existUserName(artist.getAccount().getUserName())) return false;
             accountDAO.insert(artist.getAccount());
             artistDAO.create(artist);
         } catch (IllegalArgumentException e) {

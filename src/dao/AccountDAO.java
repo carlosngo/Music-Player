@@ -14,13 +14,13 @@ import model.User;
 public class AccountDAO implements DataAccessObject {
     private DAOFactory db;
     
-    private static final String SQL_INSERT = "INSERT INTO " + Database.ACCOUNT_TABLE + " (PK_AccountID, Username, Password) VALUES (?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO " + Database.ACCOUNT_TABLE + " (Username, Password) VALUES (?, ?)";
     private static final String SQL_DELETE = "DELETE FROM " + Database.ACCOUNT_TABLE + " WHERE PK_AccountID = ?";
     private static final String SQL_UPDATE = "UPDATE " + Database.ACCOUNT_TABLE + " SET Username = ?, Password = ? WHERE PK_AccountID = ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM " + Database.ACCOUNT_TABLE + " WHERE PK_AccountID = ?";
     private static final String SQL_FIND_BY_USERNAME_PASSWORD = "SELECT * FROM " + Database.ACCOUNT_TABLE + " WHERE Username = ? AND Password = ?";
     private static final String SQL_EXIST_USERNAME =
-			"SELECT PK_AccountID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
+			"SELECT PK_AccountID FROM " + Database.ACCOUNT_TABLE + " WHERE UserName = ?";
     
     public AccountDAO(DAOFactory db) {
         this.db = db;
@@ -62,12 +62,11 @@ public class AccountDAO implements DataAccessObject {
     }
     
     public void insert(Account account) throws IllegalArgumentException {
-    	if(account.getId() == -1) {
+    	if(account.getId() != -1) {
     		throw new IllegalArgumentException("Account is already created");
     	}
     	
     	Object[] values = {
-    			account.getId(),
     			account.getUserName(),
     			account.getPassword()
         };

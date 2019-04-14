@@ -124,7 +124,7 @@ public class User {
         user.setLastName(biodata[3]);
         user.setGender(biodata[4]);
         try {
-            Date bday = new SimpleDateFormat("dd/MM/yyyy").parse(biodata[5]);
+            Date bday = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(biodata[5]);
             user.setBirthday(bday);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -146,7 +146,8 @@ public class User {
         sb.append("|");
         sb.append(getGender());
         sb.append("|");
-        sb.append(getBirthday());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+        sb.append(formatter.format(getBirthday()));
         return sb.toString();
     }
 }

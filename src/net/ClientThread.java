@@ -278,9 +278,13 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDUSER:
                         user = User.parseUser(in.readLine());
+                        account = Account.parseAccount(in.readLine());
+                        user.setAccount(account);
                         if (server.addUser(user)) {
                             reply.append("OK\n");
                             reply.append(user.getUserId());
+                            reply.append("\n");
+                            reply.append(user.getAccount().getId());
                         } else reply.append(Protocol.NO);
                         break;
                     case UPDATEUSER:
@@ -320,9 +324,14 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDARTIST:
                         artist = Artist.parseArtist(in.readLine());
+                        account = Account.parseAccount(in.readLine());
+                        artist.setAccount(account);
+                        System.out.println(artist);
                         if (server.addArtist(artist)) {
                             reply.append("OK\n");
                             reply.append(artist.getArtistId());
+                            reply.append("\n");
+                            reply.append(artist.getAccount().getId());
                         } else reply.append(Protocol.NO);
                         break;
                     case UPDATEARTIST:
