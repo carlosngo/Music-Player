@@ -20,7 +20,7 @@ public class ControlPanel extends JPanel implements ActionListener {
     private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs,
             favPlaylists, addAlbum, addSong, friends;
 
-    public ControlPanel(SongController controller, boolean isArtist){
+    public ControlPanel(SongController controller/*, boolean isArtist*/){
         this.controller = controller;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -489,7 +489,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         add(addPlaylist);
 
         addAlbum = new JButton();
-        addAlbum.setActionCommand("Add Playlist");
+        addAlbum.setActionCommand("Add Album");
         addAlbum.setForeground(Color.white);
         addAlbum.addActionListener(this);
         addAlbum.setOpaque(false);
@@ -524,8 +524,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 addAlbum.setForeground(oldColor);
             }
         });
-        if(isArtist)
-            add(addAlbum);
+//        if(isArtist)
+//            add(addAlbum);
 
         addSong = new JButton();
         addSong.setActionCommand("Add Song");
@@ -563,8 +563,8 @@ public class ControlPanel extends JPanel implements ActionListener {
                 addSong.setForeground(oldColor);
             }
         });
-        if(isArtist)
-            add(addSong);
+//        if(isArtist)
+//            add(addSong);
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/mostPlayed.png");
