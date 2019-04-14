@@ -118,6 +118,7 @@ public class AccountController {
 			artist.setBirthday(birthday);
 			if(mc.getClient().addArtist(artist)){
 				System.out.println("Artist " + artist.getName() + " is created.");
+
 				logIn(username, password);
 			} else {
 				return false;

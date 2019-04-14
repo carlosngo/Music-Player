@@ -128,6 +128,7 @@ public class User {
             user.setBirthday(bday);
         } catch (ParseException e) {
             e.printStackTrace();
+            System.out.println("parse exception");
         }
         return user;
     }
