@@ -209,6 +209,8 @@ public class SongPanel extends JPanel implements ActionListener{
 
     public void editRow(int index, ArrayList<String> data) {
         model.edit(index, data);
+        revalidate();
+        repaint();
     }
 
     public MyTableModel getModel() {
