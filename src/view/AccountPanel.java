@@ -64,7 +64,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanAddSong.png");
                     BufferedImage img = ImageIO.read(resource);
-                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     addSong.setText("Add Song");
                 } catch(Exception exception){
 
@@ -75,7 +75,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/addSong.png");
                     BufferedImage img = ImageIO.read(resource);
-                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     addSong.setText("Add Song");
                 } catch(Exception exception){
 
@@ -106,7 +106,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanAddAlbum.png");
                     BufferedImage img = ImageIO.read(resource);
-                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     addAlbum.setText("Add Album");
                 } catch(Exception exception){
 
@@ -117,7 +117,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/addAlbum.png");
                     BufferedImage img = ImageIO.read(resource);
-                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     addAlbum.setText("Add Album");
                 } catch(Exception exception){
 
@@ -144,7 +144,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanAccount.png");
                     BufferedImage img = ImageIO.read(resource);
-                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     welcomeLbl.setText(ac.getUser().getUserName());
                 } catch(Exception exception){
 
@@ -155,7 +155,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/account.png");
                     BufferedImage img = ImageIO.read(resource);
-                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     welcomeLbl.setText(ac.getUser().getUserName());
                 } catch(Exception exception){
 
@@ -176,7 +176,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/cyanLogOut.png");
                     BufferedImage img = ImageIO.read(resource);
-                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     logOut.setText("Log Out");
                 } catch(Exception exception){
 
@@ -187,7 +187,7 @@ public class AccountPanel extends JPanel {
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/logOut.png");
                     BufferedImage img = ImageIO.read(resource);
-                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                     logOut.setText("Log Out");
                 } catch(Exception exception){
 
@@ -291,7 +291,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/cyanAddSong.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    addSong.setText("Add Song");
 //                } catch(Exception exception){
 //
@@ -302,7 +302,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/addSong.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    addSong.setText("Add Song");
 //                } catch(Exception exception){
 //
@@ -334,7 +334,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/cyanAddAlbum.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    addAlbum.setText("Add Playlist");
 //                } catch(Exception exception){
 //
@@ -345,7 +345,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/addAlbum.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    addAlbum.setText("Add Playlist");
 //                } catch(Exception exception){
 //
@@ -372,7 +372,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/cyanAccount.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    welcomeLbl.setText(ac.getUser().getUserName());
 //                } catch(Exception exception){
 //
@@ -383,7 +383,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/account.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    welcomeLbl.setText(ac.getUser().getUserName());
 //                } catch(Exception exception){
 //
@@ -440,7 +440,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/cyanLogOut.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    logOut.setText("Log Out");
 //                } catch(Exception exception){
 //
@@ -451,7 +451,7 @@ public class AccountPanel extends JPanel {
 //                try{
 //                    URL resource = getClass().getClassLoader().getResource("images/logOut.png");
 //                    BufferedImage img = ImageIO.read(resource);
-//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //                    logOut.setText("Log Out");
 //                } catch(Exception exception){
 //
@@ -508,7 +508,7 @@ public class AccountPanel extends JPanel {
 //        setLayout(new BorderLayout());
 ////        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 //        setOpaque(false);
-////        add(Box.createRigidArea(new Dimension(15,0)));
+////        add(Box.createRigidArea(new Dimension(25,0)));
 //        JLabel title = new JLabel();
 //        title.setFont(new Font("Arial", Font.PLAIN, 38));
 //        title.setForeground(Color.white);
@@ -615,7 +615,7 @@ public class AccountPanel extends JPanel {
 //                ac.openCreateAccountWindow();
 //            }
 //        });
-////        add(Box.createRigidArea(new Dimension(15,0)));
+////        add(Box.createRigidArea(new Dimension(25,0)));
 ////        add(signUp);
 //        p.add(signUp, BorderLayout.WEST);
 //        add(p, BorderLayout.EAST);
