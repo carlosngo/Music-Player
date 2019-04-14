@@ -18,13 +18,18 @@ import java.net.URL;
 public class AccountPanel extends JPanel {
     private JButton addSong, addAlbum, logIn, signUp, editAccount, logOut;
     private AccountController ac;
+    protected JPanel block;
+    private GridBagConstraints cons;
 
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
-        setLayout(new BorderLayout());
-        setOpaque(false);
-        JPanel p = new JPanel(new BorderLayout());
-        p.setOpaque(false);
+
+        cons = new GridBagConstraints();
+        cons.fill = GridBagConstraints.HORIZONTAL;
+        block = new JPanel();
+        block.setLayout(new GridBagLayout());
+        block.setOpaque(false);
+
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
         title.setForeground(Color.white);
@@ -79,7 +84,6 @@ public class AccountPanel extends JPanel {
             }
         });
 
-
         addAlbum = new JButton();
         addAlbum.setActionCommand("Add Album");
         addAlbum.setForeground(Color.white);
@@ -103,7 +107,7 @@ public class AccountPanel extends JPanel {
                     URL resource = getClass().getClassLoader().getResource("images/cyanAddAlbum.png");
                     BufferedImage img = ImageIO.read(resource);
                     addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    addAlbum.setText("Add Playlist");
+                    addAlbum.setText("Add Album");
                 } catch(Exception exception){
 
                 }
@@ -114,7 +118,7 @@ public class AccountPanel extends JPanel {
                     URL resource = getClass().getClassLoader().getResource("images/addAlbum.png");
                     BufferedImage img = ImageIO.read(resource);
                     addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    addAlbum.setText("Add Playlist");
+                    addAlbum.setText("Add Album");
                 } catch(Exception exception){
 
                 }
@@ -160,47 +164,11 @@ public class AccountPanel extends JPanel {
             }
         });
 
-//        welcomeLbl.setFont(new Font("Arial", Font.BOLD, 14));
-        //p.add(welcomeLbl, BorderLayout.CENTER);
-        //add(Box.createRigidArea(new Dimension(5,0)));
-
-//        editAccount = new JButton("Edit Account");
-//        //logOut.setForeground(new Color(65,105,225));
-//        editAccount.setForeground(Color.white);
-//        editAccount.setOpaque(false);
-//        editAccount.setContentAreaFilled(false);
-//        editAccount.setBorderPainted(false);
-//        //logIn.setMaximumSize(new Dimension(90, 40));
-//        //logIn.setMinimumSize(new Dimension(90, 40));
-//        //logIn.setPreferredSize(new Dimension(90, 40));
-//        editAccount.setFont(new Font("Arial", Font.BOLD, 14));
-//        editAccount.addMouseListener(new MouseAdapter() {
-//            Color oldColor = editAccount.getForeground();
-//            public void mouseEntered(MouseEvent e) {
-//                editAccount.setForeground(new Color(0,255,255));
-//            }
-//            public void mouseExited(MouseEvent e) {
-//                editAccount.setForeground(oldColor);
-//            }
-//        });
-//        editAccount.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                ac.openEditAccountWindow();
-//            }
-//        });
-//        add(editAccount);
-        //p.add(addSongs, BorderLayout.WEST);
-
         logOut = new JButton("Log Out");
-        //logOut.setForeground(new Color(65,105,225));
         logOut.setForeground(Color.white);
         logOut.setOpaque(false);
         logOut.setContentAreaFilled(false);
         logOut.setBorderPainted(false);
-        //logIn.setMaximumSize(new Dimension(90, 40));
-        //logIn.setMinimumSize(new Dimension(90, 40));
-        //logIn.setPreferredSize(new Dimension(90, 40));
         logOut.setFont(new Font("Arial", Font.BOLD, 14));
         logOut.addMouseListener(new MouseAdapter() {
             Color oldColor = logOut.getForeground();
@@ -233,8 +201,6 @@ public class AccountPanel extends JPanel {
                 ac.logOut();
             }
         });
-//        add(logOut);
-        //p.add(logOut, BorderLayout.EAST);
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
@@ -252,21 +218,32 @@ public class AccountPanel extends JPanel {
         }
         catch(Exception e){}
 
-        JPanel buttonsPnl = new JPanel();
-        buttonsPnl.setLayout(new BoxLayout(buttonsPnl, BoxLayout.X_AXIS));
-        buttonsPnl.setOpaque(false);
+        cons.insets = new Insets(5, 10, 0, 0);
+        cons.gridx = 0;
+        cons.gridy = 0;
+        cons.gridwidth = 1;
+        block.add(title, cons);
         if(user instanceof Artist){
-            buttonsPnl.add(addSong);
-            buttonsPnl.add(addAlbum);
+            cons.insets = new Insets(5, 10, 0, 0);
+            cons.gridx = 5;
+            cons.gridy = 0;
+            block.add(addSong, cons);
+            cons.insets = new Insets(5, 10, 0, 0);
+            cons.gridx = 6;
+            cons.gridy = 0;
+            block.add(addAlbum, cons);
         }
+        cons.insets = new Insets(5, 10, 0, 0);
+        cons.gridx = 7;
+        cons.gridy = 0;
+        block.add(welcomeLbl, cons);
+        cons.insets = new Insets(5, 10, 0, 0);
+        cons.gridx = 8;
+        cons.gridy = 0;
+        block.add(logOut, cons);
 
-        buttonsPnl.add(welcomeLbl);
-        buttonsPnl.add(logOut);
-        p.add(buttonsPnl, BorderLayout.EAST);
-
-        add(p, BorderLayout.EAST);
+        add(block);
     }
-
 
     public void update() {
         revalidate();
