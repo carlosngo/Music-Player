@@ -633,7 +633,6 @@ public class ControlPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == search){
             //controller.showBrowsePanel();
-            controller.s
         }
         if(e.getSource() == favSongs){
             controller.showFavoriteSongs();
