@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         add(Box.createRigidArea(new Dimension(15,0)));
 
         search = new JButton();
-        search.setActionCommand("Search");
+        search.setActionCommand("Browse");
         search.addActionListener(this);
         search.setForeground(Color.white);
         search.setOpaque(false);
@@ -45,7 +45,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                     URL resource = getClass().getClassLoader().getResource("images/cyanBrowse.png");
                     BufferedImage img = ImageIO.read(resource);
                     search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    search.setText("Search");
+                    search.setText("Browse");
                 } catch(Exception exception){
 
                 }
@@ -56,7 +56,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                     URL resource = getClass().getClassLoader().getResource("images/browse.png");
                     BufferedImage img = ImageIO.read(resource);
                     search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    search.setText("Search");
+                    search.setText("Browse");
                 } catch(Exception exception){
 
                 }
@@ -574,7 +574,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/browse.png");
             img = ImageIO.read(resource);
             search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            search.setText("Search");
+            search.setText("Browse");
             resource = getClass().getClassLoader().getResource("images/songs.png");
             img = ImageIO.read(resource);
             songs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
