@@ -6,7 +6,7 @@
 
 *.iml
 
-**/out
-**/.idea
-**/resources/songs
-**/deliverables
+out/
+.idea/
+deliverables/
+resources/songs/
