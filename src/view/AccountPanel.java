@@ -34,6 +34,9 @@ public class AccountPanel extends JPanel {
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
         title.setForeground(Color.white);
+        title.setMaximumSize(new Dimension(500, 60));
+        title.setMinimumSize(new Dimension(500, 60));
+        title.setPreferredSize(new Dimension(500, 60));
         try{
             URL resource = getClass().getClassLoader().getResource("images/imgLogoWhite.png");
             BufferedImage img = ImageIO.read(resource);
@@ -55,9 +58,9 @@ public class AccountPanel extends JPanel {
         addSong.setOpaque(false);
         addSong.setContentAreaFilled(false);
         addSong.setBorderPainted(false);
-        addSong.setMaximumSize(new Dimension(200, 40));
-        addSong.setMinimumSize(new Dimension(200, 40));
-        addSong.setPreferredSize(new Dimension(200, 40));
+        addSong.setMaximumSize(new Dimension(150, 40));
+        addSong.setMinimumSize(new Dimension(150, 40));
+        addSong.setPreferredSize(new Dimension(150, 40));
         addSong.setFont(new Font("Arial", Font.BOLD, 14));
         addSong.addMouseListener(new MouseAdapter() {
             Color oldColor = addSong.getForeground();
@@ -97,9 +100,9 @@ public class AccountPanel extends JPanel {
         addAlbum.setOpaque(false);
         addAlbum.setContentAreaFilled(false);
         addAlbum.setBorderPainted(false);
-        addAlbum.setMaximumSize(new Dimension(200, 40));
-        addAlbum.setMinimumSize(new Dimension(200, 40));
-        addAlbum.setPreferredSize(new Dimension(200, 40));
+        addAlbum.setMaximumSize(new Dimension(150, 40));
+        addAlbum.setMinimumSize(new Dimension(150, 40));
+        addAlbum.setPreferredSize(new Dimension(150, 40));
         addAlbum.setFont(new Font("Arial", Font.BOLD, 14));
         addAlbum.addMouseListener(new MouseAdapter() {
             Color oldColor = addAlbum.getForeground();
@@ -132,6 +135,9 @@ public class AccountPanel extends JPanel {
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
         welcomeLbl.setForeground(Color.WHITE);
+        welcomeLbl.setMaximumSize(new Dimension(150, 40));
+        welcomeLbl.setMinimumSize(new Dimension(150, 40));
+        welcomeLbl.setPreferredSize(new Dimension(150, 40));
         name = ac.getUser().getUserName();
         welcomeLbl.setText(name);
         welcomeLbl.addActionListener(new ActionListener() {
@@ -171,6 +177,9 @@ public class AccountPanel extends JPanel {
         logOut.setOpaque(false);
         logOut.setContentAreaFilled(false);
         logOut.setBorderPainted(false);
+        logOut.setMaximumSize(new Dimension(150, 40));
+        logOut.setMinimumSize(new Dimension(150, 40));
+        logOut.setPreferredSize(new Dimension(150, 40));
         logOut.setFont(new Font("Arial", Font.BOLD, 14));
         logOut.addMouseListener(new MouseAdapter() {
             Color oldColor = logOut.getForeground();
