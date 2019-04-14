@@ -141,23 +141,35 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
     }
 
     public void insertUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty())
+        if (nameInput.getText().isEmpty()){
             save.setEnabled(false);
-        else
+            selectFile.setEnabled(false);
+        }
+        else{
             save.setEnabled(true);
+            selectFile.setEnabled(true);
+        }
     }
 
     public void removeUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty())
+        if (nameInput.getText().isEmpty()){
             save.setEnabled(false);
-        else
+            selectFile.setEnabled(false);
+        }
+        else{
             save.setEnabled(true);
+            selectFile.setEnabled(true);
+        }
     }
 
     public void changedUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty())
+        if (nameInput.getText().isEmpty()){
             save.setEnabled(false);
-        else
+            selectFile.setEnabled(false);
+        }
+        else{
             save.setEnabled(true);
+            selectFile.setEnabled(true);
+        }
     }
 }
