@@ -255,7 +255,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
                             lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
                     break;
                 case "Artist":
-                    success = controller.registerAsArtist(usernameInput.getText(), pw, firstNameInput.getText(),
+                    success  = controller.registerAsArtist(usernameInput.getText(), pw, firstNameInput.getText(),
                             lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
                     break;
             }
