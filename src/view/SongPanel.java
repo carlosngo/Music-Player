@@ -136,6 +136,8 @@ public class SongPanel extends JPanel implements ActionListener{
                 {
                     Component c = super.prepareRenderer(renderer, row, column);
 
+                    if (isRowSelected(row))
+                        c.setBackground(Color.cyan);
                     if (!isRowSelected(row))
                         c.setBackground(Color.BLACK);
 
