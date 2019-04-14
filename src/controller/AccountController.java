@@ -108,7 +108,7 @@ public class AccountController {
 			user = new Artist();
 			user.getAccount().setUserName(username);
 			user.getAccount().setPassword(password);
-//			user.setPassword(hash.generateHash(password));
+			//user.setPassword(hash.generateHash(password));
 			user.setFirstName(firstName);
 			user.setLastName(lastName);
 			user.setGender(gender);
