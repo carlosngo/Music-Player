@@ -34,9 +34,9 @@ public class AccountPanel extends JPanel {
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
         title.setForeground(Color.white);
-        title.setMaximumSize(new Dimension(500, 60));
-        title.setMinimumSize(new Dimension(500, 60));
-        title.setPreferredSize(new Dimension(500, 60));
+        title.setMaximumSize(new Dimension(250, 60));
+        title.setMinimumSize(new Dimension(250, 60));
+        title.setPreferredSize(new Dimension(250, 60));
         try{
             URL resource = getClass().getClassLoader().getResource("images/imgLogoWhite.png");
             BufferedImage img = ImageIO.read(resource);
@@ -239,7 +239,7 @@ public class AccountPanel extends JPanel {
         cons.gridwidth = 1;
         block.add(title, cons);
         if(user instanceof Artist){
-            cons.insets = new Insets(5, 10, 0, 0);
+            cons.insets = new Insets(5, 300, 0, 0);
             cons.gridx = 5;
             cons.gridy = 0;
             cons.gridwidth = 1;
@@ -249,17 +249,28 @@ public class AccountPanel extends JPanel {
             cons.gridy = 0;
             cons.gridwidth = 1;
             block.add(addAlbum, cons);
+            cons.insets = new Insets(5, 10, 0, 0);
+            cons.gridx = 7;
+            cons.gridy = 0;
+            cons.gridwidth = 1;
+            block.add(welcomeLbl, cons);
+            cons.insets = new Insets(5, 10, 0, 0);
+            cons.gridx = 8;
+            cons.gridy = 0;
+            cons.gridwidth = 1;
+            block.add(logOut, cons);
+        }else if(user instanceof User){
+            cons.insets = new Insets(5, 300, 0, 0);
+            cons.gridx = 7;
+            cons.gridy = 0;
+            cons.gridwidth = 1;
+            block.add(welcomeLbl, cons);
+            cons.insets = new Insets(5, 10, 0, 0);
+            cons.gridx = 8;
+            cons.gridy = 0;
+            cons.gridwidth = 1;
+            block.add(logOut, cons);
         }
-        cons.insets = new Insets(5, 10, 0, 0);
-        cons.gridx = 7;
-        cons.gridy = 0;
-        cons.gridwidth = 1;
-        block.add(welcomeLbl, cons);
-        cons.insets = new Insets(5, 10, 0, 0);
-        cons.gridx = 8;
-        cons.gridy = 0;
-        cons.gridwidth = 1;
-        block.add(logOut, cons);
 
         setOpaque(false);
         add(block);
