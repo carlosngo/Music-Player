@@ -15,6 +15,7 @@ public class Playlist implements Comparable<Playlist>, Media {
 
     public Playlist() {
         playlistId = -1;
+        dateCreated = Calendar.getInstance().getTime();
         songs = new ArrayList<>();
     }
 
@@ -82,8 +83,9 @@ public class Playlist implements Comparable<Playlist>, Media {
         playlist.setAccount(acc);
         playlist.setName(playlistData[2]);
         try {
-            Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(playlistData[3]);
-            playlist.setDateCreated(dc);
+
+            Date bday = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(playlistData[3]);
+            playlist.setDateCreated(bday);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -100,7 +102,8 @@ public class Playlist implements Comparable<Playlist>, Media {
         sb.append("|");
         sb.append(getName());
         sb.append("|");
-        sb.append(getDateCreated());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+        sb.append(formatter.format(getDateCreated()));
         return sb.toString();
     }
 

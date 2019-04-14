@@ -17,6 +17,7 @@ public class Album implements Comparable<Album>, Media {
     	albumId = -1;
     	artist = new Artist();
     	name = "";
+    	dateCreated = Calendar.getInstance().getTime();
 	}
 	public int getAlbumId() {
 		return albumId;
@@ -66,8 +67,8 @@ public class Album implements Comparable<Album>, Media {
 		artist.setArtistId(Integer.parseInt(albumData[2]));
 		album.setArtist(artist);
 		try {
-			Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(albumData[3]);
-			album.setDateCreated(dc);
+            Date bday = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(albumData[3]);
+            album.setDateCreated(bday);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +84,8 @@ public class Album implements Comparable<Album>, Media {
 		sb.append("|");
 		sb.append(getArtist().getArtistId());
 		sb.append("|");
-		sb.append(getDateCreated());
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+        sb.append(formatter.format(getDateCreated()));
 		return sb.toString();
 	}
 

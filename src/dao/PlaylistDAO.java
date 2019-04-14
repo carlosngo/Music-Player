@@ -64,11 +64,15 @@ public class PlaylistDAO implements DataAccessObject {
 	private Playlist find(String sql, Object... values) {
 		Playlist playlist = null;
 		Connection connection = Database.getConnection();
+		System.out.println(values);
 		try (
 				PreparedStatement statement = prepareStatement(connection, sql, false, values);
 				ResultSet resultSet = statement.executeQuery()) {
 			if (resultSet.next()) {
+				System.out.println("Mapping...");
 				playlist = map(resultSet);
+				System.out.println("Done mapping.");
+				System.out.println(playlist);
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();

@@ -85,7 +85,7 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         save.setOpaque(true);
         save.setBorderPainted(false);
         save.addActionListener(this);
-        save.setEnabled(false);
+//        save.setEnabled(false);
         buttonsPnl.add(save);
         buttonsPnl.add(Box.createRigidArea(new Dimension(0,7)));
         p.add(buttonsPnl);
@@ -115,10 +115,10 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
     }
 
     public void actionPerformed (ActionEvent e){
-        if (playlistChoices.getSelectedIndex() != 0)
-            save.setEnabled(true);
-        else
-            save.setEnabled(false);
+//        if (playlistChoices.getSelectedIndex() != 0)
+//            save.setEnabled(true);
+//        else
+//            save.setEnabled(false);
 
         if(e.getSource() == cancel){
             dispose();
@@ -126,7 +126,7 @@ public class AddToPlaylistWindow extends JFrame implements ActionListener, Docum
         if(e.getSource() == save){
             setName((String) playlistChoices.getSelectedItem());
             confirmation = true;
-            controller.addToPlaylist(songIndex, playlistChoices.getSelectedIndex() - 1);
+            controller.addToPlaylist(songIndex, playlists.get(playlistChoices.getSelectedIndex()).getPlaylistId());
             dispose();
         }
     }

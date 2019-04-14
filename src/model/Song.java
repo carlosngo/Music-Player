@@ -31,6 +31,7 @@ public class Song implements Comparable<Song>, Media {
 	    artist = new Artist();
 	    genre = "";
 	    name = "";
+        dateCreated = Calendar.getInstance().getTime();
     }
 
 

@@ -131,7 +131,9 @@ final class Server {
         ((AccountSongDAO)accountSongDAOFactory.getDAO()).separate(account, song);
     }
 
-    Playlist getPlaylist(int playlistId) { return ((PlaylistDAO)playlistDAOFactory.getDAO()).find(playlistId); }
+    Playlist getPlaylist(int playlistId) {
+        System.out.println(playlistId);
+        return ((PlaylistDAO)playlistDAOFactory.getDAO()).find(playlistId); }
 
     ArrayList<Playlist> getPlaylists() {
         return ((PlaylistDAO)playlistDAOFactory.getDAO()).listById();

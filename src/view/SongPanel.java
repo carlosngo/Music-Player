@@ -722,7 +722,7 @@ public class SongPanel extends JPanel implements ActionListener{
 //                    System.out.println("State = " + state);
 //                    Song songForEdit = null;
 //                    for(Song song : songs){
-//                        if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+//                        if(song.getSongId() == Integer.parseInt(biodata.get(currentRow).get(7))) songForEdit = song;
 //                    }
 //                    controller.openEditSongProfileWindow(songForEdit);
 //                    revalidate();
@@ -861,10 +861,10 @@ public class SongPanel extends JPanel implements ActionListener{
                 //statusLabel.setText(e.getActionCommand() + " MenuItem clicked.");
                 switch (e.getActionCommand()){
                     case "queue":
-                        controller.addToQueue(Integer.parseInt(biodata.get(currentRow-1).get(7)));
+                        controller.addToQueue(Integer.parseInt(biodata.get(currentRow).get(7)));
                         break;
                     case "add":
-                        controller.openAddToPlaylistWindow(Integer.parseInt(biodata.get(currentRow-1).get(7)));
+                        controller.openAddToPlaylistWindow(Integer.parseInt(biodata.get(currentRow).get(7)));
                         break;
                     case "removeFromPlaylist":
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
@@ -872,7 +872,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
                             //int songId, int playlistId
-                            controller.removeFromPlaylist(currentRow-1, Integer.parseInt(biodata.get(currentRow-1).get(7)), objID);
+                            controller.removeFromPlaylist(currentRow, Integer.parseInt(biodata.get(currentRow).get(7)), objID);
                         }
                         break;
                     case "removeFromAlbum":
@@ -880,13 +880,13 @@ public class SongPanel extends JPanel implements ActionListener{
                                 " to remove this song?", "Confirm Remove Song from Album", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
 //                            System.out.println( headerName.getText().substring(9, headerName.getText().length() - 1).toLowerCase());
-                            controller.removeFromAlbum(Integer.parseInt(biodata.get(currentRow-1).get(7)));
+                            controller.removeFromAlbum(Integer.parseInt(biodata.get(currentRow).get(7)));
                         }
                         break;
                     case "edit":
                         Song songForEdit = null;
                         for(Song song : songs){
-                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow).get(7))) songForEdit = song;
                         }
                         controller.openEditSongProfileWindow(songForEdit, currentRow);
                         break;
@@ -894,7 +894,7 @@ public class SongPanel extends JPanel implements ActionListener{
                         choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
                                 " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION)
-                            controller.removeSong(currentRow, Integer.parseInt(biodata.get(currentRow-1).get(7)));
+                            controller.removeSong(currentRow, Integer.parseInt(biodata.get(currentRow).get(7)));
                         break;
 //                    case "follow":
 //                        //follow
