@@ -28,7 +28,7 @@ public class ControlPanel extends JPanel implements ActionListener {
         add(Box.createRigidArea(new Dimension(15,0)));
 
         search = new JButton();
-        search.setActionCommand("Browse");
+        search.setActionCommand("Search");
         search.addActionListener(this);
         search.setForeground(Color.white);
         search.setOpaque(false);
@@ -45,7 +45,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                     URL resource = getClass().getClassLoader().getResource("images/cyanBrowse.png");
                     BufferedImage img = ImageIO.read(resource);
                     search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    search.setText("Most Played");
+                    search.setText("Search");
                 } catch(Exception exception){
 
                 }
@@ -56,7 +56,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                     URL resource = getClass().getClassLoader().getResource("images/browse.png");
                     BufferedImage img = ImageIO.read(resource);
                     search.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    search.setText("Most Played");
+                    search.setText("Search");
                 } catch(Exception exception){
 
                 }
@@ -587,10 +587,6 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = ImageIO.read(resource);
             albums.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             albums.setText("Albums");
-            resource = getClass().getClassLoader().getResource("images/genre.png");
-            img = ImageIO.read(resource);
-            genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            genres.setText("Genres");
             resource = getClass().getClassLoader().getResource("images/addPlaylist.png");
             img = ImageIO.read(resource);
             addPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -599,42 +595,45 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = ImageIO.read(resource);
             favSongs.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             favSongs.setText("Favorite Songs");
-            resource = getClass().getClassLoader().getResource("images/star.png");
-            img = ImageIO.read(resource);
-            favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            favPlaylists.setText("Favorite Playlist");
-            resource = getClass().getClassLoader().getResource("images/year.png");
-            img = ImageIO.read(resource);
-            years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            years.setText("Years");
             resource = getClass().getClassLoader().getResource("images/artists.png");
             img = ImageIO.read(resource);
             artists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             artists.setText("Artists");
-            resource = getClass().getClassLoader().getResource("images/addSong.png");
-            img = ImageIO.read(resource);
-            addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            addSong.setText("Add Song");
-            resource = getClass().getClassLoader().getResource("images/addAlbum.png");
-            img = ImageIO.read(resource);
-            addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            addAlbum.setText("Add Album");
             resource = getClass().getClassLoader().getResource("images/friends.png");
             img = ImageIO.read(resource);
             friends.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             friends.setText("Friends");
+//            resource = getClass().getClassLoader().getResource("images/addSong.png");
+//            img = ImageIO.read(resource);
+//            addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            addSong.setText("Add Song");
+//            resource = getClass().getClassLoader().getResource("images/addAlbum.png");
+//            img = ImageIO.read(resource);
+//            addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            addAlbum.setText("Add Album");
+//            resource = getClass().getClassLoader().getResource("images/genre.png");
+//            img = ImageIO.read(resource);
+//            genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            genres.setText("Genres");
+//            resource = getClass().getClassLoader().getResource("images/star.png");
+//            img = ImageIO.read(resource);
+//            favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            favPlaylists.setText("Favorite Playlist");
+//            resource = getClass().getClassLoader().getResource("images/year.png");
+//            img = ImageIO.read(resource);
+//            years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            years.setText("Years");
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if(e.getSource() == search){
             //controller.showBrowsePanel();
+            controller.s
         }
         if(e.getSource() == favSongs){
             controller.showFavoriteSongs();
