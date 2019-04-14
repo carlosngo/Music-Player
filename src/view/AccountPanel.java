@@ -258,8 +258,8 @@ public class AccountPanel extends JPanel {
         catch(Exception e){}
 
         JPanel buttonsPnl = new JPanel();
-        setLayout(new BoxLayout(buttonsPnl, BoxLayout.X_AXIS));
-        setOpaque(false);
+        buttonsPnl.setLayout(new BoxLayout(buttonsPnl, BoxLayout.X_AXIS));
+        buttonsPnl.setOpaque(false);
         if(user instanceof Artist){
             buttonsPnl.add(addSong);
             buttonsPnl.add(addAlbum);
