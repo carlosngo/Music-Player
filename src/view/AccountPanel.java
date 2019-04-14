@@ -20,6 +20,7 @@ public class AccountPanel extends JPanel {
     private AccountController ac;
     protected JPanel block;
     private GridBagConstraints cons;
+    private String name;
 
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
@@ -131,7 +132,8 @@ public class AccountPanel extends JPanel {
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
         welcomeLbl.setForeground(Color.WHITE);
-//        welcomeLbl.setEnabled(false);
+        name = ac.getUser().getUserName();
+        welcomeLbl.setText(name);
         welcomeLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +147,7 @@ public class AccountPanel extends JPanel {
                     URL resource = getClass().getClassLoader().getResource("images/cyanAccount.png");
                     BufferedImage img = ImageIO.read(resource);
                     welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                    welcomeLbl.setText(ac.getUser().getUserName());
+                    welcomeLbl.setText(name);
                 } catch(Exception exception){
 
                 }
@@ -156,7 +158,7 @@ public class AccountPanel extends JPanel {
                     URL resource = getClass().getClassLoader().getResource("images/account.png");
                     BufferedImage img = ImageIO.read(resource);
                     welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                    welcomeLbl.setText(ac.getUser().getUserName());
+                    welcomeLbl.setText(name);
                 } catch(Exception exception){
 
                 }
@@ -206,15 +208,19 @@ public class AccountPanel extends JPanel {
             URL resource = getClass().getClassLoader().getResource("images/account.png");
             BufferedImage img = ImageIO.read(resource);
             welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+            welcomeLbl.setText(name);
             resource = getClass().getClassLoader().getResource("images/addSong.png");
             img = ImageIO.read(resource);
             addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+            addSong.setText("Add Song");
             resource = getClass().getClassLoader().getResource("images/addAlbum.png");
             img = ImageIO.read(resource);
             addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+            addAlbum.setText("Add Album");
             resource = getClass().getClassLoader().getResource("images/logOut.png");
             img = ImageIO.read(resource);
             logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+            logOut.setText("Log Out");
         }
         catch(Exception e){}
 
@@ -227,21 +233,26 @@ public class AccountPanel extends JPanel {
             cons.insets = new Insets(5, 10, 0, 0);
             cons.gridx = 5;
             cons.gridy = 0;
+            cons.gridwidth = 1;
             block.add(addSong, cons);
             cons.insets = new Insets(5, 10, 0, 0);
             cons.gridx = 6;
             cons.gridy = 0;
+            cons.gridwidth = 1;
             block.add(addAlbum, cons);
         }
         cons.insets = new Insets(5, 10, 0, 0);
         cons.gridx = 7;
         cons.gridy = 0;
+        cons.gridwidth = 1;
         block.add(welcomeLbl, cons);
         cons.insets = new Insets(5, 10, 0, 0);
         cons.gridx = 8;
         cons.gridy = 0;
+        cons.gridwidth = 1;
         block.add(logOut, cons);
 
+        setOpaque(false);
         add(block);
     }
 
