@@ -80,7 +80,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 //        p6.add(albumInput);
         String[] sChoices = controller.getAllPossibleAlbums();
         albumChoices = new JComboBox();
-        albumChoices.addItem("");
+        albumChoices.addItem("Select album");
         for (int i = 0; i < sChoices.length; i++) {
             albumChoices.addItem(sChoices[i]);
         }
@@ -106,7 +106,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         p2.add(genreLabel);
         sChoices = controller.getAllPossibleGenres();
         genreChoices = new JComboBox();
-        genreChoices.addItem("");
+        genreChoices.addItem("Select genre");
         for (int i = 0; i < sChoices.length; i++) {
             genreChoices.addItem(sChoices[i]);
         }
@@ -168,7 +168,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         selectFile.setOpaque(true);
         selectFile.setBorderPainted(false);
         selectFile.addActionListener(this);
-        selectFile.setEnabled(false);
+        selectFile.setEnabled(true);
         fileReaderPnl.add(selectFile);
         selectedFileName = new JLabel();
         selectedFileName.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -240,9 +240,10 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         }
         if(e.getSource() == saveSong){
             String songTitle = songTitleInput.getText();
-            String genre = genreChoices.getSelectedItem().toString();
             //String artist= artistInput.getText();
             String year = yearInput.getText();
+            String genre = " ";
+            if(albumChoices.getSelectedIndex() > 0) genre = genreChoices.getSelectedItem().toString();
             int albumID = -1;
             if (albumChoices.getSelectedIndex() > 0) albumID = albums.get(albumChoices.getSelectedIndex() - 1).getAlbumId();
             controller.addSong(songTitle, genre, albumID, year, selectedFile);
@@ -255,24 +256,24 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty())
-            selectFile.setEnabled(false);
+        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isBlank())
+            saveSong.setEnabled(false);
         else
             selectFile.setEnabled(true);
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty())
-            selectFile.setEnabled(false);
+        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isBlank())
+            saveSong.setEnabled(false);
         else
             selectFile.setEnabled(true);
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty())
-            selectFile.setEnabled(false);
+        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isBlank())
+            saveSong.setEnabled(false);
         else
             selectFile.setEnabled(true);
     }
