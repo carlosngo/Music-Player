@@ -309,8 +309,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case ADDARTIST:
                         artist = Artist.parseArtist(in.readLine());
                         account = Account.parseAccount(in.readLine());
-                        artist.setAccount(account);
                         System.out.println(artist);
+                        System.out.println(account);
+                        artist.setAccount(account);
                         if (server.addArtist(artist)) {
                             reply.append("OK\n");
                             reply.append(artist.getArtistId());

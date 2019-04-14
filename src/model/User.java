@@ -20,6 +20,10 @@ public class User {
 
     public User() {
         userId = -1;
+        name = "";
+        firstName = "";
+        lastName = "";
+        gender = "";
         account = new Account();
     }
 

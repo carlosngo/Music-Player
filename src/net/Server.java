@@ -294,7 +294,9 @@ final class Server {
             ArtistDAO artistDAO = ((ArtistDAO)artistDAOFactory.getDAO());
             AccountDAO accountDAO = ((AccountDAO)accountDAOFactory.getDAO());
             if (accountDAO.existUserName(artist.getAccount().getUserName())) return false;
+            System.out.println("Hi");
             accountDAO.insert(artist.getAccount());
+            System.out.println(artist.getAccount());
             artistDAO.create(artist);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -336,8 +338,12 @@ final class Server {
 
     User login(String username, String password, ClientThread thread){
         Account account = ((AccountDAO)accountDAOFactory.getDAO()).find(username, password);
+        if (account == null) return null;
         User user = ((UserDAO)userDAOFactory.getDAO()).findByAccountID(account.getId());
+        System.out.println(user);
+        System.out.println(account);
         if (user == null) user = ((ArtistDAO)artistDAOFactory.getDAO()).findByAccountID(account.getId());
+        System.out.println(user);
         if (user != null) onlineUsers.put(user.getAccount().getId(), thread);
         return user;
     }

@@ -13,6 +13,7 @@ public class Artist extends User implements Comparable<Artist>{
 
 	public Artist() {
 		super();
+		genre = "";
 		artistId = -1;
 	}
 
@@ -41,17 +42,7 @@ public class Artist extends User implements Comparable<Artist>{
 		String[] artistData = s.split("\\|");
 		artist.getAccount().setId(Integer.parseInt(artistData[0]));
 		artist.setArtistId(Integer.parseInt(artistData[1]));
-		artist.setGenre(artistData[2]);
-		artist.setFirstName(artistData[3]);
-		artist.setLastName(artistData[4]);
-		artist.setName(artist.getFirstName() + " " + artist.getLastName());
-		artist.setGender(artistData[5]);
-		try {
-			Date bday = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(artistData[6]);
-			artist.setBirthday(bday);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		artist.setName(artistData[2]);
 		return artist;
 	}
 
@@ -62,16 +53,7 @@ public class Artist extends User implements Comparable<Artist>{
 		sb.append("|");
 		sb.append(getArtistId());
 		sb.append("|");
-		sb.append(getGenre());
-		sb.append("|");
-		sb.append(getFirstName());
-		sb.append("|");
-		sb.append(getLastName());
-		sb.append("|");
-		sb.append(getGender());
-		sb.append("|");
-		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-		sb.append(formatter.format(getBirthday()));
+		sb.append(getName());
 		return sb.toString();
 	}
 

@@ -434,7 +434,9 @@ public final class Client {
     public boolean addArtist(Artist artist){
         outToServer.println(Protocol.ADDARTIST);
         outToServer.println(artist);
+        System.out.println(artist);
         outToServer.println(artist.getAccount());
+        System.out.println(artist.getAccount());
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
             artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
@@ -504,7 +506,7 @@ public final class Client {
             switch (protocol) {
                 case OK:
                     String userInfo = inFromServer.readLine();
-                    if (userInfo.split("\\|").length > 6) user = Artist.parseArtist(userInfo);
+                    if (userInfo.split("\\|").length < 6) user = Artist.parseArtist(userInfo);
                     else user = User.parseUser(userInfo);
                     break;
             }

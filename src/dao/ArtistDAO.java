@@ -117,7 +117,6 @@ public class ArtistDAO implements DataAccessObject {
 	private Artist find(String sql, Object... values) {
 		Artist artist = null;
 		Connection connection = Database.getConnection();
-
 		try {
 			PreparedStatement statement = prepareStatement(connection, sql, false, values);
 			ResultSet rs = statement.executeQuery();
@@ -222,11 +221,13 @@ public class ArtistDAO implements DataAccessObject {
 
 	public Artist map(ResultSet rs) throws SQLException {
 		Artist artist = new Artist();
-
 		artist.setArtistId(rs.getInt("PK_ArtistID"));
+		artist.getAccount().setId(rs.getInt("FK_AccountID"));
 		artist.setName(rs.getString("Name"));
 		artist.setGenre(rs.getString("Genre"));
-
+		System.out.println("HI");
+		System.out.println(artist);
+		System.out.println("HI again");
 		return artist;
 	}
 	
