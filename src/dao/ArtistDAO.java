@@ -225,9 +225,6 @@ public class ArtistDAO implements DataAccessObject {
 		artist.getAccount().setId(rs.getInt("FK_AccountID"));
 		artist.setName(rs.getString("Name"));
 		artist.setGenre(rs.getString("Genre"));
-		System.out.println("HI");
-		System.out.println(artist);
-		System.out.println("HI again");
 		return artist;
 	}
 	

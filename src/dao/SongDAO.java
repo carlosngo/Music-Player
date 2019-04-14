@@ -19,11 +19,11 @@ public class SongDAO implements DataAccessObject {
     private DAOFactory db;
 
     private static final String SQL_INSERT =
-    		"INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_AlbumID, Name, Genre, Year, File) VALUES(?, ?, ?, ?, ?, ?)";
+    		"INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_AlbumID, Name, Genre, Year) VALUES(?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
     		"DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_UPDATE =
-    		"UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ? WHERE PK_SongID = ?";
+    		"UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ?, File = ? WHERE PK_SongID = ?";
     private static final String SQL_FIND_BY_ID =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_FIND_BY_ARTIST_ID_ORDER_BY_GENRE =
@@ -69,8 +69,8 @@ public class SongDAO implements DataAccessObject {
 
     public SongDAO(DAOFactory db) { this.db = db; }
 
-    private Song map(ResultSet rs) throws SQLException{
-        ArtistDAO userDAO = new ArtistDAO(db);
+    private Song map(ResultSet rs) throws SQLException {
+        System.out.println("Mapping...");
         AlbumDAO albumDAO = new AlbumDAO(db);
         ArtistDAO artistDAO = new ArtistDAO(db);
         Song song = new Song();
@@ -79,12 +79,11 @@ public class SongDAO implements DataAccessObject {
 
         song.setSongId(rs.getInt("PK_SongID"));
 
-        Artist u = userDAO.find(rs.getInt("FK_ArtistID"));
-        song.setArtist(u);
 //        song.setArtistId(rs.getInt("FK_ArtistID"));
 //        song.setAlbumId(rs.getInt("FK_AlbumID"));
         Album a = albumDAO.find(rs.getInt("FK_AlbumID"));
-        song.setAlbum(a);
+        if (a != null) song.setAlbum(a);
+        else song.setAlbum(new Album());
 
         Artist artist = artistDAO.find(rs.getInt("FK_ArtistID"));
         song.setArtist(artist);
@@ -340,11 +339,8 @@ public class SongDAO implements DataAccessObject {
         try {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-            if (song.getArtist() != null)
-                statement.setInt(1, song.getArtist().getArtistId());
-            else
-                statement.setObject(1, null);
-            if (song.getAlbum() != null)
+            statement.setInt(1, song.getArtist().getArtistId());
+            if (song.getAlbum().getAlbumId() != -1)
                 statement.setInt(2, song.getAlbum().getAlbumId());
             else
                 statement.setObject(2, null);
@@ -363,8 +359,7 @@ public class SongDAO implements DataAccessObject {
             }*/
 //            URL resource = getClass().getClassLoader().getResource("songs/" + song.getFileName());
 //            File wav = Paths.get(resource.toURI()).toFile();
-            File wav = song.getWAV();
-            statement.setBinaryStream(6, new FileInputStream(wav));
+//            if (wav )
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -373,7 +368,7 @@ public class SongDAO implements DataAccessObject {
                 throw new SQLException("Creating user failed, no generated key obtained.");
             }
 
-        }catch(SQLException | FileNotFoundException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
     }
@@ -417,12 +412,14 @@ public class SongDAO implements DataAccessObject {
             else
                 statement.setObject(4, null);
             statement.setInt(5, song.getYear());
-            statement.setInt(6, song.getSongId());
+            File wav = song.getWAV();
+            statement.setBinaryStream(6, new FileInputStream(wav));
+            statement.setInt(7, song.getSongId());
             statement.executeUpdate();
 
             statement.close();
 
-        }catch(SQLException e) {
+        }catch(SQLException | FileNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -452,15 +449,18 @@ public class SongDAO implements DataAccessObject {
     	};
     	
     	Connection connection = Database.getConnection();
+        System.out.println(songs);
     	try(PreparedStatement statement = prepareStatement(connection, SQL_LIST_BY_ACCOUNT, false, values);){
     		ResultSet rs = statement.executeQuery();
+//            System.out.println(songs);
     		while(rs.next()) {
     			songs.add(map(rs));
     		}
+//            System.out.println(songs);
     	} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	
+        System.out.println(songs);
     	return songs;
     }
     

@@ -15,6 +15,8 @@ public class Album implements Comparable<Album>, Media {
 
 	public Album() {
     	albumId = -1;
+    	artist = new Artist();
+    	name = "";
 	}
 	public int getAlbumId() {
 		return albumId;

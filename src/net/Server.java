@@ -79,7 +79,9 @@ final class Server {
             System.out.println("Song was not added.");
             return false;
         }
+        System.out.println("Song was added.");
         Artist artist = song.getArtist();
+        System.out.println(artist);
         ArrayList<Integer> followers =
                 ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(artist.getAccount().getId());
         for (int i = 0; i < followers.size(); i++) {
@@ -294,7 +296,6 @@ final class Server {
             ArtistDAO artistDAO = ((ArtistDAO)artistDAOFactory.getDAO());
             AccountDAO accountDAO = ((AccountDAO)accountDAOFactory.getDAO());
             if (accountDAO.existUserName(artist.getAccount().getUserName())) return false;
-            System.out.println("Hi");
             accountDAO.insert(artist.getAccount());
             System.out.println(artist.getAccount());
             artistDAO.create(artist);

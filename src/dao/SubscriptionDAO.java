@@ -21,7 +21,7 @@ public class SubscriptionDAO implements DataAccessObject {
 	private static final String SQL_DELETE =
 			"DELETE FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscriberID = ? AND FK_SubscribeeID = ?";
 	private static final String SQL_LIST_BY_SUBSCRIBER_ID =
-			"SELECT FK_SubscribeeID FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubcriberID = ?";
+			"SELECT FK_SubscribeeID FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscriberID = ?";
 	private static final String SQL_LIST_BY_SUBSCRIBEE_ID =
 			"SELECT FK_SubscriberID FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscribeeID = ?";
 	public SubscriptionDAO(DAOFactory db) {

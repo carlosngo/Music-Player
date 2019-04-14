@@ -99,6 +99,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDSONG:
                         song = Song.parseSong(in.readLine());
+                        System.out.println(song);
                         if (server.addSong(song)) {
                             reply.append("OK\n");
                             reply.append(song.getSongId());

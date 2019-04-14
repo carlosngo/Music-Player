@@ -25,7 +25,12 @@ public class Song implements Comparable<Song>, Media {
 
 
 	public Song() {
+
 	    songId = -1;
+	    album = new Album();
+	    artist = new Artist();
+	    genre = "";
+	    name = "";
     }
 
 
@@ -149,20 +154,23 @@ public class Song implements Comparable<Song>, Media {
 
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(getSongId());
-        sb.append("|");
+	    try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(getSongId());
+            sb.append("|");
 //        sb.append(getUser().);
 //        sb.append("|");
-        sb.append(getAlbum().getAlbumId());
-        sb.append("|");
-        sb.append(getArtist().getArtistId());
-        sb.append("|");
-        sb.append(getGenre());
-        sb.append("|");
-        sb.append(getName());
-        sb.append("|");
-        sb.append(getYear());
+            System.out.println(getAlbum());
+            System.out.println(getArtist());
+            sb.append(getAlbum().getAlbumId());
+            sb.append("|");
+            sb.append(getArtist().getArtistId());
+            sb.append("|");
+            sb.append(getGenre());
+            sb.append("|");
+            sb.append(getName());
+            sb.append("|");
+            sb.append(getYear());
        /* sb.append("|");
         sb.append(isFavorite());
         sb.append("|");
@@ -171,7 +179,11 @@ public class Song implements Comparable<Song>, Media {
         sb.append(getLastPlayed());
         sb.append("|");
         sb.append(getDateCreated());*/
-        return sb.toString();
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

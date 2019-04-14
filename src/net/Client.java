@@ -114,6 +114,7 @@ public final class Client {
     public boolean addSong(Song song){
         outToServer.println(Protocol.ADDSONG);
         outToServer.println(song);
+        System.out.println(song);
         try {
             if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
             else song.setSongId(Integer.parseInt(inFromServer.readLine()));
@@ -243,6 +244,7 @@ public final class Client {
     }
 
     public Album getAlbum(int albumId) {
+        if (albumId == -1) return new Album();
         outToServer.println(Protocol.GETALBUM);
         outToServer.println(albumId);
         try {
@@ -250,7 +252,7 @@ public final class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new Album();
     }
     public ArrayList<Album> getAlbums(){
         ArrayList<Album> albums = new ArrayList<>();
