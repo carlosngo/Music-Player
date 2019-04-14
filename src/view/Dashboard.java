@@ -11,6 +11,7 @@ import javax.swing.border.Border;
 public class Dashboard extends JFrame {
     public final static String SONG_PANEL = "Song Panel";
     public final static String CATEGORY_PANEL = "Category Panel";
+    private final static String BROWSE_PANEL = "Browse Panel";
     private MainController controller;
     private JPanel contentPane;
     private AccountPanel northPanel;
@@ -18,6 +19,7 @@ public class Dashboard extends JFrame {
     private JPanel centerPanel;
     private SongPanel songPanel;
     private CategoryPanel categoryPanel;
+    private BrowserPanel browserPanel;
     private PlayerPanel southPanel;
 
 
@@ -41,6 +43,7 @@ public class Dashboard extends JFrame {
 
         songPanel = controller.getSongController().getSongPanel();
         categoryPanel = controller.getSongController().getCategoryPanel();
+        browserPanel = controller.getSongController().getBrowserPanel();
 
         centerPanel.add(songPanel, SONG_PANEL);
         centerPanel.add(categoryPanel, CATEGORY_PANEL);

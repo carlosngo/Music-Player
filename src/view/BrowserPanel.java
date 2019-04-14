@@ -28,7 +28,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         infoPnl = new InfoPanel(sc, user);
 
         JPanel searchBarPnl = new JPanel();
-        searchBarPnl.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        searchBarPnl.setLayout(new BoxLayout(searchBarPnl, BoxLayout.X_AXIS));
         searchBarPnl.setOpaque(false);
         input = new JTextField("" , 10);
         input.addActionListener(this);
@@ -53,7 +53,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         add(searchResultsTitle);
 
         card = new JPanel();
-        card.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         //card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setOpaque(false);
         card.add(infoPnl);

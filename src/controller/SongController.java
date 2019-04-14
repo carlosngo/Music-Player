@@ -22,6 +22,7 @@ public class SongController {
     private EditCategoryWindow ecw;
     private SongPanel sp;
     private CategoryPanel cp;
+    private BrowserPanel bp;
 
     private Client client;
     private User user;
@@ -32,25 +33,19 @@ public class SongController {
         user = mc.getAccountController().getUser();
     }
 
-    public SongPanel getSongPanel() {
-        return sp;
-    }
-
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setSongPanel(SongPanel sp) {
-        this.sp = sp;
-    }
-
-    public void setCategoryPanel(CategoryPanel cp) {
-        this.cp = cp;
+    public SongPanel getSongPanel() {
+        return sp;
     }
 
     public CategoryPanel getCategoryPanel() {
         return cp;
     }
+
+    public BrowserPanel getBrowserPanel() { return bp; }
 
     public MainController getMainController() {
         return mc;
@@ -226,6 +221,11 @@ public class SongController {
        sp = new SongPanel(this, "Your Favorite Songs", null, client.getFavoriteSongs(user.getAccount().getId()));
        if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
        return sp;
+    }
+
+    public BrowserPanel showBrowserPanel() {
+        bp = new BrowserPanel(this, user, false);
+        return bp;
     }
 
     public InfoPanel showInfo(User user) {

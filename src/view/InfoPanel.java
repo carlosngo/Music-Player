@@ -41,7 +41,7 @@ public class InfoPanel extends JPanel {
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
         JPanel subPanelsCase = new JPanel();
-        subPanelsCase.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        subPanelsCase.setLayout(new BoxLayout(subPanelsCase, BoxLayout.Y_AXIS));
         subPanelsCase.setAlignmentX(Component.CENTER_ALIGNMENT);
         subPanelsCase.setOpaque(false);
         subPanelsCase.add(sp);
