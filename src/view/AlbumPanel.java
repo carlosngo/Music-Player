@@ -174,7 +174,7 @@ public class AlbumPanel extends CategoryPanel {
         edit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.openEditCategoryWindow(category, album);
+                controller.openEditAlbumWindow(controller, album);
             }
         });
 
