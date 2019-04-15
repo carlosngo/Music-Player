@@ -72,7 +72,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p3.setOpaque(false);
         p3.setLayout(new BoxLayout(p3, BoxLayout.X_AXIS));
         p3.add(Box.createRigidArea(new Dimension(15,0))); // add space
-        JLabel date = new JLabel("Date (MM/DD/YY):");
+        JLabel date = new JLabel("Birthday (MM/DD/YY):");
         date.setForeground(Color.white);
         date.setFont(new Font("Arial", Font.BOLD, 22));
         p3.add(date);
