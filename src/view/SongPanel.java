@@ -83,25 +83,30 @@ public class SongPanel extends JPanel implements ActionListener{
         setOpaque(false);
 
         if(data.size()==0){
+            headerName = new JLabel(header.toUpperCase());
+            headerName.setFont(new Font("Arial", Font.BOLD, 26));
+            headerName.setForeground(Color.white);
+            add(Box.createRigidArea(new Dimension(0,10)));
             JLabel blankMessage = new JLabel("No songs to show.");
             blankMessage.setForeground(Color.white);
-            blankMessage.setFont(new Font("Arial", Font.BOLD, 26));
+            blankMessage.setFont(new Font("Arial", Font.BOLD, 22));
             add(blankMessage);
         }
         else{
             add(Box.createRigidArea(new Dimension(0,7)));
             JPanel headerPnl = new JPanel();
-            headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.X_AXIS));
-            headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
+            headerPnl.setLayout(new BorderLayout());
+//            headerPnl.setLayout(new BoxLayout(headerPnl, BoxLayout.X_AXIS));
+//            headerPnl.setAlignmentX(Component.LEFT_ALIGNMENT);
             headerPnl.setOpaque(false);
-            headerPnl.add(Box.createRigidArea(new Dimension(15,0)));
+            //headerPnl.add(Box.createRigidArea(new Dimension(15,0)));
             headerName = new JLabel(header.toUpperCase());
             headerName.setFont(new Font("Arial", Font.BOLD, 26));
             headerName.setForeground(Color.white);
-            headerPnl.add(headerName);
+            headerPnl.add(headerName, BorderLayout.WEST);
             headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
-            add(headerPnl);
-            add(Box.createRigidArea(new Dimension(0,10)));
+            //add(headerPnl);
+            //add(Box.createRigidArea(new Dimension(0,10)));
 
 
             String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
@@ -112,7 +117,7 @@ public class SongPanel extends JPanel implements ActionListener{
             sortOptions.setPreferredSize(new Dimension(100,15));
             sortOptions.setMinimumSize(new Dimension(100,20));
             sortOptions.setMaximumSize(new Dimension(100,20));
-            headerPnl.add(sortOptions);
+            headerPnl.add(sortOptions, BorderLayout.EAST);
             add(headerPnl);
             add(Box.createRigidArea(new Dimension(0,10)));
 

@@ -38,11 +38,9 @@ public class InfoPanel extends JPanel {
 
     public void init() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
         JPanel subPanelsCase = new JPanel();
         subPanelsCase.setLayout(new BoxLayout(subPanelsCase, BoxLayout.Y_AXIS));
-        subPanelsCase.setAlignmentX(Component.CENTER_ALIGNMENT);
         subPanelsCase.setOpaque(false);
         subPanelsCase.add(sp);
         subPanelsCase.add(playlistPnl);
@@ -52,7 +50,6 @@ public class InfoPanel extends JPanel {
         JScrollPane scroll = new JScrollPane(subPanelsCase);
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
-        scroll.setPreferredSize(new Dimension(50,60));
         add(scroll);
     }
 }

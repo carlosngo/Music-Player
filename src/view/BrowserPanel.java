@@ -16,7 +16,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
     private JTextField input;
     private JButton search;
     private JLabel searchResultsTitle;
-    private JPanel card;
+    private JPanel card, searchBarPnl;
     private SongController controller;
     //private CategoryPanel userPnl, newUserPnl;
 
@@ -27,15 +27,20 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         infoPnl = new InfoPanel(sc, user);
+        init(infoPnl);
+    }
 
-        JPanel searchBarPnl = new JPanel();
+    public void init(InfoPanel ip){
+        searchBarPnl = new JPanel();
         searchBarPnl.setLayout(new BoxLayout(searchBarPnl, BoxLayout.X_AXIS));
         searchBarPnl.setOpaque(false);
         input = new JTextField("" , 10);
         input.addActionListener(this);
         input.getDocument().addDocumentListener(this);
         input.setFont(new Font("Arial", Font.BOLD, 22));
+        input.setEditable(true);
         searchBarPnl.add(input);
+        searchBarPnl.add(Box.createRigidArea(new Dimension(7,0)));
         search = new JButton("Search");
         search.setFont(new Font("Arial", Font.BOLD, 22));
         search.addActionListener(this);
@@ -47,7 +52,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         searchBarPnl.add(search);
         add(searchBarPnl);
         add(Box.createRigidArea(new Dimension(0,7)));
-        searchResultsTitle = new JLabel("Search Results");
+        searchResultsTitle = new JLabel();
         searchResultsTitle.setForeground(Color.white);
         searchResultsTitle.setFont(new Font("Arial", Font.BOLD, 22));
         searchResultsTitle.setVisible(false);
@@ -55,23 +60,32 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
 
         card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        //card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setOpaque(false);
-        card.add(infoPnl);
+        card.add(ip);
         add(card);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == search){
-            searchResultsTitle.setVisible(true);
-            card.removeAll();
-            newInfoPnl = new InfoPanel(controller, input.getText());
-            card.add(newInfoPnl);
+            //searchResultsTitle.setVisible(true);
+            String sInput = input.getText();
+            removeAll();
+            newInfoPnl = new InfoPanel(controller, sInput);
+            init(newInfoPnl);
+            //setInput(sInput);
+            //setSearchResultsTitle();
             revalidate();
             repaint();
         }
+    }
+
+    public void setInput(String s){
+        input.setText(s);
+    }
+
+    public void setSearchResultsTitle(){
+        searchResultsTitle.setText("Search Results");
     }
 
     public void insertUpdate(DocumentEvent e) {

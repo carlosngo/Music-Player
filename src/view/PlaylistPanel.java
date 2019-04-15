@@ -21,14 +21,17 @@ public class PlaylistPanel extends CategoryPanel {
     public PlaylistPanel(SongController controller, ArrayList<Playlist> objects) {
         super(controller, "Playlists");
 
-        if(objects.isEmpty()){
+        if(objects.size() == 0){
             cons.insets = new Insets(10, 10, 2, 10);
             cons.gridx = 0;
             cons.gridy = 0;
             cons.gridwidth = 3;
-            JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+            //JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+            JLabel emptyLabel = new JLabel("No playlists to display.");
+            emptyLabel.setForeground(Color.white);
             emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            block.add(emptyLabel, cons);
+            //block.add(emptyLabel, cons);
+            add(emptyLabel);
         }
         else{
             for(Playlist object : objects){

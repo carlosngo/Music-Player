@@ -118,8 +118,8 @@ public class Dashboard extends JFrame {
         } else if (panelToShow instanceof BrowserPanel) {
             BrowserPanel bp = (BrowserPanel)panelToShow;
             centerPanel.removeAll();
-            centerPanel.add(bp, CATEGORY_PANEL);
-            cl.show(centerPanel, CATEGORY_PANEL);
+            centerPanel.add(bp, BROWSE_PANEL);
+            cl.show(centerPanel, BROWSE_PANEL);
         }
         update();
     }
