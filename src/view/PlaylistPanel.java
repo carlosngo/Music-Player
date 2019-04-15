@@ -22,22 +22,26 @@ public class PlaylistPanel extends CategoryPanel {
         super(controller, "Playlists");
 
         if(objects.size() == 0){
-            cons.insets = new Insets(10, 10, 2, 10);
-            cons.gridx = 0;
-            cons.gridy = 0;
-            cons.gridwidth = 3;
-            //JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
-            JLabel emptyLabel = new JLabel("No playlists to display.");
-            emptyLabel.setForeground(Color.white);
-            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            //block.add(emptyLabel, cons);
-            add(emptyLabel);
+            JLabel blankMessage = new JLabel("No playlists to show.");
+            blankMessage.setForeground(Color.white);
+            blankMessage.setFont(new Font("Arial", Font.BOLD, 22));
+            headerPnl.add(blankMessage, BorderLayout.CENTER);
+//            cons.insets = new Insets(10, 10, 2, 10);
+//            cons.gridx = 0;
+//            cons.gridy = 0;
+//            cons.gridwidth = 3;
+//            //JLabel emptyLabel = new JLabel("No " + category.toLowerCase() + " to display.");
+//            JLabel emptyLabel = new JLabel("No playlists to display.");
+//            emptyLabel.setForeground(Color.white);
+//            emptyLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+//            //block.add(emptyLabel, cons);
+//            add(emptyLabel);
         }
         else{
             for(i=0 ; i<objects.size() ; i++){
                 addRow(category, objects.get(i));
             }
-            add(scroll);
+            //add(scroll);
         }
     }
 
