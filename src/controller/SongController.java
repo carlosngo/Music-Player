@@ -88,13 +88,18 @@ public class SongController {
 
     // play song at index of displayedSongs
     public void playSong(int index, int songId) {
-        Song song = client.getSong(songId);
-        client.followSong(user.getAccount(), song);
-        client.playSong(user.getAccount().getId(), songId);
-        ArrayList<Song> queue = new ArrayList<>();
-        queue.add(song);
-        mc.playSongs(queue);
-        sp.editRow(index, map(song));
+        try {
+            Song song = client.getSong(songId);
+            client.followSong(user.getAccount(), song);
+//        client.playSong(user.getAccount().getId(), songId);
+            ArrayList<Song> queue = new ArrayList<>();
+            queue.add(song);
+            mc.playSongs(queue);
+
+            sp.editRow(index, map(song));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // play song at index of displayedSongs

@@ -637,7 +637,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 public void actionPerformed(ActionEvent e) {
                     state = e.getActionCommand();
                     System.out.println("State = " + state);
-                    controller.playSong(currentRow, currentRow);
+                    controller.playSong(currentRow, songs.get(currentRow).getSongId());
                 }
             };
             play.addActionListener(playListener);

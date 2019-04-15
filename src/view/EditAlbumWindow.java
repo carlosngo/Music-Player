@@ -28,6 +28,23 @@ public class EditAlbumWindow extends JFrame implements ActionListener, DocumentL
         p.setOpaque(true);
         p.setBackground(new Color(0, 0, 0));
 
+        save = new JButton("Save");
+        save.setFont(new Font("Arial", Font.PLAIN, 22));
+        save.setForeground(Color.white);
+        save.setBackground(new Color(1, 121, 150));
+        save.setOpaque(true);
+        save.setBorderPainted(false);
+        save.addActionListener(this);
+        save.setEnabled(false);
+
+        cancel = new JButton("Cancel");
+        cancel.addActionListener(this);
+        cancel.setFont(new Font("Arial", Font.PLAIN, 24));
+        cancel.setForeground(Color.white);
+        cancel.setBackground(new Color(1, 121, 150));
+        cancel.setOpaque(true);
+        cancel.setBorderPainted(false);
+
         p.add(Box.createRigidArea(new Dimension(0, 15))); // add space
         JLabel title = new JLabel("Add Album");
         title.setForeground(Color.WHITE);
@@ -71,7 +88,7 @@ public class EditAlbumWindow extends JFrame implements ActionListener, DocumentL
         selectedFileName = new JLabel();
         selectedFileName.setFont(new Font("Arial", Font.PLAIN, 22));
         selectedFileName.setForeground(Color.white);
-        selectedFileName.setText(album.getCover().toString());
+        if (album.getCover() != null) selectedFileName.setText(album.getCover().toString());
         fileReaderPnl.add(Box.createRigidArea(new Dimension(5,0)));
         fileReaderPnl.add(selectedFileName);
         p.add(fileReaderPnl);
@@ -80,23 +97,10 @@ public class EditAlbumWindow extends JFrame implements ActionListener, DocumentL
         JPanel buttonsPnl = new JPanel();
         buttonsPnl.setLayout(new BoxLayout(buttonsPnl, BoxLayout.X_AXIS));
         buttonsPnl.setOpaque(false);
-        cancel = new JButton("Cancel");
-        cancel.addActionListener(this);
-        cancel.setFont(new Font("Arial", Font.PLAIN, 24));
-        cancel.setForeground(Color.white);
-        cancel.setBackground(new Color(1, 121, 150));
-        cancel.setOpaque(true);
-        cancel.setBorderPainted(false);
+
         buttonsPnl.add(cancel);
         buttonsPnl.add(Box.createRigidArea(new Dimension(10, 0)));
-        save = new JButton("Save");
-        save.setFont(new Font("Arial", Font.PLAIN, 22));
-        save.setForeground(Color.white);
-        save.setBackground(new Color(1, 121, 150));
-        save.setOpaque(true);
-        save.setBorderPainted(false);
-        save.addActionListener(this);
-        save.setEnabled(false);
+
         buttonsPnl.add(save);
         buttonsPnl.add(Box.createRigidArea(new Dimension(0, 7)));
         p.add(buttonsPnl);
@@ -138,8 +142,8 @@ public class EditAlbumWindow extends JFrame implements ActionListener, DocumentL
             dispose();
         }
         if (e.getSource() == save) {
-            if(selectedFile != null) controller.addAlbum(nameInput.getText(), selectedFile);
-            else controller.addAlbum(nameInput.getText(), null);
+            if(selectedFile != null) controller.updateAlbum(album.getAlbumId(), nameInput.getText(), selectedFile);
+            else controller.updateAlbum(album.getAlbumId(), nameInput.getText(), null);
 //            controller.addAlbum(nameInput.getText());
 //            controller.setAlbumCover(nameInput.getText(), selectedFile);
             dispose();

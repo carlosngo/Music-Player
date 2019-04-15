@@ -45,12 +45,14 @@ public final class Client {
     public Song getSong(int songId) {
         outToServer.println(Protocol.GETSONG);
         outToServer.println(songId);
+        Song song = null;
         try {
-            return Song.parseSong(inFromServer.readLine());
+            song = Song.parseSong(inFromServer.readLine());
+//            song.setWAV(getSongFile(songId));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return song;
     }
 
     public ArrayList<Song> getSongs(){
@@ -244,15 +246,18 @@ public final class Client {
     }
 
     public Album getAlbum(int albumId) {
-        if (albumId == -1) return new Album();
+        Album album = new Album();
+        if (albumId == -1) return album;
         outToServer.println(Protocol.GETALBUM);
         outToServer.println(albumId);
+
         try {
-            return Album.parseAlbum(inFromServer.readLine());
+            album = Album.parseAlbum(inFromServer.readLine());
+//            album.setCover(getImageFile(albumId));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Album();
+        return album;
     }
     public ArrayList<Album> getAlbums(){
         ArrayList<Album> albums = new ArrayList<>();
