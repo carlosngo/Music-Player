@@ -139,6 +139,7 @@ public class AccountPanel extends JPanel {
         welcomeLbl.setMinimumSize(new Dimension(150, 40));
         welcomeLbl.setPreferredSize(new Dimension(150, 40));
         name = ac.getUser().getUserName();
+        System.out.println(name);
         welcomeLbl.setText(name);
         welcomeLbl.addActionListener(new ActionListener() {
             @Override
