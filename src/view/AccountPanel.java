@@ -26,11 +26,13 @@ public class AccountPanel extends JPanel {
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
 
-        cons = new GridBagConstraints();
-        cons.fill = GridBagConstraints.HORIZONTAL;
-        block = new JPanel();
-        block.setLayout(new GridBagLayout());
-        block.setOpaque(false);
+//        cons = new GridBagConstraints();
+//        cons.fill = GridBagConstraints.HORIZONTAL;
+//        block = new JPanel();
+//        block.setLayout(new GridBagLayout());
+//        block.setOpaque(false);
+        setLayout(new BorderLayout());
+        setOpaque(false);
 
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
@@ -46,6 +48,10 @@ public class AccountPanel extends JPanel {
         }
         catch(Exception e){}
         add(title, BorderLayout.WEST);
+
+        JPanel buttonPnl = new JPanel();
+        buttonPnl.setLayout(new BoxLayout(buttonPnl, BoxLayout.X_AXIS));
+        buttonPnl.setOpaque(false);
 
         addSong = new JButton();
         addSong.setActionCommand("Add Song");
@@ -88,6 +94,7 @@ public class AccountPanel extends JPanel {
                 addSong.setForeground(oldColor);
             }
         });
+        if(user instanceof Artist) buttonPnl.add(addSong);
 
         addAlbum = new JButton();
         addAlbum.setActionCommand("Add Album");
@@ -130,6 +137,7 @@ public class AccountPanel extends JPanel {
                 addAlbum.setForeground(oldColor);
             }
         });
+        if(user instanceof Artist) buttonPnl.add(addAlbum);
 
         notif = new JButton();
         notif.setForeground(Color.white);
@@ -165,7 +173,7 @@ public class AccountPanel extends JPanel {
                 }
             }
         });
-
+        buttonPnl.add(notif);
 
         welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
         welcomeLbl.setOpaque(false);
@@ -210,6 +218,7 @@ public class AccountPanel extends JPanel {
                 welcomeLbl.setForeground(oldColor);
             }
         });
+        buttonPnl.add(welcomeLbl);
 
 //        logOut = new JButton("Log Out");
 //        logOut.setForeground(Color.white);
@@ -251,6 +260,7 @@ public class AccountPanel extends JPanel {
 //                ac.logOut();
 //            }
 //        });
+//        buttonPnl.add(logOut);
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
@@ -275,57 +285,57 @@ public class AccountPanel extends JPanel {
         }
         catch(Exception e){}
 
-        cons.insets = new Insets(5, 10, 0, 0);
-        cons.gridx = 0;
-        cons.gridy = 0;
-        cons.gridwidth = 1;
-        block.add(title, cons);
-        if(user instanceof Artist){
-            cons.insets = new Insets(5, 300, 0, 0);
-            cons.gridx = 5;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(addSong, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 6;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(addAlbum, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 7;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(notif, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 8;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(welcomeLbl, cons);
+//        cons.insets = new Insets(5, 10, 0, 0);
+//        cons.gridx = 0;
+//        cons.gridy = 0;
+//        cons.gridwidth = 1;
+//        block.add(title, cons);
+//        if(user instanceof Artist){
+//            cons.insets = new Insets(5, 300, 0, 0);
+//            cons.gridx = 5;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(addSong, cons);
+//            cons.insets = new Insets(5, 10, 0, 0);
+//            cons.gridx = 6;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(addAlbum, cons);
+//            cons.insets = new Insets(5, 10, 0, 0);
+//            cons.gridx = 7;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(notif, cons);
 //            cons.insets = new Insets(5, 10, 0, 0);
 //            cons.gridx = 8;
 //            cons.gridy = 0;
 //            cons.gridwidth = 1;
-//            block.add(logOut, cons);
-        }else if(user instanceof User){
-            cons.insets = new Insets(5, 300, 0, 0);
-            cons.gridx = 7;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(notif, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 8;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(welcomeLbl, cons);
+//            block.add(welcomeLbl, cons);
+////            cons.insets = new Insets(5, 10, 0, 0);
+////            cons.gridx = 8;
+////            cons.gridy = 0;
+////            cons.gridwidth = 1;
+////            block.add(logOut, cons);
+//        }else if(user instanceof User){
+//            cons.insets = new Insets(5, 300, 0, 0);
+//            cons.gridx = 7;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(notif, cons);
 //            cons.insets = new Insets(5, 10, 0, 0);
 //            cons.gridx = 8;
 //            cons.gridy = 0;
 //            cons.gridwidth = 1;
-//            block.add(logOut, cons);
-        }
+//            block.add(welcomeLbl, cons);
+////            cons.insets = new Insets(5, 10, 0, 0);
+////            cons.gridx = 8;
+////            cons.gridy = 0;
+////            cons.gridwidth = 1;
+////            block.add(logOut, cons);
+//        }
+//        add(block);
 
-        setOpaque(false);
-        add(block);
+        add(buttonPnl, BorderLayout.EAST);
     }
 
     private void PopupMenu(){
