@@ -2,6 +2,7 @@ package controller;
 
 import dao.*;
 import model.*;
+import net.Client;
 import view.*;
 
 import javax.media.*;
@@ -14,6 +15,7 @@ import java.util.*;
 public class PlayerController implements ControllerListener, ActionListener {
     private MainController mc;
 
+    private Client client;
     private Player player = null;
     private ArrayList<Song> songs;
     private Stack<Song> played;
@@ -25,6 +27,7 @@ public class PlayerController implements ControllerListener, ActionListener {
     public PlayerController(MainController mc)
     {
         this.mc = mc;
+        client = mc.getClient();
         clearQueue();
         pp = new PlayerPanel(this);
     }
@@ -138,7 +141,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         System.out.println("Incremented play count of " + song.getName() + " to " + song.getPlayTime());*/
         unplayed.remove(song);
         played.push(song);
-        File wav = song.getWAV();
+        File wav = client.getSongFile(song.getSongId());
         Album a = song.getAlbum();
 
         try {

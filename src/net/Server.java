@@ -228,7 +228,7 @@ final class Server {
 
     void updateAlbum(Album album){
         try {
-            ((AlbumDAO)albumDAOFactory.getDAO()).delete(album);
+            ((AlbumDAO)albumDAOFactory.getDAO()).update(album);
         } catch (IllegalArgumentException e) {
             System.out.println("Song was not added.");
         }
