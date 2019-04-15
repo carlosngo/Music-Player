@@ -48,7 +48,8 @@ public final class Client {
         Song song = null;
         try {
             song = Song.parseSong(inFromServer.readLine());
-//            song.setWAV(getSongFile(songId));
+            song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
+            song.setArtist(getArtist(song.getArtist().getArtistId()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,12 +170,13 @@ public final class Client {
     public Playlist getPlaylist(int playlistId) {
         outToServer.println(Protocol.GETPLAYLIST);
         outToServer.println(playlistId);
+        Playlist playlist = null;
         try {
-            return Playlist.parsePlaylist(inFromServer.readLine());
+            playlist = Playlist.parsePlaylist(inFromServer.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return playlist;
     }
 
     public ArrayList<Playlist> getPlaylists() {
@@ -494,7 +496,7 @@ public final class Client {
         outToServer.println(songId);
         File dir = new File("resources/songs");
         dir.mkdirs();
-        File wav = new File(dir, songId + "");
+        File wav = new File(dir, songId + ".wav");
         FileUtil.downloadFile(socket, inFromServer, outToServer, wav);
         return wav;
     }

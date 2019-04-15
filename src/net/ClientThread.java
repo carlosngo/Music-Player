@@ -349,6 +349,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case GETSONGFILE:
                         song = server.getSong(Integer.parseInt(in.readLine()));
+                        System.out.println("Sending song " + song + " to the client.");
                         File wav = song.getWAV();
                         FileUtil.uploadFile(socket, in, out, wav);
                         break;
