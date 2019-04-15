@@ -32,6 +32,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         setLayout(new BorderLayout());
         JPanel p = new JPanel();
         p.setLayout(new BorderLayout());
+        p.setOpaque(false);
         searchBarPnl = new JPanel();
         searchBarPnl.setLayout(new BoxLayout(searchBarPnl, BoxLayout.X_AXIS));
         searchBarPnl.setOpaque(false);
