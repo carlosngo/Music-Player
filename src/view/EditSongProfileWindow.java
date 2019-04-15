@@ -180,9 +180,9 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         add(p);
 
         titleInput.setText(song.getName());
-        albumChoices.setSelectedItem(song.getAlbum().getName());
+        if(song.getAlbum() != null) albumChoices.setSelectedItem(song.getAlbum().getName());
         artistInput.setText(song.getArtist().getName());
-        yearInput.setText(""+song.getYear());
+        if(song.getYear()!=0) yearInput.setText(""+song.getYear());
         genreChoices.setSelectedItem(song.getGenre());
         setVisible(true);
         setResizable(false);

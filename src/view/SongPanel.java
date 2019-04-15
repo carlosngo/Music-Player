@@ -59,6 +59,7 @@ public class SongPanel extends JPanel implements ActionListener{
             _dataContent.add(s.getGenre());
             _dataContent.add(""+s.getDateCreated());
             _dataContent.add(""+s.getPlayTime());
+            System.out.println(s.getArtist().toString());
             System.out.println(s.getAlbum().toString());
             data.add(_dataContent);
         }
@@ -902,7 +903,8 @@ public class SongPanel extends JPanel implements ActionListener{
                     case "edit":
                         Song songForEdit = null;
                         for(Song song : songs){
-                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow).get(7))) songForEdit = song;
+                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+                            System.out.println(song.toString());
                         }
                         controller.openEditSongProfileWindow(songForEdit, currentRow);
                         break;
