@@ -47,7 +47,9 @@ public final class FileUtil {
             os.write(mybytearray, 0, mybytearray.length);
             os.flush();
             System.out.println("File successfully uploaded.");
-            if (in.readLine().equals(Protocol.OK)) System.out.println("Destination receieved the file.");
+            String response = in.readLine();
+            System.out.println(response);
+            if (response.equals(Protocol.OK)) System.out.println("Destination receieved the file.");
             else System.out.println("Destination did not receive the file.");
         } catch (IOException e) {
             e.printStackTrace();

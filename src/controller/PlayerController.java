@@ -141,6 +141,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         System.out.println("Incremented play count of " + song.getName() + " to " + song.getPlayTime());*/
         unplayed.remove(song);
         played.push(song);
+//        File wav = song.getWAV();
         File wav = client.getSongFile(song.getSongId());
         Album a = song.getAlbum();
 
@@ -234,8 +235,8 @@ public class PlayerController implements ControllerListener, ActionListener {
 
         SongDAO songDAO = (SongDAO) new SongDAOFactory().getDAO();
         ArrayList<Song> queue = new ArrayList<>();
-        queue.add(songDAO.find(4));
-        queue.add(songDAO.find(5));
+        queue.add(songDAO.find(18));
+//        queue.add(songDAO.find(5));
         pc.setSongs(queue);
         pc.startPlayer();
 //        PlayerThread pt = new PlayerThread(pc, queue);
