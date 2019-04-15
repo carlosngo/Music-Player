@@ -83,7 +83,7 @@ public class EditAlbumWindow extends JFrame implements ActionListener, DocumentL
         selectFile.setOpaque(true);
         selectFile.setBorderPainted(false);
         selectFile.addActionListener(this);
-        selectFile.setEnabled(false);
+        selectFile.setEnabled(true);
         fileReaderPnl.add(selectFile);
         selectedFileName = new JLabel();
         selectedFileName.setFont(new Font("Arial", Font.PLAIN, 22));
