@@ -369,6 +369,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(Protocol.OK);
                             reply.append("\n");
                             reply.append(user);
+                            reply.append("\n");
+                            reply.append(user.getAccount());
                         }
                         break;
                     case LOGOUT:

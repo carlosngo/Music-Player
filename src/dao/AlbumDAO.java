@@ -17,10 +17,10 @@ import util.BlobToFile;
 public class AlbumDAO implements DataAccessObject {
 	private DAOFactory db;
 
-	private static final String SQL_INSERT = "INSERT INTO album (FK_ArtistID, Name, Cover, DateCreated) VALUES (?, ?, ?, ?)";
-	private static final String SQL_DELETE = "DELETE FROM album WHERE PK_AlbumID = ?";
-	private static final String SQL_UPDATE = "UPDATE album SET FK_ArtistID = ?, Name = ?, Cover = ? WHERE PK_AlbumID = ?";
-	private static final String SQL_FIND_BY_ID = "SELECT * FROM album WHERE PK_AlbumID = ?";
+	private static final String SQL_INSERT = "INSERT INTO "+ Database.ALBUM_TABLE +" (FK_ArtistID, Name, Cover, DateCreated) VALUES (?, ?, ?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM "+ Database.ALBUM_TABLE +" WHERE PK_AlbumID = ?";
+	private static final String SQL_UPDATE = "UPDATE "+ Database.ALBUM_TABLE +" SET FK_ArtistID = ?, Name = ?, Cover = ? WHERE PK_AlbumID = ?";
+	private static final String SQL_FIND_BY_ID = "SELECT * FROM "+ Database.ALBUM_TABLE +" WHERE PK_AlbumID = ?";
 	private static final String SQL_FIND_BY_NAME_ARTIST_ID = "SELECT * FROM " + Database.ALBUM_TABLE + " WHERE Name = ? AND FK_ArtistID = ?";
 	private static final String SQL_LIST_BY_ID = "SELECT * FROM " + Database.ALBUM_TABLE;
 	private static final String SQL_LIST_BY_ARTIST_NAME = "SELECT * FROM " + Database.ALBUM_TABLE + " INNER JOIN " + Database.ARTIST_TABLE 

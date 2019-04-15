@@ -142,6 +142,7 @@ public class PlaylistDAO implements DataAccessObject {
 				//playlist.getUser().getUserId(),
 				playlist.getAccount().getId(),
 				playlist.getName(),
+				playlist.getDateCreated(),
 				playlist.getPlaylistId()
 		};
 		Connection connection = Database.getConnection();

@@ -342,11 +342,10 @@ final class Server {
         Account account = ((AccountDAO)accountDAOFactory.getDAO()).find(username, password);
         if (account == null) return null;
         User user = ((UserDAO)userDAOFactory.getDAO()).findByAccountID(account.getId());
-        System.out.println(user);
-        System.out.println(account);
         if (user == null) user = ((ArtistDAO)artistDAOFactory.getDAO()).findByAccountID(account.getId());
-        System.out.println(user);
         if (user != null) onlineUsers.put(user.getAccount().getId(), thread);
+        System.out.println(user);
+        System.out.println(user.getAccount());
         return user;
     }
 
