@@ -23,7 +23,7 @@ public class SongController {
     private SongPanel sp;
     private CategoryPanel cp;
     private BrowserPanel bp;
-
+    private EditAlbumWindow eaw;
     private Client client;
     private User user;
 
@@ -78,8 +78,12 @@ public class SongController {
     }
 
 
-    public void openEditCategoryWindow(String category, Object obj) {
+    public void openEditPlaylistWindow(String category, Object obj) {
         ecw = new EditCategoryWindow(this, category, obj);
+    }
+
+    public void openEditAlbumWindow(SongController sc, Album obj) {
+        eaw = new EditAlbumWindow(this, obj);
     }
 
     // play song at index of displayedSongs

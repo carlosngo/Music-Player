@@ -55,6 +55,9 @@ public class SongPanel extends JPanel implements ActionListener{
             _dataContent.add(s.getName());
             _dataContent.add(s.getAlbum().getName());
             _dataContent.add(s.getArtist().getName());
+
+            System.out.println(s.getAlbum().getName());
+
             _dataContent.add(""+s.getYear());
             _dataContent.add(s.getGenre());
             _dataContent.add(""+s.getDateCreated());
@@ -68,6 +71,9 @@ public class SongPanel extends JPanel implements ActionListener{
             biodataContent = new ArrayList<String>();
             biodataContent.add(s.getName());
             biodataContent.add(s.getAlbum().getName());
+
+            System.out.println(s.getAlbum().getName());
+
             biodataContent.add(s.getArtist().getName());
             biodataContent.add(""+s.getYear());
             biodataContent.add(s.getGenre());
