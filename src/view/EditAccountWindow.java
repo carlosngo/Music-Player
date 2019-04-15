@@ -240,7 +240,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
 
         if (e.getSource() == save){
             Calendar c = Calendar.getInstance();
-            c.set(yr.getSelectedIndex() + 2000, mon.getSelectedIndex() - 1, day.getSelectedIndex());
+            c.set(yr.getSelectedIndex() + 1999, mon.getSelectedIndex() - 1, day.getSelectedIndex());
             controller.updateUser(usernameInput.getText(), pw, firstNameInput.getText(),
                     lastNameInput.getText(), (String)gender.getSelectedItem(), c.getTime());
             dispose();

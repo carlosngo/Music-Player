@@ -107,13 +107,18 @@ public class Dashboard extends JFrame {
         CardLayout cl = (CardLayout)(centerPanel.getLayout());
         if (panelToShow instanceof SongPanel) {
             SongPanel sp = (SongPanel)panelToShow;
-            centerPanel.remove(songPanel);
+            centerPanel.removeAll();
             centerPanel.add(sp, SONG_PANEL);
             cl.show(centerPanel, SONG_PANEL);
         } else if (panelToShow instanceof CategoryPanel) {
             CategoryPanel cp = (CategoryPanel)panelToShow;
-            centerPanel.remove(categoryPanel);
+            centerPanel.removeAll();
             centerPanel.add(cp, CATEGORY_PANEL);
+            cl.show(centerPanel, CATEGORY_PANEL);
+        } else if (panelToShow instanceof BrowserPanel) {
+            BrowserPanel bp = (BrowserPanel)panelToShow;
+            centerPanel.removeAll();
+            centerPanel.add(bp, CATEGORY_PANEL);
             cl.show(centerPanel, CATEGORY_PANEL);
         }
         update();

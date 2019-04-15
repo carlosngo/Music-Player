@@ -53,19 +53,13 @@ public class SongPanel extends JPanel implements ActionListener{
         for(Song s : songs){
             _dataContent = new ArrayList<String>();
             _dataContent.add(s.getName());
-            System.out.println(s.getName());
             _dataContent.add(s.getAlbum().getName());
-            System.out.println(s.getAlbum().getName());
             _dataContent.add(s.getArtist().getName());
-            System.out.println(s.getArtist().getName());
             _dataContent.add(""+s.getYear());
-            System.out.println(s.getYear());
             _dataContent.add(s.getGenre());
-            System.out.println(s.getGenre());
             _dataContent.add(""+s.getDateCreated());
-            System.out.println(s.getDateCreated());
             _dataContent.add(""+s.getPlayTime());
-            System.out.println(s.getPlayTime());
+            System.out.println(s.getAlbum().toString());
             data.add(_dataContent);
         }
 
@@ -74,21 +68,13 @@ public class SongPanel extends JPanel implements ActionListener{
         for(Song s : songs){
             biodataContent = new ArrayList<String>();
             biodataContent.add(s.getName());
-            System.out.println(s.getName());
             biodataContent.add(s.getAlbum().getName());
-            System.out.println(s.getAlbum().getName());
             biodataContent.add(s.getArtist().getName());
-            System.out.println(s.getArtist().getName());
             biodataContent.add(""+s.getYear());
-            System.out.println(s.getYear());
             biodataContent.add(s.getGenre());
-            System.out.println(s.getGenre());
             biodataContent.add(""+s.getDateCreated());
-            System.out.println(s.getDateCreated());
             biodataContent.add(""+s.getPlayTime());
-            System.out.println(s.getPlayTime());
             biodataContent.add(""+ s.getSongId()); //index 7
-            System.out.println(s.getSongId());
             biodata.add(biodataContent);
         }
 
