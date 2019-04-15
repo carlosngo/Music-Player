@@ -256,7 +256,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isBlank())
+        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isEmpty())
             saveSong.setEnabled(false);
         else
             selectFile.setEnabled(true);
@@ -264,7 +264,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isBlank())
+        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isEmpty())
             saveSong.setEnabled(false);
         else
             selectFile.setEnabled(true);
@@ -272,7 +272,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isBlank())
+        if (songTitleInput.getText().isEmpty() || selectedFileName.getText().isEmpty())
             saveSong.setEnabled(false);
         else
             selectFile.setEnabled(true);
