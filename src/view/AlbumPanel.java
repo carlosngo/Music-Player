@@ -34,8 +34,8 @@ public class AlbumPanel extends CategoryPanel {
             add(emptyLabel);
         }
         else{
-            for(Album object : objects){
-                addRow(category, object);
+            for(i=0 ; i<objects.size() ; i++){
+                addRow(category, objects.get(i));
             }
             add(scroll);
         }
