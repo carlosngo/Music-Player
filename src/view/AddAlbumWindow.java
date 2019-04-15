@@ -59,19 +59,19 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
         selectFile = new JButton("Select Cover Photo");
         selectFile.setFont(new Font("Arial", Font.PLAIN, 24));
         selectFile.setForeground(Color.white);
-        selectFile.setBackground(new Color(1,121,150));
+        selectFile.setBackground(new Color(1, 121, 150));
         selectFile.setOpaque(true);
         selectFile.setBorderPainted(false);
         selectFile.addActionListener(this);
-        selectFile.setEnabled(false);
+        selectFile.setEnabled(true);
         fileReaderPnl.add(selectFile);
         selectedFileName = new JLabel();
         selectedFileName.setFont(new Font("Arial", Font.PLAIN, 22));
         selectedFileName.setForeground(Color.white);
-        fileReaderPnl.add(Box.createRigidArea(new Dimension(5,0)));
+        fileReaderPnl.add(Box.createRigidArea(new Dimension(5, 0)));
         fileReaderPnl.add(selectedFileName);
         p.add(fileReaderPnl);
-        p.add(Box.createRigidArea(new Dimension(0,7)));
+        p.add(Box.createRigidArea(new Dimension(0, 7)));
 
         JPanel buttonsPnl = new JPanel();
         buttonsPnl.setLayout(new BoxLayout(buttonsPnl, BoxLayout.X_AXIS));
@@ -110,7 +110,7 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
 
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == selectFile){
+        if (e.getSource() == selectFile) {
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Choose Cover Photo");
 //            chooser.addChoosableFileFilter(new FileNameExtensionFilter(
@@ -121,55 +121,51 @@ public class AddAlbumWindow extends JFrame implements ActionListener, DocumentLi
                 String filename = file.getName();
                 String extension = filename.substring(filename.lastIndexOf('.'), filename.length());
                 selectedFile = file;
-                if(filename.length() > 10)
-                    selectedFileName.setText("" + filename.substring(0,10) + "...");
+                if (filename.length() > 10)
+                    selectedFileName.setText("" + filename.substring(0, 10) + "...");
                 else
-                    selectedFileName.setText(""+filename);
-            }
-            else
-                JOptionPane.showMessageDialog(null,"Invalid file","Error loading file", JOptionPane.INFORMATION_MESSAGE);
+                    selectedFileName.setText("" + filename);
+            } else
+                JOptionPane.showMessageDialog(null, "Invalid file", "Error loading file", JOptionPane.INFORMATION_MESSAGE);
 
         }
         if (e.getSource() == cancel) {
             dispose();
         }
         if (e.getSource() == save) {
-            if(selectedFile != null) controller.addAlbum(nameInput.getText(), selectedFile);
+            if (selectedFile != null) controller.addAlbum(nameInput.getText(), selectedFile);
             else controller.addAlbum(nameInput.getText(), null);
             dispose();
         }
     }
 
     public void insertUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty()){
+        if (nameInput.getText().isEmpty()) {
             save.setEnabled(false);
-            selectFile.setEnabled(false);
-        }
-        else{
+            //selectFile.setEnabled(false);
+        } else {
             save.setEnabled(true);
-            selectFile.setEnabled(true);
+            //selectFile.setEnabled(true);
         }
     }
 
     public void removeUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty()){
+        if (nameInput.getText().isEmpty()) {
             save.setEnabled(false);
-            selectFile.setEnabled(false);
-        }
-        else{
+            //selectFile.setEnabled(false);
+        } else {
             save.setEnabled(true);
-            selectFile.setEnabled(true);
+            //selectFile.setEnabled(true);
         }
     }
 
     public void changedUpdate(DocumentEvent e) {
-        if (nameInput.getText().isEmpty()){
+        if (nameInput.getText().isEmpty()) {
             save.setEnabled(false);
-            selectFile.setEnabled(false);
-        }
-        else{
+            //selectFile.setEnabled(false);
+        } else {
             save.setEnabled(true);
-            selectFile.setEnabled(true);
+            //selectFile.setEnabled(true);
         }
     }
 }
