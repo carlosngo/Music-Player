@@ -26,6 +26,7 @@ public class AlbumPanel extends CategoryPanel {
             blankMessage.setForeground(Color.white);
             blankMessage.setFont(new Font("Arial", Font.BOLD, 22));
             headerPnl.add(blankMessage, BorderLayout.CENTER);
+            //scroll.removeAll();
 //            cons.insets = new Insets(10, 10, 2, 10);
 //            cons.gridx = 0;
 //            cons.gridy = 0;
