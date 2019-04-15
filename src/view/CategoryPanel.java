@@ -39,7 +39,7 @@ public abstract class CategoryPanel extends JPanel {
         scroll = new JScrollPane(block);
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
-        scroll.setPreferredSize(new Dimension(50,100));
+        //scroll.setPreferredSize(new Dimension(50,100));
         add(scroll, BorderLayout.CENTER);
     }
 
