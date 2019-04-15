@@ -90,7 +90,7 @@ public class SongPanel extends JPanel implements ActionListener{
             headerName = new JLabel(header.toUpperCase());
             headerName.setFont(new Font("Arial", Font.BOLD, 26));
             headerName.setForeground(Color.white);
-            headerPnl.add(headerName, BorderLayout.WEST);
+            //headerPnl.add(headerName, BorderLayout.WEST);
             //headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
             headerPnl.add(headerName, BorderLayout.NORTH);
             JLabel blankMessage = new JLabel("No songs to show.");
