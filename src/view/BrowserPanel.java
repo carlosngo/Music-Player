@@ -23,14 +23,15 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
     //isInputted is true if the browser page is used as a search results page
     public BrowserPanel(SongController sc, User user, boolean isInputted){
         controller = sc;
-        setOpaque(false);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         infoPnl = new InfoPanel(sc, user);
         init(infoPnl);
     }
 
     public void init(InfoPanel ip){
+        setOpaque(false);
+        setLayout(new BorderLayout());
+        JPanel p = new JPanel();
+        p.setLayout(new BorderLayout());
         searchBarPnl = new JPanel();
         searchBarPnl.setLayout(new BoxLayout(searchBarPnl, BoxLayout.X_AXIS));
         searchBarPnl.setOpaque(false);
@@ -50,19 +51,18 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         search.setBorderPainted(false);
         search.setEnabled(false);
         searchBarPnl.add(search);
-        add(searchBarPnl);
-        add(Box.createRigidArea(new Dimension(0,7)));
+        p.add(searchBarPnl, BorderLayout.NORTH);
         searchResultsTitle = new JLabel();
         searchResultsTitle.setForeground(Color.white);
         searchResultsTitle.setFont(new Font("Arial", Font.BOLD, 22));
         searchResultsTitle.setVisible(false);
-        add(searchResultsTitle);
-
+        p.add(searchResultsTitle, BorderLayout.CENTER);
+        add(p, BorderLayout.NORTH);
         card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setOpaque(false);
         card.add(ip);
-        add(card);
+        add(card, BorderLayout.CENTER);
     }
 
     @Override
@@ -73,8 +73,8 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
             removeAll();
             newInfoPnl = new InfoPanel(controller, sInput);
             init(newInfoPnl);
-            //setInput(sInput);
-            //setSearchResultsTitle();
+            setInput(sInput);
+            revealSearchResultsTitle();
             revalidate();
             repaint();
         }
@@ -84,7 +84,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         input.setText(s);
     }
 
-    public void setSearchResultsTitle(){
+    public void revealSearchResultsTitle(){
         searchResultsTitle.setText("Search Results");
     }
 
