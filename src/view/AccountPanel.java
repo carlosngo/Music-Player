@@ -16,11 +16,12 @@ import java.net.URL;
 
 //icon, and header buttons
 public class AccountPanel extends JPanel {
-    private JButton addSong, addAlbum, logIn, signUp, editAccount, logOut;
+    private JButton addSong, addAlbum, welcomeLbl, notif, logIn, signUp, editAccount, logOut;
     private AccountController ac;
     protected JPanel block;
     private GridBagConstraints cons;
     private String name;
+    private JPopupMenu settingsMenu;
 
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
@@ -130,7 +131,43 @@ public class AccountPanel extends JPanel {
             }
         });
 
-        JButton welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
+        notif = new JButton();
+        notif.setForeground(Color.white);
+        notif.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //notif
+            }
+        });
+        notif.setOpaque(false);
+        notif.setContentAreaFilled(false);
+        notif.setBorderPainted(false);
+//        notif.setMaximumSize(new Dimension(200, 40));
+//        notif.setMinimumSize(new Dimension(200, 40));
+//        notif.setPreferredSize(new Dimension(200, 40));
+        notif.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAddSong.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+                } catch(Exception exception){
+
+                }
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/addSong.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+                } catch(Exception exception){
+
+                }
+            }
+        });
+
+
+        welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
         welcomeLbl.setOpaque(false);
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
@@ -142,7 +179,10 @@ public class AccountPanel extends JPanel {
         welcomeLbl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ac.openEditAccountWindow();
+                //ac.openEditAccountWindow();
+                PopupMenu();
+                settingsMenu.show(welcomeLbl, welcomeLbl.getBounds().x - (welcomeLbl.getBounds().width),
+                        welcomeLbl.getBounds().y + (welcomeLbl.getBounds().height));
             }
         });
         welcomeLbl.addMouseListener(new MouseAdapter() {
@@ -171,46 +211,46 @@ public class AccountPanel extends JPanel {
             }
         });
 
-        logOut = new JButton("Log Out");
-        logOut.setForeground(Color.white);
-        logOut.setOpaque(false);
-        logOut.setContentAreaFilled(false);
-        logOut.setBorderPainted(false);
-        logOut.setMaximumSize(new Dimension(150, 40));
-        logOut.setMinimumSize(new Dimension(150, 40));
-        logOut.setPreferredSize(new Dimension(150, 40));
-        logOut.setFont(new Font("Arial", Font.BOLD, 14));
-        logOut.addMouseListener(new MouseAdapter() {
-            Color oldColor = logOut.getForeground();
-            public void mouseEntered(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/cyanLogOut.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                    logOut.setText("Log Out");
-                } catch(Exception exception){
-
-                }
-                logOut.setForeground(new Color(0,255,255));
-            }
-            public void mouseExited(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/logOut.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                    logOut.setText("Log Out");
-                } catch(Exception exception){
-
-                }
-                logOut.setForeground(oldColor);
-            }
-        });
-        logOut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.logOut();
-            }
-        });
+//        logOut = new JButton("Log Out");
+//        logOut.setForeground(Color.white);
+//        logOut.setOpaque(false);
+//        logOut.setContentAreaFilled(false);
+//        logOut.setBorderPainted(false);
+//        logOut.setMaximumSize(new Dimension(150, 40));
+//        logOut.setMinimumSize(new Dimension(150, 40));
+//        logOut.setPreferredSize(new Dimension(150, 40));
+//        logOut.setFont(new Font("Arial", Font.BOLD, 14));
+//        logOut.addMouseListener(new MouseAdapter() {
+//            Color oldColor = logOut.getForeground();
+//            public void mouseEntered(MouseEvent e) {
+//                try{
+//                    URL resource = getClass().getClassLoader().getResource("images/cyanLogOut.png");
+//                    BufferedImage img = ImageIO.read(resource);
+//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+//                    logOut.setText("Log Out");
+//                } catch(Exception exception){
+//
+//                }
+//                logOut.setForeground(new Color(0,255,255));
+//            }
+//            public void mouseExited(MouseEvent e) {
+//                try{
+//                    URL resource = getClass().getClassLoader().getResource("images/logOut.png");
+//                    BufferedImage img = ImageIO.read(resource);
+//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+//                    logOut.setText("Log Out");
+//                } catch(Exception exception){
+//
+//                }
+//                logOut.setForeground(oldColor);
+//            }
+//        });
+//        logOut.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                ac.logOut();
+//            }
+//        });
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
@@ -227,8 +267,8 @@ public class AccountPanel extends JPanel {
             addAlbum.setText("Add Album");
             resource = getClass().getClassLoader().getResource("images/logOut.png");
             img = ImageIO.read(resource);
-            logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-            logOut.setText("Log Out");
+//            logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+//            logOut.setText("Log Out");
         }
         catch(Exception e){}
 
@@ -252,27 +292,81 @@ public class AccountPanel extends JPanel {
             cons.gridx = 7;
             cons.gridy = 0;
             cons.gridwidth = 1;
-            block.add(welcomeLbl, cons);
+            block.add(notif, cons);
             cons.insets = new Insets(5, 10, 0, 0);
             cons.gridx = 8;
             cons.gridy = 0;
             cons.gridwidth = 1;
-            block.add(logOut, cons);
+            block.add(welcomeLbl, cons);
+//            cons.insets = new Insets(5, 10, 0, 0);
+//            cons.gridx = 8;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(logOut, cons);
         }else if(user instanceof User){
             cons.insets = new Insets(5, 300, 0, 0);
             cons.gridx = 7;
             cons.gridy = 0;
             cons.gridwidth = 1;
-            block.add(welcomeLbl, cons);
+            block.add(notif, cons);
             cons.insets = new Insets(5, 10, 0, 0);
             cons.gridx = 8;
             cons.gridy = 0;
             cons.gridwidth = 1;
-            block.add(logOut, cons);
+            block.add(welcomeLbl, cons);
+//            cons.insets = new Insets(5, 10, 0, 0);
+//            cons.gridx = 8;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(logOut, cons);
         }
 
         setOpaque(false);
         add(block);
+    }
+
+    private void PopupMenu(){
+
+        settingsMenu = new JPopupMenu();
+        JMenuItem settings = new JMenuItem("Settings");
+        settings.setActionCommand("settings");
+
+        JMenuItem logOut = new JMenuItem("Log Out");
+        logOut.setActionCommand("logOut");
+
+        MenuItemListener menuItemListener = new MenuItemListener();
+
+        settings.addActionListener(menuItemListener);
+        logOut.addActionListener(menuItemListener);
+
+        settingsMenu.add(settings);
+        settingsMenu.add(logOut);
+
+        try{
+            URL resource = getClass().getClassLoader().getResource("images/settings.png");
+            BufferedImage img = ImageIO.read(resource);
+            settings.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            resource = getClass().getClassLoader().getResource("images/logOut.png");
+            img = ImageIO.read(resource);
+            logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+        }
+        catch(Exception e){
+
+        }
+
+    }
+    class MenuItemListener implements ActionListener {
+        int choice;
+        public void actionPerformed(ActionEvent e) {
+            switch (e.getActionCommand()){
+                case "settings":
+                    ac.openEditAccountWindow();
+                    break;
+                case "logOut":
+                    ac.logOut();
+                    break;
+            }
+        }
     }
 
     public void update() {
