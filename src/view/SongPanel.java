@@ -135,15 +135,18 @@ public class SongPanel extends JPanel implements ActionListener{
                         TableCellRenderer renderer, int row, int column)
                 {
                     Component c = super.prepareRenderer(renderer, row, column);
+                    //setCurrentRow(row);
 
-                    if (isRowSelected(row))
+                    if (isRowSelected(row)){
                         c.setBackground(Color.LIGHT_GRAY);
-                    if (!isRowSelected(row))
+                    }
+                    else
                         c.setBackground(Color.BLACK);
 
                     return c;
                 }
             };
+            categoryTable.setRowSelectionAllowed(true);
             categoryTable.setShowGrid(false);
             categoryTable.setIntercellSpacing(new Dimension(0, 0));
             //categoryTable.setShowVerticalLines(false);
@@ -178,12 +181,13 @@ public class SongPanel extends JPanel implements ActionListener{
                     JTable table = (JTable) me.getSource();
                     Point p = me.getPoint();
                     setCurrentRow(table.rowAtPoint(p));
+
                 }
             });
             //categoryTable.getColumn(0).setPreferredWidth(50);
             //categoryTable.getColumn(1).setPreferredWidth(50);
             categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{
-                setOpaque(false);
+                setOpaque(true);
             }});
             //((DefaultTableCellRenderer)categoryTable.getDefaultRenderer(Object.class)).setOpaque(false);
             //categoryTable.setShowGrid(false);
@@ -259,21 +263,23 @@ public class SongPanel extends JPanel implements ActionListener{
         for(int i=0 ; i<data.size() ; i++){
             model.add(data.get(i));
         }
-        categoryTable = new JTable(model)
-        {
+        categoryTable = new JTable(model){
             public Component prepareRenderer(
                     TableCellRenderer renderer, int row, int column)
             {
                 Component c = super.prepareRenderer(renderer, row, column);
+                //setCurrentRow(row);
 
-                if (isRowSelected(row))
+                if (isRowSelected(row)){
                     c.setBackground(Color.LIGHT_GRAY);
-                if (!isRowSelected(row))
+                }
+                else
                     c.setBackground(Color.BLACK);
 
                 return c;
             }
         };
+        categoryTable.setBackground(Color.BLACK);
         categoryTable.setShowGrid(false);
         renderer = new SongPanel.ActionPaneRenderer();
         categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
@@ -286,7 +292,7 @@ public class SongPanel extends JPanel implements ActionListener{
         tableHeader.setForeground(Color.WHITE);
         tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
         categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-        categoryTable.setOpaque(false);
+        categoryTable.setOpaque(true);
         categoryTable.setRowHeight(30);
 
         categoryTable.addMouseListener(new MouseAdapter() {
@@ -297,7 +303,7 @@ public class SongPanel extends JPanel implements ActionListener{
             }
         });
 
-        categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(false); }});
+        categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{ setOpaque(true); }});
         scroll = new JScrollPane(categoryTable);
         scroll.getViewport().setOpaque(false);
         scroll.setOpaque(false);
@@ -919,8 +925,10 @@ public class SongPanel extends JPanel implements ActionListener{
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             if (isSelected) {
+                //table.setBackground(Color.LIGHT_GRAY);
                 actionsPane.setBackground(table.getSelectionBackground());
             } else {
+                //table.setBackground(Color.BLACK);
                 actionsPane.setBackground(table.getBackground());
             }
             return actionsPane;
