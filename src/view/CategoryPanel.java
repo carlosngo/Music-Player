@@ -9,24 +9,27 @@ import java.util.ArrayList;
 public abstract class CategoryPanel extends JPanel {
     protected SongController controller;
     protected JScrollPane scroll;
-    protected JPanel block;
+    protected JPanel block, headerPnl;
     protected GridBagConstraints cons;
     protected int i;
     protected String category;
     private boolean isNormalPlaylist = false;
-    private JLabel headerName;
+    protected JLabel headerName;
 
     public CategoryPanel(SongController controller, String category){
         this.controller = controller;
         this.category = category;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
         setOpaque(false);
-        add(Box.createRigidArea(new Dimension(0,7)));
-        headerName = new JLabel((category).toUpperCase());
+
+        headerPnl = new JPanel();
+        headerPnl.setLayout(new BorderLayout());
+        headerPnl.setOpaque(false);
+        headerName = new JLabel(category.toUpperCase());
         headerName.setFont(new Font("Arial", Font.BOLD, 26));
         headerName.setForeground(Color.white);
-        add(headerName);
-        add(Box.createRigidArea(new Dimension(0,10)));
+        headerPnl.add(headerName, BorderLayout.NORTH);
+        add(headerPnl, BorderLayout.NORTH);
 
         block = new JPanel();
         block.setLayout(new GridBagLayout());
@@ -37,6 +40,7 @@ public abstract class CategoryPanel extends JPanel {
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
         scroll.setPreferredSize(new Dimension(50,100));
+        add(scroll, BorderLayout.CENTER);
     }
 
     public abstract void addRow(String category, Object obj);
