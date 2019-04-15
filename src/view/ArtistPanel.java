@@ -32,8 +32,8 @@ public class ArtistPanel extends CategoryPanel {
             add(emptyLabel);
         }
         else{
-            for(Artist object : objects){
-                addRow(category, object);
+            for(i=0 ; i<objects.size() ; i++){
+                addRow(category, objects.get(i));
             }
             add(scroll);
         }
