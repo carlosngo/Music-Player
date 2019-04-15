@@ -71,7 +71,9 @@ public class AccountController {
 	public boolean logIn(String username, String password) {
 		user = mc.getClient().logIn(username, password);
 		if (user == null) return false;
-		System.out.println("Hi, " + user.getFirstName());
+		System.out.println(user);
+		System.out.println(user.getAccount());
+		System.out.println("Hi, " + user.getAccount().getUserName());
 		accountPanel = new AccountPanel(this, user);
 		mc.getSongController().setUser(user);
 		mc.getSongController().showAllSongs();

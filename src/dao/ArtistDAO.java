@@ -220,9 +220,10 @@ public class ArtistDAO implements DataAccessObject {
 	}
 
 	public Artist map(ResultSet rs) throws SQLException {
+		AccountDAO accountDAO = (AccountDAO) new AccountDAOFactory().createDAO();
 		Artist artist = new Artist();
 		artist.setArtistId(rs.getInt("PK_ArtistID"));
-		artist.getAccount().setId(rs.getInt("FK_AccountID"));
+		artist.setAccount(accountDAO.find(rs.getInt("FK_AccountID")));
 		artist.setName(rs.getString("Name"));
 		artist.setGenre(rs.getString("Genre"));
 		return artist;

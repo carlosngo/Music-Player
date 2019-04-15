@@ -477,9 +477,11 @@ public final class Client {
     }
 
     public void setImageFile(int albumId, File img) {
-        outToServer.println(Protocol.SETIMAGEFILE);
-        outToServer.println(albumId);
-        FileUtil.uploadFile(socket, inFromServer, outToServer, img);
+        if (img != null) {
+            outToServer.println(Protocol.SETIMAGEFILE);
+            outToServer.println(albumId);
+            FileUtil.uploadFile(socket, inFromServer, outToServer, img);
+        }
     }
 
     public File getSongFile(int songId){
@@ -510,6 +512,7 @@ public final class Client {
                     String userInfo = inFromServer.readLine();
                     if (userInfo.split("\\|").length < 6) user = Artist.parseArtist(userInfo);
                     else user = User.parseUser(userInfo);
+                    user.setAccount(Account.parseAccount(inFromServer.readLine()));
                     break;
             }
         } catch (IOException e) {

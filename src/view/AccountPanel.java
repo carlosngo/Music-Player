@@ -130,7 +130,7 @@ public class AccountPanel extends JPanel {
             }
         });
 
-        JButton welcomeLbl = new JButton(ac.getUser().getUserName());
+        JButton welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
         welcomeLbl.setOpaque(false);
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
