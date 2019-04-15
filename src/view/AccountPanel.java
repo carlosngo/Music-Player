@@ -26,11 +26,13 @@ public class AccountPanel extends JPanel {
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
 
-        cons = new GridBagConstraints();
-        cons.fill = GridBagConstraints.HORIZONTAL;
-        block = new JPanel();
-        block.setLayout(new GridBagLayout());
-        block.setOpaque(false);
+//        cons = new GridBagConstraints();
+//        cons.fill = GridBagConstraints.HORIZONTAL;
+//        block = new JPanel();
+//        block.setLayout(new GridBagLayout());
+//        block.setOpaque(false);
+        setLayout(new BorderLayout());
+        setOpaque(false);
 
         JLabel title = new JLabel();
         title.setFont(new Font("Arial", Font.PLAIN, 38));
@@ -47,6 +49,10 @@ public class AccountPanel extends JPanel {
         catch(Exception e){}
         add(title, BorderLayout.WEST);
 
+        JPanel buttonPnl = new JPanel();
+        buttonPnl.setLayout(new BoxLayout(buttonPnl, BoxLayout.X_AXIS));
+        buttonPnl.setOpaque(false);
+
         addSong = new JButton();
         addSong.setActionCommand("Add Song");
         addSong.setForeground(Color.white);
@@ -59,9 +65,9 @@ public class AccountPanel extends JPanel {
         addSong.setOpaque(false);
         addSong.setContentAreaFilled(false);
         addSong.setBorderPainted(false);
-        addSong.setMaximumSize(new Dimension(150, 40));
-        addSong.setMinimumSize(new Dimension(150, 40));
-        addSong.setPreferredSize(new Dimension(150, 40));
+//        addSong.setMaximumSize(new Dimension(150, 40));
+//        addSong.setMinimumSize(new Dimension(150, 40));
+//        addSong.setPreferredSize(new Dimension(150, 40));
         addSong.setFont(new Font("Arial", Font.BOLD, 14));
         addSong.addMouseListener(new MouseAdapter() {
             Color oldColor = addSong.getForeground();
@@ -88,7 +94,10 @@ public class AccountPanel extends JPanel {
                 addSong.setForeground(oldColor);
             }
         });
-
+        if(user instanceof Artist){
+            buttonPnl.add(addSong);
+            buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
+        }
         addAlbum = new JButton();
         addAlbum.setActionCommand("Add Album");
         addAlbum.setForeground(Color.white);
@@ -101,9 +110,9 @@ public class AccountPanel extends JPanel {
         addAlbum.setOpaque(false);
         addAlbum.setContentAreaFilled(false);
         addAlbum.setBorderPainted(false);
-        addAlbum.setMaximumSize(new Dimension(150, 40));
-        addAlbum.setMinimumSize(new Dimension(150, 40));
-        addAlbum.setPreferredSize(new Dimension(150, 40));
+//        addAlbum.setMaximumSize(new Dimension(150, 40));
+//        addAlbum.setMinimumSize(new Dimension(150, 40));
+//        addAlbum.setPreferredSize(new Dimension(150, 40));
         addAlbum.setFont(new Font("Arial", Font.BOLD, 14));
         addAlbum.addMouseListener(new MouseAdapter() {
             Color oldColor = addAlbum.getForeground();
@@ -130,6 +139,10 @@ public class AccountPanel extends JPanel {
                 addAlbum.setForeground(oldColor);
             }
         });
+        if(user instanceof Artist){
+            buttonPnl.add(addAlbum);
+            buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
+        }
 
         notif = new JButton();
         notif.setForeground(Color.white);
@@ -165,16 +178,16 @@ public class AccountPanel extends JPanel {
                 }
             }
         });
-
-
+        buttonPnl.add(notif);
+        buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
         welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
         welcomeLbl.setOpaque(false);
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
         welcomeLbl.setForeground(Color.WHITE);
-        welcomeLbl.setMaximumSize(new Dimension(150, 40));
-        welcomeLbl.setMinimumSize(new Dimension(150, 40));
-        welcomeLbl.setPreferredSize(new Dimension(150, 40));
+//        welcomeLbl.setMaximumSize(new Dimension(150, 40));
+//        welcomeLbl.setMinimumSize(new Dimension(150, 40));
+//        welcomeLbl.setPreferredSize(new Dimension(150, 40));
         name = ac.getUser().getAccount().getUserName();
         welcomeLbl.addActionListener(new ActionListener() {
             @Override
@@ -210,6 +223,7 @@ public class AccountPanel extends JPanel {
                 welcomeLbl.setForeground(oldColor);
             }
         });
+        buttonPnl.add(welcomeLbl);
 
 //        logOut = new JButton("Log Out");
 //        logOut.setForeground(Color.white);
@@ -251,6 +265,7 @@ public class AccountPanel extends JPanel {
 //                ac.logOut();
 //            }
 //        });
+//        buttonPnl.add(logOut);
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
@@ -275,57 +290,57 @@ public class AccountPanel extends JPanel {
         }
         catch(Exception e){}
 
-        cons.insets = new Insets(5, 10, 0, 0);
-        cons.gridx = 0;
-        cons.gridy = 0;
-        cons.gridwidth = 1;
-        block.add(title, cons);
-        if(user instanceof Artist){
-            cons.insets = new Insets(5, 300, 0, 0);
-            cons.gridx = 5;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(addSong, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 6;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(addAlbum, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 7;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(notif, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 8;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(welcomeLbl, cons);
+//        cons.insets = new Insets(5, 10, 0, 0);
+//        cons.gridx = 0;
+//        cons.gridy = 0;
+//        cons.gridwidth = 1;
+//        block.add(title, cons);
+//        if(user instanceof Artist){
+//            cons.insets = new Insets(5, 300, 0, 0);
+//            cons.gridx = 5;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(addSong, cons);
+//            cons.insets = new Insets(5, 10, 0, 0);
+//            cons.gridx = 6;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(addAlbum, cons);
+//            cons.insets = new Insets(5, 10, 0, 0);
+//            cons.gridx = 7;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(notif, cons);
 //            cons.insets = new Insets(5, 10, 0, 0);
 //            cons.gridx = 8;
 //            cons.gridy = 0;
 //            cons.gridwidth = 1;
-//            block.add(logOut, cons);
-        }else if(user instanceof User){
-            cons.insets = new Insets(5, 300, 0, 0);
-            cons.gridx = 7;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(notif, cons);
-            cons.insets = new Insets(5, 10, 0, 0);
-            cons.gridx = 8;
-            cons.gridy = 0;
-            cons.gridwidth = 1;
-            block.add(welcomeLbl, cons);
+//            block.add(welcomeLbl, cons);
+////            cons.insets = new Insets(5, 10, 0, 0);
+////            cons.gridx = 8;
+////            cons.gridy = 0;
+////            cons.gridwidth = 1;
+////            block.add(logOut, cons);
+//        }else if(user instanceof User){
+//            cons.insets = new Insets(5, 300, 0, 0);
+//            cons.gridx = 7;
+//            cons.gridy = 0;
+//            cons.gridwidth = 1;
+//            block.add(notif, cons);
 //            cons.insets = new Insets(5, 10, 0, 0);
 //            cons.gridx = 8;
 //            cons.gridy = 0;
 //            cons.gridwidth = 1;
-//            block.add(logOut, cons);
-        }
+//            block.add(welcomeLbl, cons);
+////            cons.insets = new Insets(5, 10, 0, 0);
+////            cons.gridx = 8;
+////            cons.gridy = 0;
+////            cons.gridwidth = 1;
+////            block.add(logOut, cons);
+//        }
+//        add(block);
 
-        setOpaque(false);
-        add(block);
+        add(buttonPnl, BorderLayout.EAST);
     }
 
     private void PopupMenu(){
@@ -366,6 +381,7 @@ public class AccountPanel extends JPanel {
                     ac.openEditAccountWindow();
                     break;
                 case "logOut":
+                    ac.getMc().getDashboard().dispose();
                     ac.logOut();
                     break;
             }

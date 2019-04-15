@@ -77,7 +77,6 @@ public class SongController {
         espw = new EditSongProfileWindow(this, client.getAlbumsByArtist(((Artist)user).getArtistId()), song, selectedRow);
     }
 
-
     public void openEditPlaylistWindow(String category, Object obj) {
         ecw = new EditCategoryWindow(this, category, obj);
     }

@@ -32,7 +32,7 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         p.setBackground(new Color(0,0,0));
 
         p.add(Box.createRigidArea(new Dimension(0,15))); // add space
-        JLabel title = new JLabel("Log In");
+        JLabel title = new JLabel("Log In iPl4yer");
         title.setForeground(Color.WHITE);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Arial", Font.BOLD, 30));
@@ -91,8 +91,8 @@ public class LogInWindow extends JFrame implements ActionListener, DocumentListe
         cancel.setBackground(new Color(1,121,150));
         cancel.setOpaque(true);
         cancel.setBorderPainted(false);
-        p3.add(cancel);
-        p3.add(Box.createRigidArea(new Dimension(10,0))); // add space
+//        p3.add(cancel);
+//        p3.add(Box.createRigidArea(new Dimension(10,0))); // add space
         createAccount = new JButton("Register");
         createAccount.addActionListener(this);
         createAccount.setFont(new Font("Arial", Font.PLAIN, 24));
