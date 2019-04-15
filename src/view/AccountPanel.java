@@ -148,7 +148,7 @@ public class AccountPanel extends JPanel {
         notif.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("images/cyanAddSong.png");
+                    URL resource = getClass().getClassLoader().getResource("images/cyanNotification.png");
                     BufferedImage img = ImageIO.read(resource);
                     notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                 } catch(Exception exception){
@@ -157,7 +157,7 @@ public class AccountPanel extends JPanel {
             }
             public void mouseExited(MouseEvent e) {
                 try{
-                    URL resource = getClass().getClassLoader().getResource("images/addSong.png");
+                    URL resource = getClass().getClassLoader().getResource("images/notification.png");
                     BufferedImage img = ImageIO.read(resource);
                     notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
                 } catch(Exception exception){
@@ -265,8 +265,11 @@ public class AccountPanel extends JPanel {
             img = ImageIO.read(resource);
             addAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
             addAlbum.setText("Add Album");
-            resource = getClass().getClassLoader().getResource("images/logOut.png");
+            resource = getClass().getClassLoader().getResource("images/notification.png");
             img = ImageIO.read(resource);
+            notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+//            resource = getClass().getClassLoader().getResource("images/logOut.png");
+//            img = ImageIO.read(resource);
 //            logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
 //            logOut.setText("Log Out");
         }
