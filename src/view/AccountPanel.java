@@ -381,6 +381,7 @@ public class AccountPanel extends JPanel {
                     ac.openEditAccountWindow();
                     break;
                 case "logOut":
+                    ac.getMc().getDashboard().dispose();
                     ac.logOut();
                     break;
             }
