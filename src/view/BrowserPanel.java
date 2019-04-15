@@ -24,6 +24,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
     public BrowserPanel(SongController sc, User user, boolean isInputted){
         controller = sc;
         setOpaque(false);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         infoPnl = new InfoPanel(sc, user);
 
@@ -57,6 +58,7 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
         //card.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.setOpaque(false);
         card.add(infoPnl);
+        add(card);
     }
 
     @Override

@@ -229,6 +229,7 @@ public class SongController {
 
     public BrowserPanel showBrowserPanel() {
         bp = new BrowserPanel(this, user, false);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(bp);
         return bp;
     }
 
