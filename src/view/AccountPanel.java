@@ -65,9 +65,9 @@ public class AccountPanel extends JPanel {
         addSong.setOpaque(false);
         addSong.setContentAreaFilled(false);
         addSong.setBorderPainted(false);
-        addSong.setMaximumSize(new Dimension(150, 40));
-        addSong.setMinimumSize(new Dimension(150, 40));
-        addSong.setPreferredSize(new Dimension(150, 40));
+//        addSong.setMaximumSize(new Dimension(150, 40));
+//        addSong.setMinimumSize(new Dimension(150, 40));
+//        addSong.setPreferredSize(new Dimension(150, 40));
         addSong.setFont(new Font("Arial", Font.BOLD, 14));
         addSong.addMouseListener(new MouseAdapter() {
             Color oldColor = addSong.getForeground();
@@ -94,8 +94,10 @@ public class AccountPanel extends JPanel {
                 addSong.setForeground(oldColor);
             }
         });
-        if(user instanceof Artist) buttonPnl.add(addSong);
-
+        if(user instanceof Artist){
+            buttonPnl.add(addSong);
+            buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
+        }
         addAlbum = new JButton();
         addAlbum.setActionCommand("Add Album");
         addAlbum.setForeground(Color.white);
@@ -108,9 +110,9 @@ public class AccountPanel extends JPanel {
         addAlbum.setOpaque(false);
         addAlbum.setContentAreaFilled(false);
         addAlbum.setBorderPainted(false);
-        addAlbum.setMaximumSize(new Dimension(150, 40));
-        addAlbum.setMinimumSize(new Dimension(150, 40));
-        addAlbum.setPreferredSize(new Dimension(150, 40));
+//        addAlbum.setMaximumSize(new Dimension(150, 40));
+//        addAlbum.setMinimumSize(new Dimension(150, 40));
+//        addAlbum.setPreferredSize(new Dimension(150, 40));
         addAlbum.setFont(new Font("Arial", Font.BOLD, 14));
         addAlbum.addMouseListener(new MouseAdapter() {
             Color oldColor = addAlbum.getForeground();
@@ -137,7 +139,10 @@ public class AccountPanel extends JPanel {
                 addAlbum.setForeground(oldColor);
             }
         });
-        if(user instanceof Artist) buttonPnl.add(addAlbum);
+        if(user instanceof Artist){
+            buttonPnl.add(addAlbum);
+            buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
+        }
 
         notif = new JButton();
         notif.setForeground(Color.white);
@@ -174,15 +179,15 @@ public class AccountPanel extends JPanel {
             }
         });
         buttonPnl.add(notif);
-
+        buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
         welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
         welcomeLbl.setOpaque(false);
         welcomeLbl.setContentAreaFilled(false);
         welcomeLbl.setBorderPainted(false);
         welcomeLbl.setForeground(Color.WHITE);
-        welcomeLbl.setMaximumSize(new Dimension(150, 40));
-        welcomeLbl.setMinimumSize(new Dimension(150, 40));
-        welcomeLbl.setPreferredSize(new Dimension(150, 40));
+//        welcomeLbl.setMaximumSize(new Dimension(150, 40));
+//        welcomeLbl.setMinimumSize(new Dimension(150, 40));
+//        welcomeLbl.setPreferredSize(new Dimension(150, 40));
         name = ac.getUser().getAccount().getUserName();
         welcomeLbl.addActionListener(new ActionListener() {
             @Override
