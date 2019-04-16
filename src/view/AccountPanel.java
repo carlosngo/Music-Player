@@ -149,7 +149,7 @@ public class AccountPanel extends JPanel {
         notif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //notif
+                ac.openNotifWindow();
             }
         });
         notif.setOpaque(false);
@@ -224,48 +224,6 @@ public class AccountPanel extends JPanel {
             }
         });
         buttonPnl.add(welcomeLbl);
-
-//        logOut = new JButton("Log Out");
-//        logOut.setForeground(Color.white);
-//        logOut.setOpaque(false);
-//        logOut.setContentAreaFilled(false);
-//        logOut.setBorderPainted(false);
-//        logOut.setMaximumSize(new Dimension(150, 40));
-//        logOut.setMinimumSize(new Dimension(150, 40));
-//        logOut.setPreferredSize(new Dimension(150, 40));
-//        logOut.setFont(new Font("Arial", Font.BOLD, 14));
-//        logOut.addMouseListener(new MouseAdapter() {
-//            Color oldColor = logOut.getForeground();
-//            public void mouseEntered(MouseEvent e) {
-//                try{
-//                    URL resource = getClass().getClassLoader().getResource("images/cyanLogOut.png");
-//                    BufferedImage img = ImageIO.read(resource);
-//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-//                    logOut.setText("Log Out");
-//                } catch(Exception exception){
-//
-//                }
-//                logOut.setForeground(new Color(0,255,255));
-//            }
-//            public void mouseExited(MouseEvent e) {
-//                try{
-//                    URL resource = getClass().getClassLoader().getResource("images/logOut.png");
-//                    BufferedImage img = ImageIO.read(resource);
-//                    logOut.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-//                    logOut.setText("Log Out");
-//                } catch(Exception exception){
-//
-//                }
-//                logOut.setForeground(oldColor);
-//            }
-//        });
-//        logOut.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                ac.logOut();
-//            }
-//        });
-//        buttonPnl.add(logOut);
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");
