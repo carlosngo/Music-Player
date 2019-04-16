@@ -225,21 +225,21 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     }
 
     public void insertUpdate(DocumentEvent e) {
-        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty())
+        if (titleInput.getText().isEmpty())
             save.setEnabled(false);
         else
             save.setEnabled(true);
     }
 
     public void removeUpdate(DocumentEvent e) {
-        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty())
+        if (titleInput.getText().isEmpty())
             save.setEnabled(false);
         else
             save.setEnabled(true);
     }
 
     public void changedUpdate(DocumentEvent e) {
-        if (titleInput.getText().isEmpty() || albumInput.getText().isEmpty())
+        if (titleInput.getText().isEmpty())
             save.setEnabled(false);
         else
             save.setEnabled(true);
