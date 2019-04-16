@@ -149,7 +149,8 @@ public class AccountPanel extends JPanel {
         notif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ac.openNotifWindow();
+                ac.openNotifWindow(notif.getBounds().x - (notif.getBounds().width), notif.getBounds().y
+                        + (notif.getBounds().height));
             }
         });
         notif.setOpaque(false);
