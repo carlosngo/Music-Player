@@ -18,7 +18,7 @@ public class MainController {
 
     // views
     private static Dashboard dashboard;
-    private static Notification notificationWindow;
+    private static NotificationWindow notificationWindow;
 
     public MainController() {
         client = Client.getInstance();
@@ -26,7 +26,7 @@ public class MainController {
         ac = new AccountController(this);
         pc = new PlayerController(this);
         sc = new SongController(this);
-        notificationWindow = new Notification();
+        notificationWindow = new NotificationWindow();
         closeNotificationWindow();
         ac.openLogInWindow();
     }
