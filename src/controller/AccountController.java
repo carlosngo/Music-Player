@@ -19,7 +19,7 @@ public class AccountController {
 	private AccountPanel accountPanel;
 	private LogInWindow liw;
 	private CreateAccountWindow caw;
-	private NotificationWindow notifWindow;
+	private Notification notifWindow;
 	private ViewAccountWindow vaw;
 	private EditAccountWindow eaw;
 	
