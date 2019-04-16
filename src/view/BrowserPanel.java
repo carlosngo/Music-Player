@@ -21,9 +21,15 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
     //private CategoryPanel userPnl, newUserPnl;
 
     //isInputted is true if the browser page is used as a search results page
-    public BrowserPanel(SongController sc, User user, boolean isInputted){
+    public BrowserPanel(SongController sc, User user){
         controller = sc;
         infoPnl = new InfoPanel(sc, user);
+        init(infoPnl);
+    }
+
+    public BrowserPanel(SongController sc, String keyword) {
+        controller = sc;
+        infoPnl = new InfoPanel(sc, keyword);
         init(infoPnl);
     }
 
@@ -161,12 +167,13 @@ public class BrowserPanel extends JPanel implements ActionListener, DocumentList
 //    public void actionPerformed(ActionEvent e) {
 //
 //        if (e.getSource() == search){
-//            //use input.getText() to get search results
+            //use input.getText() to get search results
+//            controller.showBrowserPanel(input.getText());
 //            searchResultsTitle.setVisible(true);
 //            card.removeAll();
-////            newInfoPnl = new InfoPanel(songPnlHeader, playlistPnlHeader, albumPnlHeader, artistPnlHeader, songsData, playlists,
-////                    albums, artists);
-////            newUserPnl = new UserArtistListPanel(userPnlHeader, users);
+//            newInfoPnl = new InfoPanel(songPnlHeader, playlistPnlHeader, albumPnlHeader, artistPnlHeader, songsData, playlists,
+//                    albums, artists);
+//            newUserPnl = new UserArtistListPanel(userPnlHeader, users);
 //            card.add(newInfoPnl);
 //            card.add(newUserPnl);
 //            revalidate();

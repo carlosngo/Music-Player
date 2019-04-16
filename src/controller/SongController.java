@@ -231,8 +231,14 @@ public class SongController {
        return sp;
     }
 
-    public BrowserPanel showBrowserPanel() {
-        bp = new BrowserPanel(this, user, false);
+    public BrowserPanel showBrowserPanel(String keyword) {
+        bp = new BrowserPanel(this, keyword);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(bp);
+        return bp;
+    }
+
+    public BrowserPanel showBrowserPanel(User user) {
+        bp = new BrowserPanel(this, user);
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(bp);
         return bp;
     }
