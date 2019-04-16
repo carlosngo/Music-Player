@@ -42,7 +42,7 @@ public class AlbumPanel extends CategoryPanel {
             for(i=0 ; i<objects.size() ; i++){
                 addRow(category, objects.get(i));
             }
-            //add(scroll);
+            add(scroll, BorderLayout.CENTER);
         }
     }
 
