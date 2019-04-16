@@ -1,11 +1,10 @@
 package controller;
 
 import model.*;
+
 import util.AbstractHashGenerator;
 import util.MD5HashGenerator;
 import view.*;
-
-import javax.swing.*;
 import java.util.*;
 
 public class AccountController {
@@ -18,6 +17,7 @@ public class AccountController {
 	private AccountPanel accountPanel;
 	private LogInWindow liw;
 	private CreateAccountWindow caw;
+	private Notification notifWindow;
 	private ViewAccountWindow vaw;
 	private EditAccountWindow eaw;
 	
@@ -63,6 +63,10 @@ public class AccountController {
 		eaw = new EditAccountWindow(this);
 	}
 
+	public void openNotifWindow(){
+		notifWindow = new Notification();
+		notifWindow.append("Sample Notification");
+	}
 	public void openAddSongWindow() {
 		mc.getSongController().openAddSongWindow();
 	}

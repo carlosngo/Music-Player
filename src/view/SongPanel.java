@@ -2,6 +2,7 @@ package view;
 
 import controller.*;
 import model.*;
+
 import util.ImageResizer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +22,6 @@ import java.util.EventObject;
 public class SongPanel extends JPanel implements ActionListener{
     SongController controller;
     private JLabel headerName;
-    private String header;
     private JScrollPane scroll;
     private JComboBox sortOptions;
     private JPanel tablePnl;
@@ -35,7 +35,6 @@ public class SongPanel extends JPanel implements ActionListener{
     private ArrayList<Song> songs;
 
     public SongPanel(SongController controller, String header, Object obj, ArrayList<Song> songs) {
-        //SongController controller, String header, ArrayList<ArrayList<String>> _data
         this.controller = controller;
         this.songs = songs;
         if( obj instanceof Playlist){
@@ -101,7 +100,6 @@ public class SongPanel extends JPanel implements ActionListener{
             add(headerPnl, BorderLayout.NORTH);
         }
         else{
-            //add(Box.createRigidArea(new Dimension(0,7)));
             JPanel headerPnl = new JPanel();
             headerPnl.setLayout(new BorderLayout());
             headerPnl.setOpaque(false);
@@ -109,7 +107,6 @@ public class SongPanel extends JPanel implements ActionListener{
             headerName.setFont(new Font("Arial", Font.BOLD, 26));
             headerName.setForeground(Color.white);
             headerPnl.add(headerName, BorderLayout.WEST);
-
 
             String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
             sortOptions = new JComboBox(sort);
@@ -142,14 +139,10 @@ public class SongPanel extends JPanel implements ActionListener{
                         TableCellRenderer renderer, int row, int column)
                 {
                     Component c = super.prepareRenderer(renderer, row, column);
-                    //setCurrentRow(row);
-
-                    if (isRowSelected(row)){
+                    if (isRowSelected(row))
                         c.setBackground(Color.LIGHT_GRAY);
-                    }
                     else
                         c.setBackground(Color.BLACK);
-
                     return c;
                 }
             };
@@ -275,14 +268,10 @@ public class SongPanel extends JPanel implements ActionListener{
                     TableCellRenderer renderer, int row, int column)
             {
                 Component c = super.prepareRenderer(renderer, row, column);
-                //setCurrentRow(row);
-
-                if (isRowSelected(row)){
+                if (isRowSelected(row))
                     c.setBackground(Color.LIGHT_GRAY);
-                }
                 else
                     c.setBackground(Color.BLACK);
-
                 return c;
             }
         };
@@ -330,7 +319,6 @@ public class SongPanel extends JPanel implements ActionListener{
                     update(biodata, data, 1);
                     System.out.println(1);
                     break;
-
                 case "Album":
                     update(biodata, data, 2);
                     System.out.println(2);
@@ -532,9 +520,6 @@ public class SongPanel extends JPanel implements ActionListener{
         }
 
         public void edit(int index, ArrayList<String> value) {
-//            int startIndex = data.indexOf(value);
-//            System.out.println("startIndex = " + startIndex);
-//            data.remove(value);
             data.set(index, value);
             fireTableRowsInserted(index, index);
         }
@@ -547,10 +532,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
     public class ActionsPane extends JPanel {
 
-        private JButton play, fav;
-        private JButton addToPLaylist, addToQueue;
-        private JButton delete;
-        private JButton edit;
+        private JButton play;
         private JButton kebab;
         private String state;
         private JPopupMenu settingsMenu = new JPopupMenu();
@@ -564,36 +546,6 @@ public class SongPanel extends JPanel implements ActionListener{
             play.setContentAreaFilled(false);
             play.setBorderPainted(false);
             play.setActionCommand("play");
-            fav = new JButton();
-            fav.setEnabled(false);
-            fav.setOpaque(false);
-            fav.setContentAreaFilled(false);
-            fav.setBorderPainted(false);
-            fav.setActionCommand("fav");
-            addToPLaylist = new JButton();
-            addToPLaylist.setEnabled(false);
-            addToPLaylist.setOpaque(false);
-            addToPLaylist.setContentAreaFilled(false);
-            addToPLaylist.setBorderPainted(false);
-            addToPLaylist.setActionCommand("add");
-            addToQueue = new JButton();
-            addToQueue.setEnabled(false);
-            addToQueue.setOpaque(false);
-            addToQueue.setContentAreaFilled(false);
-            addToQueue.setBorderPainted(false);
-            addToQueue.setActionCommand("queue");
-            delete = new JButton();
-            delete.setEnabled(false);
-            delete.setOpaque(false);
-            delete.setContentAreaFilled(false);
-            delete.setBorderPainted(false);
-            delete.setActionCommand("delete");
-            edit = new JButton();
-            edit.setEnabled(false);
-            edit.setOpaque(false);
-            edit.setContentAreaFilled(false);
-            edit.setBorderPainted(false);
-            edit.setActionCommand("edit");
             kebab = new JButton();
             kebab.setEnabled(false);
             kebab.setOpaque(false);
@@ -603,24 +555,9 @@ public class SongPanel extends JPanel implements ActionListener{
 
 
             try{
-                URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
+                URL resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
                 BufferedImage img = ImageIO.read(resource);
-                addToPLaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/delete.png");
-                img = ImageIO.read(resource);
-                delete.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/edit.png");
-                img = ImageIO.read(resource);
-                edit.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
-                img = ImageIO.read(resource);
                 play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
-                img = ImageIO.read(resource);
-                addToQueue.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
-                img = ImageIO.read(resource);
-                fav.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
                 img = ImageIO.read(resource);
                 kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -629,13 +566,8 @@ public class SongPanel extends JPanel implements ActionListener{
 
             }
 
-              add(play);
-//              add(fav);
-              add(kebab);
-//            add(addToQueue);
-//            add(addToPLaylist);
-//            add(delete);
-//            add(edit);
+            add(play);
+            add(kebab);
 
             ActionListener playListener = new ActionListener() {
                 @Override
@@ -653,111 +585,6 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
                 public void mouseExited(MouseEvent e) {
                     play.setEnabled(false);
-                }
-            });
-
-//            ActionListener favListener = new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    state = e.getActionCommand();
-//                    System.out.println("State = " + state);
-//                    controller.playSong(currentRow);
-//                }
-//            };
-//            fav.addActionListener(favListener);
-//
-//            fav.addMouseListener(new MouseAdapter() {
-//                public void mouseEntered(MouseEvent e) {
-//                    fav.setEnabled(true);
-//                }
-//                public void mouseExited(MouseEvent e) {
-//                    fav.setEnabled(false);
-//                }
-//            });
-
-            ActionListener addToPlaylistListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                    controller.openAddToPlaylistWindow(currentRow);
-                }
-            };
-            addToPLaylist.addActionListener(addToPlaylistListener);
-
-            addToPLaylist.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    addToPLaylist.setEnabled(true);
-                }
-                public void mouseExited(MouseEvent e) {
-                    addToPLaylist.setEnabled(false);
-                }
-            });
-
-            ActionListener addToQueueListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
-                    controller.addToQueue(currentRow);
-                }
-            };
-            addToQueue.addActionListener(addToQueueListener);
-
-            addToQueue.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    addToQueue.setEnabled(true);
-                }
-                public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
-            });
-
-            ActionListener deleteListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-//                    int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want" +
-//                            " to delete this song?", "Confirm Delete Song", JOptionPane.YES_NO_OPTION);
-//                    if (choice == JOptionPane.YES_OPTION)
-//                        controller.removeSong(currentRow);
-////                    state = e.getActionCommand();
-////                    System.out.println("State = " + state);
-////                    controller.deleteSong(data.get(currentRow));
-////                    model.remove(data.get(currentRow));
-                }
-            };
-            delete.addActionListener(deleteListener);
-
-            delete.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    delete.setEnabled(true);
-                }
-                public void mouseExited(MouseEvent e) {
-                    delete.setEnabled(false);
-                }
-            });
-
-
-            ActionListener editListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-//                    state = e.getActionCommand();
-//                    System.out.println("State = " + state);
-//                    Song songForEdit = null;
-//                    for(Song song : songs){
-//                        if(song.getSongId() == Integer.parseInt(biodata.get(currentRow).get(7))) songForEdit = song;
-//                    }
-//                    controller.openEditSongProfileWindow(songForEdit);
-//                    revalidate();
-//                    repaint();
-                }
-            };
-            edit.addActionListener(editListener);
-
-            edit.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    edit.setEnabled(true);
-                }
-                public void mouseExited(MouseEvent e) {
-                    edit.setEnabled(false);
                 }
             });
 
@@ -783,10 +610,6 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public void addActionListener(ActionListener listener) {
             play.addActionListener(listener);
-            addToQueue.addActionListener(listener);
-            addToPLaylist.addActionListener(listener);
-            delete.addActionListener(listener);
-            edit.addActionListener(listener);
             kebab.addActionListener(listener);
         }
 
