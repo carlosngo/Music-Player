@@ -19,7 +19,7 @@ public class AccountController {
 	private AccountPanel accountPanel;
 	private LogInWindow liw;
 	private CreateAccountWindow caw;
-	private Notification notifWindow;
+	private NotificationWindow notifWindow;
 	private ViewAccountWindow vaw;
 	private EditAccountWindow eaw;
 	
@@ -66,9 +66,9 @@ public class AccountController {
 	}
 
 	public void openNotifWindow(Component inovker, int x, int y){
-		notifWindow = new Notification();
+		notifWindow = new NotificationWindow();
 		notifWindow.show(inovker, x,y);
-		notifWindow.append("Sample Notification");
+		notifWindow.append("Sample NotificationWindow");
 	}
 
 	public void openAddSongWindow() {
