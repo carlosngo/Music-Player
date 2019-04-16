@@ -14,7 +14,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class Notification extends JFrame{
+public class NotificationWindow extends JFrame{
 
     private JScrollPane jScrollPane1;
     private JTable table;
@@ -22,7 +22,7 @@ public class Notification extends JFrame{
     private MouseAdapter mad;
     public boolean hasViewed;
     
-    public Notification() {
+    public NotificationWindow() {
         initLayout();
         initComponents();
         initDesign();
