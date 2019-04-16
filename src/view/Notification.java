@@ -1,9 +1,7 @@
 package view;
 
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -16,7 +14,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class Notification extends JInternalFrame{
+public class Notification extends JFrame{
 
     private JScrollPane jScrollPane1;
     private JTable table;
@@ -39,14 +37,14 @@ public class Notification extends JInternalFrame{
           hasViewed = false;
     }
     
-    public void show(int x, int y){
-        this.setLocation(x, y);
-        this.setVisible(true);
+    public void show(Component invoker, int x, int y){
+        show(invoker, x, y);
+        setVisible(true);
         hasViewed = true;
     }
     
     public void hideNotif(){
-       this.setVisible(false);
+       setVisible(false);
        dtm.setRowCount(0);
     }
     
@@ -57,8 +55,8 @@ public class Notification extends JInternalFrame{
     //=======================================================
     private void initLayout(){
         setFocusable(false);
-        this.setSize(400,400);
-        //this.setUndecorated(true);
+        setSize(400,400);
+        setUndecorated(true);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
        // this.setLayout(new BoxLayou);
     }         
@@ -77,7 +75,7 @@ public class Notification extends JInternalFrame{
         //this.add(jScrollPane1);
         
         getContentPane().add(jScrollPane1);
-        this.setSize(330, 460);
+        setSize(330, 460);
     }                     
 
     private void initDesign() {
@@ -95,12 +93,12 @@ public class Notification extends JInternalFrame{
         this.jScrollPane1.getViewport().setBackground(Color.darkGray);
         this.jScrollPane1.setBackground(Color.darkGray);
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+        //putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
         getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-        this.setBackground(new Color(0,0,0,0));
-        setBorder(null);
+        setBackground(new Color(0,0,0,0));
+        //setBorder(null);
         setRootPaneCheckingEnabled(false);
-        ((BasicInternalFrameUI) getUI()).setNorthPane(null);
+        //((BasicInternalFrameUI) getUI()).setNorthPane(null);
         setRootPaneCheckingEnabled(true);
     }
     
@@ -110,12 +108,12 @@ public class Notification extends JInternalFrame{
             
         };
         
-        this.addMouseListener(mad);
+        addMouseListener(mad);
     }
 
-    public static void main(String args[]){
-        Notification n = new Notification();
-        n.show(90,90);
-        n.append("hello world");
-    }
+//    public static void main(String args[]){
+//        Notification n = new Notification();
+//        n.show(90,90);
+//        n.append("hello world");
+//    }
 }
