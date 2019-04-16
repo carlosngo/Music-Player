@@ -63,8 +63,9 @@ public class AccountController {
 		eaw = new EditAccountWindow(this);
 	}
 
-	public void openNotifWindow(){
+	public void openNotifWindow(int x, int y){
 		notifWindow = new Notification();
+		notifWindow.show(x,y);
 		notifWindow.append("Sample Notification");
 	}
 	public void openAddSongWindow() {
