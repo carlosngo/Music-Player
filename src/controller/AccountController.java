@@ -6,7 +6,6 @@ import util.AbstractHashGenerator;
 import util.MD5HashGenerator;
 import view.*;
 
-import java.awt.*;
 import java.util.*;
 
 public class AccountController {
@@ -19,7 +18,7 @@ public class AccountController {
 	private AccountPanel accountPanel;
 	private LogInWindow liw;
 	private CreateAccountWindow caw;
-	private Notification notifWindow;
+	private NotificationWindow notifWindow;
 	private ViewAccountWindow vaw;
 	private EditAccountWindow eaw;
 	
