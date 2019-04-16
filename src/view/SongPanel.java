@@ -47,7 +47,7 @@ public class SongPanel extends JPanel implements ActionListener{
             Artist artist = (Artist) obj;
             objID = artist.getArtistId();
         }
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+        data = new ArrayList<ArrayList<String>>();
         ArrayList<String> _dataContent;
         for(Song s : songs){
             _dataContent = new ArrayList<String>();
