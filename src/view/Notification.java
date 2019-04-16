@@ -47,7 +47,7 @@ public class Notification extends JInternalFrame{
     
     public void hideNotif(){
        this.setVisible(false);
-        dtm.setRowCount(0);
+       dtm.setRowCount(0);
     }
     
     public boolean hasViewed(){
@@ -56,7 +56,6 @@ public class Notification extends JInternalFrame{
    
     //=======================================================
     private void initLayout(){
-        //this.show(90,90);
         setFocusable(false);
         this.setSize(400,400);
         //this.setUndecorated(true);
@@ -112,5 +111,11 @@ public class Notification extends JInternalFrame{
         };
         
         this.addMouseListener(mad);
+    }
+
+    public static void main(String args[]){
+        Notification n = new Notification();
+        n.show(90,90);
+        n.append("hello world");
     }
 }

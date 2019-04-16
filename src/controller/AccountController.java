@@ -68,6 +68,7 @@ public class AccountController {
 		notifWindow.show(x,y);
 		notifWindow.append("Sample Notification");
 	}
+
 	public void openAddSongWindow() {
 		mc.getSongController().openAddSongWindow();
 	}
