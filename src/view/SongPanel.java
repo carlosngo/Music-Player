@@ -730,7 +730,7 @@ public class SongPanel extends JPanel implements ActionListener{
                     case "edit":
                         Song songForEdit = null;
                         for(Song song : songs){
-                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow-1).get(7))) songForEdit = song;
+                            if(song.getSongId() == Integer.parseInt(biodata.get(currentRow).get(7))) songForEdit = song;
                             System.out.println(song.toString());
                         }
                         controller.openEditSongProfileWindow(songForEdit, currentRow);
