@@ -61,5 +61,7 @@ public enum Protocol {
     SEARCHUSERS,
     SEARCHARTISTS,
     OK,
-    NO
+    NO,
+    UPLOADEVENT,
+    PLAYEVENT
 }

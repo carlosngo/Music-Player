@@ -39,6 +39,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 Artist artist;
                 Account account;
                 Protocol protocol = Protocol.valueOf(messageFromClient);
+                out.println(protocol);
                 StringBuilder reply = new StringBuilder();
                 switch (protocol) {
                     case GETACCOUNT:
@@ -340,28 +341,28 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETIMAGEFILE:
                         album = server.getAlbum(Integer.parseInt(in.readLine()));
                         File img = album.getCover();
-                        FileUtil.uploadFile(socket, in, out, img);
+                        FileUtil.uploadFile(socket, out, img);
                         break;
                     case SETIMAGEFILE:
                         albumId = Integer.parseInt(in.readLine());
                         File dir = new File("resources/images");
                         dir.mkdirs();
                         img = new File(dir, albumId + "");
-                        FileUtil.downloadFile(socket, in, out, img);
+                        FileUtil.downloadFile(socket, in, img);
                         server.setImageFile(albumId, img);
                         break;
                     case GETSONGFILE:
                         song = server.getSong(Integer.parseInt(in.readLine()));
                         System.out.println("Sending song " + song + " to the client.");
                         File wav = song.getWAV();
-                        FileUtil.uploadFile(socket, in, out, wav);
+                        FileUtil.uploadFile(socket, out, wav);
                         break;
                     case SETSONGFILE:
                         int songId = Integer.parseInt(in.readLine());
                         dir = new File("resources/songs");
                         dir.mkdirs();
                         wav = new File(dir, songId + "");
-                        FileUtil.downloadFile(socket, in, out, wav);
+                        FileUtil.downloadFile(socket, in, wav);
                         server.setSongFile(songId, wav);
                         break;
                     case LOGIN:
@@ -446,6 +447,22 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
 
     @Override
     public void listen(UploadEvent e) {
-
+        out.println(Protocol.UPLOADEVENT);
+        User source = (User)e.getSource();
+        Media media = e.getMediaUploaded();
+        StringBuilder sb = new StringBuilder();
+        sb.append(source.getName());
+        sb.append(" has uploaded a ");
+        if (media instanceof Song) {
+            sb.append(" song named ");
+            sb.append(((Song) media).getName());
+        } else if (media instanceof Album) {
+            sb.append(" album named ");
+            sb.append(((Album) media).getName());
+        } else {
+            sb.append(" playlist named ");
+            sb.append(((Playlist) media).getName());
+        }
+        out.println(sb.toString());
     }
 }

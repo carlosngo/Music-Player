@@ -6,15 +6,19 @@ import java.net.Socket;
 public final class FileUtil {
     private FileUtil() { }
 
-    public static void downloadFile(Socket socket, BufferedReader in, PrintWriter out, File dest) {
+    public static void downloadFile(Socket socket, BufferedReader in, File dest) {
         try {
+            System.out.println("Attempting to start a download...");
             int fileSize = Integer.parseInt(in.readLine());
+            System.out.println("Getting a " + fileSize + " bytes file from the server.");
             byte[] mybytearray = new byte[fileSize];
             InputStream is = socket.getInputStream();
+            System.out.println("Allocating file.");
             dest.createNewFile();
+            System.out.println("File allocated.");
             FileOutputStream fos = new FileOutputStream(dest);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            System.out.println("Getting a " + fileSize + " bytes file from the server.");
+            System.out.println("OutputStreams are ready.");
             int bytesRead = is.read(mybytearray, 0, mybytearray.length);
             int current = bytesRead;
             do {
@@ -30,12 +34,12 @@ public final class FileUtil {
                     + " downloaded (" + current + " bytes read)");
         } catch (IOException e) {
             e.printStackTrace();
-            out.println(Protocol.NO);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        out.println(Protocol.OK);
     }
 
-    public static void uploadFile(Socket socket, BufferedReader in, PrintWriter out, File src) {
+    public static void uploadFile(Socket socket, PrintWriter out, File src) {
         try {
             out.println(src.length());
             byte[] mybytearray = new byte[(int) src.length()];
@@ -47,10 +51,10 @@ public final class FileUtil {
             os.write(mybytearray, 0, mybytearray.length);
             os.flush();
             System.out.println("File successfully uploaded.");
-            String response = in.readLine();
-            System.out.println(response);
-            if (response.equals(Protocol.OK)) System.out.println("Destination receieved the file.");
-            else System.out.println("Destination did not receive the file.");
+//            String response = in.readLine();
+//            System.out.println(response);
+//            if (response.equals(Protocol.OK)) System.out.println("Destination receieved the file.");
+//            else System.out.println("Destination did not receive the file.");
         } catch (IOException e) {
             e.printStackTrace();
         }

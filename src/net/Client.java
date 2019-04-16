@@ -18,6 +18,28 @@ public final class Client {
     private BufferedReader inFromServer;
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
+    private Account account;
+    private Song song;
+    private Playlist playlist;
+    private Album album;
+    private User user;
+    private Artist artist;
+    private File img;
+    private File wav;
+    private ArrayList<Song> songs;
+    private ArrayList<Playlist> playlists;
+    private ArrayList<Album> albums;
+    private ArrayList<User> users;
+    private ArrayList<Artist> artists;
+    private boolean success;
+
+    private boolean isBusy;
+
+
+    public synchronized boolean isBusy() {
+        return isBusy;
+    }
+
     private Client() { }
 
     public static Client getInstance() { return singleton; }
@@ -27,7 +49,153 @@ public final class Client {
             socket = new Socket(Server.IP_ADDRESS, Server.PORT_NUMBER);
             outToServer = new PrintWriter(socket.getOutputStream(), true);
             inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            executor.submit(() -> {
+                while (true) {
+                    Protocol protocol = Protocol.valueOf(inFromServer.readLine());
+                    System.out.println("Protocol: " + protocol);
+                    switch (protocol) {
+                        case GETACCOUNT:
+                            account = Account.parseAccount(inFromServer.readLine());
+                            break;
+                        case GETSONG:
+                            song = Song.parseSong(inFromServer.readLine());
+                            break;
+                        case GETSONGS:
+                            readSongs();
+                            break;
+                        case GETSONGSBYARTIST:
+                            readSongs();
+                            break;
+                        case GETFOLLOWEDSONGS:
+                            readSongs();
+                            break;
+                        case GETSONGSINALBUM:
+                            readSongs();
+                            break;
+                        case GETSONGSINPLAYLIST:
+                            readSongs();
+                            break;
+                        case GETFAVORITESONGS:
+                            readSongs();
+                            break;
+                        case ADDSONG:
+                            success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
+                            if (success) {
+                                System.out.println("Adding song successful.");
+                                song.setSongId(Integer.parseInt(inFromServer.readLine()));
+                                System.out.println(song + " was added successfully.");
+                            }
+                            break;
+                        case GETPLAYLIST:
+                            playlist = Playlist.parsePlaylist(inFromServer.readLine());
+                            break;
+                        case GETPLAYLISTS:
+                            readPlaylists();
+                            break;
+                        case GETPLAYLISTSBYACCOUNT:
+                            readPlaylists();
+                            break;
+                        case GETFOLLOWEDPLAYLISTS:
+                            readPlaylists();
+                            break;
+                        case ADDPLAYLIST:
+                            success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
+                            if (success) playlist.setPlaylistId(Integer.parseInt(inFromServer.readLine()));
+                            break;
+                        case GETALBUM:
+                            album = Album.parseAlbum(inFromServer.readLine());
+                            break;
+                        case GETALBUMS:
+                            readAlbums();
+                            break;
+                        case GETALBUMSBYARTIST:
+                            readAlbums();
+                            break;
+                        case GETFOLLOWEDALBUMS:
+                            readAlbums();
+                            break;
+                        case ADDALBUM:
+                            success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
+                            if (success) album.setAlbumId(Integer.parseInt(inFromServer.readLine()));
+                            break;
+                        case GETUSER:
+                            user = User.parseUser(inFromServer.readLine());
+                            break;
+                        case GETUSERS:
+                            readUsers();
+                            break;
+                        case GETFOLLOWEDUSERS:
+                            readUsers();
+                            break;
+                        case ADDUSER:
+                            success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
+                            if (success) {
+                                user.setUserId(Integer.parseInt(inFromServer.readLine()));
+                                user.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
+                            }
+                            break;
+                        case GETARTIST:
+                            artist = Artist.parseArtist(inFromServer.readLine());
+                            break;
+                        case GETARTISTS:
+                            readArtists();
+                            break;
+                        case GETFOLLOWEDARTISTS:
+                            readArtists();
+                            break;
+                        case ADDARTIST:
+                            success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
+                            if (success) {
+                                artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
+                                artist.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
+                            }
+                            break;
+                        case GETIMAGEFILE:
+                            FileUtil.downloadFile(socket, inFromServer, img);
+                            break;
+                        case GETSONGFILE:
+                            FileUtil.downloadFile(socket, inFromServer, wav);
+                            break;
+                        case SETSONGFILE:
+                            break;
+                        case LOGIN:
+                            success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
+                            if (success) {
+                                String userInfo = inFromServer.readLine();
+                                if (userInfo.split("\\|").length < 6) user = Artist.parseArtist(userInfo);
+                                else user = User.parseUser(userInfo);
+                                user.setAccount(Account.parseAccount(inFromServer.readLine()));
+                                break;
+                            }
+                            break;
+                        case LOGOUT:
+                            break;
+                        case SEARCHSONGS:
+                            readSongs();
+                            break;
+                        case SEARCHPLAYLISTS:
+                            readPlaylists();
+                            break;
+                        case SEARCHALBUMS:
+                            readAlbums();
+                            break;
+                        case SEARCHUSERS:
+                            readUsers();
+                            break;
+                        case SEARCHARTISTS:
+                            readArtists();
+                            break;
+                        case UPLOADEVENT:
+                            break;
+                        case PLAYEVENT:
+                            break;
+                    }
+                    isBusy = false;
+                }
+            });
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -43,110 +211,118 @@ public final class Client {
     }
 
     public Account getAccount(int accountId) {
+        isBusy = true;
         outToServer.println(Protocol.GETACCOUNT);
         outToServer.println(accountId);
-        Account account = null;
-        try {
-            account = Account.parseAccount(inFromServer.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        account = null;
+        while (isBusy());
         return account;
     }
 
     public Song getSong(int songId) {
+        isBusy = true;
         outToServer.println(Protocol.GETSONG);
         outToServer.println(songId);
-        Song song = null;
-        try {
-            song = Song.parseSong(inFromServer.readLine());
-            song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
-            System.out.println(song.getAlbum());
-            song.setArtist(getArtist(song.getArtist().getArtistId()));
-            System.out.println(song.getArtist());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        song = null;
+        while (isBusy());
+        song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
+        System.out.println(song.getAlbum());
+        song.setArtist(getArtist(song.getArtist().getArtistId()));
+        System.out.println(song.getArtist());
         return song;
     }
 
     public ArrayList<Song> getSongs(){
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.GETSONGS);
-        readSongs(songs);
+        while (isBusy());
+        populateSongs();
         return songs;
     }
 
     public ArrayList<Song> getSongsByArtist(int artistId) {
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.GETSONGSBYARTIST);
         outToServer.println(artistId);
-        readSongs(songs);
+        while (isBusy());
+        populateSongs();
         return songs;
     }
 
     public ArrayList<Song> getFollowedSongs(int accountId) {
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.GETFOLLOWEDSONGS);
         outToServer.println(accountId);
-        readSongs(songs);
+        while (isBusy());
+        System.out.println("Loop has ended.");
+        populateSongs();
         return songs;
     }
 
     public ArrayList<Song> getSongsInAlbum(int albumId) {
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.GETSONGSINALBUM);
         outToServer.println(albumId);
-        readSongs(songs);
+        while (isBusy());
+        populateSongs();
         return songs;
     }
 
     public ArrayList<Song> getSongsInPlaylist(int playlistId) {
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.GETSONGSINPLAYLIST);
         outToServer.println(playlistId);
-        readSongs(songs);
+        while (isBusy());
+        populateSongs();
         return songs;
     }
 
     public ArrayList<Song> getFavoriteSongs(int accountId) {
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.GETFAVORITESONGS);
         outToServer.println(accountId);
-        readSongs(songs);
+        while (isBusy());
+        populateSongs();
         return songs;
     }
 
-    private void readSongs(ArrayList<Song> songs) {
+    private void readSongs() {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
                 Song song = Song.parseSong(inFromServer.readLine());
                 songs.add(song);
             }
-            for (int i = 0; i < n; i++) {
-                Song song = songs.get(i);
-                song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
-                song.setArtist(getArtist(song.getArtist().getArtistId()));
-                System.out.println(song.getAlbum());
-                System.out.println(song.getArtist());
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void populateSongs() {
+        for (int i = 0; i < songs.size(); i++) {
+            Song song = songs.get(i);
+            song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
+            song.setArtist(getArtist(song.getArtist().getArtistId()));
+            System.out.println(song.getAlbum());
+            System.out.println(song.getArtist());
+        }
+    }
+
     public boolean addSong(Song song){
+        this.song = song;
+        isBusy = true;
         outToServer.println(Protocol.ADDSONG);
         outToServer.println(song);
         System.out.println(song);
-        try {
-            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            else song.setSongId(Integer.parseInt(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return true;
+        while (isBusy());
+        System.out.println("Song was added successfully.");
+        return success;
     }
 
     public void addSongToPlaylist(Song song, Playlist playlist) {
@@ -190,66 +366,69 @@ public final class Client {
     }
 
     public Playlist getPlaylist(int playlistId) {
+        isBusy = true;
         outToServer.println(Protocol.GETPLAYLIST);
         outToServer.println(playlistId);
-        Playlist playlist = null;
-        try {
-            playlist = Playlist.parsePlaylist(inFromServer.readLine());
-            playlist.setAccount(getAccount(playlist.getAccount().getId()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playlist = null;
+        while (isBusy());
+        playlist.setAccount(getAccount(playlist.getAccount().getId()));
         return playlist;
     }
 
     public ArrayList<Playlist> getPlaylists() {
-        ArrayList<Playlist> playlists = new ArrayList<>();
+        isBusy = true;
+        playlists = new ArrayList<>();
         outToServer.println(Protocol.GETPLAYLISTS);
-        readPlaylists(playlists);
+        while (isBusy());
+        populatePlaylists();
         return playlists;
     }
 
     public ArrayList<Playlist> getPlaylistsByAccount(int accountId) {
-        ArrayList<Playlist> playlists = new ArrayList<>();
+        isBusy = true;
+        playlists = new ArrayList<>();
         outToServer.println(Protocol.GETPLAYLISTSBYACCOUNT);
         outToServer.println(accountId);
-        readPlaylists(playlists);
+        while (isBusy());
+        populatePlaylists();
         return playlists;
     }
 
     public ArrayList<Playlist> getFollowedPlaylists(int accountId) {
-        ArrayList<Playlist> playlists = new ArrayList<>();
+        isBusy = true;
+        playlists = new ArrayList<>();
         outToServer.println(Protocol.GETFOLLOWEDPLAYLISTS);
         outToServer.println(accountId);
-        readPlaylists(playlists);
+        while (isBusy());
+        populatePlaylists();
         return playlists;
     }
 
-    private void readPlaylists(ArrayList<Playlist> playlists) {
+    private void readPlaylists() {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
                 Playlist playlist = Playlist.parsePlaylist(inFromServer.readLine());
                 playlists.add(playlist);
             }
-            for (int i = 0; i < n; i++) {
-                Playlist playlist = playlists.get(i);
-                playlist.setAccount(getAccount(playlist.getAccount().getId()));
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void populatePlaylists() {
+        for (int i = 0; i < playlists.size(); i++) {
+            Playlist playlist = playlists.get(i);
+            playlist.setAccount(getAccount(playlist.getAccount().getId()));
+        }
+    }
+
     public boolean addPlaylist(Playlist playlist){
+        this.playlist = playlist;
+        isBusy = true;
         outToServer.println(Protocol.ADDPLAYLIST);
         outToServer.println(playlist);
-        try {
-            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            else playlist.setPlaylistId(Integer.parseInt(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
         return true;
     }
 
@@ -276,67 +455,71 @@ public final class Client {
     }
 
     public Album getAlbum(int albumId) {
-        Album album = new Album();
+        isBusy = true;
+        album = new Album();
         if (albumId == -1) return album;
         outToServer.println(Protocol.GETALBUM);
         outToServer.println(albumId);
-
-        try {
-            album = Album.parseAlbum(inFromServer.readLine());
-            album.setArtist(getArtist(album.getArtist().getArtistId()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Entered the loop.");
+        while (isBusy());
+        System.out.println("Album successfully retrieved.");
+        album.setArtist(getArtist(album.getArtist().getArtistId()));
         return album;
     }
+
     public ArrayList<Album> getAlbums(){
-        ArrayList<Album> albums = new ArrayList<>();
+        albums = new ArrayList<>();
         outToServer.println(Protocol.GETALBUMS);
-        readAlbums(albums);
+        isBusy = true;
+        while (isBusy());
+        populateAlbums();
         return albums;
     }
 
     public ArrayList<Album> getFollowedAlbums(int accountId){
-        ArrayList<Album> albums = new ArrayList<>();
+        isBusy = true;
+        albums = new ArrayList<>();
         outToServer.println(Protocol.GETFOLLOWEDALBUMS);
         outToServer.println(accountId);
-        readAlbums(albums);
+        while (isBusy());
+        populateAlbums();
         return albums;
     }
 
     public ArrayList<Album> getAlbumsByArtist(int artistId) {
-        ArrayList<Album> albums = new ArrayList<>();
+        isBusy = true;
+        albums = new ArrayList<>();
         outToServer.println(Protocol.GETALBUMSBYARTIST);
         outToServer.println(artistId);
-        readAlbums(albums);
+        while (isBusy());
+        populateAlbums();
         return albums;
     }
 
-    private void readAlbums(ArrayList<Album> albums) {
+    private void readAlbums() {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
-                Album album = Album.parseAlbum(inFromServer.readLine());
+                album = Album.parseAlbum(inFromServer.readLine());
                 albums.add(album);
-            }
-            for (int i = 0; i < n; i++) {
-                Album album = albums.get(i);
-                album.setArtist(getArtist(album.getArtist().getArtistId()));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void populateAlbums() {
+        for (int i = 0; i < albums.size(); i++) {
+            album = albums.get(i);
+            album.setArtist(getArtist(album.getArtist().getArtistId()));
+        }
+    }
     public boolean addAlbum(Album album){
+        this.album = album;
+        isBusy = true;
         outToServer.println(Protocol.ADDALBUM);
         outToServer.println(album);
-        try {
-            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            else album.setAlbumId(Integer.parseInt(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
         return true;
     }
 
@@ -363,36 +546,35 @@ public final class Client {
     }
 
     public User getUser(int userId) {
+        isBusy = true;
         outToServer.println(Protocol.GETUSER);
         outToServer.println(userId);
-        User user = null;
-        try {
-            user = User.parseUser(inFromServer.readLine());
-            user.setAccount(getAccount(user.getAccount().getId()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        user = null;
+        while (isBusy());
+        user.setAccount(getAccount(user.getAccount().getId()));
         return user;
     }
 
     public ArrayList<User> getUsers(){
-        ArrayList<User> users = new ArrayList<>();
+        isBusy = true;
+        users = new ArrayList<>();
         outToServer.println(Protocol.GETUSERS);
-        try {
-            int n = Integer.parseInt(inFromServer.readLine());
-            for (int i = 0; i < n; i++) {
-                users.add(User.parseUser(inFromServer.readLine()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
+        populateUsers();
         return users;
     }
 
     public ArrayList<User> getFollowedUsers(int accountId) {
-        ArrayList<User> users = new ArrayList<>();
+        isBusy = true;
+        users = new ArrayList<>();
         outToServer.println(Protocol.GETFOLLOWEDUSERS);
         outToServer.println(accountId);
+        while (isBusy());
+        populateUsers();
+        return users;
+    }
+
+    private void readUsers() {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
@@ -401,20 +583,22 @@ public final class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return users;
+    }
+
+    private void populateUsers() {
+        for (int i = 0; i < users.size(); i++) {
+            user = users.get(i);
+            user.setAccount(getAccount(user.getAccount().getId()));
+        }
     }
 
     public boolean addUser(User user){
+        this.user = user;
+        isBusy = true;
         outToServer.println(Protocol.ADDUSER);
         outToServer.println(user);
         outToServer.println(user.getAccount());
-        try {
-            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            user.setUserId(Integer.parseInt(inFromServer.readLine()));
-            user.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
         return true;
     }
 
@@ -436,36 +620,35 @@ public final class Client {
     }
 
     public Artist getArtist(int artistId) {
+        isBusy = true;
         outToServer.println(Protocol.GETARTIST);
         outToServer.println(artistId);
-        Artist artist = null;
-        try {
-            artist = Artist.parseArtist(inFromServer.readLine());
-            artist.setAccount(getAccount(artist.getAccount().getId()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        artist = null;
+        while (isBusy());
+        artist.setAccount(getAccount(artist.getAccount().getId()));
         return artist;
     }
 
     public ArrayList<Artist> getArtists(){
-        ArrayList<Artist> artists = new ArrayList<>();
+        isBusy = true;
+        artists = new ArrayList<>();
         outToServer.println(Protocol.GETARTISTS);
-        try {
-            int n = Integer.parseInt(inFromServer.readLine());
-            for (int i = 0; i < n; i++) {
-                artists.add(Artist.parseArtist(inFromServer.readLine()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
+        populateArtists();
         return artists;
     }
 
     public ArrayList<Artist> getFollowedArtists(int accountId) {
-        ArrayList<Artist> artists = new ArrayList<>();
+        isBusy = true;
+        artists = new ArrayList<>();
         outToServer.println(Protocol.GETFOLLOWEDARTISTS);
         outToServer.println(accountId);
+        while (isBusy());
+        populateArtists();
+        return artists;
+    }
+
+    private void readArtists() {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
@@ -474,22 +657,24 @@ public final class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return artists;
+    }
+
+    private void populateArtists() {
+        for (int i = 0; i < artists.size(); i++) {
+            artist = artists.get(i);
+            artist.setAccount(getAccount(artist.getAccount().getId()));
+        }
     }
 
     public boolean addArtist(Artist artist){
+        this.artist = artist;
+        isBusy = true;
         outToServer.println(Protocol.ADDARTIST);
         outToServer.println(artist);
         System.out.println(artist);
         outToServer.println(artist.getAccount());
         System.out.println(artist.getAccount());
-        try {
-            if (Protocol.valueOf(inFromServer.readLine()) == Protocol.NO) return false;
-            artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
-            artist.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
         return true;
     }
 
@@ -511,12 +696,13 @@ public final class Client {
     }
 
     public File getImageFile(int albumId){
-        outToServer.println(Protocol.GETIMAGEFILE);
-        outToServer.println(albumId);
+        isBusy = true;
         File dir = new File("resources/images");
         dir.mkdirs();
-        File img = new File(dir, albumId + "");
-        FileUtil.downloadFile(socket, inFromServer, outToServer, img);
+        img = new File(dir, albumId + "");
+        outToServer.println(Protocol.GETIMAGEFILE);
+        outToServer.println(albumId);
+        while (isBusy());
         return img;
     }
 
@@ -524,44 +710,35 @@ public final class Client {
         if (img != null) {
             outToServer.println(Protocol.SETIMAGEFILE);
             outToServer.println(albumId);
-            FileUtil.uploadFile(socket, inFromServer, outToServer, img);
+            FileUtil.uploadFile(socket, outToServer, img);
         }
     }
 
     public File getSongFile(int songId){
-        outToServer.println(Protocol.GETSONGFILE);
-        outToServer.println(songId);
+        isBusy = true;
         File dir = new File("resources/songs");
         dir.mkdirs();
-        File wav = new File(dir, songId + ".wav");
-        FileUtil.downloadFile(socket, inFromServer, outToServer, wav);
+        wav = new File(dir, songId + ".wav");
+        outToServer.println(Protocol.GETSONGFILE);
+        outToServer.println(songId);
+        System.out.println("Entering the loop...");
+        while (isBusy());
         return wav;
     }
 
     public void setSongFile(int songId, File wav){
         outToServer.println(Protocol.SETSONGFILE);
         outToServer.println(songId);
-        FileUtil.uploadFile(socket, inFromServer, outToServer, wav);
+        FileUtil.uploadFile(socket, outToServer, wav);
     }
 
     public User logIn(String username, String password) {
-        User user = null;
+        isBusy = true;
+        user = null;
         outToServer.println(Protocol.LOGIN);
         outToServer.println(username);
         outToServer.println(password);
-        try {
-            Protocol protocol = Protocol.valueOf(inFromServer.readLine());
-            switch (protocol) {
-                case OK:
-                    String userInfo = inFromServer.readLine();
-                    if (userInfo.split("\\|").length < 6) user = Artist.parseArtist(userInfo);
-                    else user = User.parseUser(userInfo);
-                    user.setAccount(Account.parseAccount(inFromServer.readLine()));
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
         return user;
     }
 
@@ -571,52 +748,52 @@ public final class Client {
     }
 
     public ArrayList<Song> searchSongs(String keyword) {
-        ArrayList<Song> songs = new ArrayList<>();
+        isBusy = true;
+        songs = new ArrayList<>();
         outToServer.println(Protocol.SEARCHSONGS);
         outToServer.println(keyword);
-        readSongs(songs);
+        while (isBusy());
+        populateSongs();
         return songs;
     }
 
     public ArrayList<Playlist> searchPlaylists(String keyword) {
-        ArrayList<Playlist> playlists = new ArrayList<>();
+        isBusy = true;
+        playlists = new ArrayList<>();
         outToServer.println(Protocol.SEARCHPLAYLISTS);
         outToServer.println(keyword);
-        readPlaylists(playlists);
+        while (isBusy());
+        populatePlaylists();
         return playlists;
     }
 
     public ArrayList<Album> searchAlbums(String keyword) {
-        ArrayList<Album> albums = new ArrayList<>();
+        isBusy = true;
+        albums = new ArrayList<>();
         outToServer.println(Protocol.SEARCHALBUMS);
         outToServer.println(keyword);
-        readAlbums(albums);
+        while (isBusy());
+        populateAlbums();
         return albums;
     }
 
     public ArrayList<User> searchUsers(String keyword) {
-        ArrayList<User> users = new ArrayList<>();
+        isBusy = true;
+        users = new ArrayList<>();
         outToServer.println(Protocol.SEARCHUSERS);
         outToServer.println(keyword);
-        try {
-            int n = Integer.parseInt(inFromServer.readLine());
-            for (int i = 0; i < n; i++) users.add(User.parseUser(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
+        populateUsers();
         return users;
     }
 
     public ArrayList<Artist> searchArtists(String keyword) {
-        ArrayList<Artist> artists = new ArrayList<>();
+        isBusy = true;
+        artists = new ArrayList<>();
         outToServer.println(Protocol.SEARCHARTISTS);
         outToServer.println(keyword);
-        try {
-            int n = Integer.parseInt(inFromServer.readLine());
-            for (int i = 0; i < n; i++) artists.add(Artist.parseArtist(inFromServer.readLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (isBusy());
+        populateArtists();
         return artists;
     }
 
