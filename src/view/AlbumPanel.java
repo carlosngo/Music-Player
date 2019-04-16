@@ -229,11 +229,8 @@ public class AlbumPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 6;
         block.add(remove, cons);
-//        cons.insets = new Insets(5, 0, 0, 10);
-//        cons.gridx = 7;
-//        block.add(favPlaylist, cons);
-//        cons.insets = new Insets(5, 0, 0, 10);
-//        cons.gridx = 8;
-//        block.add(changeCover, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 7;
+        block.add(follow, cons);
     }
 }

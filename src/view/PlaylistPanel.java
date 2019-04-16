@@ -96,18 +96,6 @@ public class PlaylistPanel extends CategoryPanel {
             resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
             img = ImageIO.read(resource);
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-
-//            if (controller.isFavoritePlaylist(subCategoryName)) {
-//                resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-//                img = ImageIO.read(resource);
-//            } else {
-//                resource = getClass().getClassLoader().getResource("images/star.png");
-//                img = ImageIO.read(resource);
-//            }
-//            favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//            resource = getClass().getClassLoader().getResource("images/changeCover.png");
-//            img = ImageIO.read(resource);
-
             if (playlist.isFollowed()) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
@@ -155,28 +143,6 @@ public class PlaylistPanel extends CategoryPanel {
             }
             public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
         });
-
-//        favPlaylist.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                controller.toggleFavoritePlaylist(subCategoryName);
-//
-//                try {
-//                    URL resource;
-//                    BufferedImage img;
-//                    if (controller.isFavoritePlaylist(subCategoryName)) {
-//                        resource = getClass().getClassLoader().getResource("images/cyanStar.png");
-//                        img = ImageIO.read(resource);
-//                    } else {
-//                        resource = getClass().getClassLoader().getResource("images/star.png");
-//                        img = ImageIO.read(resource);
-//                    }
-//                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//                } catch (IOException e1) {
-//                    e1.printStackTrace();
-//                }
-//            }
-//        });
 
         follow.addActionListener(new ActionListener() {
             @Override
@@ -247,12 +213,9 @@ public class PlaylistPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 6;
         block.add(remove, cons);
-//        cons.insets = new Insets(5, 0, 0, 10);
-//        cons.gridx = 7;
-//        block.add(favPlaylist, cons);
-//        cons.insets = new Insets(5, 0, 0, 10);
-//        cons.gridx = 8;
-//        block.add(changeCover, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 7;
+        block.add(follow, cons);
     }
 
 }
