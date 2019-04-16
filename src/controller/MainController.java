@@ -66,6 +66,10 @@ public class MainController {
         return dashboard;
     }
 
+    public void pushNotification(String message) {
+
+    }
+
     public void playSongs(ArrayList<Song> songs) {
         pc.setSongs(songs);
         pc.startPlayer();

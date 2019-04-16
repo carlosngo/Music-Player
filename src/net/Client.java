@@ -3,6 +3,7 @@ package net;
 import util.FileUtil;
 import util.Protocol;
 import model.*;
+import controller.*;
 
 import java.io.*;
 import java.net.*;
@@ -18,6 +19,10 @@ public final class Client {
     private BufferedReader inFromServer;
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
+    // Controller
+    private MainController mc;
+
+    // Models
     private Account account;
     private Song song;
     private Playlist playlist;
@@ -41,6 +46,10 @@ public final class Client {
     }
 
     private Client() { }
+
+    public void setMainController(MainController mc) {
+        this.mc = mc;
+    }
 
     public static Client getInstance() { return singleton; }
 
@@ -156,8 +165,6 @@ public final class Client {
                         case GETSONGFILE:
                             FileUtil.downloadFile(socket, inFromServer, wav);
                             break;
-                        case SETSONGFILE:
-                            break;
                         case LOGIN:
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
                             if (success) {
@@ -186,8 +193,10 @@ public final class Client {
                             readArtists();
                             break;
                         case UPLOADEVENT:
+                            mc.pushNotification(inFromServer.readLine());
                             break;
                         case PLAYEVENT:
+                            mc.pushNotification(inFromServer.readLine());
                             break;
                     }
                     isBusy = false;
@@ -212,18 +221,18 @@ public final class Client {
 
     public Account getAccount(int accountId) {
         isBusy = true;
+        account = null;
         outToServer.println(Protocol.GETACCOUNT);
         outToServer.println(accountId);
-        account = null;
         while (isBusy());
         return account;
     }
 
     public Song getSong(int songId) {
         isBusy = true;
+        song = null;
         outToServer.println(Protocol.GETSONG);
         outToServer.println(songId);
-        song = null;
         while (isBusy());
         song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
         System.out.println(song.getAlbum());
@@ -367,9 +376,9 @@ public final class Client {
 
     public Playlist getPlaylist(int playlistId) {
         isBusy = true;
+        playlist = null;
         outToServer.println(Protocol.GETPLAYLIST);
         outToServer.println(playlistId);
-        playlist = null;
         while (isBusy());
         playlist.setAccount(getAccount(playlist.getAccount().getId()));
         return playlist;
@@ -547,9 +556,9 @@ public final class Client {
 
     public User getUser(int userId) {
         isBusy = true;
+        user = null;
         outToServer.println(Protocol.GETUSER);
         outToServer.println(userId);
-        user = null;
         while (isBusy());
         user.setAccount(getAccount(user.getAccount().getId()));
         return user;
@@ -621,9 +630,9 @@ public final class Client {
 
     public Artist getArtist(int artistId) {
         isBusy = true;
+        artist = null;
         outToServer.println(Protocol.GETARTIST);
         outToServer.println(artistId);
-        artist = null;
         while (isBusy());
         artist.setAccount(getAccount(artist.getAccount().getId()));
         return artist;

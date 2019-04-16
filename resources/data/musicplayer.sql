@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`account` (
   `Password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`PK_AccountID`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -48,9 +48,10 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`artist` (
   CONSTRAINT `Artist_AccountID`
     FOREIGN KEY (`FK_AccountID`)
     REFERENCES `musicplayer`.`account` (`PK_AccountID`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 15
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -70,9 +71,11 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`album` (
   INDEX `FK_ArtistID_idx` (`FK_ArtistID` ASC) VISIBLE,
   CONSTRAINT `FK_ArtistID`
     FOREIGN KEY (`FK_ArtistID`)
-    REFERENCES `musicplayer`.`artist` (`PK_ArtistID`))
+    REFERENCES `musicplayer`.`artist` (`PK_ArtistID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 17
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -118,9 +121,11 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`playlist` (
   INDEX `playlist_AccountID_idx` (`FK_AccountID` ASC) VISIBLE,
   CONSTRAINT `playlist_AccountID`
     FOREIGN KEY (`FK_AccountID`)
-    REFERENCES `musicplayer`.`account` (`PK_AccountID`))
+    REFERENCES `musicplayer`.`account` (`PK_AccountID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 8
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -170,12 +175,15 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`song` (
   CONSTRAINT `Song_AlbumID`
     FOREIGN KEY (`FK_AlbumID`)
     REFERENCES `musicplayer`.`album` (`PK_AlbumID`)
-    ON DELETE SET NULL,
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
   CONSTRAINT `Song_ArtistID`
     FOREIGN KEY (`FK_ArtistID`)
-    REFERENCES `musicplayer`.`artist` (`PK_ArtistID`))
+    REFERENCES `musicplayer`.`artist` (`PK_ArtistID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 21
+AUTO_INCREMENT = 31
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -275,9 +283,10 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`user` (
   CONSTRAINT `User_AccountID`
     FOREIGN KEY (`FK_AccountID`)
     REFERENCES `musicplayer`.`account` (`PK_AccountID`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 28
+AUTO_INCREMENT = 29
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
