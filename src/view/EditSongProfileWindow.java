@@ -22,6 +22,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
     private ArrayList<Album> albums;
 
     public EditSongProfileWindow(SongController controller, ArrayList<Album> albums, Song song, int selectedRow){
+        this.selectedRow = selectedRow;
         this.controller = controller;
         this.song = song;
         this.albums = albums;
