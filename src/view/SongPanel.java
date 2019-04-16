@@ -534,7 +534,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         private JButton play;
         private JButton kebab;
-        private String state;
+        private JButton follow;
         private JPopupMenu settingsMenu = new JPopupMenu();
 
         public ActionsPane() {
@@ -545,7 +545,11 @@ public class SongPanel extends JPanel implements ActionListener{
             play.setOpaque(false);
             play.setContentAreaFilled(false);
             play.setBorderPainted(false);
-            play.setActionCommand("play");
+            follow = new JButton();
+            follow.setEnabled(false);
+            follow.setOpaque(false);
+            follow.setContentAreaFilled(false);
+            follow.setBorderPainted(false);
             kebab = new JButton();
             kebab.setEnabled(false);
             kebab.setOpaque(false);
@@ -561,6 +565,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
                 img = ImageIO.read(resource);
                 kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+
             }
             catch(Exception e){
 
@@ -572,19 +577,33 @@ public class SongPanel extends JPanel implements ActionListener{
             ActionListener playListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
                     controller.playSong(currentRow, songs.get(currentRow).getSongId());
                 }
             };
             play.addActionListener(playListener);
 
-            play.addMouseListener(new MouseAdapter() {
+            follow.addMouseListener(new MouseAdapter() {
                 public void mouseEntered(MouseEvent e) {
-                    play.setEnabled(true);
+                    follow.setEnabled(true);
                 }
                 public void mouseExited(MouseEvent e) {
-                    play.setEnabled(false);
+                    follow.setEnabled(false);
+                }
+            });
+
+            ActionListener followListener = new ActionListener() {
+                public void actionPerformed(ActionEvent ev) {
+
+                }
+            };
+            follow.addActionListener(followListener);
+
+            kebab.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    kebab.setEnabled(true);
+                }
+                public void mouseExited(MouseEvent e) {
+                    kebab.setEnabled(false);
                 }
             });
 
@@ -610,11 +629,12 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public void addActionListener(ActionListener listener) {
             play.addActionListener(listener);
+            follow.addActionListener(listener);
             kebab.addActionListener(listener);
         }
 
         public String getState() {
-            return state;
+            return "state";
         }
 
         private void PopupMenu(){

@@ -66,14 +66,14 @@ public class PlayerPanel extends JPanel implements ActionListener {
         p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
         p2.setOpaque(false);
 
-        follow = new JButton();
-        follow.setActionCommand("follow");
-        follow.setOpaque(false);
-        follow.setContentAreaFilled(false);
-        follow.setBorderPainted(false);
-        follow.addActionListener(this);
-        add(follow);
-        add(Box.createRigidArea(new Dimension(5,0)));
+//        follow = new JButton();
+//        follow.setActionCommand("follow");
+//        follow.setOpaque(false);
+//        follow.setContentAreaFilled(false);
+//        follow.setBorderPainted(false);
+//        follow.addActionListener(this);
+//        add(follow);
+//        add(Box.createRigidArea(new Dimension(5,0)));
 
         favSong = new JButton();
         favSong.setActionCommand("favSong");

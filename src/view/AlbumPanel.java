@@ -222,15 +222,17 @@ public class AlbumPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 4;
         block.add(addToQueue, cons);
-        cons.insets = new Insets(5, 0, 0, 0);
+        cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 5;
-        cons.gridwidth = 1;
-        block.add(edit, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 6;
-        block.add(remove, cons);
-        cons.insets = new Insets(5, 0, 0, 10);
-        cons.gridx = 7;
         block.add(follow, cons);
+        if(album.getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()){
+            cons.insets = new Insets(5, 0, 0, 0);
+            cons.gridx = 6;
+            cons.gridwidth = 1;
+            block.add(edit, cons);
+            cons.insets = new Insets(5, 0, 0, 10);
+            cons.gridx = 7;
+            block.add(remove, cons);
+        }
     }
 }
