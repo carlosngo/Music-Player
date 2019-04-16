@@ -41,6 +41,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                 Protocol protocol = Protocol.valueOf(messageFromClient);
                 StringBuilder reply = new StringBuilder();
                 switch (protocol) {
+                    case GETACCOUNT:
+                        reply.append(server.getAccount(Integer.parseInt(in.readLine())));
+                        break;
                     case GETSONG:
                         reply.append(server.getSong(Integer.parseInt(in.readLine())));
                         break;

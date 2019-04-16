@@ -37,6 +37,11 @@ public class Artist extends User implements Comparable<Artist>{
 
 	public void setFollowed(boolean followed){ isFollowed = followed; }
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
 	public static Artist parseArtist(String s) {
 		Artist artist = new Artist();
 		String[] artistData = s.split("\\|");

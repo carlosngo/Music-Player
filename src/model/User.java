@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 public class User {
     private int userId;
     private Account account;
-    private String name;
+    String name;
     private String firstName;
     private String lastName;
     private String gender;

@@ -1,6 +1,7 @@
 package util;
 
 public enum Protocol {
+    GETACCOUNT,
     GETSONG,
     GETSONGS,
     GETSONGSBYARTIST,
