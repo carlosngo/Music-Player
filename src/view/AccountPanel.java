@@ -53,6 +53,88 @@ public class AccountPanel extends JPanel {
         buttonPnl.setLayout(new BoxLayout(buttonPnl, BoxLayout.X_AXIS));
         buttonPnl.setOpaque(false);
 
+        notif = new JButton();
+        notif.setForeground(Color.white);
+        notif.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ac.openNotifWindow(notif, notif.getBounds().x - (notif.getBounds().width), notif.getBounds().y
+                        + (notif.getBounds().height));
+            }
+        });
+        notif.setOpaque(false);
+        notif.setContentAreaFilled(false);
+        notif.setBorderPainted(false);
+//        notif.setMaximumSize(new Dimension(200, 40));
+//        notif.setMinimumSize(new Dimension(200, 40));
+//        notif.setPreferredSize(new Dimension(200, 40));
+        notif.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanNotification.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+                } catch(Exception exception){
+
+                }
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/notification.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+                } catch(Exception exception){
+
+                }
+            }
+        });
+        buttonPnl.add(notif);
+        buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
+        welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
+        welcomeLbl.setOpaque(false);
+        welcomeLbl.setContentAreaFilled(false);
+        welcomeLbl.setBorderPainted(false);
+        welcomeLbl.setForeground(Color.WHITE);
+//        welcomeLbl.setMaximumSize(new Dimension(150, 40));
+//        welcomeLbl.setMinimumSize(new Dimension(150, 40));
+//        welcomeLbl.setPreferredSize(new Dimension(150, 40));
+        name = ac.getUser().getAccount().getUserName();
+        welcomeLbl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //ac.openEditAccountWindow();
+                PopupMenu();
+                settingsMenu.show(welcomeLbl, welcomeLbl.getBounds().x - (welcomeLbl.getBounds().width),
+                        welcomeLbl.getBounds().y + (welcomeLbl.getBounds().height));
+            }
+        });
+        welcomeLbl.addMouseListener(new MouseAdapter() {
+            Color oldColor = welcomeLbl.getForeground();
+            public void mouseEntered(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/cyanAccount.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+                    welcomeLbl.setText(name);
+                } catch(Exception exception){
+
+                }
+                welcomeLbl.setForeground(new Color(0,255,255));
+            }
+            public void mouseExited(MouseEvent e) {
+                try{
+                    URL resource = getClass().getClassLoader().getResource("images/account.png");
+                    BufferedImage img = ImageIO.read(resource);
+                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
+                    welcomeLbl.setText(name);
+                } catch(Exception exception){
+
+                }
+                welcomeLbl.setForeground(oldColor);
+            }
+        });
+        buttonPnl.add(welcomeLbl);
+
         addSong = new JButton();
         addSong.setActionCommand("Add Song");
         addSong.setForeground(Color.white);
@@ -143,87 +225,6 @@ public class AccountPanel extends JPanel {
             buttonPnl.add(addAlbum);
             buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
         }
-
-        notif = new JButton();
-        notif.setForeground(Color.white);
-        notif.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ac.openNotifWindow();
-            }
-        });
-        notif.setOpaque(false);
-        notif.setContentAreaFilled(false);
-        notif.setBorderPainted(false);
-//        notif.setMaximumSize(new Dimension(200, 40));
-//        notif.setMinimumSize(new Dimension(200, 40));
-//        notif.setPreferredSize(new Dimension(200, 40));
-        notif.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/cyanNotification.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                } catch(Exception exception){
-
-                }
-            }
-            public void mouseExited(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/notification.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    notif.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                } catch(Exception exception){
-
-                }
-            }
-        });
-        buttonPnl.add(notif);
-        buttonPnl.add(Box.createRigidArea(new Dimension(7,0)));
-        welcomeLbl = new JButton(ac.getUser().getAccount().getUserName());
-        welcomeLbl.setOpaque(false);
-        welcomeLbl.setContentAreaFilled(false);
-        welcomeLbl.setBorderPainted(false);
-        welcomeLbl.setForeground(Color.WHITE);
-//        welcomeLbl.setMaximumSize(new Dimension(150, 40));
-//        welcomeLbl.setMinimumSize(new Dimension(150, 40));
-//        welcomeLbl.setPreferredSize(new Dimension(150, 40));
-        name = ac.getUser().getAccount().getUserName();
-        welcomeLbl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //ac.openEditAccountWindow();
-                PopupMenu();
-                settingsMenu.show(welcomeLbl, welcomeLbl.getBounds().x - (welcomeLbl.getBounds().width),
-                        welcomeLbl.getBounds().y + (welcomeLbl.getBounds().height));
-            }
-        });
-        welcomeLbl.addMouseListener(new MouseAdapter() {
-            Color oldColor = welcomeLbl.getForeground();
-            public void mouseEntered(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/cyanAccount.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                    welcomeLbl.setText(name);
-                } catch(Exception exception){
-
-                }
-                welcomeLbl.setForeground(new Color(0,255,255));
-            }
-            public void mouseExited(MouseEvent e) {
-                try{
-                    URL resource = getClass().getClassLoader().getResource("images/account.png");
-                    BufferedImage img = ImageIO.read(resource);
-                    welcomeLbl.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 25, 25)));
-                    welcomeLbl.setText(name);
-                } catch(Exception exception){
-
-                }
-                welcomeLbl.setForeground(oldColor);
-            }
-        });
-        buttonPnl.add(welcomeLbl);
 
         try{
             URL resource = getClass().getClassLoader().getResource("images/account.png");

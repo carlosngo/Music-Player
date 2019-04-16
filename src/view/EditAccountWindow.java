@@ -41,9 +41,9 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         firstNameInput = new JTextField("" , 10);
         firstNameInput.addActionListener(this);
         firstNameInput.setText(controller.getUser().getFirstName());
-        //firstNameInput.setEditable(false);
+        System.out.println();
+        System.out.println(controller.getUser().getFirstName());
         firstNameInput.setFont(new Font("Arial", Font.BOLD, 22));
-        //passwordInput.setBackground(new Color(152,251,152));
         p1.add(firstNameInput);
         p1.add(Box.createRigidArea(new Dimension(15,0))); // add space
         p.add(p1);
@@ -60,6 +60,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         lastNameInput = new JTextField("" , 10);
         lastNameInput.addActionListener(this);
         lastNameInput.setText(controller.getUser().getLastName());
+        System.out.println(controller.getUser().getLastName());
         //lastNameInput.setEditable(false);
         lastNameInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
@@ -81,12 +82,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
                 "October", "November", "December"};
         mon = new JComboBox(months);
         mon.setFont(new Font("Arial", Font.PLAIN, 16));
-        Calendar c = Calendar.getInstance();
-        c.setTime(controller.getUser().getBirthday());
-        int month = c.get(Calendar.MONTH) + 1;
-        mon.setSelectedIndex(month);
-        //mon.setBackground(new Color(152,251,152));
-        //mon.setEnabled(false);
         mon.addActionListener(this);
         p3.add(mon);
         String[] days = new String[32];
@@ -96,10 +91,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         }
         day = new JComboBox(days);
         day.setFont(new Font("Arial", Font.PLAIN, 16));
-        //day.setEnabled(false);
-        //day.setBackground(new Color(152,251,152));
-        int nDate = c.get(Calendar.DAY_OF_MONTH) + 1;
-        day.setSelectedIndex(nDate);
         day.addActionListener(this);
         p3.add(day);
         String[] years = new String[101];
@@ -108,11 +99,18 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
             years[i] = Integer.toString(1999 + i);
         }
         yr = new JComboBox(years);
-        yr.setSelectedItem("" + c.get(Calendar.YEAR));
         yr.setFont(new Font("Arial", Font.PLAIN, 16));
-        //yr.setEnabled(false);
-        //yr.setBackground(new Color(152,251,152));
         yr.addActionListener(this);
+
+//        Calendar c = Calendar.getInstance();
+//        System.out.println(controller.getUser().toString());
+//        c.setTime(controller.getUser().getBirthday());
+//        int month = c.get(Calendar.MONTH) + 1;
+//        mon.setSelectedIndex(month);
+//        int nDate = c.get(Calendar.DAY_OF_MONTH) + 1;
+//        day.setSelectedIndex(nDate);
+//        yr.setSelectedItem("" + c.get(Calendar.YEAR));
+
         p3.add(yr);
         p3.add(Box.createRigidArea(new Dimension(15,0))); // add space
         p.add(p3);
@@ -132,6 +130,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         //gender.setEnabled(false);
         //gender.setBackground(new Color(152,251,152));
         gender.setSelectedItem(controller.getUser().getGender());
+        System.out.println(controller.getUser().getGender());
         gender.addActionListener(this);
         p4.add(gender);
         p4.add(Box.createRigidArea(new Dimension(15,0))); // add space
@@ -168,6 +167,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         passwordInput.addActionListener(this);
         passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
+        passwordInput.setText(controller.getUser().getPassword());
+        System.out.println(controller.getUser().getPassword());
         //passwordInput.setBackground(new Color(152,251,152));
         p6.add(passwordInput);
 //        passwordInput = new JTextField("" , 10);

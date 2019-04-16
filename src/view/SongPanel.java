@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -534,6 +535,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         private JButton play;
         private JButton kebab;
+        private JButton follow;
         private String state;
         private JPopupMenu settingsMenu = new JPopupMenu();
 
@@ -546,13 +548,18 @@ public class SongPanel extends JPanel implements ActionListener{
             play.setContentAreaFilled(false);
             play.setBorderPainted(false);
             play.setActionCommand("play");
+            follow = new JButton();
+            follow.setEnabled(false);
+            follow.setOpaque(false);
+            follow.setContentAreaFilled(false);
+            follow.setBorderPainted(false);
+            follow.setActionCommand("follow");
             kebab = new JButton();
             kebab.setEnabled(false);
             kebab.setOpaque(false);
             kebab.setContentAreaFilled(false);
             kebab.setBorderPainted(false);
             kebab.setActionCommand("settings");
-
 
             try{
                 URL resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
@@ -561,6 +568,15 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
                 img = ImageIO.read(resource);
                 kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                if (songs.get(currentRow).isFollowed()) {
+                    resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                    img = ImageIO.read(resource);
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } else {
+                    resource = getClass().getClassLoader().getResource("images/follow.png");
+                    img = ImageIO.read(resource);
+                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                }
             }
             catch(Exception e){
 
@@ -572,19 +588,50 @@ public class SongPanel extends JPanel implements ActionListener{
             ActionListener playListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    System.out.println("State = " + state);
                     controller.playSong(currentRow, songs.get(currentRow).getSongId());
                 }
             };
             play.addActionListener(playListener);
 
-            play.addMouseListener(new MouseAdapter() {
+            follow.addMouseListener(new MouseAdapter() {
                 public void mouseEntered(MouseEvent e) {
-                    play.setEnabled(true);
+                    follow.setEnabled(true);
                 }
                 public void mouseExited(MouseEvent e) {
-                    play.setEnabled(false);
+                    follow.setEnabled(false);
+                }
+            });
+
+            ActionListener followListener = new ActionListener() {
+                public void actionPerformed(ActionEvent ev) {
+                    controller.followSong(songs.get(currentRow));
+                    if (songs.get(currentRow).isFollowed()) {
+                        try {
+                            URL resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                            BufferedImage img = ImageIO.read(resource);
+                            follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            URL resource = getClass().getClassLoader().getResource("images/follow.png");
+                            BufferedImage img = ImageIO.read(resource);
+                            follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            follow.addActionListener(followListener);
+
+            kebab.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    kebab.setEnabled(true);
+                }
+                public void mouseExited(MouseEvent e) {
+                    kebab.setEnabled(false);
                 }
             });
 
@@ -610,6 +657,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
         public void addActionListener(ActionListener listener) {
             play.addActionListener(listener);
+            follow.addActionListener(listener);
             kebab.addActionListener(listener);
         }
 
