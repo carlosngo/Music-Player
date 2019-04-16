@@ -30,7 +30,7 @@ public class Notification extends JFrame{
           Object[] o = {" ".concat(notification)};
           dtm.insertRow(0, o);
     }
-    
+
     public void show(int x, int y){
         this.setLocation(x, y);
         this.setVisible(true);
@@ -81,5 +81,11 @@ public class Notification extends JFrame{
         };
         
         this.addMouseListener(mad);
+    }
+
+    public static void main(String args[]){
+        Notification n = new Notification();
+        n.show(300,300);
+        n.append("hello");
     }
 }
