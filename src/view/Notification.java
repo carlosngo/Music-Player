@@ -38,6 +38,7 @@ public class Notification extends JFrame{
    
     //=======================================================
     private void initLayout(){
+        //this.show(90,90);
         setFocusable(false);
         setUndecorated(true);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
