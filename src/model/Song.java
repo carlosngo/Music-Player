@@ -127,6 +127,7 @@ public class Song implements Comparable<Song>, Media {
     }
 
     public static Song parseSong(String s) {
+        System.out.println(s);
 	    Song song = new Song();
 	    String[] songdata = s.split("\\|");
 	    song.setSongId(Integer.parseInt(songdata[0]));

@@ -42,6 +42,18 @@ public final class Client {
         }
     }
 
+    public Account getAccount(int accountId) {
+        outToServer.println(Protocol.GETACCOUNT);
+        outToServer.println(accountId);
+        Account account = null;
+        try {
+            account = Account.parseAccount(inFromServer.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
     public Song getSong(int songId) {
         outToServer.println(Protocol.GETSONG);
         outToServer.println(songId);
@@ -49,7 +61,9 @@ public final class Client {
         try {
             song = Song.parseSong(inFromServer.readLine());
             song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
+            System.out.println(song.getAlbum());
             song.setArtist(getArtist(song.getArtist().getArtistId()));
+            System.out.println(song.getArtist());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,7 +121,15 @@ public final class Client {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
-                songs.add(Song.parseSong(inFromServer.readLine()));
+                Song song = Song.parseSong(inFromServer.readLine());
+                songs.add(song);
+            }
+            for (int i = 0; i < n; i++) {
+                Song song = songs.get(i);
+                song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
+                song.setArtist(getArtist(song.getArtist().getArtistId()));
+                System.out.println(song.getAlbum());
+                System.out.println(song.getArtist());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -173,6 +195,7 @@ public final class Client {
         Playlist playlist = null;
         try {
             playlist = Playlist.parsePlaylist(inFromServer.readLine());
+            playlist.setAccount(getAccount(playlist.getAccount().getId()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -206,7 +229,12 @@ public final class Client {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
-                playlists.add(Playlist.parsePlaylist(inFromServer.readLine()));
+                Playlist playlist = Playlist.parsePlaylist(inFromServer.readLine());
+                playlists.add(playlist);
+            }
+            for (int i = 0; i < n; i++) {
+                Playlist playlist = playlists.get(i);
+                playlist.setAccount(getAccount(playlist.getAccount().getId()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -255,7 +283,7 @@ public final class Client {
 
         try {
             album = Album.parseAlbum(inFromServer.readLine());
-//            album.setCover(getImageFile(albumId));
+            album.setArtist(getArtist(album.getArtist().getArtistId()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -288,7 +316,12 @@ public final class Client {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
             for (int i = 0; i < n; i++) {
-                albums.add(Album.parseAlbum(inFromServer.readLine()));
+                Album album = Album.parseAlbum(inFromServer.readLine());
+                albums.add(album);
+            }
+            for (int i = 0; i < n; i++) {
+                Album album = albums.get(i);
+                album.setArtist(getArtist(album.getArtist().getArtistId()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -332,12 +365,14 @@ public final class Client {
     public User getUser(int userId) {
         outToServer.println(Protocol.GETUSER);
         outToServer.println(userId);
+        User user = null;
         try {
-            return User.parseUser(inFromServer.readLine());
+            user = User.parseUser(inFromServer.readLine());
+            user.setAccount(getAccount(user.getAccount().getId()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     public ArrayList<User> getUsers(){
@@ -403,12 +438,14 @@ public final class Client {
     public Artist getArtist(int artistId) {
         outToServer.println(Protocol.GETARTIST);
         outToServer.println(artistId);
+        Artist artist = null;
         try {
-            return Artist.parseArtist(inFromServer.readLine());
+            artist = Artist.parseArtist(inFromServer.readLine());
+            artist.setAccount(getAccount(artist.getAccount().getId()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return artist;
     }
 
     public ArrayList<Artist> getArtists(){

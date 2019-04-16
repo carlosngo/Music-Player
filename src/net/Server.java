@@ -43,6 +43,8 @@ final class Server {
         executor.submit(thread);
     }
 
+    Account getAccount(int accountId) { return ((AccountDAO)accountDAOFactory.getDAO()).find(accountId); }
+
     Song getSong(int songId) {
         return ((SongDAO)songDAOFactory.getDAO()).find(songId);
     }

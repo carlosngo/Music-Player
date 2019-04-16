@@ -445,6 +445,10 @@ public class SongPanel extends JPanel implements ActionListener{
         public Object getValueAt(int rowIndex, int columnIndex) {
             ArrayList<String> obj = data.get(rowIndex);
             Object value = null;
+            for (int i = 0; i < obj.size(); i++) {
+                System.out.print(obj.get(i) + " ");
+            }
+            System.out.println();
             switch (columnIndex) {
                 case 0:
                     break;
