@@ -117,7 +117,7 @@ public class SongController {
 
     public void removeFromAlbum(int songId) {
         Song song = client.getSong(songId);
-        song.setArtist(null);
+        song.setAlbum(new Album());
         client.updateSong(song);
     }
 

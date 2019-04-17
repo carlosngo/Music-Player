@@ -34,10 +34,12 @@ public class SongPanel extends JPanel implements ActionListener{
     private ArrayList<ArrayList<String>> biodata;
     private ArrayList<ArrayList<String>> data;
     private ArrayList<Song> songs;
+    private Object songContainer;
 
     public SongPanel(SongController controller, String header, Object obj, ArrayList<Song> songs) {
         this.controller = controller;
         this.songs = songs;
+        songContainer = obj;
         if( obj instanceof Playlist){
             Playlist playlist = (Playlist) obj;
             objID = playlist.getPlaylistId();
@@ -695,7 +697,7 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
             removeFromPlaylist.setActionCommand("removeFromPlaylist");
 
             JMenuItem removeFromAlbum = new JMenuItem("Remove from album");
-            removeFromPlaylist.setActionCommand("removeFromAlbum");
+            removeFromAlbum.setActionCommand("removeFromAlbum");
 
             JMenuItem edit = new JMenuItem("Edit");
             edit.setActionCommand("edit");
@@ -719,11 +721,12 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
             settingsMenu.add(addToQueue);
             settingsMenu.add(add_to_playlist);
             String[] split = headerName.getText().split(" ");
-            if (split.length > 1 && split[1].equals("IN")){
+            if (songContainer instanceof Album)
+                settingsMenu.add(removeFromAlbum);
+            else if (songContainer instanceof Playlist)
                 settingsMenu.add(removeFromPlaylist);
-                //settingsMenu.add(removeFromAlbum);
-            }
             //settingsMenu.add(removeFromAlbum);
+
             settingsMenu.add(edit);
             settingsMenu.add(delete);
             //settingsMenu.add(follow);

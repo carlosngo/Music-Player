@@ -89,7 +89,8 @@ final class Server {
         System.out.print("Notifying the following accounts: ");
         for (int i = 0; i < followers.size(); i++) {
             System.out.print(followers.get(i));
-            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist.getAccount(), song));
+            if (onlineUsers.containsKey(followers.get(i)))
+                onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist.getAccount(), song));
         }
         return true;
     }
@@ -113,6 +114,14 @@ final class Server {
     void updateSong(Song song){
         try {
             ((SongDAO)songDAOFactory.getDAO()).update(song);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Quiz was not deleted.");
+        }
+    }
+
+    void updateSongData(Song song) {
+        try {
+            ((SongDAO)songDAOFactory.getDAO()).updateMetadata(song);
         } catch (IllegalArgumentException e) {
             System.out.println("Quiz was not deleted.");
         }

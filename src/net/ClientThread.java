@@ -124,7 +124,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case UPDATESONG:
                         song = Song.parseSong(in.readLine());
-                        server.updateSong(song);
+                        server.updateSongData(song);
                         break;
                     case PLAYSONG:
                         server.playSong(Account.parseAccount(in.readLine()), Song.parseSong(in.readLine()));

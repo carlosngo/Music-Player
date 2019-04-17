@@ -24,6 +24,8 @@ public class SongDAO implements DataAccessObject {
     		"DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_UPDATE =
     		"UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ?, File = ? WHERE PK_SongID = ?";
+    private static final String SQL_UPDATE_METADATA =
+            "UPDATE " + Database.SONG_TABLE + " SET FK_ArtistID = ?, FK_AlbumID = ?, Name = ?, Genre = ?, Year = ? WHERE PK_SongID = ?";
     private static final String SQL_FIND_BY_ID =
             "SELECT " + Database.SONG_COLUMNS + " FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_FIND_BY_ARTIST_ID_ORDER_BY_GENRE =
@@ -423,7 +425,39 @@ public class SongDAO implements DataAccessObject {
             e.printStackTrace();
         }
     }
-    
+
+    public void updateMetadata(Song song) throws IllegalArgumentException {
+        try {
+            if (song.getSongId() == -1) {
+                throw new IllegalArgumentException("Artist is not created yet, the user ID is null.");
+            }
+            Connection connection = Database.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_METADATA);
+
+            if (song.getArtist().getArtistId() != -1)
+                statement.setInt(1, song.getArtist().getArtistId());
+            else
+                statement.setObject(1, null);
+            if (song.getAlbum().getAlbumId() != -1)
+                statement.setInt(2, song.getAlbum().getAlbumId());
+            else
+                statement.setObject(2, null);
+            statement.setString(3, song.getName());
+            if (song.getGenre() != null)
+                statement.setString(4, song.getGenre());
+            else
+                statement.setObject(4, null);
+            statement.setInt(5, song.getYear());
+            statement.setInt(6, song.getSongId());
+            statement.executeUpdate();
+            statement.close();
+
+
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Song> search(String name){
     	ArrayList<Song> songs = new ArrayList<>();
     	Object[] values = {
