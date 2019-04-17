@@ -592,6 +592,14 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
             };
             play.addActionListener(playListener);
+            play.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    play.setEnabled(true);
+                }
+                public void mouseExited(MouseEvent e) {
+                    play.setEnabled(false);
+                }
+            });
 
             follow.addMouseListener(new MouseAdapter() {
                 public void mouseEntered(MouseEvent e) {

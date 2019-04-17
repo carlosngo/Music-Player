@@ -29,7 +29,7 @@ public class ArtistDAO implements DataAccessObject {
 	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE Name LIKE ?";
 	private static final String SQL_FIND_BY_ACCOUNTID = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE FK_AccountID = ?" ;
 	private static final String SQL_LIST_BY_FOLLOWED_ARTISTS = 
-			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.ARTIST_TABLE + ".PK_ArtistID = " + 
+			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.ARTIST_TABLE + ".FK_AccountID = " +
 			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubscriberID = ?";
 	
 	public ArtistDAO(DAOFactory db) {
