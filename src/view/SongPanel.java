@@ -590,7 +590,7 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
             }
 
             add(play);
-            if(songs.get(currentRow).getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId())
+            if(songs.get(currentRow).getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId())
             add(follow);
             add(kebab);
 
