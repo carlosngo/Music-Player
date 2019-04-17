@@ -132,6 +132,13 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
             });
 
+Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                @Override
+                public int compare(ArrayList<String> one, ArrayList<String> two) {
+                    return one.get(0).compareTo(two.get(0));
+                }
+            });
+
             for(int i=0 ; i<data.size() ; i++){
                 model.add(data.get(i));
             }
@@ -583,6 +590,8 @@ public class SongPanel extends JPanel implements ActionListener{
             }
 
             add(play);
+            if(songs.get(currentRow).getArtist().getAccount().getID() == controller.getMainController().getAc().getUser().getAccount().getId())
+            add(follow);
             add(kebab);
 
             ActionListener playListener = new ActionListener() {
