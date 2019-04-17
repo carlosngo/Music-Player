@@ -18,21 +18,20 @@ public class MainController {
 
     // views
     private static Dashboard dashboard;
-    private static NotificationWindow notificationWindow;
 
     public MainController() {
         client = Client.getInstance();
         client.startConnection();
+        client.setMainController(this);
         ac = new AccountController(this);
         pc = new PlayerController(this);
         sc = new SongController(this);
-        notificationWindow = new NotificationWindow();
-        closeNotificationWindow();
         ac.openLogInWindow();
     }
 
     public void exit() {
         pc.terminate();
+        ac.logOut();
         client.closeConnection();
     }
 
@@ -70,16 +69,8 @@ public class MainController {
         return dashboard;
     }
 
-    public void showNotificationWindow() {
-        notificationWindow.setVisible(true);
-    }
-
-    public void closeNotificationWindow() {
-        notificationWindow.setVisible(false);
-    }
-
     public void pushNotification(String message) {
-        notificationWindow.append(message);
+        ac.pushNotification(message);
     }
 
     public void playSongs(ArrayList<Song> songs) {

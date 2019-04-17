@@ -83,11 +83,13 @@ final class Server {
         }
         System.out.println("Song was added.");
         Artist artist = song.getArtist();
-//        System.out.println(artist);
+        System.out.println(artist);
         ArrayList<Integer> followers =
-                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(artist.getAccount().getId());
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(artist.getAccount().getId());
+        System.out.print("Notifying the following accounts: ");
         for (int i = 0; i < followers.size(); i++) {
-            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist, song));
+            System.out.print(followers.get(i));
+            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist.getAccount(), song));
         }
         return true;
     }
@@ -118,7 +120,7 @@ final class Server {
 
     void playSong(Account account, Song song){
         ArrayList<Integer> followers =
-                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(account.getId());
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(account.getId());
         for (int i = 0; i < followers.size(); i++) {
             onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
         }
@@ -150,6 +152,7 @@ final class Server {
     }
 
     boolean addPlaylist(Playlist playlist){
+        playlist.setAccount(getAccount(playlist.getAccount().getId()));
         try {
             ((PlaylistDAO)playlistDAOFactory.getDAO()).create(playlist);
         } catch (IllegalArgumentException e) {
@@ -158,7 +161,7 @@ final class Server {
         }
         Account account = playlist.getAccount();
         ArrayList<Integer> followers =
-                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(account.getId());
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(account.getId());
         for (int i = 0; i < followers.size(); i++) {
             onlineUsers.get(followers.get(i)).listen(new UploadEvent(account, playlist));
         }
@@ -206,6 +209,7 @@ final class Server {
     }
 
     boolean addAlbum(Album album){
+        album.setArtist(getArtist(album.getArtist().getArtistId()));
         try {
             ((AlbumDAO)albumDAOFactory.getDAO()).create(album);
         } catch (IllegalArgumentException e) {
@@ -214,9 +218,9 @@ final class Server {
         }
         Artist artist = album.getArtist();
         ArrayList<Integer> followers =
-                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(artist.getAccount().getId());
+                ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(artist.getAccount().getId());
         for (int i = 0; i < followers.size(); i++) {
-            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist, album));
+            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist.getAccount(), album));
         }
         return true;
     }

@@ -13,6 +13,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    private Server server = Server.getInstance();
 
     public ClientThread(Socket socket) {
         this.socket = socket;
@@ -27,7 +28,6 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
     @Override
     public void run() {
         System.out.println("Started thread for client.");
-        Server server = Server.getInstance();
         String messageFromClient;
         try {
             while (!server.isShutDown() && (messageFromClient = in.readLine()) != null) {
@@ -447,22 +447,25 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
 
     @Override
     public void listen(UploadEvent e) {
+        System.out.println("Received a broadcast from the server.");
         out.println(Protocol.UPLOADEVENT);
-        User source = (User)e.getSource();
+        Account source = (Account)e.getSource();
         Media media = e.getMediaUploaded();
         StringBuilder sb = new StringBuilder();
-        sb.append(source.getName());
-        sb.append(" has uploaded a ");
+        sb.append(source.getUserName());
+        sb.append(" has uploaded a");
         if (media instanceof Song) {
             sb.append(" song named ");
             sb.append(((Song) media).getName());
         } else if (media instanceof Album) {
-            sb.append(" album named ");
+            sb.append("n album named ");
             sb.append(((Album) media).getName());
         } else {
             sb.append(" playlist named ");
             sb.append(((Playlist) media).getName());
         }
+        System.out.println("Broadcasting the message: ");
+        System.out.println(sb.toString());
         out.println(sb.toString());
     }
 }

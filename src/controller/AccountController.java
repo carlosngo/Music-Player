@@ -26,6 +26,7 @@ public class AccountController {
 
 	public AccountController(MainController mc) {
 		this.mc = mc;
+		notifWindow = new NotificationWindow();
 	}
 
 	public User getUser() {
@@ -65,12 +66,21 @@ public class AccountController {
 	}
 
 	public void openNotifWindow(int x, int y){
-		notifWindow = new NotificationWindow();
 		notifWindow.show(x,y);
+	}
+
+	public void closeNotificationWindow() {
+		notifWindow.setVisible(false);
 	}
 
 	public void openAddSongWindow() {
 		mc.getSongController().openAddSongWindow();
+	}
+
+	public void pushNotification(String notification) {
+		System.out.println("A notification has been received!");
+		System.out.println(notification);
+		notifWindow.append(notification);
 	}
 
 	// logs in the user. check for errors.
