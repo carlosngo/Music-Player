@@ -29,7 +29,7 @@ public final class Database {
 
     public static final String ARTIST_TABLE = "musicplayer.artist";
     public static final String ARTIST_COLUMNS =
-            "artist.PK_ArtistID, artist.FK_AccountID, artist.Name, artist.Genre";
+            "artist.PK_ArtistID, artist.FK_AccountID, artist.FirstName, artist.LastName, artist.Gender, artist.Birthday, artist.Genre";
 
     public static final String ACCOUNT_TABLE = "musicplayer.account";
     public static final String ACCOUNT_COLUMNS =
