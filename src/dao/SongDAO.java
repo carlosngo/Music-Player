@@ -398,11 +398,11 @@ public class SongDAO implements DataAccessObject {
             Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
 
-            if (song.getArtist() != null)
+            if (song.getArtist().getArtistId() != -1)
                 statement.setInt(1, song.getArtist().getArtistId());
             else
                 statement.setObject(1, null);
-            if (song.getAlbum() != null)
+            if (song.getAlbum().getAlbumId() != -1)
                 statement.setInt(2, song.getAlbum().getAlbumId());
             else
                 statement.setObject(2, null);

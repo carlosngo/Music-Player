@@ -74,6 +74,7 @@ final class Server {
     }
 
     boolean addSong(Song song){
+        song.setArtist(getArtist(song.getArtist().getArtistId()));
         try {
             ((SongDAO)songDAOFactory.getDAO()).create(song);
         } catch (IllegalArgumentException e) {
@@ -82,7 +83,7 @@ final class Server {
         }
         System.out.println("Song was added.");
         Artist artist = song.getArtist();
-        System.out.println(artist);
+//        System.out.println(artist);
         ArrayList<Integer> followers =
                 ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscriberId(artist.getAccount().getId());
         for (int i = 0; i < followers.size(); i++) {

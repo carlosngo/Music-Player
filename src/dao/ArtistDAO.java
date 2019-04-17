@@ -234,8 +234,11 @@ public class ArtistDAO implements DataAccessObject {
 		Artist artist = new Artist();
 		artist.setArtistId(rs.getInt("PK_ArtistID"));
 		artist.setAccount(accountDAO.find(rs.getInt("FK_AccountID")));
-		artist.setName(rs.getString("Name"));
+		artist.setFirstName(rs.getString("FirstName"));
+		artist.setLastName(rs.getString("LastName"));
+		artist.setGender(rs.getString("Gender"));
 		artist.setGenre(rs.getString("Genre"));
+		artist.setBirthday(rs.getDate("Birthday"));
 		return artist;
 	}
 

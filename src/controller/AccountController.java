@@ -117,7 +117,6 @@ public class AccountController {
 			Artist artist = new Artist();
 			artist.getAccount().setUserName(username);
 			artist.getAccount().setPassword(password);
-//			user.setPassword(hash.generateHash(password));
 			artist.setFirstName(firstName);
 			artist.setLastName(lastName);
 			artist.setName(firstName + " " + lastName);
@@ -126,7 +125,7 @@ public class AccountController {
 			if(mc.getClient().addArtist(artist)){
 				System.out.println("Artist " + artist.getName() + " is created.");
 
-				logIn(username, password);
+//				logIn(username, password);
 			} else {
 				return false;
 			}
@@ -147,12 +146,15 @@ public class AccountController {
 
 	public void updateUser(String userName, String password, String firstName, String lastName, String gender, Date birthday){
 		
-		user.setUserName(userName);
-		user.setPassword(hash.generateHash(password));
+		user.getAccount().setUserName(userName);
+		user.getAccount().setPassword(password);
+//		user.setPassword(hash.generateHash(password));
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setGender(gender);
 		user.setBirthday(birthday);
+		if (user instanceof Artist) mc.getClient().updateArtist((Artist)user);
+		else mc.getClient().updateUser(user);
 		mc.getAccountController().getAccountPanel().update();
 		/*        Song s = displayedSongs.get(songIndex);
 //        System.out.println(s);

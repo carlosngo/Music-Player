@@ -162,8 +162,6 @@ public class Song implements Comparable<Song>, Media {
             sb.append("|");
 //        sb.append(getUser().);
 //        sb.append("|");
-            System.out.println(getAlbum());
-            System.out.println(getArtist());
             sb.append(getAlbum().getAlbumId());
             sb.append("|");
             sb.append(getArtist().getArtistId());

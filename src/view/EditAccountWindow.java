@@ -29,6 +29,13 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p.add(title);
         p.add(Box.createRigidArea(new Dimension(0,20))); // add space
 
+        save = new JButton("Save Changes");
+        save.setFont(new Font("Arial", Font.PLAIN, 20));
+        save.addActionListener(this);
+        save.setForeground(Color.white);
+        save.setBackground(new Color(1,121,150));
+        save.setOpaque(true);
+        save.setBorderPainted(false);
 
         JPanel p1 = new JPanel();
         p1.setOpaque(false);
@@ -41,8 +48,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         firstNameInput = new JTextField("" , 10);
         firstNameInput.addActionListener(this);
         firstNameInput.setText(controller.getUser().getFirstName());
-        System.out.println();
-        System.out.println(controller.getUser().getFirstName());
+//        System.out.println();
+//        System.out.println(controller.getUser().getFirstName());
         firstNameInput.setFont(new Font("Arial", Font.BOLD, 22));
         p1.add(firstNameInput);
         p1.add(Box.createRigidArea(new Dimension(15,0))); // add space
@@ -60,7 +67,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         lastNameInput = new JTextField("" , 10);
         lastNameInput.addActionListener(this);
         lastNameInput.setText(controller.getUser().getLastName());
-        System.out.println(controller.getUser().getLastName());
+//        System.out.println(lastName);
         //lastNameInput.setEditable(false);
         lastNameInput.setFont(new Font("Arial", Font.BOLD, 22));
         //passwordInput.setBackground(new Color(152,251,152));
@@ -146,7 +153,7 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p5.add(usernameLabel);
         usernameInput = new JTextField("" , 10);
-        usernameInput.setText(controller.getUser().getUserName());
+        usernameInput.setText(controller.getUser().getAccount().getUserName());
         usernameInput.addActionListener(this);
         //usernameInput.setEditable(false);
         usernameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -167,8 +174,8 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         passwordInput.addActionListener(this);
         passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
-        passwordInput.setText(controller.getUser().getPassword());
-        System.out.println(controller.getUser().getPassword());
+        passwordInput.setText(controller.getUser().getAccount().getPassword());
+        System.out.println(controller.getUser().getAccount().getPassword());
         //passwordInput.setBackground(new Color(152,251,152));
         p6.add(passwordInput);
 //        passwordInput = new JTextField("" , 10);
@@ -194,13 +201,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         cancel.setBorderPainted(false);
         p7.add(cancel);
         p7.add(Box.createRigidArea(new Dimension(10,0))); // add space
-        save = new JButton("Save Changes");
-        save.setFont(new Font("Arial", Font.PLAIN, 20));
-        save.addActionListener(this);
-        save.setForeground(Color.white);
-        save.setBackground(new Color(1,121,150));
-        save.setOpaque(true);
-        save.setBorderPainted(false);
         p7.add(save);
         p.add(p7);
         p.add(Box.createRigidArea(new Dimension(0,7))); // add space

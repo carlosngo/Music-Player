@@ -169,7 +169,7 @@ public final class Client {
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
                             if (success) {
                                 String userInfo = inFromServer.readLine();
-                                if (userInfo.split("\\|").length < 6) user = Artist.parseArtist(userInfo);
+                                if (userInfo.split("\\|").length > 6) user = Artist.parseArtist(userInfo);
                                 else user = User.parseUser(userInfo);
                                 user.setAccount(Account.parseAccount(inFromServer.readLine()));
                                 break;
@@ -438,7 +438,7 @@ public final class Client {
         outToServer.println(Protocol.ADDPLAYLIST);
         outToServer.println(playlist);
         while (isBusy());
-        return true;
+        return success;
     }
 
     public void deletePlaylist(Playlist playlist){
@@ -529,7 +529,7 @@ public final class Client {
         outToServer.println(Protocol.ADDALBUM);
         outToServer.println(album);
         while (isBusy());
-        return true;
+        return success;
     }
 
     public void deleteAlbum(Album album){
@@ -608,7 +608,7 @@ public final class Client {
         outToServer.println(user);
         outToServer.println(user.getAccount());
         while (isBusy());
-        return true;
+        return success;
     }
 
     public void updateUser(User user){
@@ -684,7 +684,7 @@ public final class Client {
         outToServer.println(artist.getAccount());
         System.out.println(artist.getAccount());
         while (isBusy());
-        return true;
+        return success;
     }
 
     public void updateArtist(Artist artist){

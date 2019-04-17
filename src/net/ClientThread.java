@@ -103,7 +103,6 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDSONG:
                         song = Song.parseSong(in.readLine());
-                        System.out.println(song);
                         if (server.addSong(song)) {
                             reply.append("OK\n");
                             reply.append(song.getSongId());
@@ -313,8 +312,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case ADDARTIST:
                         artist = Artist.parseArtist(in.readLine());
-                        account = Account.parseAccount(in.readLine());
                         System.out.println(artist);
+                        account = Account.parseAccount(in.readLine());
                         System.out.println(account);
                         artist.setAccount(account);
                         if (server.addArtist(artist)) {
@@ -374,6 +373,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(Protocol.OK);
                             reply.append("\n");
                             reply.append(user);
+                            System.out.println(user);
                             reply.append("\n");
                             reply.append(user.getAccount());
                         }
@@ -433,7 +433,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     out.println(reply.toString());
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
 

@@ -133,7 +133,8 @@ public class UserPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
         block.add(follow, cons);
-        if(user.getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
+        if(user.getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()) {
             follow.setVisible(false);
+        }
     }
 }

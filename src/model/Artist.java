@@ -9,11 +9,10 @@ import java.util.*;
 public class Artist extends User implements Comparable<Artist>{
 	private int artistId;
 	private String genre;
-	private boolean isFollowed;
 
 	public Artist() {
 		super();
-		genre = "";
+		genre = " ";
 		artistId = -1;
 	}
 
@@ -33,22 +32,23 @@ public class Artist extends User implements Comparable<Artist>{
 		this.genre = genre;
 	}
 
-	public boolean isFollowed(){ return isFollowed; }
-
-	public void setFollowed(boolean followed){ isFollowed = followed; }
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
 	public static Artist parseArtist(String s) {
-		Artist artist = new Artist();
-		String[] artistData = s.split("\\|");
-		artist.getAccount().setId(Integer.parseInt(artistData[0]));
-		artist.setArtistId(Integer.parseInt(artistData[1]));
-		artist.setName(artistData[2]);
-		return artist;
+		Artist user = new Artist();
+		String[] biodata = s.split("\\|");
+		user.getAccount().setId(Integer.parseInt(biodata[0]));
+		user.setArtistId(Integer.parseInt(biodata[1]));
+		user.setFirstName(biodata[2]);
+		user.setLastName(biodata[3]);
+		user.setGender(biodata[4]);
+		try {
+			Date bday = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(biodata[5]);
+			user.setBirthday(bday);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			System.out.println("parse exception");
+		}
+		user.setGenre(biodata[6]);
+		return user;
 	}
 
 	@Override
@@ -58,7 +58,16 @@ public class Artist extends User implements Comparable<Artist>{
 		sb.append("|");
 		sb.append(getArtistId());
 		sb.append("|");
-		sb.append(getName());
+		sb.append(getFirstName());
+		sb.append("|");
+		sb.append(getLastName());
+		sb.append("|");
+		sb.append(getGender());
+		sb.append("|");
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		sb.append(formatter.format(getBirthday()));
+		sb.append("|");
+		sb.append(getGenre());
 		return sb.toString();
 	}
 
