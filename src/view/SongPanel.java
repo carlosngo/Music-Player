@@ -3,6 +3,7 @@ package view;
 import controller.*;
 import model.*;
 
+import net.Client;
 import util.ImageResizer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -37,134 +38,141 @@ public class SongPanel extends JPanel implements ActionListener{
     private Object songContainer;
 
     public SongPanel(SongController controller, String header, Object obj, ArrayList<Song> songs) {
-        this.controller = controller;
-        this.songs = songs;
-        songContainer = obj;
-        if( obj instanceof Playlist){
-            Playlist playlist = (Playlist) obj;
-            objID = playlist.getPlaylistId();
-        }else if( obj instanceof Album){
-            Album album = (Album) obj;
-            objID = album.getAlbumId();
-        }else if( obj instanceof Artist){
-            Artist artist = (Artist) obj;
-            objID = artist.getArtistId();
-        }
-        data = new ArrayList<ArrayList<String>>();
-        ArrayList<String> _dataContent;
-        for(Song s : songs){
-            _dataContent = new ArrayList<String>();
-            _dataContent.add(s.getName());
-            _dataContent.add(s.getAlbum().getName());
-            _dataContent.add(s.getArtist().getName());
-            _dataContent.add(""+s.getYear());
-            _dataContent.add(s.getGenre());
-            _dataContent.add(""+s.getDateCreated());
-            _dataContent.add(""+s.getPlayTime());
-            System.out.println(s.getArtist().toString());
-            System.out.println(s.getAlbum().toString());
-            data.add(_dataContent);
-        }
-
-        biodata = new ArrayList<ArrayList<String>>();
-        ArrayList<String> biodataContent;
-        for(Song s : songs){
-            biodataContent = new ArrayList<String>();
-            biodataContent.add(s.getName());
-            biodataContent.add(s.getAlbum().getName());
-            biodataContent.add(s.getArtist().getName());
-            biodataContent.add(""+s.getYear());
-            biodataContent.add(s.getGenre());
-            biodataContent.add(""+s.getDateCreated());
-            biodataContent.add(""+s.getPlayTime());
-            biodataContent.add(""+ s.getSongId()); //index 7
-            biodata.add(biodataContent);
-        }
-
-        //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        //setAlignmentX(Component.LEFT_ALIGNMENT);
-        setLayout(new BorderLayout());
-        setOpaque(false);
-
-        if(data.size()==0){
-            JPanel headerPnl = new JPanel();
-            headerPnl.setLayout(new BorderLayout());
-            headerPnl.setOpaque(false);
-            headerName = new JLabel(header.toUpperCase());
-            headerName.setFont(new Font("Arial", Font.BOLD, 26));
-            headerName.setForeground(Color.white);
-            //headerPnl.add(headerName, BorderLayout.WEST);
-            //headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
-            headerPnl.add(headerName, BorderLayout.NORTH);
-            JLabel blankMessage = new JLabel("No songs to show.");
-            blankMessage.setForeground(Color.white);
-            blankMessage.setFont(new Font("Arial", Font.BOLD, 22));
-            headerPnl.add(blankMessage, BorderLayout.CENTER);
-            add(headerPnl, BorderLayout.NORTH);
-        }
-        else{
-            JPanel headerPnl = new JPanel();
-            headerPnl.setLayout(new BorderLayout());
-            headerPnl.setOpaque(false);
-            headerName = new JLabel(header.toUpperCase());
-            headerName.setFont(new Font("Arial", Font.BOLD, 26));
-            headerName.setForeground(Color.white);
-            headerPnl.add(headerName, BorderLayout.WEST);
-
-            String[] sort = {"(Sort By)","Artist", "Album", "Genre", "Year", "None"};
-            sortOptions = new JComboBox(sort);
-            sortOptions.setForeground(SystemColor.windowText);
-            sortOptions.addActionListener(this);
-            sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
-            sortOptions.setPreferredSize(new Dimension(100,15));
-            sortOptions.setMinimumSize(new Dimension(100,20));
-            sortOptions.setMaximumSize(new Dimension(100,20));
-            headerPnl.add(sortOptions, BorderLayout.EAST);
-            add(headerPnl, BorderLayout.NORTH);
-
-            tablePnl = new JPanel();
-            tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
-            tablePnl.setOpaque(false);
-            model = new MyTableModel();
-
-            Collections.sort(data, new Comparator<ArrayList<String>>() {
-                @Override
-                public int compare(ArrayList<String> one, ArrayList<String> two) {
-                    return one.get(0).compareTo(two.get(0));
-                }
-            });
-
-Collections.sort(biodata, new Comparator<ArrayList<String>>() {
-                @Override
-                public int compare(ArrayList<String> one, ArrayList<String> two) {
-                    return one.get(0).compareTo(two.get(0));
-                }
-            });
-
-            for(int i=0 ; i<data.size() ; i++){
-                model.add(data.get(i));
+        try {
+            this.controller = controller;
+            this.songs = songs;
+            songContainer = obj;
+            if (obj instanceof Playlist) {
+                Playlist playlist = (Playlist) obj;
+                objID = playlist.getPlaylistId();
+            } else if (obj instanceof Album) {
+                Album album = (Album) obj;
+                objID = album.getAlbumId();
+            } else if (obj instanceof Artist) {
+                Artist artist = (Artist) obj;
+                objID = artist.getArtistId();
             }
-            categoryTable = new JTable(model){
-                public Component prepareRenderer(
-                        TableCellRenderer renderer, int row, int column)
-                {
-                    Component c = super.prepareRenderer(renderer, row, column);
-                    if (isRowSelected(row))
-                        c.setBackground(Color.LIGHT_GRAY);
-                    else
-                        c.setBackground(Color.BLACK);
-                    return c;
+            data = new ArrayList<ArrayList<String>>();
+            ArrayList<String> _dataContent;
+            for (int i = 0; i < songs.size(); i++) {
+                Song s = songs.get(i);
+                System.out.println(s);
+                _dataContent = new ArrayList<String>();
+                _dataContent.add(s.getName());
+                _dataContent.add(s.getAlbum().getName());
+                _dataContent.add(s.getArtist().getName());
+                if (s.getYear() == 0) _dataContent.add("");
+                else _dataContent.add("" + s.getYear());
+                _dataContent.add(s.getGenre());
+                _dataContent.add("" + s.getDateCreated());
+                _dataContent.add("" + s.getPlayTime());
+                data.add(_dataContent);
+            }
+
+            for (int i = 0; i < data.size(); i++) {
+                for (int j = 0; j < data.get(i).size(); j++) {
+                    System.out.print(data.get(i).get(j) + " ");
                 }
-            };
-            categoryTable.setRowSelectionAllowed(true);
-            categoryTable.setShowGrid(false);
-            categoryTable.setIntercellSpacing(new Dimension(0, 0));
-            //categoryTable.setShowVerticalLines(false);
-            //categoryTable.setShowHorizontalLines(false);
-            SongPanel.ActionPaneRenderer renderer = new SongPanel.ActionPaneRenderer();
-            categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
-            categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
-            categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
+                System.out.println();
+            }
+            biodata = new ArrayList<ArrayList<String>>();
+            ArrayList<String> biodataContent;
+            for (Song s : songs) {
+                biodataContent = new ArrayList<String>();
+                biodataContent.add(s.getName());
+                biodataContent.add(s.getAlbum().getName());
+                biodataContent.add(s.getArtist().getName());
+                if (s.getYear() == 0) biodataContent.add("");
+                else biodataContent.add("" + s.getYear());
+                biodataContent.add(s.getGenre());
+                biodataContent.add("" + s.getDateCreated());
+                biodataContent.add("" + s.getPlayTime());
+                biodataContent.add("" + s.getSongId()); //index 7
+                biodata.add(biodataContent);
+            }
+
+            //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            //setAlignmentX(Component.LEFT_ALIGNMENT);
+            setLayout(new BorderLayout());
+            setOpaque(false);
+
+            if (data.size() == 0) {
+                JPanel headerPnl = new JPanel();
+                headerPnl.setLayout(new BorderLayout());
+                headerPnl.setOpaque(false);
+                headerName = new JLabel(header.toUpperCase());
+                headerName.setFont(new Font("Arial", Font.BOLD, 26));
+                headerName.setForeground(Color.white);
+                //headerPnl.add(headerName, BorderLayout.WEST);
+                //headerPnl.add(Box.createRigidArea(new Dimension(230,0)));
+                headerPnl.add(headerName, BorderLayout.NORTH);
+                JLabel blankMessage = new JLabel("No songs to show.");
+                blankMessage.setForeground(Color.white);
+                blankMessage.setFont(new Font("Arial", Font.BOLD, 22));
+                headerPnl.add(blankMessage, BorderLayout.CENTER);
+                add(headerPnl, BorderLayout.NORTH);
+            } else {
+                JPanel headerPnl = new JPanel();
+                headerPnl.setLayout(new BorderLayout());
+                headerPnl.setOpaque(false);
+                headerName = new JLabel(header.toUpperCase());
+                headerName.setFont(new Font("Arial", Font.BOLD, 26));
+                headerName.setForeground(Color.white);
+                headerPnl.add(headerName, BorderLayout.WEST);
+
+                String[] sort = {"(Sort By)", "Title", "Artist", "Album", "Genre", "Year", "None"};
+                sortOptions = new JComboBox(sort);
+                sortOptions.setForeground(SystemColor.windowText);
+                sortOptions.addActionListener(this);
+                sortOptions.setFont(new Font("Arial", Font.PLAIN, 12));
+                sortOptions.setPreferredSize(new Dimension(100, 15));
+                sortOptions.setMinimumSize(new Dimension(100, 20));
+                sortOptions.setMaximumSize(new Dimension(100, 20));
+                headerPnl.add(sortOptions, BorderLayout.EAST);
+                add(headerPnl, BorderLayout.NORTH);
+
+                tablePnl = new JPanel();
+                tablePnl.setLayout(new BoxLayout(tablePnl, BoxLayout.Y_AXIS));
+                tablePnl.setOpaque(false);
+                model = new MyTableModel();
+
+                Collections.sort(data, new Comparator<ArrayList<String>>() {
+                    @Override
+                    public int compare(ArrayList<String> one, ArrayList<String> two) {
+                        return one.get(0).compareTo(two.get(0));
+                    }
+                });
+
+                Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                    @Override
+                    public int compare(ArrayList<String> one, ArrayList<String> two) {
+                        return one.get(0).compareTo(two.get(0));
+                    }
+                });
+
+                for (int i = 0; i < data.size(); i++) {
+                    model.add(data.get(i));
+                }
+                categoryTable = new JTable(model) {
+                    public Component prepareRenderer(
+                            TableCellRenderer renderer, int row, int column) {
+                        Component c = super.prepareRenderer(renderer, row, column);
+                        if (isRowSelected(row))
+                            c.setBackground(Color.LIGHT_GRAY);
+                        else
+                            c.setBackground(Color.BLACK);
+                        return c;
+                    }
+                };
+                categoryTable.setRowSelectionAllowed(true);
+                categoryTable.setShowGrid(false);
+                categoryTable.setIntercellSpacing(new Dimension(0, 0));
+                //categoryTable.setShowVerticalLines(false);
+                //categoryTable.setShowHorizontalLines(false);
+                SongPanel.ActionPaneRenderer renderer = new SongPanel.ActionPaneRenderer();
+                categoryTable.getColumnModel().getColumn(0).setCellRenderer(renderer);
+                categoryTable.getColumnModel().getColumn(0).setCellEditor(new SongPanel.ActionEditor());
+                categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
 
 
 //            SongPanel.ActionPaneRenderer2 kebabRenderer = new SongPanel.ActionPaneRenderer2();
@@ -173,42 +181,44 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
 //            categoryTable.setRowHeight(renderer.getTableCellRendererComponent(categoryTable, null, true, true, 0, 0).getPreferredSize().height);
 
 
-            categoryTable.setForeground(Color.white);
-            tableHeader = categoryTable.getTableHeader();
-            //Border border = BorderFactory.createLineBorder(new Color(65,15,225), 3, false);
-            //tableHeader.setBorder(border);
-            tableHeader.setBackground(new Color(65,15,225)); // change the Background color
-            tableHeader.setForeground(Color.WHITE);
-            tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
+                categoryTable.setForeground(Color.white);
+                tableHeader = categoryTable.getTableHeader();
+                //Border border = BorderFactory.createLineBorder(new Color(65,15,225), 3, false);
+                //tableHeader.setBorder(border);
+                tableHeader.setBackground(new Color(65, 15, 225)); // change the Background color
+                tableHeader.setForeground(Color.WHITE);
+                tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
 //        categoryTable.setPreferredSize(new Dimension(50,150));
 //        categoryTable.setMinimumSize(new Dimension(50,150));
 //        categoryTable.setMaximumSize(new Dimension(50,150));
-            categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
-            categoryTable.setOpaque(false);
-            categoryTable.setRowHeight(30);
-            categoryTable.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent me) {
-                    JTable table = (JTable) me.getSource();
-                    Point p = me.getPoint();
-                    setCurrentRow(table.rowAtPoint(p));
+                categoryTable.setFont(new Font("Arial", Font.BOLD, 14));
+                categoryTable.setOpaque(false);
+                categoryTable.setRowHeight(30);
+                categoryTable.addMouseListener(new MouseAdapter() {
+                    public void mousePressed(MouseEvent me) {
+                        JTable table = (JTable) me.getSource();
+                        Point p = me.getPoint();
+                        setCurrentRow(table.rowAtPoint(p));
 
-                }
-            });
-            //categoryTable.getColumn(0).setPreferredWidth(50);
-            //categoryTable.getColumn(1).setPreferredWidth(50);
-            categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{
-                setOpaque(true);
-            }});
-            //((DefaultTableCellRenderer)categoryTable.getDefaultRenderer(Object.class)).setOpaque(false);
-            //categoryTable.setShowGrid(false);
-            scroll = new JScrollPane(categoryTable);
-            scroll.getViewport().setOpaque(false);
-            scroll.setOpaque(false);
-            scroll.setPreferredSize(new Dimension(50,60));
-            tablePnl.add(scroll);
-            add(tablePnl, BorderLayout.CENTER);
+                    }
+                });
+                //categoryTable.getColumn(0).setPreferredWidth(50);
+                //categoryTable.getColumn(1).setPreferredWidth(50);
+                categoryTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {{
+                    setOpaque(true);
+                }});
+                //((DefaultTableCellRenderer)categoryTable.getDefaultRenderer(Object.class)).setOpaque(false);
+                //categoryTable.setShowGrid(false);
+                scroll = new JScrollPane(categoryTable);
+                scroll.getViewport().setOpaque(false);
+                scroll.setOpaque(false);
+                scroll.setPreferredSize(new Dimension(50, 60));
+                tablePnl.add(scroll);
+                add(tablePnl, BorderLayout.CENTER);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     public void addRow(ArrayList<String> data) {
@@ -325,25 +335,23 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
             JComboBox cb = (JComboBox) e.getSource();
             String choice = (String) cb.getSelectedItem();
             switch (choice){
+                case "Title":
+                    update(biodata, data, 0);
+                    break;
                 case "Artist":
-                    update(biodata, data, 1);
-                    System.out.println(1);
+                    update(biodata, data, 2);
                     break;
                 case "Album":
-                    update(biodata, data, 2);
-                    System.out.println(2);
+                    update(biodata, data, 1);
                     break;
                 case "Year":
                     update(biodata, data, 3);
-                    System.out.println(3);
                     break;
                 case "Genre":
                     update(biodata, data, 4);
-                    System.out.println(4);
                     break;
                 case "None":
                     update(biodata, data, 0);
-                    System.out.println(0);
                     break;
             }
             revalidate();
@@ -443,10 +451,10 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
         public Object getValueAt(int rowIndex, int columnIndex) {
             ArrayList<String> obj = data.get(rowIndex);
             Object value = null;
-            for (int i = 0; i < obj.size(); i++) {
-                System.out.print(obj.get(i) + " ");
-            }
-            System.out.println();
+//            for (int i = 0; i < obj.size(); i++) {
+//                System.out.print(obj.get(i) + " ");
+//            }
+//            System.out.println();
             switch (columnIndex) {
                 case 0:
                     break;
@@ -599,7 +607,8 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
             ActionListener playListener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    controller.playSong(currentRow, songs.get(currentRow).getSongId());
+//                    System.out.println("Playing song at row " + currentRow + " with ID " + songs.get(currentRow).getSongId());
+                    controller.playSong(currentRow, Integer.parseInt(biodata.get(currentRow).get(7)));
                 }
             };
             play.addActionListener(playListener);
@@ -623,7 +632,7 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
 
             ActionListener followListener = new ActionListener() {
                 public void actionPerformed(ActionEvent ev) {
-                    controller.followSong(songs.get(currentRow));
+                    controller.followSong(Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7))));
                     if (songs.get(currentRow).isFollowed()) {
                         try {
                             URL resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
@@ -799,7 +808,7 @@ Collections.sort(biodata, new Comparator<ArrayList<String>>() {
                         Song songForEdit = null;
                         for(Song song : songs){
                             if(song.getSongId() == Integer.parseInt(biodata.get(currentRow).get(7))) songForEdit = song;
-                            System.out.println(song.toString());
+//                            System.out.println(song.toString());
                         }
                         controller.openEditSongProfileWindow(songForEdit, currentRow);
                         break;

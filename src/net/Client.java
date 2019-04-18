@@ -705,10 +705,12 @@ public final class Client {
     }
 
     public File getImageFile(int albumId){
+        System.out.println(albumId);
+        if (albumId == -1) return null;
         isBusy = true;
         File dir = new File("resources/images");
         dir.mkdirs();
-        img = new File(dir, albumId + "");
+        img = new File(dir, albumId + ".png");
         outToServer.println(Protocol.GETIMAGEFILE);
         outToServer.println(albumId);
         while (isBusy());

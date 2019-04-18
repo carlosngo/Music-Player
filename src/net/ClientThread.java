@@ -346,7 +346,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         albumId = Integer.parseInt(in.readLine());
                         File dir = new File("resources/images");
                         dir.mkdirs();
-                        img = new File(dir, albumId + "");
+                        img = new File(dir, albumId + ".png");
                         FileUtil.downloadFile(socket, in, img);
                         server.setImageFile(albumId, img);
                         break;
@@ -360,7 +360,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int songId = Integer.parseInt(in.readLine());
                         dir = new File("resources/songs");
                         dir.mkdirs();
-                        wav = new File(dir, songId + "");
+                        wav = new File(dir, songId + ".wav");
                         FileUtil.downloadFile(socket, in, wav);
                         server.setSongFile(songId, wav);
                         break;

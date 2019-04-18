@@ -95,7 +95,7 @@ public class SongController {
             queue.add(song);
             mc.playSongs(queue);
 
-            sp.editRow(index, map(song));
+//            sp.editRow(index, map(song));
         } catch (Exception e) {
             e.printStackTrace();
         }

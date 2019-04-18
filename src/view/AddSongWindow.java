@@ -78,11 +78,10 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
 //        //albumInput.setEditable(false);
 //        //titleInput.setBackground(new Color(152,251,152));
 //        p6.add(albumInput);
-        String[] sChoices = controller.getAllPossibleAlbums();
         albumChoices = new JComboBox();
         albumChoices.addItem("Select album");
-        for (int i = 0; i < sChoices.length; i++) {
-            albumChoices.addItem(sChoices[i]);
+        for (int i = 0; i < albums.size() ; i++) {
+            albumChoices.addItem(albums.get(i).getName());
         }
         albumChoices.setEditable(false);
         p6.add(albumChoices);
@@ -104,7 +103,7 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
         genreLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         genreLabel.setForeground(Color.white);
         p2.add(genreLabel);
-        sChoices = controller.getAllPossibleGenres();
+        String[] sChoices = controller.getAllPossibleGenres();
         genreChoices = new JComboBox();
         genreChoices.addItem("Select genre");
         for (int i = 0; i < sChoices.length; i++) {

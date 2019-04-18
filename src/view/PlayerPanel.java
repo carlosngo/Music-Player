@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.Song;
 import util.ImageResizer;
 
 import javax.imageio.ImageIO;
@@ -145,6 +146,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
             img = ImageIO.read(resource);
             shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/nocover.jpg");
+//            resource = getClass().getClassLoader().getResource("images/" + pc.getCurrentSong().getAlbum().getAlbumId());
             img = ImageIO.read(resource);
             albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
             if (!isFavorite) {
@@ -166,29 +168,30 @@ public class PlayerPanel extends JPanel implements ActionListener {
     }
 
     public void update() {
-        if (pc.getCurrentSong() != null) {
-            titleLbl.setText(pc.getCurrentSong().getName());
-            if (pc.getCurrentSong().getArtist() != null) {
-                artistLbl.setText(pc.getCurrentSong().getArtist().getName());
-            } else {
-                artistLbl.setText("Unknown Artist");
-            }
-            File cover = null;
-            if (pc.getCurrentSong().getAlbum() != null) {
-                cover = pc.getCurrentSong().getAlbum().getCover();
-            }
+        Song currentSong = pc.getCurrentSong();
+        if (currentSong != null) {
+            titleLbl.setText(currentSong.getName());
+            artistLbl.setText(currentSong.getArtist().getName());
+            File cover = pc.getMainController().getClient().getImageFile(currentSong.getAlbum().getAlbumId());
             try {
                 if (cover == null) {
                     URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
                     BufferedImage img = ImageIO.read(resource);
                     albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
                 } else {
-                    albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(cover, 35, 35)));
+                    BufferedImage img = ImageIO.read(cover);
+                    if (img != null)
+                        albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+                    else {
+                        URL resource = getClass().getClassLoader().getResource("images/nocover.jpg");
+                        img = ImageIO.read(resource);
+                        albumCover.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 35, 35)));
+                    }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             isFavorite = pc.getCurrentSong().isFavorite();
             URL resource;
             BufferedImage img;

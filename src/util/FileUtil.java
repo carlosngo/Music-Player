@@ -41,6 +41,10 @@ public final class FileUtil {
 
     public static void uploadFile(Socket socket, PrintWriter out, File src) {
         try {
+            if (src == null) {
+                out.println(0);
+                return;
+            }
             out.println(src.length());
             byte[] mybytearray = new byte[(int) src.length()];
             FileInputStream fis = new FileInputStream(src);

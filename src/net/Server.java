@@ -131,7 +131,8 @@ final class Server {
         ArrayList<Integer> followers =
                 ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(account.getId());
         for (int i = 0; i < followers.size(); i++) {
-            onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
+            if (onlineUsers.containsKey(followers.get(i)))
+                onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
         }
 //        ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
     }
@@ -172,7 +173,8 @@ final class Server {
         ArrayList<Integer> followers =
                 ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(account.getId());
         for (int i = 0; i < followers.size(); i++) {
-            onlineUsers.get(followers.get(i)).listen(new UploadEvent(account, playlist));
+            if (onlineUsers.containsKey(followers.get(i)))
+                onlineUsers.get(followers.get(i)).listen(new UploadEvent(account, playlist));
         }
         return true;
     }
@@ -229,7 +231,8 @@ final class Server {
         ArrayList<Integer> followers =
                 ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(artist.getAccount().getId());
         for (int i = 0; i < followers.size(); i++) {
-            onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist.getAccount(), album));
+            if (onlineUsers.containsKey(followers.get(i)))
+                onlineUsers.get(followers.get(i)).listen(new UploadEvent(artist.getAccount(), album));
         }
         return true;
     }
