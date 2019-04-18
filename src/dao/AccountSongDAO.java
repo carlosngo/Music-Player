@@ -29,7 +29,8 @@ public class AccountSongDAO implements DataAccessObject {
 	private static String SQL_FIND = 
 			"SELECT * FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
-	private static String SQL_UPDATE = "UPDATE " + Database.ACCOUNTSONG_TABLE + "SET playTime = ?, LastPlayed = ? WHERE FK_AccountID = ? AND FK_SongID = ?";
+	private static String SQL_UPDATE = 
+			"UPDATE " + Database.ACCOUNTSONG_TABLE + "SET playTime = playTime + 1, LastPlayed = CURRENT_TIMESTAMP() WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
 
 	public AccountSongDAO(DAOFactory db) {
@@ -103,7 +104,6 @@ public class AccountSongDAO implements DataAccessObject {
 		return keys;
 	}
 	
-	
 	public boolean isFavorite(int accountId, int songId) {
 		Object[] values = {
 				accountId,
@@ -143,20 +143,20 @@ public class AccountSongDAO implements DataAccessObject {
 		return found;
 	}
 	
-	/*public void playSong(int accountId, int songId) {
-	Object[] values = {
-			
-			accountId,
-			songId
-	};
+	public void playSong(int accountId, int songId) {
 	
-	Connection connection = Database.getConnection();
-	try (
-			PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values);
-			ResultSet resultSet = statement.executeQuery()) {
-	} catch (SQLException e) {
-		e.printStackTrace();
+		Object[] values = {
+				accountId,
+				songId
+		};
+		
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
 	}
-	
-	}*/
 }	
