@@ -22,6 +22,15 @@ public class AccountSongDAO implements DataAccessObject {
 			"INSERT INTO " + Database.ACCOUNTSONG_TABLE + " (" + Database.ACCOUNTSONG_COLUMNS + ") VALUES (?, ?, ?, ?, ?)";
 	private static String SQL_DELETE =
 			"DELETE FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
+	
+	private static String SQL_FAVORITE = 
+			"SELECT isFavorite FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
+	
+	private static String SQL_FIND = 
+			"SELECT * FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
+	
+	private static String SQL_UPDATE = "UPDATE " + Database.ACCOUNTSONG_TABLE + "SET playTime = ?, LastPlayed = ? WHERE FK_AccountID = ? AND FK_SongID = ?";
+	
 
 	public AccountSongDAO(DAOFactory db) {
 		this.db = db;
@@ -93,4 +102,61 @@ public class AccountSongDAO implements DataAccessObject {
 
 		return keys;
 	}
-}
+	
+	
+	public boolean isFavorite(int accountId, int songId) {
+		Object[] values = {
+				accountId,
+				songId
+		};
+		boolean colFavorite = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_FAVORITE, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			colFavorite = resultSet.getBoolean(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return colFavorite;
+	}
+	
+	public boolean toggleFavorite(int accountId, int songId) {	
+		return !isFavorite(accountId, songId);
+	}
+	
+	public boolean find(int accountId, int songId) {
+		Object[] values = {
+			accountId,
+			songId
+		};
+		
+		boolean found = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_FIND, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			found = resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return found;
+	}
+	
+	/*public void playSong(int accountId, int songId) {
+	Object[] values = {
+			
+			accountId,
+			songId
+	};
+	
+	Connection connection = Database.getConnection();
+	try (
+			PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values);
+			ResultSet resultSet = statement.executeQuery()) {
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	}*/
+}	

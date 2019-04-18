@@ -22,7 +22,13 @@ public class AccountPlaylistDAO implements DataAccessObject {
 	private static String SQL_DELETE =
 			"DELETE FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND isFavorite = ?";
+	
+	private static String SQL_FAVORITE = 
+			"SELECT isFavorite FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 
+	private static String SQL_FIND = 
+			"SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+	
 	private DAOFactory db;
 
 	public AccountPlaylistDAO(DAOFactory db) {
@@ -108,6 +114,43 @@ public class AccountPlaylistDAO implements DataAccessObject {
 
 		return keys;
 	}
+	
+	public boolean isFavorite(int accountId, int playlistId) {
+		Object[] values = {
+				accountId,
+				playlistId
+		};
+		boolean colFavorite = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_FAVORITE, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			colFavorite = resultSet.getBoolean(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return colFavorite;
+	}
+	
+	public boolean toggleFavorite(int accountId, int playlistId) {	
+		return !isFavorite(accountId, playlistId);
+	}
 
-
+	public boolean find(int accountId, int playlistId) {
+		Object[] values = {
+			accountId,
+			playlistId
+		};
+		
+		boolean found = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_FIND, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			found = resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return found;
+	}
 }

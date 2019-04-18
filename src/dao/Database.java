@@ -13,7 +13,7 @@ public final class Database {
 
     public static final String SONG_TABLE = "musicplayer.song";
     public static final String SONG_COLUMNS =
-            "song.PK_SongID, song.FK_ArtistID, song.FK_AlbumID, song.Name, song.Genre, song.Year, song.File";
+            "song.PK_SongID, song.FK_ArtistID, song.FK_AlbumID, song.Name, song.Genre, song.Year, song.File, song.DateUploaded";
 
     public static final String PLAYLIST_TABLE = "musicplayer.playlist";
     public static final String PLAYLIST_COLUMNS =
@@ -62,7 +62,7 @@ public final class Database {
         } catch(SQLException e) {
             e.printStackTrace();
             System.out.println("Cannot connect to database.");
-        }
+        } 
         return con;
     }
 }

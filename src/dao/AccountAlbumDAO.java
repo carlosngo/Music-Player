@@ -19,6 +19,8 @@ public class AccountAlbumDAO implements DataAccessObject {
 	private static final String SQL_DELETE = "DELETE FROM " + Database.ACCOUNTALBUM_TABLE + " WHERE FK_AccountID = ? AND FK_AlbumID = ?";
 	private static final String SQL_LIST_BY_ACCOUNT_ID = "SELECT FK_AlbumID FROM " + Database.ACCOUNTALBUM_TABLE + " WHERE FK_AccountID = ?";
 	private static final String SQL_LIST_BY_ALBUM_ID = "SELECT FK_AccountID FROM " + Database.ACCOUNTALBUM_TABLE + " WHERE FK_AlbumID = ?";
+	private static String SQL_FIND = 
+			"SELECT * FROM " + Database.ACCOUNTALBUM_TABLE + "WHERE FK_AccountID = ? AND FK_AlbumID = ?";
  	
 	public AccountAlbumDAO(DAOFactory db) {
 		this.db = db;
@@ -87,5 +89,23 @@ public class AccountAlbumDAO implements DataAccessObject {
 		}
 
 		return keys;
+	}
+	
+	public boolean find(int accountId, int albumId) {
+		Object[] values = {
+			accountId,
+			albumId
+		};
+		
+		boolean found = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_FIND, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			found = resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return found;
 	}
 }
