@@ -90,7 +90,7 @@ public class SongController {
         try {
             Song song = client.getSong(songId);
             client.followSong(user.getAccount(), song);
-//        client.playSong(user.getAccount().getId(), songId);
+            client.playSong(user.getAccount().getId(), songId);
             ArrayList<Song> queue = new ArrayList<>();
             queue.add(song);
             mc.playSongs(queue);

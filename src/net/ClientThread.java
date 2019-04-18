@@ -127,7 +127,8 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         server.updateSongData(song);
                         break;
                     case PLAYSONG:
-                        server.playSong(Account.parseAccount(in.readLine()), Song.parseSong(in.readLine()));
+                        server.playSong(server.getAccount(Integer.parseInt(in.readLine())),
+                                server.getSong(Integer.parseInt(in.readLine())));
                         break;
                     case FOLLOWSONG:
                         account = Account.parseAccount(in.readLine());
@@ -442,7 +443,17 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
 
     @Override
     public void listen(PlayEvent e) {
-
+        out.println(Protocol.PLAYEVENT);
+        Account source = (Account)e.getSource();
+        Song song = e.getSongPlayed();
+        StringBuilder sb = new StringBuilder();
+        sb.append(source.getUserName());
+        sb.append(" just played ");
+        sb.append(song.getName());
+        sb.append(" by ");
+        sb.append(song.getArtist().getName());
+        sb.append(".");
+        out.println(sb.toString());
     }
 
     @Override
@@ -464,6 +475,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
             sb.append(" playlist named ");
             sb.append(((Playlist) media).getName());
         }
+        sb.append("! Check it out!");
         System.out.println("Broadcasting the message: ");
         System.out.println(sb.toString());
         out.println(sb.toString());

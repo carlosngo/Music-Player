@@ -81,6 +81,7 @@ public class AccountController {
 		System.out.println("A notification has been received!");
 		System.out.println(notification);
 		notifWindow.append(notification);
+		accountPanel.pushNotification();
 	}
 
 	// logs in the user. check for errors.

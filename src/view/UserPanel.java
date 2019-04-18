@@ -57,7 +57,7 @@ public class UserPanel extends CategoryPanel {
         follow.setOpaque(false);
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
-        follow.setVisible(false);
+//        follow.setVisible(true);
 //        JButton play = new JButton();
 //        play.setOpaque(false);
 //        play.setContentAreaFilled(false);

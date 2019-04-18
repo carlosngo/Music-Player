@@ -130,7 +130,9 @@ final class Server {
     void playSong(Account account, Song song){
         ArrayList<Integer> followers =
                 ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).listBySubscribeeId(account.getId());
+        System.out.println("Notifying the following followers:");
         for (int i = 0; i < followers.size(); i++) {
+            System.out.println(followers.get(i));
             if (onlineUsers.containsKey(followers.get(i)))
                 onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
         }
