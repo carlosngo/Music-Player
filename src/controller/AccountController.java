@@ -123,8 +123,6 @@ public class AccountController {
 			e.printStackTrace();
 			return false;
 		}
-                
-                liw.dispose();
 		return true;
 	}
 
@@ -150,8 +148,6 @@ public class AccountController {
 			e.printStackTrace();
 			return false;
 		}
-                
-                liw.dispose();
 		return true;
 	}
 
