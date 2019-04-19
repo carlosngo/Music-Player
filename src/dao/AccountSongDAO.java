@@ -35,6 +35,8 @@ public class AccountSongDAO implements DataAccessObject {
 	private static String SQL_UPDATE = 
 			"UPDATE " + Database.ACCOUNTSONG_TABLE + "SET playTime = playTime + 1, LastPlayed = CURRENT_TIMESTAMP() WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
+	private static String SQL_CLIENT_SPECIFIC = 
+			"SELECT isFavorite, playTime, LastPlayed FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
 
 	public AccountSongDAO(DAOFactory db) {
 		this.db = db;
@@ -175,5 +177,25 @@ public class AccountSongDAO implements DataAccessObject {
 			e.printStackTrace();
 		}
 	
+	}
+	
+	public void getClientData(Account account, Song song) {
+		
+		Object[] values = {
+				account.getId(),
+				song.getSongId()
+		};
+		
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_CLIENT_SPECIFIC, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			song.setFavorite(resultSet.getBoolean(1));
+			song.setPlayTime(resultSet.getLong(2));
+			song.setLastPlayed(resultSet.getTimestamp(3));	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }	
