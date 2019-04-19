@@ -95,6 +95,9 @@ public final class Client {
                                 System.out.println(song + " was added successfully.");
                             }
                             break;
+                        case ISFAVORITESONG:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
+                            break;
                         case GETPLAYLIST:
                             playlist = Playlist.parsePlaylist(inFromServer.readLine());
                             break;
@@ -110,6 +113,9 @@ public final class Client {
                         case ADDPLAYLIST:
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
                             if (success) playlist.setPlaylistId(Integer.parseInt(inFromServer.readLine()));
+                            break;
+                        case ISFAVORITEPLAYLIST:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
                             break;
                         case GETALBUM:
                             album = Album.parseAlbum(inFromServer.readLine());
@@ -162,6 +168,8 @@ public final class Client {
                         case GETIMAGEFILE:
                             FileUtil.downloadFile(socket, inFromServer, img);
                             break;
+                        case SETIMAGEFILE:
+                            break;
                         case GETSONGFILE:
                             FileUtil.downloadFile(socket, inFromServer, wav);
                             break;
@@ -174,8 +182,6 @@ public final class Client {
                                 user.setAccount(Account.parseAccount(inFromServer.readLine()));
                                 break;
                             }
-                            break;
-                        case LOGOUT:
                             break;
                         case SEARCHSONGS:
                             readSongs();
@@ -374,6 +380,32 @@ public final class Client {
         outToServer.println(song);
     }
 
+    public boolean isFollowingSong(int accountId, int songId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFOLLOWINGSONG);
+        outToServer.println(accountId);
+        outToServer.println(songId);
+        while (isBusy());
+        return success;
+    }
+
+    public void toggleFavoriteSong(int accountId, int songId) {
+        outToServer.println(Protocol.TOGGLEFAVORITESONG);
+        outToServer.println(accountId);
+        outToServer.println(songId);
+    }
+
+    public boolean isFavoriteSong(int accountId, int songId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFAVORITESONG);
+        outToServer.println(accountId);
+        outToServer.println(songId);
+        while (isBusy());
+        return success;
+    }
+
     public Playlist getPlaylist(int playlistId) {
         isBusy = true;
         playlist = null;
@@ -461,6 +493,32 @@ public final class Client {
         outToServer.println(Protocol.UNFOLLOWPLAYLIST);
         outToServer.println(follower);
         outToServer.println(playlist);
+    }
+
+    public boolean isFollowingPlaylist(int accountId, int playlistId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFOLLOWINGPLAYLIST);
+        outToServer.println(accountId);
+        outToServer.println(playlistId);
+        while (isBusy());
+        return success;
+    }
+
+    public void toggleFavoritePlaylist(int accountId, int playlistId) {
+        outToServer.println(Protocol.TOGGLEFAVORITEPLAYLIST);
+        outToServer.println(accountId);
+        outToServer.println(playlistId);
+    }
+
+    public boolean isFavoritePlaylist(int accountId, int playlistId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFAVORITEPLAYLIST);
+        outToServer.println(accountId);
+        outToServer.println(playlistId);
+        while (isBusy());
+        return success;
     }
 
     public Album getAlbum(int albumId) {
@@ -554,6 +612,16 @@ public final class Client {
         outToServer.println(album);
     }
 
+    public boolean isFollowingAlbum(int accountId, int albumId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFOLLOWINGALBUM);
+        outToServer.println(accountId);
+        outToServer.println(albumId);
+        while (isBusy());
+        return success;
+    }
+
     public User getUser(int userId) {
         isBusy = true;
         user = null;
@@ -626,6 +694,16 @@ public final class Client {
         outToServer.println(Protocol.UNFOLLOWUSER);
         outToServer.println(follower);
         outToServer.println(user);
+    }
+
+    public boolean isFollowingUser(int accountId, int anotherAccountId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFOLLOWINGUSER);
+        outToServer.println(accountId);
+        outToServer.println(anotherAccountId);
+        while (isBusy());
+        return success;
     }
 
     public Artist getArtist(int artistId) {
@@ -702,6 +780,16 @@ public final class Client {
         outToServer.println(Protocol.UNFOLLOWARTIST);
         outToServer.println(follower);
         outToServer.println(artist);
+    }
+
+    public boolean isFollowingArtist(int accountId, int anotherAccountId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISFOLLOWINGARTIST);
+        outToServer.println(accountId);
+        outToServer.println(anotherAccountId);
+        while (isBusy());
+        return success;
     }
 
     public File getImageFile(int albumId){

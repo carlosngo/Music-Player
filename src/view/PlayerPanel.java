@@ -192,7 +192,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            isFavorite = pc.getCurrentSong().isFavorite();
+            isFavorite = pc.getMainController().getSongController().isFavoriteSong(pc.getCurrentSong().getSongId());
             URL resource;
             BufferedImage img;
             try {
@@ -285,8 +285,8 @@ public class PlayerPanel extends JPanel implements ActionListener {
                     shuffle.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }
             } else if (e.getActionCommand().equals("favSong")) {
-                pc.getCurrentSong().setFavorite(!pc.getCurrentSong().isFavorite());
-                isFavorite = pc.getCurrentSong().isFavorite();
+                pc.getMainController().getSongController().toggleFavoriteSong(pc.getCurrentSong().getSongId());
+                isFavorite = pc.getMainController().getSongController().isFavoriteSong(pc.getCurrentSong().getSongId());
                 if (isFavorite) {
                     System.out.println("Unfavorited" + pc.getCurrentSong().getName());
                     resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");

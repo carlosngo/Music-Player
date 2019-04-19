@@ -140,6 +140,21 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         song = Song.parseSong(in.readLine());
                         server.unfollowSong(account, song);
                         break;
+                    case ISFOLLOWINGSONG:
+                        accountId = Integer.parseInt(in.readLine());
+                        int songId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFollowingSong(accountId, songId));
+                        break;
+                    case TOGGLEFAVORITESONG:
+                        accountId = Integer.parseInt(in.readLine());
+                        songId = Integer.parseInt(in.readLine());
+                        server.toggleFavoriteSong(accountId, songId);
+                        break;
+                    case ISFAVORITESONG:
+                        accountId = Integer.parseInt(in.readLine());
+                        songId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFavoriteSong(accountId, songId));
+                        break;
                     case GETPLAYLIST:
                         reply.append(server.getPlaylist(Integer.parseInt(in.readLine())));
                         break;
@@ -193,6 +208,21 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         account = Account.parseAccount(in.readLine());
                         playlist = Playlist.parsePlaylist(in.readLine());
                         server.unfollowPlaylist(account, playlist);
+                        break;
+                    case ISFOLLOWINGPLAYLIST:
+                        accountId = Integer.parseInt(in.readLine());
+                        playlistId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFollowingPlaylist(accountId, playlistId));
+                        break;
+                    case TOGGLEFAVORITEPLAYLIST:
+                        accountId = Integer.parseInt(in.readLine());
+                        playlistId = Integer.parseInt(in.readLine());
+                        server.toggleFavoritePlaylist(accountId, playlistId);
+                        break;
+                    case ISFAVORITEPLAYLIST:
+                        accountId = Integer.parseInt(in.readLine());
+                        playlistId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFavoritePlaylist(accountId, playlistId));
                         break;
                     case GETALBUM:
                         reply.append(server.getAlbum(Integer.parseInt(in.readLine())));
@@ -248,6 +278,11 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         album = Album.parseAlbum(in.readLine());
                         server.unfollowAlbum(account, album);
                         break;
+                    case ISFOLLOWINGALBUM:
+                        accountId = Integer.parseInt(in.readLine());
+                        albumId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFollowingAlbum(accountId, albumId));
+                        break;
                     case GETUSER:
                         reply.append(server.getUser(Integer.parseInt(in.readLine())));
                         break;
@@ -291,6 +326,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         account = Account.parseAccount(in.readLine());
                         user = User.parseUser(in.readLine());
                         server.unfollowUser(account, user);
+                        break;
+                    case ISFOLLOWINGUSER:
+                        accountId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFollowingUser(accountId, Integer.parseInt(in.readLine())));
                         break;
                     case GETARTIST:
                         reply.append(server.getArtist(Integer.parseInt(in.readLine())));
@@ -338,6 +377,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         artist = Artist.parseArtist(in.readLine());
                         server.unfollowArtist(account, artist);
                         break;
+                    case ISFOLLOWINGARTIST:
+                        accountId = Integer.parseInt(in.readLine());
+                        reply.append(server.isFollowingArtist(accountId, Integer.parseInt(in.readLine())));
+                        break;
                     case GETIMAGEFILE:
                         album = server.getAlbum(Integer.parseInt(in.readLine()));
                         File img = album.getCover();
@@ -358,7 +401,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         FileUtil.uploadFile(socket, out, wav);
                         break;
                     case SETSONGFILE:
-                        int songId = Integer.parseInt(in.readLine());
+                        songId = Integer.parseInt(in.readLine());
                         dir = new File("resources/songs");
                         dir.mkdirs();
                         wav = new File(dir, songId + ".wav");
@@ -427,6 +470,14 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append("\n");
                             reply.append(artists.get(i).toString());
                         }
+                        break;
+                    case OK:
+                        break;
+                    case NO:
+                        break;
+                    case UPLOADEVENT:
+                        break;
+                    case PLAYEVENT:
                         break;
                 }
                 if (reply.length() > 0) {

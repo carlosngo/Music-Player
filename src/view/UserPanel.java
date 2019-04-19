@@ -67,7 +67,7 @@ public class UserPanel extends CategoryPanel {
         try {
             URL resource;
             BufferedImage img;
-            if (user.isFollowed()) {
+            if (controller.isFollowingUser(user.getAccount().getId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -94,14 +94,15 @@ public class UserPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.followUser(user);
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (user.isFollowed()) {
+                    if (!controller.isFollowingUser(user.getAccount().getId())) {
+                        controller.followUser(user);
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     } else {
+                        controller.unfollowUser(user);
                         resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
                     }

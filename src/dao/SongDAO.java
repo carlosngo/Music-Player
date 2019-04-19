@@ -89,15 +89,9 @@ public class SongDAO implements DataAccessObject {
 
         Artist artist = artistDAO.find(rs.getInt("FK_ArtistID"));
         song.setArtist(artist);
-
         song.setGenre(rs.getString("Genre"));
-
         song.setName(rs.getString("Name"));
-        song.setYear(rs.getInt("Year"));
-//        song.setFavorite(rs.getBoolean("Favorite"));
-//        song.setPlayTime(rs.getLong("PlayTime"));
-//        song.setLastPlayed(rs.getTimestamp("LastPlayed"));
-        song.setDateCreated(rs.getTimestamp("DateCreated"));
+        song.setDateCreated(rs.getTimestamp("DateUploaded"));
         Blob b = rs.getBlob("File");
         if (b != null) {
             BlobParser.setStrategy(new BlobToFile());

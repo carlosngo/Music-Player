@@ -73,6 +73,13 @@ final class Server {
         return ((SongDAO)songDAOFactory.getDAO()).listFavorites(accountId);
     }
 
+    public void getClientData(Account client, ArrayList<Song> songs) {
+        AccountSongDAO accountSongDAO = (AccountSongDAO)accountSongDAOFactory.getDAO();
+        for (int i = 0;i < songs.size(); i++) {
+            accountSongDAO.getClientData(client, songs.get(i));
+        }
+    }
+
     boolean addSong(Song song){
         song.setArtist(getArtist(song.getArtist().getArtistId()));
         try {
@@ -147,6 +154,18 @@ final class Server {
         ((AccountSongDAO)accountSongDAOFactory.getDAO()).separate(account, song);
     }
 
+    boolean isFollowingSong(int accountId, int songId) {
+        return ((AccountSongDAO)accountSongDAOFactory.getDAO()).find(accountId, songId);
+    }
+
+    void toggleFavoriteSong(int accountId, int songId) {
+        ((AccountSongDAO)accountSongDAOFactory.getDAO()).toggleFavorite(accountId, songId);
+    }
+
+    boolean isFavoriteSong(int accountId, int songId) {
+        return ((AccountSongDAO)accountSongDAOFactory.getDAO()).isFavorite(accountId, songId);
+    }
+
     Playlist getPlaylist(int playlistId) {
         System.out.println(playlistId);
         return ((PlaylistDAO)playlistDAOFactory.getDAO()).find(playlistId); }
@@ -203,6 +222,18 @@ final class Server {
 
     void unfollowPlaylist(Account account, Playlist playlist){
         ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).separate(account, playlist);
+    }
+
+    boolean isFollowingPlaylist(int accountId, int playlistId) {
+        ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).find(accountId, playlistId);
+    }
+
+    void toggleFavoritePlaylist(int accountId, int playlistId) {
+        ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).toggleFavorite(accountId, playlistId);
+    }
+
+    boolean isFavoritePlaylist(int accountId, int playlistId) {
+        return ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).isFavorite(accountId, playlistId);
     }
 
     Album getAlbum(int albumId) {
@@ -263,6 +294,10 @@ final class Server {
         ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).separate(account, album);
     }
 
+    boolean isFollowingAlbum(int accountId, int albumId){
+        return ((AccountAlbumDAO)accountAlbumDAOFactory.getDAO()).find(accountId, albumId);
+    }
+
     User getUser(int userId) { return ((UserDAO)userDAOFactory.getDAO()).find(userId); }
 
     ArrayList<User> getUsers(){
@@ -301,6 +336,10 @@ final class Server {
 
     void unfollowUser(Account account, User user){
         ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).separate(account, user.getAccount());
+    }
+
+    boolean isFollowingUser(int accountId, int anotherAccountId){
+        ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).find(accountId, anotherAccountId);
     }
 
     Artist getArtist(int artistId) { return ((ArtistDAO)artistDAOFactory.getDAO()).find(artistId); }
@@ -342,6 +381,10 @@ final class Server {
 
     void unfollowArtist(Account account, Artist artist){
         ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).separate(account, artist.getAccount());
+    }
+
+    boolean isFollowingArtist(int accountId, int anotherAccountId){
+        return ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).find(accountId, anotherAccountId);
     }
 
     void setImageFile(int albumId, File img){

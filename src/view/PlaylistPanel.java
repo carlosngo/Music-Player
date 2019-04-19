@@ -96,7 +96,7 @@ public class PlaylistPanel extends CategoryPanel {
             resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
             img = ImageIO.read(resource);
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            if (playlist.isFollowed()) {
+            if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -147,14 +147,15 @@ public class PlaylistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.followPlaylist(playlist);
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (playlist.isFollowed()) {
+                    if (controller.isFollowingPlaylist(playlist.getPlaylistId())) {
+                        controller.unfollowPlaylist(playlist);
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     } else {
+                        controller.followPlaylist(playlist);
                         resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
                     }

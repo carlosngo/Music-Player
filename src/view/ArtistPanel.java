@@ -68,7 +68,7 @@ public class ArtistPanel extends CategoryPanel {
 //            BufferedImage img = ImageIO.read(resource);
             URL resource;
             BufferedImage img;
-            if (artist.isFollowed()) {
+            if (controller.isFollowingArtist(artist.getAccount().getId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
@@ -95,14 +95,15 @@ public class ArtistPanel extends CategoryPanel {
         follow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.followArtist(artist);
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (artist.isFollowed()) {
+                    if (!controller.isFollowingArtist(artist.getAccount().getId())) {
+                        controller.followArtist(artist);
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     } else {
+                        controller.unfollowArtist(artist);
                         resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
                     }

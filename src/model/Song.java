@@ -34,7 +34,7 @@ public class Song implements Comparable<Song>, Media {
         dateCreated = Calendar.getInstance().getTime();
         favorite = false;
         playTime = 0;
-        
+
     }
 
 
@@ -146,7 +146,9 @@ public class Song implements Comparable<Song>, Media {
         song.setFavorite(Boolean.parseBoolean(songdata[6]));
         song.setPlayTime(Long.parseLong(songdata[7]));
         try {
-            Date lp = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[8]);
+            Date lp = null;
+            if (!songdata[8].equals("null"))
+                lp = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[8]);
             song.setLastPlayed(lp);
             Date dc = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[9]);
             song.setDateCreated(dc);
@@ -178,7 +180,8 @@ public class Song implements Comparable<Song>, Media {
             sb.append(getPlayTime());
             sb.append("|");
             SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-            sb.append(formatter.format(getLastPlayed()));
+            if (getLastPlayed() == null) sb.append("null");
+            else sb.append(formatter.format(getLastPlayed()));
             sb.append("|");
             sb.append(formatter.format(getDateCreated()));
             return sb.toString();

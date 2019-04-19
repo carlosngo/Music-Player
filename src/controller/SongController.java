@@ -419,4 +419,69 @@ public class SongController {
     public ArrayList<Artist> searchArtists(String keyword) {
         return client.searchArtists(keyword);
     }
+
+    public void toggleFavoriteSong(int songId) {
+        int accountId = user.getAccount().getId();
+        client.toggleFavoriteSong(accountId, songId);
+    }
+
+    public boolean isFavoriteSong(int songId) {
+        int accountId = user.getAccount().getId();
+        return client.isFavoriteSong(accountId, songId);
+    }
+
+    public void toggleFavoritePlaylist(int playlistId) {
+        int accountId = user.getAccount().getId();
+        client.toggleFavoritePlaylist(accountId, playlistId);
+    }
+
+    public boolean isFavoritePlaylist(int playlistId) {
+        int accountId = user.getAccount().getId();
+        return client.isFavoritePlaylist(accountId, playlistId);
+    }
+
+    public boolean isFollowingSong(int songId) {
+        int accountId = user.getAccount().getId();
+        return client.isFollowingSong(accountId, songId);
+    }
+
+    public boolean isFollowingAlbum(int albumId) {
+        int accountId = user.getAccount().getId();
+        return client.isFollowingAlbum(accountId, albumId);
+    }
+
+    public boolean isFollowingPlaylist(int playlistId) {
+        int accountId = user.getAccount().getId();
+        return client.isFollowingPlaylist(accountId, playlistId);
+    }
+
+    public boolean isFollowingUser(int accountId) {
+        int myAccountId = user.getAccount().getId();
+        return client.isFollowingUser(myAccountId, accountId);
+    }
+
+    public boolean isFollowingArtist(int accountId) {
+        int myAccountId = user.getAccount().getId();
+        return client.isFollowingArtist(myAccountId, accountId);
+    }
+
+    public void unfollowSong(Song song) {
+        client.unfollowSong(user.getAccount(), song);
+    }
+
+    public void unfollowPlaylist(Playlist playlist) {
+        client.unfollowPlaylist(user.getAccount(), playlist);
+    }
+
+    public void unfollowAlbum(Album album) {
+        client.unfollowAlbum(user.getAccount(), album);
+    }
+
+    public void unfollowUser(User user) {
+        client.unfollowUser(this.user.getAccount(), user);
+    }
+
+    public void unfollowArtist(Artist artist) {
+        client.unfollowArtist(user.getAccount(), artist);
+    }
 }

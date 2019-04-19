@@ -21,16 +21,16 @@ public class AccountPlaylistDAO implements DataAccessObject {
 			"INSERT INTO " + Database.ACCOUNTPLAYLIST_TABLE + " (" + Database.ACCOUNTPLAYLIST_COLUMNS + ") VALUES (?, ?, ?)";
 	private static String SQL_DELETE =
 			"DELETE FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
-	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND isFavorite = ?";
+	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND isFavorite = ?";
 	
 	private static String SQL_FAVORITE = 
-			"SELECT isFavorite FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+			"SELECT isFavorite FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 	
 	private static String SQL_UPDATE_IS_FAVORITE = 
-			"UPDATE " + Database.ACCOUNTPLAYLIST_TABLE + "SET isFavorite = ? WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+			"UPDATE " + Database.ACCOUNTPLAYLIST_TABLE + " SET isFavorite = ? WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 
 	private static String SQL_FIND = 
-			"SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+			"SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 	
 	
 	private DAOFactory db;
@@ -129,7 +129,7 @@ public class AccountPlaylistDAO implements DataAccessObject {
 		try (
 				PreparedStatement statement = prepareStatement(connection, SQL_FAVORITE, false, values);
 				ResultSet resultSet = statement.executeQuery()) {
-			colFavorite = resultSet.getBoolean(1);
+			if (resultSet.next() && resultSet.getInt(1) == 1) colFavorite = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

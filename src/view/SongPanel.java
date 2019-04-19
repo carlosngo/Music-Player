@@ -591,7 +591,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
                 img = ImageIO.read(resource);
                 kebab.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                if (songs.get(currentRow).isFollowed()) {
+                if (controller.isFollowingSong(Integer.parseInt(biodata.get(currentRow).get(7)))) {
                     resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                     img = ImageIO.read(resource);
                     follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -639,8 +639,9 @@ public class SongPanel extends JPanel implements ActionListener{
 
             ActionListener followListener = new ActionListener() {
                 public void actionPerformed(ActionEvent ev) {
-                    controller.followSong(Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7))));
-                    if (songs.get(currentRow).isFollowed()) {
+                    Song song = Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7)));
+                    if (controller.isFollowingSong(song.getSongId())) {
+                        controller.unfollowSong(song);
                         try {
                             URL resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                             BufferedImage img = ImageIO.read(resource);
@@ -649,6 +650,7 @@ public class SongPanel extends JPanel implements ActionListener{
                             e.printStackTrace();
                         }
                     } else {
+                        controller.followSong(song);
                         try {
                             URL resource = getClass().getClassLoader().getResource("images/follow.png");
                             BufferedImage img = ImageIO.read(resource);

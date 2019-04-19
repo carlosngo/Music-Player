@@ -24,19 +24,19 @@ public class AccountSongDAO implements DataAccessObject {
 			"DELETE FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
 	private static String SQL_FAVORITE = 
-			"SELECT isFavorite FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
+			"SELECT isFavorite FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
 	private static String SQL_UPDATE_IS_FAVORITE = 
-			"UPDATE " + Database.ACCOUNTSONG_TABLE + "SET isFavorite = ? WHERE FK_AccountID = ? AND FK_SongID = ?";
+			"UPDATE " + Database.ACCOUNTSONG_TABLE + " SET isFavorite = ? WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
 	private static String SQL_FIND = 
-			"SELECT * FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
+			"SELECT * FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
 	private static String SQL_UPDATE = 
-			"UPDATE " + Database.ACCOUNTSONG_TABLE + "SET playTime = playTime + 1, LastPlayed = CURRENT_TIMESTAMP() WHERE FK_AccountID = ? AND FK_SongID = ?";
+			"UPDATE " + Database.ACCOUNTSONG_TABLE + " SET playTime = playTime + 1, LastPlayed = CURRENT_TIMESTAMP() WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
 	private static String SQL_CLIENT_SPECIFIC = 
-			"SELECT isFavorite, playTime, LastPlayed FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
+			"SELECT isFavorite, playTime, LastPlayed FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
 
 	public AccountSongDAO(DAOFactory db) {
 		this.db = db;
@@ -117,9 +117,9 @@ public class AccountSongDAO implements DataAccessObject {
 		boolean colFavorite = false;
 		Connection connection = Database.getConnection();
 		try (
-				PreparedStatement statement = prepareStatement(connection, SQL_FAVORITE, false, values);
-				ResultSet resultSet = statement.executeQuery()) {
-			colFavorite = resultSet.getBoolean(1);
+			PreparedStatement statement = prepareStatement(connection, SQL_FAVORITE, false, values);
+			ResultSet resultSet = statement.executeQuery()) {
+			if (resultSet.next() && resultSet.getInt(1) == 1) colFavorite = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
