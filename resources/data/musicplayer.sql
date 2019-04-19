@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`playlist` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 16
+AUTO_INCREMENT = 18
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -141,7 +141,7 @@ DROP TABLE IF EXISTS `musicplayer`.`accountplaylist` ;
 CREATE TABLE IF NOT EXISTS `musicplayer`.`accountplaylist` (
   `FK_AccountID` INT(11) NOT NULL,
   `FK_PlaylistID` INT(11) NOT NULL,
-  `isFavorite` TINYINT(4) NULL DEFAULT NULL,
+  `isFavorite` TINYINT(1) NULL DEFAULT '0',
   PRIMARY KEY (`FK_AccountID`, `FK_PlaylistID`),
   INDEX `Userplaylist_PlaylistID_idx` (`FK_PlaylistID` ASC) VISIBLE,
   CONSTRAINT `accountplaylist_AccountID`
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `musicplayer`.`song` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 43
+AUTO_INCREMENT = 45
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -200,8 +200,8 @@ DROP TABLE IF EXISTS `musicplayer`.`accountsong` ;
 CREATE TABLE IF NOT EXISTS `musicplayer`.`accountsong` (
   `FK_AccountID` INT(11) NOT NULL,
   `FK_SongID` INT(11) NOT NULL,
-  `isFavorite` TINYINT(4) NULL DEFAULT NULL,
-  `playTime` INT(11) NULL DEFAULT NULL,
+  `isFavorite` TINYINT(1) NULL DEFAULT '0',
+  `playTime` INT(11) NULL DEFAULT '0',
   `LastPlayed` TIMESTAMP(4) NULL DEFAULT NULL,
   PRIMARY KEY (`FK_AccountID`, `FK_SongID`),
   INDEX `SongID_idx` (`FK_SongID` ASC) VISIBLE,
