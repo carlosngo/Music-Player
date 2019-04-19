@@ -25,9 +25,13 @@ public class AccountPlaylistDAO implements DataAccessObject {
 	
 	private static String SQL_FAVORITE = 
 			"SELECT isFavorite FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+	
+	private static String SQL_UPDATE_IS_FAVORITE = 
+			"UPDATE " + Database.ACCOUNTPLAYLIST_TABLE + "SET isFavorite = ? WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 
 	private static String SQL_FIND = 
 			"SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + "WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
+	
 	
 	private DAOFactory db;
 
@@ -132,8 +136,22 @@ public class AccountPlaylistDAO implements DataAccessObject {
 		return colFavorite;
 	}
 	
-	public boolean toggleFavorite(int accountId, int playlistId) {	
-		return !isFavorite(accountId, playlistId);
+	public void toggleFavorite(int accountId, int playlistId) {
+		Object[] values = {
+				!isFavorite(accountId, playlistId),
+				accountId,
+				playlistId
+		};
+		
+		try {
+            Connection con = Database.getConnection();
+
+            PreparedStatement stmt = prepareStatement(con, SQL_UPDATE_IS_FAVORITE, false, values);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+        }
+		
 	}
 
 	public boolean find(int accountId, int playlistId) {

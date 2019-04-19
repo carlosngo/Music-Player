@@ -26,6 +26,9 @@ public class AccountSongDAO implements DataAccessObject {
 	private static String SQL_FAVORITE = 
 			"SELECT isFavorite FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
+	private static String SQL_UPDATE_IS_FAVORITE = 
+			"UPDATE " + Database.ACCOUNTSONG_TABLE + "SET isFavorite = ? WHERE FK_AccountID = ? AND FK_SongID = ?";
+	
 	private static String SQL_FIND = 
 			"SELECT * FROM " + Database.ACCOUNTSONG_TABLE + "WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
@@ -121,8 +124,22 @@ public class AccountSongDAO implements DataAccessObject {
 		return colFavorite;
 	}
 	
-	public boolean toggleFavorite(int accountId, int songId) {	
-		return !isFavorite(accountId, songId);
+	public void toggleFavorite(int accountId, int songId) {
+		Object[] values = {
+				!isFavorite(accountId, songId),
+				accountId,
+				songId
+		};
+		
+		try {
+            Connection con = Database.getConnection();
+
+            PreparedStatement stmt = prepareStatement(con, SQL_UPDATE_IS_FAVORITE, false, values);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+        }
+		
 	}
 	
 	public boolean find(int accountId, int songId) {
