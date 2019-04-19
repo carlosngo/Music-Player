@@ -157,14 +157,14 @@ public class SongController {
         for (Song s : client.getSongsByArtist(artistId)) mc.getPlayerController().addSong(s);
     }
 
-    public PlaylistPanel showPlaylists() {
-        cp = new PlaylistPanel(this, client.getFollowedPlaylists(user.getAccount().getId()));
+    public PlaylistPanel showPlaylists(int accountId) {
+        cp = new PlaylistPanel(this, client.getFollowedPlaylists(accountId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (PlaylistPanel)cp;
     }
 
-    public AlbumPanel showAlbums() {
-        cp = new AlbumPanel(this, client.getFollowedAlbums(user.getAccount().getId()));
+    public AlbumPanel showAlbums(int accountId) {
+        cp = new AlbumPanel(this, client.getFollowedAlbums(accountId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (AlbumPanel)cp;
     }
@@ -175,14 +175,14 @@ public class SongController {
         return (AlbumPanel)cp;
     }
 
-    public ArtistPanel showArtists() {
-        cp = new ArtistPanel(this, client.getFollowedArtists(user.getAccount().getId()));
+    public ArtistPanel showArtists(int accountId) {
+        cp = new ArtistPanel(this, client.getFollowedArtists(accountId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (ArtistPanel) cp;
     }
 
-    public UserPanel showFriends() {
-        cp = new UserPanel(this, client.getFollowedUsers(user.getAccount().getId()));
+    public UserPanel showFriends(int accountId) {
+        cp = new UserPanel(this, client.getFollowedUsers(accountId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (UserPanel) cp;
     }
@@ -310,7 +310,7 @@ public class SongController {
         client.addAlbum(a);
         if (cover != null) client.setImageFile(a.getAlbumId(), cover);
         client.followAlbum(user.getAccount(), a);
-        showAlbums();
+        showAlbums(user.getAccount().getId());
     }
 
     public void addPlaylist(String playlistName) {
@@ -320,7 +320,7 @@ public class SongController {
         p.setAccount(user.getAccount());
         client.addPlaylist(p);
         client.followPlaylist(user.getAccount(), p);
-        showPlaylists();
+        showPlaylists(user.getAccount().getId());
     }
 
     public void removeSong(int index, int songId) {
@@ -339,7 +339,7 @@ public class SongController {
         if (a.getArtist().getArtistId() == ((Artist)user).getArtistId())
             client.deleteAlbum(a);
         else client.unfollowAlbum(user.getAccount(), a);
-        showAlbums();
+        showAlbums(user.getAccount().getId());
     }
 
     public void removePlaylist(int playlistId) {
@@ -347,7 +347,7 @@ public class SongController {
         if (p.getAccount().getId() == user.getAccount().getId())
             client.deletePlaylist(p);
         else client.unfollowPlaylist(user.getAccount(), p);
-        showPlaylists();
+        showPlaylists(user.getAccount().getId());
     }
 
     public void updateSong(int songIndex, int songId, String title, int albumId, String year, String genre){
@@ -370,14 +370,14 @@ public class SongController {
         album.setCover(newCover);
         client.updateAlbum(album);
         client.setImageFile(albumId, newCover);
-        showAlbums();
+        showAlbums(user.getAccount().getId());
     }
 
     public void updatePlaylist(int playlistId, String newName) {
         Playlist p = client.getPlaylist(playlistId);
         p.setName(newName);
         client.updatePlaylist(p);
-        showPlaylists();
+        showPlaylists(user.getAccount().getId());
     }
 
     public void followSong(Song song) {

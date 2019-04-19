@@ -94,7 +94,7 @@ public class AccountController {
 		accountPanel = new AccountPanel(this, user);
 		mc.getSongController().setUser(user);
 		mc.getSongController().showAllSongs();
-		mc.getSongController().showAlbums();
+		mc.getSongController().showAlbums(user.getAccount().getId());
 		mc.openDashboard();
 //		mc.getDashboard().update();
 		return true;

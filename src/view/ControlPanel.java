@@ -1,6 +1,7 @@
 package view;
 
 import controller.*;
+import model.User;
 import util.ImageResizer;
 
 import javax.imageio.ImageIO;
@@ -19,9 +20,11 @@ public class ControlPanel extends JPanel implements ActionListener {
     private SongController controller;
     private JButton search, mostFrqntlyPlyd, playlists, artists, albums, songs, genres, years, addPlaylist, favSongs,
             favPlaylists, addAlbum, addSong, friends;
+    private User user;
 
     public ControlPanel(SongController controller/*, boolean isArtist*/){
         this.controller = controller;
+        user = controller.getMainController().getAccountController().getUser();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.LEFT_ALIGNMENT);
         setOpaque(false);
@@ -641,16 +644,16 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.showAllSongs();
         }
         if(e.getSource() == albums){
-            controller.showAlbums();
+            controller.showAlbums(user.getAccount().getId());
         }
         if(e.getSource() == playlists){
-            controller.showPlaylists();
+            controller.showPlaylists(user.getAccount().getId());
         }
         if(e.getSource() == artists){
-            controller.showArtists();
+            controller.showArtists(user.getAccount().getId());
         }
         if(e.getSource() == friends){
-            controller.showFriends();
+            controller.showFriends(user.getAccount().getId());
         }
         if(e.getSource() == addPlaylist){
             controller.openAddPlaylistWindow();

@@ -100,7 +100,13 @@ public class SongPanel extends JPanel implements ActionListener{
                 JPanel headerPnl = new JPanel();
                 headerPnl.setLayout(new BorderLayout());
                 headerPnl.setOpaque(false);
-                headerName = new JLabel(header.toUpperCase());
+                headerName = new JLabel();
+                if (obj instanceof User) headerName.setText("Songs followed by " + ((User) obj).getAccount().getUserName());
+                else if (obj instanceof Artist) headerName.setText("Songs created by " + ((Artist) obj).getAccount().getUserName());
+                else if (obj instanceof Playlist) headerName.setText("Songs in " + ((Playlist) obj).getName());
+                else if (obj instanceof Album) headerName.setText("Songs in " + ((Album) obj).getName());
+
+
                 headerName.setFont(new Font("Arial", Font.BOLD, 26));
                 headerName.setForeground(Color.white);
                 //headerPnl.add(headerName, BorderLayout.WEST);

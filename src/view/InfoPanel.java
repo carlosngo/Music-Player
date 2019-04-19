@@ -18,11 +18,11 @@ public class InfoPanel extends JPanel {
             albumPnl = controller.showAlbumsByArtist(((Artist)user).getArtistId());
         } else {
             sp = controller.showSongsFollowedByUser(user.getUserId());
-            albumPnl = controller.showAlbums();
+            albumPnl = controller.showAlbums(user.getAccount().getId());
         }
-        playlistPnl = controller.showPlaylists();
-        artistPnl = controller.showArtists();
-        userPnl = controller.showFriends();
+        playlistPnl = controller.showPlaylists(user.getAccount().getId());
+        artistPnl = controller.showArtists(user.getAccount().getId());
+        userPnl = controller.showFriends(user.getAccount().getId());
         init();
     }
 
