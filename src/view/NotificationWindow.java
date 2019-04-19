@@ -15,16 +15,16 @@ public class NotificationWindow extends JFrame{
     private JPanel pnl;
 
     public void showWindow(Component invoker, int x, int y){
-        this.setLocation(invoker.getLocationOnScreen().x+x+40, invoker.getLocationOnScreen().y+y+30);
-        if(this.pnl.getComponentCount() == 0){
-            append(" no new notifications yet");
-        }
-        if(this.pnl.getComponentCount() < 4){
-            for(int i = pnl.getComponentCount()-1; i < 4; i++){
-                append("");
+            this.setLocation(invoker.getLocationOnScreen().x+x-40, invoker.getLocationOnScreen().y+y+30);
+            if(this.pnl.getComponentCount() == 0){
+                append(" no new notifications yet");
             }
-        }
-        this.setVisible(true);
+            if(this.pnl.getComponentCount() < 4){
+                for(int i = pnl.getComponentCount()-1; i < 4; i++){
+                append("");
+                }
+            }
+            this.setVisible(true);
     }
 
     public void append(String Text){
@@ -101,7 +101,7 @@ public class NotificationWindow extends JFrame{
             @Override
             public void windowLostFocus(WindowEvent we) {
                 clear();
-                dispose();
+                setVisible(false);
             }
         });
     }
