@@ -600,9 +600,10 @@ public class SongPanel extends JPanel implements ActionListener{
             }
 
             add(play);
-            if(songs.get(currentRow).getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId())
             add(follow);
             add(kebab);
+            if(songs.get(currentRow).getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId())
+            follow.setVisible(false);
 
             ActionListener playListener = new ActionListener() {
                 @Override
@@ -730,14 +731,18 @@ public class SongPanel extends JPanel implements ActionListener{
             settingsMenu.add(addToQueue);
             settingsMenu.add(add_to_playlist);
             String[] split = headerName.getText().split(" ");
-            if (songContainer instanceof Album)
-                settingsMenu.add(removeFromAlbum);
-            else if (songContainer instanceof Playlist)
+            if ((songContainer instanceof Playlist) && ((Playlist) songContainer.getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()))
                 settingsMenu.add(removeFromPlaylist);
             //settingsMenu.add(removeFromAlbum);
-
-            settingsMenu.add(edit);
-            settingsMenu.add(delete);
+            if(songs.get(currentRow).getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()){
+               if(songContainer instanceof Album)
+                  settingsMenu.add(removeFromAlbum);
+               if(songContainer instanceof Playlist)
+                  settingsMenu.add(removeFromPlaylist);
+               settingsMenu.add(edit);
+               settingsMenu.add(delete)
+            }
+            ;
             //settingsMenu.add(follow);
 
 //        mainFrame.addMouseListener(new MouseAdapter() {
