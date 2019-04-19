@@ -19,7 +19,7 @@ public class SongDAO implements DataAccessObject {
     private DAOFactory db;
 
     private static final String SQL_INSERT =
-    		"INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_AlbumID, Name, Genre, Year) VALUES(?, ?, ?, ?, ?)";
+    		"INSERT INTO " + Database.SONG_TABLE + " (FK_ArtistID, FK_AlbumID, Name, Genre, Year, DateUploaded) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE =
     		"DELETE FROM " + Database.SONG_TABLE + " WHERE PK_SongID = ?";
     private static final String SQL_UPDATE =
@@ -94,10 +94,10 @@ public class SongDAO implements DataAccessObject {
 
         song.setName(rs.getString("Name"));
         song.setYear(rs.getInt("Year"));
-       /* song.setFavorite(rs.getBoolean("Favorite"));
-        song.setPlayTime(rs.getLong("PlayTime"));
-        song.setLastPlayed(rs.getTimestamp("LastPlayed"));
-        song.setDateCreated(rs.getTimestamp("DateCreated"));*/
+//        song.setFavorite(rs.getBoolean("Favorite"));
+//        song.setPlayTime(rs.getLong("PlayTime"));
+//        song.setLastPlayed(rs.getTimestamp("LastPlayed"));
+        song.setDateCreated(rs.getTimestamp("DateCreated"));
         Blob b = rs.getBlob("File");
         if (b != null) {
             BlobParser.setStrategy(new BlobToFile());
@@ -352,6 +352,7 @@ public class SongDAO implements DataAccessObject {
             else
                 statement.setObject(4, null);
             statement.setInt(5, song.getYear());
+            statement.setTimestamp(6, new Timestamp(song.getDateCreated().getTime()));
            /* statement.setBoolean(7, song.isFavorite());
             statement.setLong(8, song.getPlayTime());
             if (song.getLastPlayed() != null)

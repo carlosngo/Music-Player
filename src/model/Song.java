@@ -32,6 +32,9 @@ public class Song implements Comparable<Song>, Media {
 	    genre = "";
 	    name = "";
         dateCreated = Calendar.getInstance().getTime();
+        favorite = false;
+        playTime = 0;
+        
     }
 
 
@@ -140,16 +143,16 @@ public class Song implements Comparable<Song>, Media {
         song.setGenre(songdata[3]);
         song.setName(songdata[4]);
         song.setYear(Integer.parseInt(songdata[5]));
-       /* song.setFavorite(Boolean.parseBoolean(songdata[6]));
+        song.setFavorite(Boolean.parseBoolean(songdata[6]));
         song.setPlayTime(Long.parseLong(songdata[7]));
         try {
-            Date lp = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[8]);
+            Date lp = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[8]);
             song.setLastPlayed(lp);
-            Date dc = new SimpleDateFormat("dd/MM/yyyy").parse(songdata[9]);
+            Date dc = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[9]);
             song.setDateCreated(dc);
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
+        }
 
 	    return song;
     }
@@ -160,8 +163,6 @@ public class Song implements Comparable<Song>, Media {
             StringBuilder sb = new StringBuilder();
             sb.append(getSongId());
             sb.append("|");
-//        sb.append(getUser().);
-//        sb.append("|");
             sb.append(getAlbum().getAlbumId());
             sb.append("|");
             sb.append(getArtist().getArtistId());
@@ -171,14 +172,15 @@ public class Song implements Comparable<Song>, Media {
             sb.append(getName());
             sb.append("|");
             sb.append(getYear());
-       /* sb.append("|");
-        sb.append(isFavorite());
-        sb.append("|");
-        sb.append(getPlayTime());
-        sb.append("|");
-        sb.append(getLastPlayed());
-        sb.append("|");
-        sb.append(getDateCreated());*/
+            sb.append("|");
+            sb.append(isFavorite());
+            sb.append("|");
+            sb.append(getPlayTime());
+            sb.append("|");
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            sb.append(formatter.format(getLastPlayed()));
+            sb.append("|");
+            sb.append(formatter.format(getDateCreated()));
             return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();

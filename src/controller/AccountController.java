@@ -113,7 +113,7 @@ public class AccountController {
 			user.setBirthday(birthday);
 			if(mc.getClient().addUser(user)){
 				System.out.println("User " + user.getFirstName() + " is created.");
-				logIn(username, password);
+//				logIn(username, password);
 			} else {
 				return false;
 			}
