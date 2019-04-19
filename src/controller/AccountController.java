@@ -97,6 +97,7 @@ public class AccountController {
 		mc.getSongController().showAllSongs();
 		mc.getSongController().showAlbums(user.getAccount().getId());
 		mc.openDashboard();
+                liw.dispose();
 //		mc.getDashboard().update();
 		return true;
 	}
@@ -122,6 +123,8 @@ public class AccountController {
 			e.printStackTrace();
 			return false;
 		}
+                
+                liw.dispose();
 		return true;
 	}
 
@@ -147,6 +150,8 @@ public class AccountController {
 			e.printStackTrace();
 			return false;
 		}
+                
+                liw.dispose();
 		return true;
 	}
 
