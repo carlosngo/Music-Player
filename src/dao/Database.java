@@ -3,7 +3,7 @@ package dao;
 import java.sql.*;
 
 public final class Database {
-    public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/musicplayer";
+    public static final String DATABASE_URL = "jdbc:mysql://localhost:3306/musicplayer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     public static final String DATABASE_USERNAME = "root";
     public static final String DATABASE_PASSWORD = "password";
 
