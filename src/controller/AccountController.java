@@ -6,6 +6,7 @@ import util.AbstractHashGenerator;
 import util.MD5HashGenerator;
 import view.*;
 
+import java.awt.*;
 import java.util.*;
 
 public class AccountController {
@@ -65,8 +66,8 @@ public class AccountController {
 		eaw = new EditAccountWindow(this);
 	}
 
-	public void openNotifWindow(int x, int y){
-		notifWindow.show(x,y);
+	public void openNotifWindow(Component invoker, int x, int y){
+		notifWindow.showWindow(invoker, x,y);
 	}
 
 	public void closeNotificationWindow() {
