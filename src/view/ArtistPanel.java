@@ -129,10 +129,11 @@ public class ArtistPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
         block.add(play, cons);
-        if(artist.getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
-            cons.insets = new Insets(5, 0, 0, 10);
-            cons.gridx = 4;
-            block.add(follow, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 4;
+        block.add(follow, cons);
+        if(artist.getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()){
+            follow.setVisible(false);
         }
     }
 }
