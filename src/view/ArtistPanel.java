@@ -61,7 +61,7 @@ public class ArtistPanel extends CategoryPanel {
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
-        play.setVisible(false);
+        play.setVisible(true);
 
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/follow.png");
@@ -88,7 +88,7 @@ public class ArtistPanel extends CategoryPanel {
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(artist.getArtistId());
+                controller.showInfo(artist);
             }
         });
 

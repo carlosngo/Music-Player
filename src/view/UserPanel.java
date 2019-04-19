@@ -87,7 +87,7 @@ public class UserPanel extends CategoryPanel {
         subOptionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsFollowedByUser(user.getUserId());
+                controller.showInfo(user);
             }
         });
 

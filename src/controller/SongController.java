@@ -23,6 +23,7 @@ public class SongController {
     private SongPanel sp;
     private CategoryPanel cp;
     private BrowserPanel bp;
+    private InfoPanel ip;
     private EditAlbumWindow eaw;
     private Client client;
     private User user;
@@ -94,7 +95,6 @@ public class SongController {
             ArrayList<Song> queue = new ArrayList<>();
             queue.add(song);
             mc.playSongs(queue);
-
 //            sp.editRow(index, map(song));
         } catch (Exception e) {
             e.printStackTrace();
@@ -237,19 +237,15 @@ public class SongController {
         return bp;
     }
 
-    public BrowserPanel showBrowserPanel(User user) {
-        bp = new BrowserPanel(this, user);
-        if (mc.getDashboard() != null) mc.getDashboard().changeCard(bp);
-        return bp;
-    }
-
     public InfoPanel showInfo(User user) {
-        return new InfoPanel(this, user);
+        ip = new InfoPanel(this, user);
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(ip);
+        return ip;
     }
 
-    public InfoPanel showSearchResults(String keyword) {
-        return new InfoPanel(this, keyword);
-    }
+//    public InfoPanel showSearchResults(String keyword) {
+//        return new InfoPanel(this, keyword);
+//    }
 
     public ArrayList<String> map (Song s) {
         ArrayList<String> list = new ArrayList<>();

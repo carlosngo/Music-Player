@@ -12,6 +12,7 @@ public class Dashboard extends JFrame {
     public final static String SONG_PANEL = "Song Panel";
     public final static String CATEGORY_PANEL = "Category Panel";
     private final static String BROWSE_PANEL = "Browse Panel";
+    private final static String INFO_PANEL = "Info Panel";
     private MainController controller;
     private JPanel contentPane;
     private AccountPanel northPanel;
@@ -120,6 +121,11 @@ public class Dashboard extends JFrame {
             centerPanel.removeAll();
             centerPanel.add(bp, BROWSE_PANEL);
             cl.show(centerPanel, BROWSE_PANEL);
+        } else if (panelToShow instanceof InfoPanel) {
+            InfoPanel ip = (InfoPanel)panelToShow;
+            centerPanel.removeAll();
+            centerPanel.add(ip, INFO_PANEL);
+            cl.show(centerPanel, INFO_PANEL);
         }
         update();
     }
