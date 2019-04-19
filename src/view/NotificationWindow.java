@@ -2,101 +2,107 @@ package view;
 
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 public class NotificationWindow extends JFrame{
 
+    private GridBagConstraints gbc;
+    private JPanel head;
+    private JLabel header;
     private JScrollPane jScrollPane1;
-    private JTable table;
-    private DefaultTableModel dtm;
-    private MouseAdapter mad;
-    public boolean hasViewed;
-    
-    public NotificationWindow() {
-        initLayout();
-        initComponents();
-        initDesign();
-        hasViewed = true;
-        //initAddUIControls -> use if the notifications needs to be clickable
-    }
-    
-         
-    public void append(String notification){
-          Object[] o = {" ".concat(notification)};
-          dtm.insertRow(0, o);
-          hasViewed = false;
-    }
-    
-    public void show(int x, int y) {
-        setVisible(true);
-        hasViewed = true;
-        this.setLocation(x, y);
+    private JPanel pnl;
+
+    public void showWindow(Component invoker, int x, int y){
+        this.setLocation(invoker.getLocationOnScreen().x+x+40, invoker.getLocationOnScreen().y+y+30);
+        if(this.pnl.getComponentCount() == 0){
+            append(" no new notifications yet");
+        }
+        if(this.pnl.getComponentCount() < 4){
+            for(int i = pnl.getComponentCount()-1; i < 4; i++){
+                append("");
+            }
+        }
+        this.setVisible(true);
     }
 
-    public boolean hasViewed(){
-        return this.hasViewed;
+    public void append(String Text){
+        JLabel jb = new JLabel(" "+Text);
+        jb.setFont(new Font("Segoe UI", 1, 12));
+        jb.setForeground(new Color(155,155,155, 255));
+        jb.setBorder(BorderFactory.createEtchedBorder(Color.darkGray, Color.black));
+        pnl.add(jb, gbc);
+        pnl.revalidate();
     }
-   
-    //=======================================================
-    private void initLayout(){
-        setFocusable(false);
-        setSize(200,200);
-        setUndecorated(false);
-        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
-    }         
+
+    public void clear(){
+        pnl.removeAll();
+    }
+    //=======================================
+    public NotificationWindow() {
+        initComponents();
+        setWindowListener();
+    }
+
     private void initComponents() {
 
+
+        head = new JPanel();
+        header = new JLabel();
         jScrollPane1 = new JScrollPane();
-        table = new javax.swing.JTable();
-        dtm= new DefaultTableModel();
-        dtm.addColumn("");
-        table.setModel(dtm);
-        table.setFocusable(false);
-        table.setSurrendersFocusOnKeystroke(true);
-        table.getTableHeader().setResizingAllowed(false);
-        table.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(table);
-        table.setEnabled(false);
-        //this.add(jScrollPane1);
-        
-        getContentPane().add(jScrollPane1);
-        setSize(330, 460);
-    }                     
+        pnl = new JPanel();
+        this.setPreferredSize(new Dimension(190,210));
 
-    private void initDesign() {
-        table.setGridColor(new Color(204, 204, 204));
-        table.setRowHeight(80);
-        table.setBackground(Color.darkGray);
-        table.setForeground(Color.white);
-        ((DefaultTableCellRenderer)table.getDefaultRenderer(Object.class)).setOpaque(false);
-        table.getTableHeader().setBackground(Color.gray);
-         table.getTableHeader().setFont(new Font(Font.SERIF,  Font.BOLD, 20));
-        table.getTableHeader().setBorder(null);
-        table.getTableHeader().setFocusable(false);
-        table.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        this.setBackground(Color.darkGray);
-        this.jScrollPane1.getViewport().setBackground(Color.darkGray);
-        this.jScrollPane1.setBackground(Color.darkGray);
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    }
-    
-    private void addUIControls(){
-        mad = new MouseAdapter() {
-            
-            
-        };
-        
-        addMouseListener(mad);
-    }
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
-//    public static void main(String args[]){
-//        Notification n = new Notification();
-//        n.show(90,90);
-//        n.append("hello world");
-//    }
+        head.setLayout(new java.awt.BorderLayout());
+
+        header.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        header.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        header.setText("  Notifications");
+        header.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        header.setPreferredSize(new java.awt.Dimension(100, 30));
+        header.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        head.add(header, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(head, java.awt.BorderLayout.PAGE_START);
+
+        java.awt.GridBagLayout pnlLayout = new java.awt.GridBagLayout();
+        pnlLayout.columnWidths = new int[] {10};
+        pnlLayout.rowHeights = new int[] {10};
+        pnlLayout.columnWeights = new double[] {10.0};
+        pnlLayout.rowWeights = new double[] {0.0};
+        pnl.setLayout(pnlLayout);
+        jScrollPane1.setViewportView(pnl);
+
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipady = 15;
+        pnl.setBackground(new Color(25,25,25,255));
+        header.setForeground(new Color(145,145,145,255));
+        head.setBackground(new Color(5,5,5,255));
+        jScrollPane1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+        pack();
+
+    }
+    private void setWindowListener(){
+        this.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent we) {
+
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent we) {
+                clear();
+                dispose();
+            }
+        });
+    }
 }

@@ -59,7 +59,7 @@ public class AccountPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Component c = (Component) e.getSource();
-                ac.openNotifWindow(c.getX()+c.getWidth(), c.getY()+c.getHeight());
+                ac.openNotifWindow(c, c.getX(), c.getY());
                 try{
                     URL resource = getClass().getClassLoader().getResource("images/notification.png");
                     BufferedImage img = ImageIO.read(resource);
