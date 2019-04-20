@@ -24,6 +24,10 @@ public class SubscriptionDAO implements DataAccessObject {
 			"SELECT FK_SubscribeeID FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscriberID = ?";
 	private static final String SQL_LIST_BY_SUBSCRIBEE_ID =
 			"SELECT FK_SubscriberID FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscribeeID = ?";
+	
+	private static String SQL_FIND = 
+			"SELECT * FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubcriberID = ? AND FK_SubscribeeID = ?";
+	
 	public SubscriptionDAO(DAOFactory db) {
 		this.db = db;
 	}
@@ -88,5 +92,23 @@ public class SubscriptionDAO implements DataAccessObject {
 		}
 
 		return keys;
+	}
+	
+	public boolean find(int subscriberId, int subscribeeId) {
+		Object[] values = {
+			subscriberId,
+			subscribeeId
+		};
+		
+		boolean found = false;
+		Connection connection = Database.getConnection();
+		try (
+				PreparedStatement statement = prepareStatement(connection, SQL_FIND, false, values);
+				ResultSet resultSet = statement.executeQuery()) {
+			found = resultSet.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return found;
 	}
 }
