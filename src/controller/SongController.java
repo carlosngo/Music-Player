@@ -163,6 +163,10 @@ public class SongController {
         return (PlaylistPanel)cp;
     }
 
+    public void showFavoritePlaylists() {
+
+    }
+
     public AlbumPanel showAlbums(int accountId) {
         cp = new AlbumPanel(this, client.getFollowedAlbums(accountId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
