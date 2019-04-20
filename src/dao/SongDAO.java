@@ -92,6 +92,7 @@ public class SongDAO implements DataAccessObject {
         song.setGenre(rs.getString("Genre"));
         song.setName(rs.getString("Name"));
         song.setDateCreated(rs.getTimestamp("DateUploaded"));
+        song.setYear(rs.getInt("Year"));
         Blob b = rs.getBlob("File");
         if (b != null) {
             BlobParser.setStrategy(new BlobToFile());

@@ -19,7 +19,7 @@ public class AccountSongDAO implements DataAccessObject {
 	private static String SQL_LIST_BY_SONG_ID = "SELECT FK_AccountID FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_SongID = ?";
 	private static String SQL_LIST_BY_ACCOUNT_ID = "SELECT FK_SongID FROM " + Database.PLAYLISTSONG_TABLE + " WHERE FK_AccountID = ?";
 	private static String SQL_INSERT =
-			"INSERT INTO " + Database.ACCOUNTSONG_TABLE + " (" + Database.ACCOUNTSONG_COLUMNS + ") VALUES (?, ?, ?, ?, ?)";
+			"INSERT INTO " + Database.ACCOUNTSONG_TABLE + " (FK_AccountID, FK_SongID) VALUES (?, ?)";
 	private static String SQL_DELETE =
 			"DELETE FROM " + Database.ACCOUNTSONG_TABLE + " WHERE FK_AccountID = ? AND FK_SongID = ?";
 	
@@ -46,9 +46,6 @@ public class AccountSongDAO implements DataAccessObject {
 		Object[] values = {
 				acc.getId(),
 				s.getSongId(),
-				false,
-				null,
-				null
 		};
 		try {
 			Connection con = Database.getConnection();
@@ -172,7 +169,9 @@ public class AccountSongDAO implements DataAccessObject {
 		Connection connection = Database.getConnection();
 		try (
 				PreparedStatement statement = prepareStatement(connection, SQL_UPDATE, false, values);
-				ResultSet resultSet = statement.executeQuery()) {
+				)
+		{
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -190,9 +189,11 @@ public class AccountSongDAO implements DataAccessObject {
 		try (
 				PreparedStatement statement = prepareStatement(connection, SQL_CLIENT_SPECIFIC, false, values);
 				ResultSet resultSet = statement.executeQuery()) {
-			song.setFavorite(resultSet.getBoolean(1));
-			song.setPlayTime(resultSet.getLong(2));
-			song.setLastPlayed(resultSet.getTimestamp(3));	
+			if (resultSet.next()) {
+				song.setFavorite(resultSet.getInt(1) == 1 ? true : false);
+				song.setPlayTime(resultSet.getLong(2));
+				song.setLastPlayed(resultSet.getTimestamp(3));
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

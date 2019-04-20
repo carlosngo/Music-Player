@@ -299,8 +299,11 @@ public class SongController {
         s.setAlbum(client.getAlbum(albumId));
         s.setArtist((Artist)user);
         s.setDateCreated(Calendar.getInstance().getTime());
-        if (!year.equals(""))
+        try {
             s.setYear(Integer.parseInt(year));
+        } catch (NumberFormatException e) {
+            s.setYear(0);
+        }
         s.setWAV(wav);
         client.addSong(s);
         client.setSongFile(s.getSongId(), wav);
@@ -494,5 +497,10 @@ public class SongController {
 
     public void unfollowArtist(Artist artist) {
         client.unfollowArtist(user.getAccount(), artist);
+    }
+
+    public User getUser(int accountId) {
+        Account account = client.getAccount(accountId);
+        return client.logIn(account.getUserName(), account.getPassword());
     }
 }

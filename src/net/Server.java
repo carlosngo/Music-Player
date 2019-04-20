@@ -54,7 +54,9 @@ final class Server {
     }
 
     ArrayList<Song> getFollowedSongs(int accountId) {
-        return ((SongDAO)songDAOFactory.getDAO()).listByAccount(accountId);
+        ArrayList<Song> songs = ((SongDAO)songDAOFactory.getDAO()).listByAccount(accountId);
+        getClientData(getAccount(accountId), songs);
+        return songs;
     }
 
     ArrayList<Song> getSongsByArtist(int artistId) {
@@ -143,7 +145,7 @@ final class Server {
             if (onlineUsers.containsKey(followers.get(i)))
                 onlineUsers.get(followers.get(i)).listen(new PlayEvent(account, song));
         }
-//        ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account, song);
+        ((AccountSongDAO)accountSongDAOFactory.getDAO()).playSong(account.getId(), song.getSongId());
     }
 
     void followSong(Account account, Song song) {
@@ -422,6 +424,11 @@ final class Server {
         onlineUsers.remove(accountId);
     }
 
+    boolean isArtist(int accountId) {
+        Artist artist = ((ArtistDAO)artistDAOFactory.getDAO()).findByAccountID(accountId);
+        return artist != null;
+    }
+
     ArrayList<Song> searchSongs(String keyword) {
         return ((SongDAO)songDAOFactory.getDAO()).search(keyword);
     }
@@ -441,6 +448,7 @@ final class Server {
     ArrayList<Artist> searchArtists(String keyword) {
         return ((ArtistDAO)artistDAOFactory.getDAO()).search(keyword);
     }
+
 
     public static void main(String[] args) {
         Server server = Server.getInstance();

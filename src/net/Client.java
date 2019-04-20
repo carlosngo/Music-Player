@@ -204,6 +204,9 @@ public final class Client {
                                 break;
                             }
                             break;
+                        case ISARTIST:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
+                            break;
                         case SEARCHSONGS:
                             readSongs();
                             break;
@@ -929,6 +932,15 @@ public final class Client {
         while (isBusy());
         populateArtists();
         return artists;
+    }
+
+    public boolean isArtist(int accountId) {
+        isBusy = true;
+        success = false;
+        outToServer.println(Protocol.ISARTIST);
+        outToServer.println(accountId);
+        while (isBusy());
+        return success;
     }
 
     public static void main(String[] args) {

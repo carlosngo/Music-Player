@@ -48,6 +48,8 @@ public class PlaylistPanel extends CategoryPanel {
     public void addRow(String category, Object obj) {
         Playlist playlist = (Playlist) obj;
 
+        int accountId = playlist.getAccount().getId();
+        User user = controller.getUser(accountId);
         JButton subOptionButton = new JButton();
         subOptionButton.setOpaque(false);
         subOptionButton.setContentAreaFilled(false);
@@ -129,12 +131,12 @@ public class PlaylistPanel extends CategoryPanel {
             }
         });
 
-        creator.setText(playlist.getAccount().getUserName());
+        creator.setText(user.getName());
 
         creator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(playlist.getAccount().getId());
+                controller.showInfo(user);
             }
         });
 

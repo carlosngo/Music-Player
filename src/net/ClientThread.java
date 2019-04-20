@@ -435,6 +435,10 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         int userId = Integer.parseInt(in.readLine());
                         server.logout(userId);
                         break;
+                    case ISARTIST:
+                        accountId = Integer.parseInt(in.readLine());
+                        reply.append(server.isArtist(accountId));
+                        break;
                     case SEARCHSONGS:
                         String keyword = in.readLine();
                         songs = server.searchSongs(keyword);

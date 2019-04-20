@@ -65,6 +65,7 @@ public enum Protocol {
     SETSONGFILE,
     LOGIN,
     LOGOUT,
+    ISARTIST,
     SEARCHSONGS,
     SEARCHPLAYLISTS,
     SEARCHALBUMS,
