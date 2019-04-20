@@ -25,8 +25,8 @@ public class SubscriptionDAO implements DataAccessObject {
 	private static final String SQL_LIST_BY_SUBSCRIBEE_ID =
 			"SELECT FK_SubscriberID FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscribeeID = ?";
 	
-	private static String SQL_FIND = 
-			"SELECT * FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubcriberID = ? AND FK_SubscribeeID = ?";
+	private static String SQL_FIND =
+			"SELECT * FROM " + Database.SUBSCRIPTION_TABLE + " WHERE FK_SubscriberID = ? AND FK_SubscribeeID = ?";
 	
 	public SubscriptionDAO(DAOFactory db) {
 		this.db = db;

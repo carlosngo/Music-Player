@@ -62,6 +62,7 @@ public class PlaylistPanel extends CategoryPanel {
         favPlaylist.setOpaque(false);
         favPlaylist.setContentAreaFilled(false);
         favPlaylist.setBorderPainted(false);
+        favPlaylist.setForeground(Color.white);
 //        favPlaylist.setVisible(false);
 //        if(category.equals("Playlists")) favPlaylist.setVisible(true);
         JButton play = new JButton();
@@ -103,6 +104,7 @@ public class PlaylistPanel extends CategoryPanel {
                 resource = getClass().getClassLoader().getResource("images/star.png");
                 img = ImageIO.read(resource);
             }
+            favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
@@ -159,11 +161,11 @@ public class PlaylistPanel extends CategoryPanel {
                     BufferedImage img;
                     if (controller.isFollowingPlaylist(playlist.getPlaylistId())) {
                         controller.unfollowPlaylist(playlist);
-                        resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                        resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
                     } else {
                         controller.followPlaylist(playlist);
-                        resource = getClass().getClassLoader().getResource("images/follow.png");
+                        resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     }
                     follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -233,7 +235,7 @@ public class PlaylistPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
         block.add(play, cons);
-        block.add(play, cons);
+//        block.add(play, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 4;
         block.add(favPlaylist, cons);

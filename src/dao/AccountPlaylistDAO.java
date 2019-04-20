@@ -22,7 +22,7 @@ public class AccountPlaylistDAO implements DataAccessObject {
 	private static String SQL_DELETE =
 			"DELETE FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 	private static String SQL_LIST_BY_USER_FAVORITE = "SELECT * FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND isFavorite = ?";
-	
+
 	private static String SQL_FAVORITE = 
 			"SELECT isFavorite FROM " + Database.ACCOUNTPLAYLIST_TABLE + " WHERE FK_AccountID = ? AND FK_PlaylistID = ?";
 	
@@ -110,7 +110,7 @@ public class AccountPlaylistDAO implements DataAccessObject {
 				PreparedStatement stmt = prepareStatement(con, SQL_LIST_BY_USER_FAVORITE, false, accId, true);
 				ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
-				keys.add(rs.getInt(1));
+				keys.add(rs.getInt(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

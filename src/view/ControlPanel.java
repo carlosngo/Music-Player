@@ -660,7 +660,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 //            AddPlaylistWindow apw = new AddPlaylistWindow();
         }
         if(e.getSource() == favPlaylists){
-            controller.showFavoritePlaylists();
+            controller.showFavoritePlaylists(user.getAccount().getId());
         }
 //        if(e.getSource() == addSong){
 //            controller.getMainController().getAc().openAddSongWindow();

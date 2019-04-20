@@ -154,11 +154,11 @@ public class AlbumPanel extends CategoryPanel {
                     BufferedImage img;
                     if (controller.isFollowingAlbum(album.getAlbumId())) {
                         controller.unfollowAlbum(album);
-                        resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                        resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
                     } else {
                         controller.followAlbum(album);
-                        resource = getClass().getClassLoader().getResource("images/follow.png");
+                        resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
                     }
                     follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));

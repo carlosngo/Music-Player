@@ -126,8 +126,7 @@ public class AlbumDAO implements DataAccessObject {
 		}
 	}
 
-	public void delete(Album album) {
-
+	public boolean delete(Album album) {
 		try {
 			Connection connection = Database.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
@@ -138,7 +137,9 @@ public class AlbumDAO implements DataAccessObject {
 			statement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public void update(Album album) throws IllegalArgumentException {

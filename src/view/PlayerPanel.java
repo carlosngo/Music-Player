@@ -289,12 +289,12 @@ public class PlayerPanel extends JPanel implements ActionListener {
                 isFavorite = pc.getMainController().getSongController().isFavoriteSong(pc.getCurrentSong().getSongId());
                 if (isFavorite) {
                     System.out.println("Unfavorited" + pc.getCurrentSong().getName());
-                    resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
+                    resource = getClass().getClassLoader().getResource("images/favSongs.png");
                     img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } else {
                     System.out.println("Favorited" + pc.getCurrentSong().getName());
-                    resource = getClass().getClassLoader().getResource("images/favSongs.png");
+                    resource = getClass().getClassLoader().getResource("images/cyanFavSongs.png");
                     img = ImageIO.read(resource);
                     favSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 }

@@ -602,7 +602,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 }
             }
             catch(Exception e){
-
+                e.printStackTrace();
             }
 
             add(play);
@@ -643,7 +643,7 @@ public class SongPanel extends JPanel implements ActionListener{
                     if (controller.isFollowingSong(song.getSongId())) {
                         controller.unfollowSong(song);
                         try {
-                            URL resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
+                            URL resource = getClass().getClassLoader().getResource("images/follow.png");
                             BufferedImage img = ImageIO.read(resource);
                             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                         } catch (IOException e) {
@@ -652,7 +652,7 @@ public class SongPanel extends JPanel implements ActionListener{
                     } else {
                         controller.followSong(song);
                         try {
-                            URL resource = getClass().getClassLoader().getResource("images/follow.png");
+                            URL resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                             BufferedImage img = ImageIO.read(resource);
                             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                         } catch (IOException e) {

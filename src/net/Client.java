@@ -95,6 +95,9 @@ public final class Client {
                                 System.out.println(song + " was added successfully.");
                             }
                             break;
+                        case ISFOLLOWINGSONG:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
+                            break;
                         case ISFAVORITESONG:
                             success = Boolean.parseBoolean(inFromServer.readLine());
                             break;
@@ -110,9 +113,15 @@ public final class Client {
                         case GETFOLLOWEDPLAYLISTS:
                             readPlaylists();
                             break;
+                        case GETFAVORITEPLAYLISTS:
+                            readPlaylists();
+                            break;
                         case ADDPLAYLIST:
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
                             if (success) playlist.setPlaylistId(Integer.parseInt(inFromServer.readLine()));
+                            break;
+                        case ISFOLLOWINGPLAYLIST:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
                             break;
                         case ISFAVORITEPLAYLIST:
                             success = Boolean.parseBoolean(inFromServer.readLine());
@@ -133,6 +142,12 @@ public final class Client {
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
                             if (success) album.setAlbumId(Integer.parseInt(inFromServer.readLine()));
                             break;
+                        case DELETEALBUM:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
+                            break;
+                        case ISFOLLOWINGALBUM:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
+                            break;
                         case GETUSER:
                             user = User.parseUser(inFromServer.readLine());
                             break;
@@ -149,6 +164,9 @@ public final class Client {
                                 user.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
                             }
                             break;
+                        case ISFOLLOWINGUSER:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
+                            break;
                         case GETARTIST:
                             artist = Artist.parseArtist(inFromServer.readLine());
                             break;
@@ -164,6 +182,9 @@ public final class Client {
                                 artist.setArtistId(Integer.parseInt(inFromServer.readLine()));
                                 artist.getAccount().setId(Integer.parseInt(inFromServer.readLine()));
                             }
+                            break;
+                        case ISFOLLOWINGARTIST:
+                            success = Boolean.parseBoolean(inFromServer.readLine());
                             break;
                         case GETIMAGEFILE:
                             FileUtil.downloadFile(socket, inFromServer, img);
@@ -445,6 +466,16 @@ public final class Client {
         return playlists;
     }
 
+    public ArrayList<Playlist> getFavoritePlaylists(int accountId) {
+        isBusy = true;
+        playlists = new ArrayList<>();
+        outToServer.println(Protocol.GETFAVORITEPLAYLISTS);
+        outToServer.println(accountId);
+        while (isBusy());
+        populatePlaylists();
+        return playlists;
+    }
+
     private void readPlaylists() {
         try {
             int n = Integer.parseInt(inFromServer.readLine());
@@ -590,9 +621,13 @@ public final class Client {
         return success;
     }
 
-    public void deleteAlbum(Album album){
+    public boolean deleteAlbum(Album album){
+        isBusy = true;
+        success = false;
         outToServer.println(Protocol.DELETEALBUM);
         outToServer.println(album);
+        while (isBusy());
+        return success;
     }
 
     public void updateAlbum(Album album){

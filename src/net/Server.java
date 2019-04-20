@@ -182,6 +182,15 @@ final class Server {
         return ((PlaylistDAO)playlistDAOFactory.getDAO()).listFollowedPlaylists(accountId);
     }
 
+    ArrayList<Playlist> getFavoritePlaylists(int accountId) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        ArrayList<Integer> list = ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).listByUserFavorites(accountId);
+        for (int i = 0; i < list.size(); i++) {
+            playlists.add(((PlaylistDAO)playlistDAOFactory.getDAO()).find(list.get(i)));
+        }
+        return playlists;
+    }
+
     boolean addPlaylist(Playlist playlist){
         playlist.setAccount(getAccount(playlist.getAccount().getId()));
         try {
@@ -225,7 +234,7 @@ final class Server {
     }
 
     boolean isFollowingPlaylist(int accountId, int playlistId) {
-        ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).find(accountId, playlistId);
+        return ((AccountPlaylistDAO)accountPlaylistDAOFactory.getDAO()).find(accountId, playlistId);
     }
 
     void toggleFavoritePlaylist(int accountId, int playlistId) {
@@ -270,12 +279,8 @@ final class Server {
         return true;
     }
 
-    void deleteAlbum(Album album){
-        try {
-            ((AlbumDAO)albumDAOFactory.getDAO()).delete(album);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Song was not added.");
-        }
+    boolean deleteAlbum(Album album){
+        return ((AlbumDAO)albumDAOFactory.getDAO()).delete(album);
     }
 
     void updateAlbum(Album album){
@@ -339,7 +344,7 @@ final class Server {
     }
 
     boolean isFollowingUser(int accountId, int anotherAccountId){
-        ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).find(accountId, anotherAccountId);
+        return ((SubscriptionDAO)subscriptionDAOFactory.getDAO()).find(accountId, anotherAccountId);
     }
 
     Artist getArtist(int artistId) { return ((ArtistDAO)artistDAOFactory.getDAO()).find(artistId); }

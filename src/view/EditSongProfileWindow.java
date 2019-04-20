@@ -212,15 +212,13 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         if(e.getSource() == save){
             setTitle(titleInput.getText());
             setAlbum(albumChoices.getSelectedItem().toString());
-            int albumID = 0;
-            for(Album a : albums){
-                if(a.getName().equals(getAlbum())) albumID = a.getAlbumId();
-            }
+            String genre = " ";
+            if(genreChoices.getSelectedIndex() > 0) genre = genreChoices.getSelectedItem().toString();
+            int albumID = -1;
+            if (albumChoices.getSelectedIndex() > 0) albumID = albums.get(albumChoices.getSelectedIndex() - 1).getAlbumId();
             setYear(yearInput.getText());
-            setGenre(genreChoices.getSelectedItem().toString());
-            setArtist(artistInput.getText());
             choice = true;
-            controller.updateSong(selectedRow, song.getSongId(), getTitle(), albumID, getYear(), getGenre());
+            controller.updateSong(selectedRow, song.getSongId(), getTitle(), albumID, getYear(), genre);
             dispose();
         }
     }

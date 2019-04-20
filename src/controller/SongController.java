@@ -4,6 +4,7 @@ import net.*;
 import model.*;
 import view.*;
 
+import javax.swing.*;
 import java.util.*;
 import java.io.*;
 
@@ -163,7 +164,11 @@ public class SongController {
         return (PlaylistPanel)cp;
     }
 
-
+    public PlaylistPanel showFavoritePlaylists(int accountId) {
+        cp = new PlaylistPanel(this, client.getFavoritePlaylists(accountId));
+        if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        return (PlaylistPanel)cp;
+    }
 
     public AlbumPanel showAlbums(int accountId) {
         cp = new AlbumPanel(this, client.getFollowedAlbums(accountId));
@@ -338,9 +343,13 @@ public class SongController {
 
     public void removeAlbum(int albumId) {
         Album a = client.getAlbum(albumId);
-        if (a.getArtist().getArtistId() == ((Artist)user).getArtistId())
-            client.deleteAlbum(a);
-        else client.unfollowAlbum(user.getAccount(), a);
+        if (a.getArtist().getArtistId() == ((Artist)user).getArtistId()) {
+            boolean success = client.deleteAlbum(a);
+            if (!success) {
+                JOptionPane.showMessageDialog(null, "The album contains one or more songs.",
+                        "Deletion Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else client.unfollowAlbum(user.getAccount(), a);
         showAlbums(user.getAccount().getId());
     }
 

@@ -184,6 +184,15 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                             reply.append(playlists.get(i).toString());
                         }
                         break;
+                    case GETFAVORITEPLAYLISTS:
+                        accountId = Integer.parseInt(in.readLine());
+                        playlists = server.getFavoritePlaylists(accountId);
+                        reply.append(playlists.size());
+                        for (int i = 0; i < playlists.size(); i++) {
+                            reply.append("\n");
+                            reply.append(playlists.get(i).toString());
+                        }
+                        break;
                     case ADDPLAYLIST:
                         playlist = Playlist.parsePlaylist(in.readLine());
                         if (server.addPlaylist(playlist)) {
@@ -262,7 +271,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case DELETEALBUM:
                         album = Album.parseAlbum(in.readLine());
-                        server.deleteAlbum(album);
+                        out.println(server.deleteAlbum(album));
                         break;
                     case UPDATEALBUM:
                         album = Album.parseAlbum(in.readLine());
