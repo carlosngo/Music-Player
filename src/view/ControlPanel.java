@@ -142,7 +142,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                 favPlaylists.setForeground(oldColor);
             }
         });
-        //add(favPlaylists);
+        add(favPlaylists);
 
         favSongs = new JButton();
         favSongs.setActionCommand("Favorite Songs");
@@ -606,6 +606,10 @@ public class ControlPanel extends JPanel implements ActionListener {
             img = ImageIO.read(resource);
             friends.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             friends.setText("Friends");
+            resource = getClass().getClassLoader().getResource("images/star.png");
+            img = ImageIO.read(resource);
+            favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            favPlaylists.setText("Favorite Playlist");
 //            resource = getClass().getClassLoader().getResource("images/addSong.png");
 //            img = ImageIO.read(resource);
 //            addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -618,10 +622,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 //            img = ImageIO.read(resource);
 //            genres.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //            genres.setText("Genres");
-//            resource = getClass().getClassLoader().getResource("images/star.png");
-//            img = ImageIO.read(resource);
-//            favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//            favPlaylists.setText("Favorite Playlist");
 //            resource = getClass().getClassLoader().getResource("images/year.png");
 //            img = ImageIO.read(resource);
 //            years.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
@@ -659,6 +659,9 @@ public class ControlPanel extends JPanel implements ActionListener {
             controller.openAddPlaylistWindow();
 //            AddPlaylistWindow apw = new AddPlaylistWindow();
         }
+        if(e.getSource() == favPlaylists){
+            controller.showFavoritePlaylists();
+        }
 //        if(e.getSource() == addSong){
 //            controller.getMainController().getAc().openAddSongWindow();
 //        }
@@ -667,9 +670,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 //        }
 //        if(e.getSource() == mostFrqntlyPlyd){
 //            controller.showMostFrequentlyPlayed();
-//        }
-//        if(e.getSource() == favPlaylists){
-//            controller.showFavoritePlaylists();
 //        }
 //        if(e.getSource() == years){
 //            controller.showYears();

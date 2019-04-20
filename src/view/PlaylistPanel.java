@@ -58,10 +58,10 @@ public class PlaylistPanel extends CategoryPanel {
         creator.setContentAreaFilled(false);
         creator.setBorderPainted(false);
         creator.setForeground(Color.white);
-//        JButton favPlaylist = new JButton();
-//        favPlaylist.setOpaque(false);
-//        favPlaylist.setContentAreaFilled(false);
-//        favPlaylist.setBorderPainted(false);
+        JButton favPlaylist = new JButton();
+        favPlaylist.setOpaque(false);
+        favPlaylist.setContentAreaFilled(false);
+        favPlaylist.setBorderPainted(false);
 //        favPlaylist.setVisible(false);
 //        if(category.equals("Playlists")) favPlaylist.setVisible(true);
         JButton play = new JButton();
@@ -96,6 +96,13 @@ public class PlaylistPanel extends CategoryPanel {
             resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
             img = ImageIO.read(resource);
             play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+            if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
+                resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+                img = ImageIO.read(resource);
+            } else {
+                resource = getClass().getClassLoader().getResource("images/star.png");
+                img = ImageIO.read(resource);
+            }
             if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
@@ -192,6 +199,28 @@ public class PlaylistPanel extends CategoryPanel {
             }
         });
 
+        favPlaylist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.toggleFavoritePlaylist(playlist.getPlaylistId());
+
+                try {
+                    URL resource;
+                    BufferedImage img;
+                    if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
+                        resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+                        img = ImageIO.read(resource);
+                    } else {
+                        resource = getClass().getClassLoader().getResource("images/star.png");
+                        img = ImageIO.read(resource);
+                    }
+                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 10, 0, 0);
         cons.gridx = 0;
@@ -204,21 +233,25 @@ public class PlaylistPanel extends CategoryPanel {
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 3;
         block.add(play, cons);
+        block.add(play, cons);
         cons.insets = new Insets(5, 0, 0, 10);
         cons.gridx = 4;
+        block.add(favPlaylist, cons);
+        cons.insets = new Insets(5, 0, 0, 10);
+        cons.gridx = 5;
         block.add(addToQueue, cons);
         if(playlist.getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
             cons.insets = new Insets(5, 0, 0, 10);
-            cons.gridx = 5;
+            cons.gridx = 6;
             block.add(follow, cons);
         }
         if(playlist.getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()){
             cons.insets = new Insets(5, 0, 0, 0);
-            cons.gridx = 6;
+            cons.gridx = 7;
             cons.gridwidth = 1;
             block.add(edit, cons);
             cons.insets = new Insets(5, 0, 0, 10);
-            cons.gridx = 7;
+            cons.gridx = 8;
             block.add(remove, cons);
         }
     }
