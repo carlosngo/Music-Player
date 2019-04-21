@@ -10,9 +10,11 @@ public class InfoPanel extends JPanel {
     private SongController controller;
     private SongPanel sp;
     private CategoryPanel playlistPnl, albumPnl, artistPnl, userPnl;
+    private String header;
 
     public InfoPanel(SongController controller, User user){
         this.controller = controller;
+        //header = user.getName().toUpperCase();
         if (user instanceof Artist) {
             sp = controller.showSongsByArtist(((Artist) user).getArtistId());
             albumPnl = controller.showAlbumsByArtist(((Artist)user).getArtistId());
@@ -28,6 +30,7 @@ public class InfoPanel extends JPanel {
 
     public InfoPanel(SongController controller, String keyword) {
         this.controller = controller;
+        //header = "SEARCH RESULTS";
         sp = new SongPanel(controller, "Songs", null, controller.searchSongs(keyword));
         playlistPnl = new PlaylistPanel(controller, controller.searchPlaylists(keyword), "PLAYLISTS");
         albumPnl = new AlbumPanel(controller, controller.searchAlbums(keyword));
@@ -40,6 +43,10 @@ public class InfoPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         JPanel subPanelsCase = new JPanel();
+        JLabel headerLbl = new JLabel(header);
+        headerLbl.setForeground(Color.WHITE);
+        headerLbl.setFont(new Font("Arial", Font.BOLD, 22));
+        subPanelsCase.add(headerLbl);
         subPanelsCase.setLayout(new BoxLayout(subPanelsCase, BoxLayout.Y_AXIS));
         subPanelsCase.setOpaque(false);
         subPanelsCase.add(sp);
