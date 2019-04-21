@@ -206,7 +206,7 @@ public class SongController {
 
     public SongPanel showSongsFollowedByUser(int userId) {
         User user = client.getUser(userId);
-        sp = new SongPanel(this, "Songs followed by ", null, client.getFollowedSongs(user.getAccount().getId()));
+        sp = new SongPanel(this, "Songs followed by "+user.getFirstName().toUpperCase(), null, client.getFollowedSongs(user.getAccount().getId()));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
         return sp;
     }
