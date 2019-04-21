@@ -159,13 +159,13 @@ public class SongController {
     }
 
     public PlaylistPanel showPlaylists(int accountId) {
-        cp = new PlaylistPanel(this, client.getFollowedPlaylists(accountId));
+        cp = new PlaylistPanel(this, client.getFollowedPlaylists(accountId), "PLAYLISTS");
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (PlaylistPanel)cp;
     }
 
     public PlaylistPanel showFavoritePlaylists(int accountId) {
-        cp = new PlaylistPanel(this, client.getFavoritePlaylists(accountId));
+        cp = new PlaylistPanel(this, client.getFavoritePlaylists(accountId),"Your Favorite Playlists");
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (PlaylistPanel)cp;
     }

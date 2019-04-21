@@ -109,14 +109,19 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         yr.setFont(new Font("Arial", Font.PLAIN, 16));
         yr.addActionListener(this);
 
-//        Calendar c = Calendar.getInstance();
-//        System.out.println(controller.getUser().toString());
-//        c.setTime(controller.getUser().getBirthday());
-//        int month = c.get(Calendar.MONTH) + 1;
-//        mon.setSelectedIndex(month);
-//        int nDate = c.get(Calendar.DAY_OF_MONTH) + 1;
-//        day.setSelectedIndex(nDate);
-//        yr.setSelectedItem("" + c.get(Calendar.YEAR));
+        Calendar c = Calendar.getInstance();
+        c.setTime(controller.getUser().getBirthday());
+        int month = c.get(Calendar.MONTH) + 1;
+        mon.setSelectedIndex(month);
+        int nDate = c.get(Calendar.DAY_OF_MONTH) + 1;
+        day.setSelectedIndex(nDate);
+        yr.setSelectedItem("" + c.get(Calendar.YEAR));
+        System.out.println(controller.getUser().toString());
+        System.out.println(controller.getUser().getBirthday());
+        System.out.println(c);
+        System.out.println(month);
+        System.out.println(nDate);
+        System.out.println(c.get(Calendar.YEAR));
 
         p3.add(yr);
         p3.add(Box.createRigidArea(new Dimension(15,0))); // add space

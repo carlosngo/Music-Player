@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class PlaylistPanel extends CategoryPanel {
 
-    public PlaylistPanel(SongController controller, ArrayList<Playlist> objects) {
-        super(controller, "Playlists");
+    public PlaylistPanel(SongController controller, ArrayList<Playlist> objects, String header) {
+        super(controller, header);
 
         if(objects.size() == 0){
             JLabel blankMessage = new JLabel("No playlists to show.");

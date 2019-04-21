@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AlbumPanel extends CategoryPanel {
 
     public AlbumPanel(SongController controller, ArrayList<Album> objects) {
-        super(controller, "Albums");
+        super(controller, "ALBUMS");
 
         if(objects.size() == 0){
             JLabel blankMessage = new JLabel("No albums to show.");
@@ -127,7 +127,8 @@ public class AlbumPanel extends CategoryPanel {
         creator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(album.getArtist().getArtistId());
+                //controller.showSongsByArtist(album.getArtist().getArtistId());
+                controller.showInfo(album.getArtist());
             }
         });
 
