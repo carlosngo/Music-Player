@@ -16,10 +16,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.EventObject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SongPanel extends JPanel implements ActionListener{
     SongController controller;
@@ -64,7 +63,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 if (s.getYear() == 0) _dataContent.add("");
                 else _dataContent.add("" + s.getYear());
                 _dataContent.add(s.getGenre());
-                _dataContent.add("" + s.getDateCreated());
+                _dataContent.add("" + s.getDateCreated()); //5
                 _dataContent.add("" + s.getPlayTime());
                 data.add(_dataContent);
             }
@@ -85,9 +84,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 if (s.getYear() == 0) biodataContent.add("");
                 else biodataContent.add("" + s.getYear());
                 biodataContent.add(s.getGenre());
-                biodataContent.add("" + s.getDateCreated());
+                biodataContent.add("" + s.getDateCreated()); //5
                 biodataContent.add("" + s.getPlayTime());
-                biodataContent.add("" + s.getSongId()); //index 7
+                biodataContent.add("" + s.getSongId()); //8
                 biodata.add(biodataContent);
             }
 
@@ -126,7 +125,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 headerName.setForeground(Color.white);
                 headerPnl.add(headerName, BorderLayout.WEST);
 
-                String[] sort = {"(Sort By)", "Title", "Artist", "Album", "Genre", "Year", "None"};
+                String[] sort = {"(Sort By)", "Title", "Artist", "Album", "Genre", "Year", "Date Uploaded", "None"};
                 sortOptions = new JComboBox(sort);
                 sortOptions.setForeground(SystemColor.windowText);
                 sortOptions.addActionListener(this);
@@ -273,18 +272,51 @@ public class SongPanel extends JPanel implements ActionListener{
         MyTableModel model;
         SongPanel.ActionPaneRenderer renderer;
         tablePnl.removeAll();
-        Collections.sort(data, new Comparator<ArrayList<String>>() {
-            @Override
-            public int compare(ArrayList<String> one, ArrayList<String> two) {
-                return one.get(sortBaseIndex).compareTo(two.get(sortBaseIndex));
-            }
-        });
-        Collections.sort(biodata, new Comparator<ArrayList<String>>() {
-            @Override
-            public int compare(ArrayList<String> one, ArrayList<String> two) {
-                return one.get(sortBaseIndex).compareTo(two.get(sortBaseIndex));
-            }
-        });
+        if(sortBaseIndex == 5){
+            Collections.sort(data, new Comparator<ArrayList<String>>() {
+                @Override
+                public int compare(ArrayList<String> one, ArrayList<String> two) {
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(one.get(5));
+                        date2 = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(two.get(5));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            });
+            Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                @Override
+                public int compare(ArrayList<String> one, ArrayList<String> two) {
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1 = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(one.get(5));
+                        date2 = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(two.get(5));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    return date1.compareTo(date2);            }
+            });
+        }else{
+            Collections.sort(data, new Comparator<ArrayList<String>>() {
+                @Override
+                public int compare(ArrayList<String> one, ArrayList<String> two) {
+                    return one.get(sortBaseIndex).compareTo(two.get(sortBaseIndex));
+                }
+            });
+            Collections.sort(biodata, new Comparator<ArrayList<String>>() {
+                @Override
+                public int compare(ArrayList<String> one, ArrayList<String> two) {
+                    return one.get(sortBaseIndex).compareTo(two.get(sortBaseIndex));
+                }
+            });
+        }
+
         model = new MyTableModel();
         for(int i=0 ; i<data.size() ; i++){
             model.add(data.get(i));
@@ -355,6 +387,9 @@ public class SongPanel extends JPanel implements ActionListener{
                     break;
                 case "Genre":
                     update(biodata, data, 4);
+                    break;
+                case "Date Uploaded":
+                    update(biodata, data, 5);
                     break;
                 case "None":
                     update(biodata, data, 0);
