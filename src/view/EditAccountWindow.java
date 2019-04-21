@@ -111,17 +111,22 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
 
         Calendar c = Calendar.getInstance();
         c.setTime(controller.getUser().getBirthday());
-        int month = c.get(Calendar.MONTH) + 1;
-        mon.setSelectedIndex(month);
-        int nDate = c.get(Calendar.DAY_OF_MONTH) + 1;
-        day.setSelectedIndex(nDate);
-        yr.setSelectedItem("" + c.get(Calendar.YEAR));
         System.out.println(controller.getUser().toString());
         System.out.println(controller.getUser().getBirthday());
-        System.out.println(c);
-        System.out.println(month);
-        System.out.println(nDate);
+        System.out.println(c.get(Calendar.MONTH) + 1);
+        System.out.println(c.get(Calendar.DAY_OF_MONTH));
         System.out.println(c.get(Calendar.YEAR));
+        System.out.println(c);
+        int month = c.get(Calendar.MONTH) + 1;
+        System.out.println(month);
+        mon.setSelectedIndex(c.get(Calendar.MONTH) + 1);
+        //mon.setSelectedIndex(0);
+        int nDate = c.get(Calendar.DAY_OF_MONTH);
+        System.out.println(nDate);
+        day.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH));
+        //day.setSelectedIndex(4);
+        yr.setSelectedItem("" + c.get(Calendar.YEAR));
+        //yr.setSelectedItem("2000");
 
         p3.add(yr);
         p3.add(Box.createRigidArea(new Dimension(15,0))); // add space
