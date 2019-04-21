@@ -127,7 +127,8 @@ public class AlbumPanel extends CategoryPanel {
         creator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(album.getArtist().getArtistId());
+                //controller.showSongsByArtist(album.getArtist().getArtistId());
+                controller.showInfo(album.getArtist());
             }
         });
 
