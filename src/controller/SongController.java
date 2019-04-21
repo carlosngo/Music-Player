@@ -167,6 +167,7 @@ public class SongController {
     public PlaylistPanel showFavoritePlaylists(int accountId) {
         cp = new PlaylistPanel(this, client.getFavoritePlaylists(accountId));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
+        cp.setCategory("Your Favorite Playlists");
         return (PlaylistPanel)cp;
     }
 
