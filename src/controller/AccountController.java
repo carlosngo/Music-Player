@@ -159,7 +159,8 @@ public class AccountController {
 	}
 
 	public void updateUser(String userName, String password, String firstName, String lastName, String gender, Date birthday){
-		
+		System.out.println("Before the update...");
+		System.out.println(user);
 		user.getAccount().setUserName(userName);
 		user.getAccount().setPassword(password);
 //		user.setPassword(hash.generateHash(password));
@@ -169,6 +170,8 @@ public class AccountController {
 		user.setBirthday(birthday);
 		if (user instanceof Artist) mc.getClient().updateArtist((Artist)user);
 		else mc.getClient().updateUser(user);
+		System.out.println("After the update...");
+		System.out.println(user);
 		mc.getAccountController().getAccountPanel().update();
 		/*        Song s = displayedSongs.get(songIndex);
 //        System.out.println(s);

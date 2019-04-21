@@ -720,6 +720,7 @@ public final class Client {
     public void updateUser(User user){
         outToServer.println(Protocol.UPDATEUSER);
         outToServer.println(user);
+        outToServer.println(user.getAccount());
     }
 
     public void followUser(Account follower, User user){
@@ -806,6 +807,7 @@ public final class Client {
     public void updateArtist(Artist artist){
         outToServer.println(Protocol.UPDATEARTIST);
         outToServer.println(artist);
+        outToServer.println(artist.getAccount());
     }
 
     public void followArtist(Account follower, Artist artist){

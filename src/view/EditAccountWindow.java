@@ -47,7 +47,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p1.add(firstNameLabel);
         firstNameInput = new JTextField("" , 10);
         firstNameInput.addActionListener(this);
-        firstNameInput.setText(controller.getUser().getFirstName());
 //        System.out.println();
 //        System.out.println(controller.getUser().getFirstName());
         firstNameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -66,7 +65,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p2.add(lastNameLabel);
         lastNameInput = new JTextField("" , 10);
         lastNameInput.addActionListener(this);
-        lastNameInput.setText(controller.getUser().getLastName());
 //        System.out.println(lastName);
         //lastNameInput.setEditable(false);
         lastNameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -119,13 +117,10 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         System.out.println(c);
         int month = c.get(Calendar.MONTH) + 1;
         System.out.println(month);
-        mon.setSelectedIndex(c.get(Calendar.MONTH) + 1);
         //mon.setSelectedIndex(0);
         int nDate = c.get(Calendar.DAY_OF_MONTH);
         System.out.println(nDate);
-        day.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH));
         //day.setSelectedIndex(4);
-        yr.setSelectedItem("" + c.get(Calendar.YEAR));
         //yr.setSelectedItem("2000");
 
         p3.add(yr);
@@ -146,7 +141,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         gender.setFont(new Font("Arial", Font.PLAIN, 16));
         //gender.setEnabled(false);
         //gender.setBackground(new Color(152,251,152));
-        gender.setSelectedItem(controller.getUser().getGender());
         System.out.println(controller.getUser().getGender());
         gender.addActionListener(this);
         p4.add(gender);
@@ -163,7 +157,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         p5.add(usernameLabel);
         usernameInput = new JTextField("" , 10);
-        usernameInput.setText(controller.getUser().getAccount().getUserName());
         usernameInput.addActionListener(this);
         //usernameInput.setEditable(false);
         usernameInput.setFont(new Font("Arial", Font.BOLD, 22));
@@ -184,7 +177,6 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         passwordInput.addActionListener(this);
         passwordInput.getDocument().addDocumentListener(this);
         passwordInput.setFont(new Font("Arial", Font.BOLD, 22));
-        passwordInput.setText(controller.getUser().getAccount().getPassword());
         System.out.println(controller.getUser().getAccount().getPassword());
         //passwordInput.setBackground(new Color(152,251,152));
         p6.add(passwordInput);
@@ -215,6 +207,15 @@ public class EditAccountWindow extends JFrame implements ActionListener, Documen
         p.add(p7);
         p.add(Box.createRigidArea(new Dimension(0,7))); // add space
 
+
+        firstNameInput.setText(controller.getUser().getFirstName());
+        lastNameInput.setText(controller.getUser().getLastName());
+        usernameInput.setText(controller.getUser().getAccount().getUserName());
+        passwordInput.setText(controller.getUser().getAccount().getPassword());
+        gender.setSelectedItem(controller.getUser().getGender());
+        yr.setSelectedItem("" + c.get(Calendar.YEAR));
+        day.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH));
+        mon.setSelectedIndex(c.get(Calendar.MONTH) + 1);
         add(p);
         pack();
         setVisible(true);

@@ -22,9 +22,11 @@ public class AccountPanel extends JPanel {
     private GridBagConstraints cons;
     private String name;
     private JPopupMenu settingsMenu;
+    private User user;
 
     public AccountPanel(AccountController ac, User user){
         this.ac = ac;
+        this.user = user;
 
 //        cons = new GridBagConstraints();
 //        cons.fill = GridBagConstraints.HORIZONTAL;
@@ -314,6 +316,7 @@ public class AccountPanel extends JPanel {
     }
 
     public void update() {
+        welcomeLbl.setText(ac.getUser().getAccount().getUserName());
         revalidate();
         repaint();
 

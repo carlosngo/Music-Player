@@ -324,6 +324,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case UPDATEUSER:
                         user = User.parseUser(in.readLine());
+                        user.setAccount(Account.parseAccount(in.readLine()));
                         server.updateUser(user);
                         break;
                     case FOLLOWUSER:
@@ -374,6 +375,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         break;
                     case UPDATEARTIST:
                         artist = Artist.parseArtist(in.readLine());
+                        artist.setAccount(Account.parseAccount(in.readLine()));
                         server.updateArtist(artist);
                         break;
                     case FOLLOWARTIST:
