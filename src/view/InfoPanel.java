@@ -29,7 +29,7 @@ public class InfoPanel extends JPanel {
     public InfoPanel(SongController controller, String keyword) {
         this.controller = controller;
         sp = new SongPanel(controller, "Songs", null, controller.searchSongs(keyword));
-        playlistPnl = new PlaylistPanel(controller, controller.searchPlaylists(keyword));
+        playlistPnl = new PlaylistPanel(controller, controller.searchPlaylists(keyword), "PLAYLISTS");
         albumPnl = new AlbumPanel(controller, controller.searchAlbums(keyword));
         artistPnl = new ArtistPanel(controller, controller.searchArtists(keyword));
         userPnl = new UserPanel(controller, controller.searchUsers(keyword));
