@@ -107,7 +107,7 @@ public class PlaylistPanel extends CategoryPanel {
                 img = ImageIO.read(resource);
             }
             favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
+            if (controller.isFollowingPlaylist(playlist.getPlaylistId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
             } else {
