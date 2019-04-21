@@ -102,7 +102,7 @@ public class EditSongProfileWindow extends JFrame implements ActionListener, Doc
         for (int i = 0; i < sChoices.length; i++) {
             genreChoices.addItem(sChoices[i]);
         }
-        genreChoices.setEditable(true);
+        genreChoices.setEditable(false);
         p3.add(genreChoices);
 //        genreInput = new JTextField("" , 15);
 //        genreInput.addActionListener(this);
