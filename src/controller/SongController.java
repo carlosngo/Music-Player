@@ -404,6 +404,10 @@ public class SongController {
 
     public void followAlbum(Album album) {
         client.followAlbum(user.getAccount(), album);
+        ArrayList<Song> songsInAlbum = client.getSongsInAlbum(album.getAlbumId());
+        for (int i = 0; i < songsInAlbum.size(); i++) {
+            followSong(songsInAlbum.get(i));
+        }
     }
 
     public void followArtist(Artist artist) {
