@@ -782,7 +782,7 @@ public class SongPanel extends JPanel implements ActionListener{
 
                 settingsMenu.add(removeFromPlaylist);
             //settingsMenu.add(removeFromAlbum);
-            if(songs.get(currentRow).getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()){
+            if(songs.get(currentRow).getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
                if(songContainer instanceof Album)
                   settingsMenu.add(removeFromAlbum);
                if(songContainer instanceof Playlist)
