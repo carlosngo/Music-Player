@@ -17,6 +17,7 @@ public class InfoPanel extends JPanel {
         //header = user.getName().toUpperCase();
         if (user instanceof Artist) {
             sp = controller.showSongsByArtist(((Artist) user).getArtistId());
+            sp.setScrollSize(controller.getMainController().getDashboard().getCenterPanel().getWidth()-15, 150);
             albumPnl = controller.showAlbumsByArtist(((Artist)user).getArtistId());
         } else {
             sp = controller.showSongsFollowedByUser(user.getUserId());
@@ -32,6 +33,7 @@ public class InfoPanel extends JPanel {
         this.controller = controller;
         //header = "SEARCH RESULTS";
         sp = new SongPanel(controller, "Songs", null, controller.searchSongs(keyword));
+        sp.setScrollSize(controller.getMainController().getDashboard().getCenterPanel().getWidth()-18, 150);
         playlistPnl = new PlaylistPanel(controller, controller.searchPlaylists(keyword), "PLAYLISTS");
         albumPnl = new AlbumPanel(controller, controller.searchAlbums(keyword));
         artistPnl = new ArtistPanel(controller, controller.searchArtists(keyword));

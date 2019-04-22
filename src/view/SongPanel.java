@@ -217,9 +217,6 @@ public class SongPanel extends JPanel implements ActionListener{
                 scroll = new JScrollPane(categoryTable);
                 scroll.getViewport().setOpaque(false);
                 scroll.setOpaque(false);
-                scroll.setPreferredSize(new Dimension(1200, 300));
-                scroll.setMaximumSize(new Dimension(1200, 300));
-                scroll.setMinimumSize(new Dimension(1200, 300));
                 tablePnl.add(scroll);
                 add(tablePnl, BorderLayout.CENTER);
             }
@@ -228,6 +225,11 @@ public class SongPanel extends JPanel implements ActionListener{
         }
     }
 
+    public void setScrollSize(int x, int y){
+        scroll.setPreferredSize(new Dimension(x, y));
+        scroll.setMaximumSize(new Dimension(x, y));
+        scroll.setMinimumSize(new Dimension(x, y));
+    }
     public void addRow(ArrayList<String> data) {
         model.add(data);
         revalidate();
