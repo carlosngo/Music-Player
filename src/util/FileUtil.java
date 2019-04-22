@@ -19,8 +19,8 @@ public final class FileUtil {
             FileOutputStream fos = new FileOutputStream(dest);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             System.out.println("OutputStreams are ready.");
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            int current = bytesRead;
+            int bytesRead = 0;
+            int current = 0;
             do {
                 System.out.println(current);
                 bytesRead =
