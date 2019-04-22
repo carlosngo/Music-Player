@@ -217,7 +217,9 @@ public class SongPanel extends JPanel implements ActionListener{
                 scroll = new JScrollPane(categoryTable);
                 scroll.getViewport().setOpaque(false);
                 scroll.setOpaque(false);
-                scroll.setPreferredSize(new Dimension(50, 60));
+                scroll.setPreferredSize(new Dimension(1200, 300));
+                scroll.setMaximumSize(new Dimension(1200, 300));
+                scroll.setMinimumSize(new Dimension(1200, 300));
                 tablePnl.add(scroll);
                 add(tablePnl, BorderLayout.CENTER);
             }

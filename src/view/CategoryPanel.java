@@ -38,6 +38,9 @@ public abstract class CategoryPanel extends JPanel {
         cons.fill = GridBagConstraints.HORIZONTAL;
         scroll = new JScrollPane(block);
         scroll.setOpaque(false);
+//        scroll.setPreferredSize(new Dimension(500, 300));
+//        scroll.setMaximumSize(new Dimension(500, 300));
+//        scroll.setMinimumSize(new Dimension(500, 300));
         scroll.getViewport().setOpaque(false);
     }
 

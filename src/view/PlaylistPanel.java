@@ -120,6 +120,7 @@ public class PlaylistPanel extends CategoryPanel {
             } else {
                 resource = getClass().getClassLoader().getResource("images/follow.png");
                 img = ImageIO.read(resource);
+                favPlaylist.setVisible(false);
             }
             follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             resource = getClass().getClassLoader().getResource("images/cyanQueueIcon.png");
@@ -176,6 +177,7 @@ public class PlaylistPanel extends CategoryPanel {
                         controller.followPlaylist(playlist);
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
+                        favPlaylist.setVisible(true);
                     }
                     follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } catch (IOException e1) {
