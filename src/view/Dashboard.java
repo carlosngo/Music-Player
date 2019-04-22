@@ -40,7 +40,7 @@ public class Dashboard extends JFrame {
         public void paintComponent(Graphics g) {
         
             try {
-                File file = new File(getClass().getClassLoader().getResource("images/BGBG3.jpg").toURI());
+                File file = new File(getClass().getClassLoader().getResource("images/stars.png").toURI());
                 BufferedImage bf = ImageResizer.resizeImage(file, 1600, 900);
                 super.paintComponent(g);
                 Dimension size = getSize();
