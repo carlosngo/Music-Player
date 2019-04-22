@@ -72,7 +72,7 @@ public class PlaylistPanel extends CategoryPanel {
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
-        //play.setToolTipText("Play Songs in Playlist");
+        play.setToolTipText("Play Songs in Playlist");
         JButton addToQueue = new JButton();
         addToQueue.setOpaque(false);
         addToQueue.setContentAreaFilled(false);
