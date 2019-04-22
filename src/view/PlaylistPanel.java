@@ -66,28 +66,34 @@ public class PlaylistPanel extends CategoryPanel {
         favPlaylist.setBorderPainted(false);
         favPlaylist.setForeground(Color.white);
         favPlaylist.setVisible(false);
+        favPlaylist.setToolTipText("Add Playlist to Favorite Playlists");
 //        if(category.equals("Playlists")) favPlaylist.setVisible(true);
         JButton play = new JButton();
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
+        //play.setToolTipText("Play Songs in Playlist");
         JButton addToQueue = new JButton();
         addToQueue.setOpaque(false);
         addToQueue.setContentAreaFilled(false);
         addToQueue.setBorderPainted(false);
+        addToQueue.setToolTipText("Add Playlist to Queue");
         JButton follow = new JButton();
         follow.setOpaque(false);
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
+        follow.setToolTipText("Follow");
         JButton remove = new JButton();
         //remove.setVisible(false);
         remove.setOpaque(false);
         remove.setContentAreaFilled(false);
         remove.setBorderPainted(false);
+        remove.setToolTipText("Delete Playlist");
         JButton edit = new JButton();
         edit.setOpaque(false);
         edit.setContentAreaFilled(false);
         edit.setBorderPainted(false);
+        edit.setToolTipText("Edit Playlist");
 
         try {
             URL resource = getClass().getClassLoader().getResource("images/delete.png");
