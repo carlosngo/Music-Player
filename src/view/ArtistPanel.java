@@ -57,11 +57,13 @@ public class ArtistPanel extends CategoryPanel {
         follow.setBorderPainted(false);
         follow.setVisible(false);
         follow.setVisible(true);
+        follow.setToolTipText("Follow");
         JButton play = new JButton();
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
         play.setVisible(true);
+        play.setToolTipText("Play Songs by " + artist.getName());
 
         try {
 //            URL resource = getClass().getClassLoader().getResource("images/follow.png");
