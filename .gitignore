@@ -5,7 +5,7 @@
 *.class
 
 *.iml
-
+.classpath
 out/
 .idea/
 deliverables/

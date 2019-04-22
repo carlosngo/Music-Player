@@ -57,6 +57,7 @@ public class UserPanel extends CategoryPanel {
         follow.setOpaque(false);
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
+        follow.setToolTipText("Follow Listener");
 //        follow.setVisible(true);
 //        JButton play = new JButton();
 //        play.setOpaque(false);
