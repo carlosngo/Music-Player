@@ -262,6 +262,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         try {
             if (e.getActionCommand().equals("Repeat")) {
                 isRepeat = !isRepeat;
+                pc.setRepeat(isRepeat);
                 System.out.println("Pressed Repeat");
                 if (isRepeat) {
                     resource = getClass().getClassLoader().getResource("images/imgRepeatBtnPressed.png");
@@ -275,6 +276,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
                 }
             } else if (e.getActionCommand().equals("Shuffle")) {
                 isShuffle = !isShuffle;
+                pc.setShuffle(isShuffle);
                 if (isShuffle) {
                     resource = getClass().getClassLoader().getResource("images/imgShuffleBtnPressed.png");
                     img = ImageIO.read(resource);
