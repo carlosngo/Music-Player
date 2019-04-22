@@ -26,7 +26,7 @@ public class ArtistDAO implements DataAccessObject {
 	private static final String SQL_EXIST_USERNAME =
 			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.ACCOUNT_TABLE + " ON " + Database.ARTIST_TABLE + ".FK_AccountID = "+
 					Database.ACCOUNT_TABLE + ".PK_AccountID WHERE " + Database.ACCOUNT_TABLE + ".Username = ?";
-	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE FirstName LIKE ? OR LastName LIKE ?";
+	private static final String SQL_SEARCH_BY_KEYWORD  = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE CONCAT(FirstName,\" \", LastName) LIKE ?";
 	private static final String SQL_FIND_BY_ACCOUNTID = "SELECT * FROM " + Database.ARTIST_TABLE + " WHERE FK_AccountID = ?" ;
 	private static final String SQL_LIST_BY_FOLLOWED_ARTISTS = 
 			"SELECT * FROM " + Database.ARTIST_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.ARTIST_TABLE + ".FK_AccountID = " +
@@ -262,6 +262,6 @@ public class ArtistDAO implements DataAccessObject {
 		return artists;
 	}
 
-
+	
 
 }
