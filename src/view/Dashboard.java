@@ -35,23 +35,25 @@ public class Dashboard extends JFrame {
     public Dashboard(MainController controller){
         super("iPl4yer");
         this.controller = controller;
-        contentPane = new JPanel(){
-        @Override
-        public void paintComponent(Graphics g) {
+        contentPane = new JPanel();
+        contentPane.setBackground(Color.BLACK);
+//        contentPane = new JPanel(){
+//        @Override
+//        public void paintComponent(Graphics g) {
         
-            try {
-                File file = new File(getClass().getClassLoader().getResource("images/background.jpg").toURI());
-                BufferedImage bf = ImageResizer.resizeImage(file, 1600, 900);
-                super.paintComponent(g);
-                Dimension size = getSize();
-                if(bf!=null)
-                    g.drawImage(bf, 0, 0,size.width, size.height,0, 0, bf.getWidth(), bf.getHeight(), null);
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-        
-        };
+//            try {
+//                File file = new File(getClass().getClassLoader().getResource("images/background.jpg").toURI());
+//                BufferedImage bf = ImageResizer.resizeImage(file, 1600, 900);
+//                super.paintComponent(g);
+//                Dimension size = getSize();
+//                if(bf!=null)
+//                    g.drawImage(bf, 0, 0,size.width, size.height,0, 0, bf.getWidth(), bf.getHeight(), null);
+//            } catch (URISyntaxException ex) {
+//                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            }
+//
+//        };
         contentPane.setLayout(new BorderLayout());
         contentPane.repaint();
         //contentPane.setOpaque(true);
