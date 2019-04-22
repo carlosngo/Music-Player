@@ -65,7 +65,7 @@ public class PlaylistPanel extends CategoryPanel {
         favPlaylist.setContentAreaFilled(false);
         favPlaylist.setBorderPainted(false);
         favPlaylist.setForeground(Color.white);
-//        favPlaylist.setVisible(false);
+        favPlaylist.setVisible(false);
 //        if(category.equals("Playlists")) favPlaylist.setVisible(true);
         JButton play = new JButton();
         play.setOpaque(false);
@@ -110,6 +110,7 @@ public class PlaylistPanel extends CategoryPanel {
             if (controller.isFollowingPlaylist(playlist.getPlaylistId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
+                favPlaylist.setVisible(true);
             } else {
                 resource = getClass().getClassLoader().getResource("images/follow.png");
                 img = ImageIO.read(resource);

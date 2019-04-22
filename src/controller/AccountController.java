@@ -87,7 +87,7 @@ public class AccountController {
 
 	// logs in the user. check for errors.
 	public boolean logIn(String username, String password) {
-		user = mc.getClient().logIn(username, password);
+		user = mc.getClient().logIn(username, hash.generateHash(password));
 		if (user == null) return false;
 		System.out.println(user);
 		System.out.println(user.getAccount());
@@ -107,7 +107,7 @@ public class AccountController {
 		try {
 			user = new User();
 			user.getAccount().setUserName(username);
-			user.getAccount().setPassword(password);
+			user.getAccount().setPassword(hash.generateHash(password));
 //			user.setPassword(hash.generateHash(password));
 			user.setFirstName(firstName);
 			user.setLastName(lastName);
@@ -130,7 +130,7 @@ public class AccountController {
 		try {
 			Artist artist = new Artist();
 			artist.getAccount().setUserName(username);
-			artist.getAccount().setPassword(password);
+			artist.getAccount().setPassword(hash.generateHash(password));
 			artist.setFirstName(firstName);
 			artist.setLastName(lastName);
 			artist.setName(firstName + " " + lastName);
@@ -162,7 +162,7 @@ public class AccountController {
 		System.out.println("Before the update...");
 		System.out.println(user);
 		user.getAccount().setUserName(userName);
-		user.getAccount().setPassword(password);
+		user.getAccount().setPassword(hash.generateHash(password));
 //		user.setPassword(hash.generateHash(password));
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
