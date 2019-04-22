@@ -308,7 +308,8 @@ public class SongController {
         client.addSong(s);
         client.setSongFile(s.getSongId(), wav);
         client.followSong(user.getAccount(),s);
-        showAllSongs();
+//        showAllSongs();
+//        showAllSongs();
     }
 
     public void addAlbum(String albumName, File cover) {

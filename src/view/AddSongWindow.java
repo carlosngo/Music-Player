@@ -247,7 +247,6 @@ public class AddSongWindow extends JFrame implements ActionListener, DocumentLis
             if (albumChoices.getSelectedIndex() > 0) albumID = albums.get(albumChoices.getSelectedIndex() - 1).getAlbumId();
             controller.addSong(songTitle, genre, albumID, year, selectedFile);
             dispose();
-            controller.showAllSongs();
         }
         if(e.getSource() == cancel){
             dispose();
