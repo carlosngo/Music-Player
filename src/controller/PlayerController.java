@@ -3,6 +3,7 @@ package controller;
 import dao.*;
 import model.*;
 import net.Client;
+import util.*;
 import view.*;
 
 import javax.media.*;
@@ -17,9 +18,8 @@ public class PlayerController implements ControllerListener, ActionListener {
 
     private Client client;
     private Player player = null;
-    private ArrayList<Song> songs;
-    private Stack<Song> played;
-    private ArrayList<Song> unplayed;
+    private SongQueue queue;
+    private SongIterator iterator;
     private boolean isFinished = false;
 
     private PlayerPanel pp;
@@ -28,7 +28,8 @@ public class PlayerController implements ControllerListener, ActionListener {
     {
         this.mc = mc;
         client = mc.getClient();
-        clearQueue();
+        queue = new SongQueue();
+        iterator = (SongIterator)queue.createIterator();
         pp = new PlayerPanel(this);
     }
 
@@ -37,30 +38,30 @@ public class PlayerController implements ControllerListener, ActionListener {
     }
 
     public void setSongs(ArrayList<Song> songs) {
-        this.songs = songs;
-        unplayed = (ArrayList<Song>)songs.clone();
-        played = new Stack<>();
+        queue.getAllSongs().clear();
+        queue.getAllSongs().addAll(songs);
+        queue.getUnplayedSongs().clear();
+        queue.getUnplayedSongs().addAll(queue.getAllSongs());
     }
 
     public void addSong(Song song) {
-        songs.add(song);
-        unplayed.add(song);
-        if(played.isEmpty()) startPlayer();
+        queue.getAllSongs().add(song);
+        queue.getUnplayedSongs().add(song);
+        if(queue.getPlayedSongs().isEmpty()) startPlayer();
     }
 
     public void startPlayer() {
-        if (!unplayed.isEmpty()) {
-            isFinished = false;
-            playSong(getNextSong());
+        if (!queue.getUnplayedSongs().isEmpty()) {
+            iterator.setFinished(false);
+            playSong((Song)iterator.next());
         }
     }
 
     public void terminate() {
         pp.update(new JLabel());
         System.out.println("Terminating");
-        isFinished = true;
         closeCurrentPlayer();
-        clearQueue();
+        queue.clear();
     }
 
     @Override
@@ -68,7 +69,7 @@ public class PlayerController implements ControllerListener, ActionListener {
         if (controllerEvent instanceof EndOfMediaEvent) {
             // end of media actions here
             System.out.println("End of media");
-            Song nextSong = getNextSong();
+            Song nextSong = (Song)iterator.next();
             System.out.println("Next song = " + nextSong);
             playSong(nextSong);
         }
@@ -78,86 +79,52 @@ public class PlayerController implements ControllerListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Next")) {
-            Song nextSong = getNextSong();
+            Song nextSong = (Song)iterator.next();
             if (nextSong != null) {
-//                System.out.println("Next song not null");
                 playSong(nextSong);
             }
         } else if (e.getActionCommand().equals("Prev")) {
-            if (played.size() < 2) return;
-            Song currentSong = played.pop();
-            unplayed.add(currentSong);
-            Song prevSong = played.pop();
-            unplayed.add(prevSong);
+            if (queue.getPlayedSongs().size() < 2) return;
+            Song currentSong = queue.getPlayedSongs().pop();
+            queue.getUnplayedSongs().add(currentSong);
+            Song prevSong = queue.getPlayedSongs().pop();
+            queue.getUnplayedSongs().add(prevSong);
             playSong(prevSong);
         }
     }
 
     public void removeSong(Song song) {
-        if (!played.isEmpty() && played.peek().equals(song)) { // if the song is currently playing
-            Song nextSong = getNextSong();
+        if (!queue.getPlayedSongs().isEmpty() && queue.getPlayedSongs().peek().equals(song)) { // if the song is currently playing
+            Song nextSong = (Song)iterator.next();
             playSong(nextSong);
         }
-        songs.remove(song);
-        unplayed.remove(song);
-        played.remove(song);
+        queue.getAllSongs().remove(song);
+        queue.getUnplayedSongs().remove(song);
+        queue.getPlayedSongs().remove(song);
     }
 
     public Song getCurrentSong() {
-        if (played.isEmpty()) return null;
-        return played.peek();
-    }
-
-    private Song getNextSong() {
-        Song nextSong = null;
-        if (unplayed.isEmpty()) {
-            if (isRepeat()) {
-                System.out.println("Repeating...");
-                played = new Stack<>();
-                unplayed = (ArrayList<Song>)songs.clone();
-            }
-            else {
-                return null;
-            }
-        }
-        if (!isFinished) {
-            int nextIndex = 0;
-            if (isShuffle()) nextIndex = (int)(Math.random() * unplayed.size());
-            nextSong = unplayed.get(nextIndex);
-            System.out.println("Next song is " + nextSong.getName());
-        }
-        return nextSong;
+        return (Song) iterator.currentItem();
     }
 
     private void playSong(Song song) {
-//        System.out.println("Playing song " + song.getName());
-
         if (song == null) {
             terminate();
             return;
         }
-/*        song.setPlayTime(song.getPlayTime() + 1); // increment play time
-        song.setLastPlayed(Calendar.getInstance().getTime());
-        System.out.println("Incremented play count of " + song.getName() + " to " + song.getPlayTime());*/
-        unplayed.remove(song);
-        played.push(song);
-//        File wav = song.getWAV();
+        queue.getUnplayedSongs().remove(song);
+        queue.getPlayedSongs().push(song);
         File wav = client.getSongFile(song.getSongId());
         Album a = song.getAlbum();
-
         try {
             setMediaLocator(new MediaLocator(wav.toURI().toURL()));
-
         } catch (CannotRealizeException e) {
-
             e.printStackTrace();
         } catch (IOException e) {
-
             e.printStackTrace();
         } catch (NoPlayerException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -212,23 +179,18 @@ public class PlayerController implements ControllerListener, ActionListener {
         return pp;
     }
 
-    public boolean isRepeat() {
-        return pp.isRepeat();
+    public void setRepeat(boolean isRepeat) {
+        iterator.setRepeat(isRepeat);
     }
 
-    public boolean isShuffle() {
-        return pp.isShuffle();
+    public void setShuffle(boolean isShuffle) {
+        iterator.setShuffle(isShuffle);
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public void clearQueue() {
-        songs = new ArrayList<>();
-        unplayed = new ArrayList<>();
-        played = new Stack<>();
-    }
     public static void main(String[] args) throws Exception {
 
         PlayerController pc = new PlayerController(new MainController());
