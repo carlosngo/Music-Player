@@ -57,6 +57,10 @@ public class InfoPanel extends JPanel {
         JScrollPane scroll = new JScrollPane(subPanelsCase);
         scroll.setOpaque(false);
         scroll.getViewport().setOpaque(false);
+//        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//        scroll.setPreferredSize(new Dimension(1200, this.getToolkit().getScreenSize().height));
+//        scroll.setMaximumSize(new Dimension(1200, this.getToolkit().getScreenSize().height));
+        scroll.setMinimumSize(new Dimension(1200, 500));
         add(scroll);
     }
 }
