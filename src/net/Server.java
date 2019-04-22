@@ -332,6 +332,7 @@ final class Server {
     void updateUser(User user){
         try {
             ((UserDAO)userDAOFactory.getDAO()).update(user);
+            ((AccountDAO)accountDAOFactory.getDAO()).update(user.getAccount());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -377,6 +378,7 @@ final class Server {
     void updateArtist(Artist artist){
         try {
             ((ArtistDAO)artistDAOFactory.getDAO()).update(artist);
+            ((AccountDAO)accountDAOFactory.getDAO()).update(artist.getAccount());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

@@ -111,10 +111,11 @@ public class AccountDAO implements DataAccessObject {
         if (account.getId() == -1) {
             throw new IllegalArgumentException("User is not created yet, the user ID is null.");
         }
-
+        System.out.println("Updating the account to " + account);
         Object[] values = {
         		account.getUserName(),
-        		account.getPassword()
+        		account.getPassword(),
+                account.getId()
         };
 
         Connection connection = Database.getConnection();

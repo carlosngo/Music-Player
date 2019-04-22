@@ -159,13 +159,13 @@ public class SongController {
     }
 
     public PlaylistPanel showPlaylists(int accountId) {
-        cp = new PlaylistPanel(this, client.getFollowedPlaylists(accountId));
+        cp = new PlaylistPanel(this, client.getFollowedPlaylists(accountId), "PLAYLISTS");
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (PlaylistPanel)cp;
     }
 
     public PlaylistPanel showFavoritePlaylists(int accountId) {
-        cp = new PlaylistPanel(this, client.getFavoritePlaylists(accountId));
+        cp = new PlaylistPanel(this, client.getFavoritePlaylists(accountId),"Your Favorite Playlists");
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(cp);
         return (PlaylistPanel)cp;
     }
@@ -206,7 +206,7 @@ public class SongController {
 
     public SongPanel showSongsFollowedByUser(int userId) {
         User user = client.getUser(userId);
-        sp = new SongPanel(this, "Songs followed by ", null, client.getFollowedSongs(user.getAccount().getId()));
+        sp = new SongPanel(this, "Songs followed by "+user.getFirstName().toUpperCase(), null, client.getFollowedSongs(user.getAccount().getId()));
         if (mc.getDashboard() != null) mc.getDashboard().changeCard(sp);
         return sp;
     }
@@ -404,6 +404,10 @@ public class SongController {
 
     public void followAlbum(Album album) {
         client.followAlbum(user.getAccount(), album);
+        ArrayList<Song> songsInAlbum = client.getSongsInAlbum(album.getAlbumId());
+        for (int i = 0; i < songsInAlbum.size(); i++) {
+            followSong(songsInAlbum.get(i));
+        }
     }
 
     public void followArtist(Artist artist) {

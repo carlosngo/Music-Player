@@ -247,7 +247,7 @@ public class CreateAccountWindow extends JFrame implements ActionListener, Docum
 
         if (e.getSource() == createAccount){
             Calendar c = Calendar.getInstance();
-            c.set(yr.getSelectedIndex() + 1999, mon.getSelectedIndex() - 1, day.getSelectedIndex()-1);
+            c.set(yr.getSelectedIndex() + 1999, mon.getSelectedIndex() - 1, day.getSelectedIndex());
             boolean success = false;
             switch ((String)userType.getSelectedItem()) {
                 case "Listener":

@@ -609,7 +609,7 @@ public class ControlPanel extends JPanel implements ActionListener {
             resource = getClass().getClassLoader().getResource("images/star.png");
             img = ImageIO.read(resource);
             favPlaylists.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-            favPlaylists.setText("Favorite Playlist");
+            favPlaylists.setText("Favorite Playlists");
 //            resource = getClass().getClassLoader().getResource("images/addSong.png");
 //            img = ImageIO.read(resource);
 //            addSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));

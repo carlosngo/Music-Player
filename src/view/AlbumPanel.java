@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AlbumPanel extends CategoryPanel {
 
     public AlbumPanel(SongController controller, ArrayList<Album> objects) {
-        super(controller, "Albums");
+        super(controller, "ALBUMS");
 
         if(objects.size() == 0){
             JLabel blankMessage = new JLabel("No albums to show.");
@@ -63,22 +63,27 @@ public class AlbumPanel extends CategoryPanel {
         play.setOpaque(false);
         play.setContentAreaFilled(false);
         play.setBorderPainted(false);
+        play.setToolTipText("Play Songs in Album");
         JButton addToQueue = new JButton();
         addToQueue.setOpaque(false);
         addToQueue.setContentAreaFilled(false);
         addToQueue.setBorderPainted(false);
+        addToQueue.setToolTipText("Add to Queue");
         JButton follow = new JButton();
         follow.setOpaque(false);
         follow.setContentAreaFilled(false);
         follow.setBorderPainted(false);
+        follow.setToolTipText("Follow");
         JButton remove = new JButton();
         remove.setOpaque(false);
         remove.setContentAreaFilled(false);
         remove.setBorderPainted(false);
+        remove.setToolTipText("Delete Album");
         JButton edit = new JButton();
         edit.setOpaque(false);
         edit.setContentAreaFilled(false);
         edit.setBorderPainted(false);
+        edit.setToolTipText("Edit Album");
         JButton changeCover = new JButton();
 //        changeCover.setOpaque(false);
 //        changeCover.setContentAreaFilled(false);
@@ -127,7 +132,8 @@ public class AlbumPanel extends CategoryPanel {
         creator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.showSongsByArtist(album.getArtist().getArtistId());
+                //controller.showSongsByArtist(album.getArtist().getArtistId());
+                controller.showInfo(album.getArtist());
             }
         });
 
