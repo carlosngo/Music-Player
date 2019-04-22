@@ -31,8 +31,8 @@ public class UserDAO implements DataAccessObject {
 	private static final String SQL_EXIST_USERNAME =
 			"SELECT PK_UserID FROM " + Database.USER_TABLE + " WHERE UserName = ?";
 	private static final String SQL_SEARCH_BY_KEYWORD = 
-			"SELECT * FROM " + Database.USER_TABLE + " WHERE CONCAT(FirstName,\" \", LastName) LIKE ?";
-	
+			"SELECT * FROM " + Database.USER_TABLE + " WHERE FirstName LIKE ? OR LastName LIKE ? OR CONCAT(FirstName, ' ', LastName) LIKE ?";
+
 	private static final String SQL_LIST_BY_FOLLOWED_USERS = 
 			"SELECT * FROM " + Database.USER_TABLE + " INNER JOIN " + Database.SUBSCRIPTION_TABLE + " ON "+ Database.USER_TABLE + ".FK_AccountID = " + 
 			Database.SUBSCRIPTION_TABLE + ".FK_SubscribeeID WHERE FK_SubscriberID = ?";
@@ -218,6 +218,7 @@ public class UserDAO implements DataAccessObject {
 	public ArrayList<User> search(String name){
 		ArrayList<User> users = new ArrayList<>();
 		Object[] values = {
+				"%" + name + "%",
 				"%" + name + "%",
 				"%" + name + "%"
 		};
