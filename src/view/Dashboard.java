@@ -5,8 +5,16 @@ import controller.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+import util.ImageResizer;
 
 public class Dashboard extends JFrame {
     public final static String SONG_PANEL = "Song Panel";
@@ -22,15 +30,32 @@ public class Dashboard extends JFrame {
     private CategoryPanel categoryPanel;
     private BrowserPanel browserPanel;
     private PlayerPanel southPanel;
-
+    
 
     public Dashboard(MainController controller){
         super("iPl4yer");
         this.controller = controller;
-        contentPane = new JPanel();
+        contentPane = new JPanel(){
+        @Override
+        public void paintComponent(Graphics g) {
+        
+            try {
+                File file = new File(getClass().getClassLoader().getResource("images/BGBG3.jpg").toURI());
+                BufferedImage bf = ImageResizer.resizeImage(file, 1600, 900);
+                super.paintComponent(g);
+                Dimension size = getSize();
+                if(bf!=null)
+                    g.drawImage(bf, 0, 0,size.width, size.height,0, 0, bf.getWidth(), bf.getHeight(), null);
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        
+        };
         contentPane.setLayout(new BorderLayout());
-        contentPane.setOpaque(true);
-        contentPane.setBackground(new Color(0,0,0));
+        contentPane.repaint();
+        //contentPane.setOpaque(true);
+        
 
         northPanel = controller.getAccountController().getAccountPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
