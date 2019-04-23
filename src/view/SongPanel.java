@@ -226,9 +226,9 @@ public class SongPanel extends JPanel implements ActionListener{
     }
 
     public void setScrollSize(int x, int y){
-        scroll.setPreferredSize(new Dimension(x, y));
-        scroll.setMaximumSize(new Dimension(x, y));
-        scroll.setMinimumSize(new Dimension(x, y));
+        setPreferredSize(new Dimension(x, y));
+        setMaximumSize(new Dimension(x, y));
+        setMinimumSize(new Dimension(x, y));
     }
     public void addRow(ArrayList<String> data) {
         model.add(data);
