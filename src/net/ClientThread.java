@@ -8,12 +8,15 @@ import util.Protocol;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientThread implements Runnable, UploadListener, PlayListener {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
     private Server server = Server.getInstance();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     public ClientThread(Socket socket) {
         this.socket = socket;
@@ -409,7 +412,9 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         song = server.getSong(Integer.parseInt(in.readLine()));
                         System.out.println("Sending song " + song + " to the client.");
                         File wav = song.getWAV();
-                        FileUtil.uploadFile(socket, out, wav);
+//                        FileUtil.uploadFile(socket, out, wav);
+                        executor.submit(new FTPServer(wav));
+                        reply.append(Protocol.OK);
                         break;
                     case SETSONGFILE:
                         songId = Integer.parseInt(in.readLine());
