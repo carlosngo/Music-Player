@@ -91,11 +91,11 @@ public class SongController {
     public void playSong(int index, int songId) {
         try {
             Song song = client.getSong(songId);
-            client.followSong(user.getAccount(), song);
-            client.playSong(user.getAccount().getId(), songId);
             ArrayList<Song> queue = new ArrayList<>();
             queue.add(song);
             mc.playSongs(queue);
+            client.followSong(user.getAccount(), song);
+            client.playSong(user.getAccount().getId(), songId);
 //            sp.editRow(index, map(song));
         } catch (Exception e) {
             e.printStackTrace();
