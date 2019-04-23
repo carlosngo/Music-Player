@@ -214,21 +214,29 @@ public class PlaylistPanel extends CategoryPanel {
         });
 
         favPlaylist.addActionListener(new ActionListener() {
+            boolean isFavorite = controller.isFavoritePlaylist(playlist.getPlaylistId());
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.toggleFavoritePlaylist(playlist.getPlaylistId());
-
+//                controller.toggleFavoritePlaylist(playlist.getPlaylistId());
                 try {
                     URL resource;
                     BufferedImage img;
-                    if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
+                    if (isFavorite) {
                         resource = getClass().getClassLoader().getResource("images/cyanStar.png");
                         img = ImageIO.read(resource);
+                        favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                        controller.toggleFavoritePlaylist(playlist.getPlaylistId());
+//                        controller.showFavoritePlaylists(controller.getMainController().getAc().getUser().getUserId());
                     } else {
                         resource = getClass().getClassLoader().getResource("images/star.png");
                         img = ImageIO.read(resource);
+                        favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                        controller.toggleFavoritePlaylist(playlist.getPlaylistId());
+//                        controller.showFavoritePlaylists(controller.getMainController().getAc().getUser().getUserId());
                     }
-                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                    revalidate();
+                    repaint();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
