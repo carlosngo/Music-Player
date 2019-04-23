@@ -71,11 +71,13 @@ public class UserPanel extends CategoryPanel {
             if (controller.isFollowingUser(user.getAccount().getId())) {
                 resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                 img = ImageIO.read(resource);
+                follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             } else {
                 resource = getClass().getClassLoader().getResource("images/follow.png");
                 img = ImageIO.read(resource);
+                follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
-            follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+//            follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
 //            resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
 //            img = ImageIO.read(resource);
 //            play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));

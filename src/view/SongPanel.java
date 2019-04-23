@@ -645,7 +645,7 @@ public class SongPanel extends JPanel implements ActionListener{
             }
 
             add(play);
-            add(follow);
+            //add(follow);
             add(kebab);
             if(songs.get(currentRow).getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId())
             follow.setVisible(false);
@@ -763,10 +763,10 @@ public class SongPanel extends JPanel implements ActionListener{
             delete.setActionCommand("delete");
 
             JMenuItem followSong = new JMenuItem("Follow Song");
-            followSong.setActionCommand("follow song");
+            followSong.setActionCommand("follow_song");
 
             JMenuItem favoriteSong = new JMenuItem("Add Song to Favorites");
-            favoriteSong.setActionCommand("favorite song");
+            favoriteSong.setActionCommand("favorite_song");
 
             JMenuItem unfollowSong = new JMenuItem("Unfollow Song");
             unfollowSong.setActionCommand("unfollow_song");
@@ -790,23 +790,23 @@ public class SongPanel extends JPanel implements ActionListener{
             settingsMenu.add(add_to_playlist);
             if(controller.isFavoriteSong(Integer.parseInt(biodata.get(currentRow).get(7)))){
                 settingsMenu.add(unfavoriteSong);
-                controller.showAllSongs();
+                //controller.showAllSongs();
             }else{
                 settingsMenu.add(favoriteSong);
-                controller.showAllSongs();
+                //controller.showAllSongs();
             }
             if(controller.isFollowingSong(Integer.parseInt(biodata.get(currentRow).get(7)))){
-                settingsMenu.add(followSong);
-                controller.showAllSongs();
-            }else{
                 settingsMenu.add(unfollowSong);
-                controller.showAllSongs();
+                //controller.showAllSongs();
+            }else{
+                settingsMenu.add(followSong);
+                //controller.showAllSongs();
             }
             //String[] split = headerName.getText().split(" ");
             if ((songContainer instanceof Playlist) && ((Playlist) songContainer).getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId())
                 settingsMenu.add(removeFromPlaylist);
             Song song = Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7)));
-            if(song.getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
+            if(song.getArtist().getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId()){
                if(songContainer instanceof Album)
                   settingsMenu.add(removeFromAlbum);
 //               if(songContainer instanceof Playlist)
@@ -854,6 +854,7 @@ public class SongPanel extends JPanel implements ActionListener{
         }
         class MenuItemListener implements ActionListener {
             int choice;
+            Song rowSong = Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7)));
             public void actionPerformed(ActionEvent e) {
                 //statusLabel.setText(e.getActionCommand() + " MenuItem clicked.");
                 switch (e.getActionCommand()){
@@ -894,9 +895,18 @@ public class SongPanel extends JPanel implements ActionListener{
                         if (choice == JOptionPane.YES_OPTION)
                             controller.removeSong(currentRow, Integer.parseInt(biodata.get(currentRow).get(7)));
                         break;
-//                    case "follow":
-//                        //follow
-//                        break;
+                    case "follow_song":
+                        controller.followSong(rowSong);
+                        break;
+                    case "unfollow_song":
+                        controller.unfollowSong(rowSong);
+                        break;
+                    case "favorite_song":
+                        controller.toggleFavoriteSong(Integer.parseInt(biodata.get(currentRow).get(7)));
+                        break;
+                    case "unfavorite_song":
+                        controller.toggleFavoriteSong(Integer.parseInt(biodata.get(currentRow).get(7)));
+                        break;
                 }
             }
         }
