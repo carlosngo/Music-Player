@@ -145,12 +145,12 @@ public class AlbumPanel extends CategoryPanel {
         };
         addToQueue.addActionListener(addToQueueListener);
 
-        addToQueue.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                addToQueue.setEnabled(true);
-            }
-            public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
-        });
+//        addToQueue.addMouseListener(new MouseAdapter() {
+//            public void mouseEntered(MouseEvent e) {
+//                addToQueue.setEnabled(true);
+//            }
+//            public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
+//        });
 
         follow.addActionListener(new ActionListener() {
             @Override

@@ -45,6 +45,22 @@ public class PlaylistPanel extends CategoryPanel {
         }
     }
 
+    public void updateFavoriteIcon(Playlist playlist){
+        URL resource;
+        BufferedImage img;
+        try{
+            if (controller.isFavoritePlaylist(playlist.getPlaylistId())) {
+                resource = getClass().getClassLoader().getResource("images/cyanStar.png");
+                img = ImageIO.read(resource);
+            } else {
+                resource = getClass().getClassLoader().getResource("images/star.png");
+                img = ImageIO.read(resource);
+            }
+        }catch (Exception e){
+
+        }
+    }
+
     public void addRow(String category, Object obj) {
         Playlist playlist = (Playlist) obj;
 
@@ -156,12 +172,12 @@ public class PlaylistPanel extends CategoryPanel {
         };
         addToQueue.addActionListener(addToQueueListener);
 
-        addToQueue.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                addToQueue.setEnabled(true);
-            }
-            public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
-        });
+//        addToQueue.addMouseListener(new MouseAdapter() {
+//            public void mouseEntered(MouseEvent e) {
+//                addToQueue.setEnabled(true);
+//            }
+//            public void mouseExited(MouseEvent e) { addToQueue.setEnabled(false); }
+//        });
 
         follow.addActionListener(new ActionListener() {
             @Override
@@ -235,11 +251,10 @@ public class PlaylistPanel extends CategoryPanel {
 //                        controller.showFavoritePlaylists(controller.getMainController().getAc().getUser().getUserId());
                     }
 //                    favPlaylist.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                    revalidate();
-                    repaint();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                updateFavoriteIcon(playlist);
             }
         });
 
