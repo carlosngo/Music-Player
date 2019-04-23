@@ -418,6 +418,7 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                         wav = new File(dir, songId + ".wav");
                         FileUtil.downloadFile(socket, in, wav);
                         server.setSongFile(songId, wav);
+                        reply.append(Protocol.OK);
                         break;
                     case LOGIN:
                         String username = in.readLine();
