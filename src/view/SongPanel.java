@@ -624,7 +624,7 @@ public class SongPanel extends JPanel implements ActionListener{
             kebab.setActionCommand("settings");
 
             try{
-                URL resource = getClass().getClassLoader().getResource("images/imgPlayBtn.png");
+                URL resource = getClass().getClassLoader().getResource("images/cyanPlay.png");
                 BufferedImage img = ImageIO.read(resource);
                 play.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 resource = getClass().getClassLoader().getResource("images/cyanKebab.png");
@@ -843,7 +843,7 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/redFavSong.png");
                 img = ImageIO.read(resource);
                 favoriteSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-                resource = getClass().getClassLoader().getResource("images/cyanFavSong.png");
+                resource = getClass().getClassLoader().getResource("images/unFavSong.png");
                 img = ImageIO.read(resource);
                 unfavoriteSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
