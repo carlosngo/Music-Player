@@ -30,6 +30,7 @@ public final class FileUtil {
 
             bos.write(mybytearray, 0, current);
             bos.flush();
+            fos.close();
             System.out.println("File " + dest
                     + " downloaded (" + current + " bytes read)");
         } catch (IOException e) {
@@ -55,10 +56,7 @@ public final class FileUtil {
             os.write(mybytearray, 0, mybytearray.length);
             os.flush();
             System.out.println("File successfully uploaded.");
-//            String response = in.readLine();
-//            System.out.println(response);
-//            if (response.equals(Protocol.OK)) System.out.println("Destination receieved the file.");
-//            else System.out.println("Destination did not receive the file.");
+            fis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
