@@ -194,6 +194,9 @@ public final class Client {
                         case GETSONGFILE:
                             FileUtil.downloadFile(socket, inFromServer, wav);
                             break;
+                        case SETSONGFILE:
+                            FileUtil.uploadFile(socket, outToServer, wav);
+                            break;
                         case LOGIN:
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
                             if (success) {
@@ -868,7 +871,7 @@ public final class Client {
     public void setSongFile(int songId, File wav){
         outToServer.println(Protocol.SETSONGFILE);
         outToServer.println(songId);
-        FileUtil.uploadFile(socket, outToServer, wav);
+        while (isBusy());
     }
 
     public User logIn(String username, String password) {
