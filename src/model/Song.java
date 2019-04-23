@@ -130,32 +130,35 @@ public class Song implements Comparable<Song>, Media {
     }
 
     public static Song parseSong(String s) {
-        System.out.println(s);
-	    Song song = new Song();
-	    String[] songdata = s.split("\\|");
-	    song.setSongId(Integer.parseInt(songdata[0]));
-        Album album = new Album();
-        album.setAlbumId(Integer.parseInt(songdata[1]));
-	    song.setAlbum(album);
-        Artist artist = new Artist();
-        artist.setArtistId(Integer.parseInt(songdata[2]));
-        song.setArtist(artist);
-        song.setGenre(songdata[3]);
-        song.setName(songdata[4]);
-        song.setYear(Integer.parseInt(songdata[5]));
-        song.setFavorite(Boolean.parseBoolean(songdata[6]));
-        song.setPlayTime(Long.parseLong(songdata[7]));
-        try {
-            Date lp = null;
-            if (!songdata[8].equals("null"))
-                lp = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[8]);
-            song.setLastPlayed(lp);
-            Date dc = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[9]);
-            song.setDateCreated(dc);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Song song = new Song();
+	    try {
+            System.out.println(s);
+            String[] songdata = s.split("\\|");
+            song.setSongId(Integer.parseInt(songdata[0]));
+            Album album = new Album();
+            album.setAlbumId(Integer.parseInt(songdata[1]));
+            song.setAlbum(album);
+            Artist artist = new Artist();
+            artist.setArtistId(Integer.parseInt(songdata[2]));
+            song.setArtist(artist);
+            song.setGenre(songdata[3]);
+            song.setName(songdata[4]);
+            song.setYear(Integer.parseInt(songdata[5]));
+            song.setFavorite(Boolean.parseBoolean(songdata[6]));
+            song.setPlayTime(Long.parseLong(songdata[7]));
+            try {
+                Date lp = null;
+                if (!songdata[8].equals("null"))
+                    lp = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[8]);
+                song.setLastPlayed(lp);
+                Date dc = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy").parse(songdata[9]);
+                song.setDateCreated(dc);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+	        e.printStackTrace();
         }
-
 	    return song;
     }
 
