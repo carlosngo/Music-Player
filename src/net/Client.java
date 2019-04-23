@@ -188,17 +188,25 @@ public final class Client {
                             success = Boolean.parseBoolean(inFromServer.readLine());
                             break;
                         case GETIMAGEFILE:
-                            FileUtil.downloadFile(socket, inFromServer, img);
+                            int fileSize = Integer.parseInt(inFromServer.readLine());
+                            if (inFromServer.readLine().equals("OK"))
+                                new FTPClient(Server.IP_ADDRESS, img, fileSize).receive();
+//                            FileUtil.downloadFile(socket, inFromServer, img);
                             break;
                         case SETIMAGEFILE:
                             break;
                         case GETSONGFILE:
 //                            FileUtil.downloadFile(socket, inFromServer, wav);
-                            if (inFromServer.readLine().equals(Protocol.OK))
-                                new FTPClient(Server.IP_ADDRESS, wav, (int) wav.length()).receive();
+                            fileSize = Integer.parseInt(inFromServer.readLine());
+                            System.out.println("Going to download a " + fileSize + " bytes file.");
+                            String response = inFromServer.readLine();
+                            System.out.println(response);
+                            if (response.equals("OK")) {
+                                System.out.println("Going to start the download.");
+                                new FTPClient(Server.IP_ADDRESS, wav, fileSize).receive();
+                            }
                             break;
                         case SETSONGFILE:
-                            System.out.println(inFromServer.readLine());
                             break;
                         case LOGIN:
                             success = Protocol.valueOf(inFromServer.readLine()) == Protocol.OK;
@@ -847,6 +855,11 @@ public final class Client {
         File dir = new File("resources/images");
         dir.mkdirs();
         img = new File(dir, albumId + ".png");
+        try {
+            img.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         outToServer.println(Protocol.GETIMAGEFILE);
         outToServer.println(albumId);
         while (isBusy());
@@ -855,9 +868,10 @@ public final class Client {
 
     public void setImageFile(int albumId, File img) {
         if (img != null) {
+            executor.submit(new FTPServer(img));
             outToServer.println(Protocol.SETIMAGEFILE);
             outToServer.println(albumId);
-            FileUtil.uploadFile(socket, outToServer, img);
+            outToServer.println(img.length());
         }
     }
 
@@ -866,6 +880,11 @@ public final class Client {
         File dir = new File("resources/songs");
         dir.mkdirs();
         wav = new File(dir, songId + ".wav");
+        try {
+            wav.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         outToServer.println(Protocol.GETSONGFILE);
         outToServer.println(songId);
         System.out.println("Entering the loop...");
@@ -874,11 +893,11 @@ public final class Client {
     }
 
     public void setSongFile(int songId, File wav){
-        isBusy = true;
+        executor.submit(new FTPServer(wav));
         outToServer.println(Protocol.SETSONGFILE);
         outToServer.println(songId);
-        FileUtil.uploadFile(socket, outToServer, wav);
-        while (isBusy());
+        outToServer.println(wav.length());
+//        FileUtil.uploadFile(socket, outToServer, wav);
     }
 
     public User logIn(String username, String password) {
