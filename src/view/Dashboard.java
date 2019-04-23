@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -36,7 +37,13 @@ public class Dashboard extends JFrame {
         super("iPl4yer");
         this.controller = controller;
         contentPane = new JPanel();
-        contentPane.setBackground(Color.BLACK);
+        contentPane.setOpaque(false);
+        //contentPane.setBackground(Color.BLACK);
+
+        JPanel contentPaneCase = new JPanel();
+        contentPaneCase.setLayout(new OverlayLayout(contentPaneCase));
+
+
 //        contentPane = new JPanel(){
 //        @Override
 //        public void paintComponent(Graphics g) {
@@ -55,8 +62,7 @@ public class Dashboard extends JFrame {
 //
 //        };
         contentPane.setLayout(new BorderLayout());
-        contentPane.repaint();
-        //contentPane.setOpaque(true);
+        //contentPane.repaint();
         
 
         northPanel = controller.getAccountController().getAccountPanel();
@@ -80,7 +86,25 @@ public class Dashboard extends JFrame {
 
         southPanel = controller.getPlayerController().getPlayerPanel();
         contentPane.add(southPanel, BorderLayout.SOUTH);
-        setContentPane(contentPane);
+        //setContentPane(contentPane);
+
+        contentPane.setAlignmentX(0.5f);
+        contentPane.setAlignmentY(0.5f);
+        contentPaneCase.add(contentPane);
+
+        JLabel bgpic = new JLabel();
+        try{
+            URL resource = getClass().getClassLoader().getResource("images/background.jpg");
+            BufferedImage img = ImageIO.read(resource);
+            bgpic.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 3000, 1100)));
+        } catch(Exception exception){
+
+        }
+        bgpic.setAlignmentX(0.5f);
+        bgpic.setAlignmentY(0.5f);
+        contentPaneCase.add(bgpic);
+
+        add(contentPaneCase);
         pack();
         setVisible(true);
         addWindowListener(new WindowAdapter() {
