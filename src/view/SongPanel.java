@@ -795,12 +795,15 @@ public class SongPanel extends JPanel implements ActionListener{
                 settingsMenu.add(favoriteSong);
                 //controller.showAllSongs();
             }
-            if(controller.isFollowingSong(Integer.parseInt(biodata.get(currentRow).get(7)))){
-                settingsMenu.add(unfollowSong);
-                //controller.showAllSongs();
-            }else{
-                settingsMenu.add(followSong);
-                //controller.showAllSongs();
+            Song songForCheck = Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7)));
+            if(songForCheck.getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
+                if(controller.isFollowingSong(Integer.parseInt(biodata.get(currentRow).get(7)))){
+                    settingsMenu.add(unfollowSong);
+                    //controller.showAllSongs();
+                }else{
+                    settingsMenu.add(followSong);
+                    //controller.showAllSongs();
+                }
             }
             //String[] split = headerName.getText().split(" ");
             if ((songContainer instanceof Playlist) && ((Playlist) songContainer).getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId())
