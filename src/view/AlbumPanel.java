@@ -162,12 +162,13 @@ public class AlbumPanel extends CategoryPanel {
                         controller.unfollowAlbum(album);
                         resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
+                        follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     } else {
                         controller.followAlbum(album);
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
+                        follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     }
-                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

@@ -762,44 +762,58 @@ public class SongPanel extends JPanel implements ActionListener{
             JMenuItem delete = new JMenuItem("Delete");
             delete.setActionCommand("delete");
 
-//            JMenuItem follow = new JMenuItem("Follow");
-//            follow.setActionCommand("follow");
+            JMenuItem followSong = new JMenuItem("Follow Song");
+            followSong.setActionCommand("follow song");
+
+            JMenuItem favoriteSong = new JMenuItem("Add Song to Favorites");
+            favoriteSong.setActionCommand("favorite song");
+
+            JMenuItem unfollowSong = new JMenuItem("Unfollow Song");
+            unfollowSong.setActionCommand("unfollow_song");
+
+            JMenuItem unfavoriteSong = new JMenuItem("Remove Song from Favorites");
+            unfavoriteSong.setActionCommand("unfavorite_song");
 
             MenuItemListener menuItemListener = new MenuItemListener();
-
             addToQueue.addActionListener(menuItemListener);
             add_to_playlist.addActionListener(menuItemListener);
             removeFromPlaylist.addActionListener(menuItemListener);
             removeFromAlbum.addActionListener(menuItemListener);
             edit.addActionListener(menuItemListener);
             delete.addActionListener(menuItemListener);
-            //follow.addActionListener(menuItemListener);
+            followSong.addActionListener(menuItemListener);
+            favoriteSong.addActionListener(menuItemListener);
+            unfollowSong.addActionListener(menuItemListener);
+            unfavoriteSong.addActionListener(menuItemListener);
 
             settingsMenu.add(addToQueue);
             settingsMenu.add(add_to_playlist);
-            String[] split = headerName.getText().split(" ");
+            if(controller.isFavoriteSong(Integer.parseInt(biodata.get(currentRow).get(7)))){
+                settingsMenu.add(unfavoriteSong);
+                controller.showAllSongs();
+            }else{
+                settingsMenu.add(favoriteSong);
+                controller.showAllSongs();
+            }
+            if(controller.isFollowingSong(Integer.parseInt(biodata.get(currentRow).get(7)))){
+                settingsMenu.add(followSong);
+                controller.showAllSongs();
+            }else{
+                settingsMenu.add(unfollowSong);
+                controller.showAllSongs();
+            }
+            //String[] split = headerName.getText().split(" ");
             if ((songContainer instanceof Playlist) && ((Playlist) songContainer).getAccount().getId() == controller.getMainController().getAc().getUser().getAccount().getId())
-
                 settingsMenu.add(removeFromPlaylist);
-            //settingsMenu.add(removeFromAlbum);
-            if(songs.get(currentRow).getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
+            Song song = Client.getInstance().getSong(Integer.parseInt(biodata.get(currentRow).get(7)));
+            if(song.getArtist().getAccount().getId() != controller.getMainController().getAc().getUser().getAccount().getId()){
                if(songContainer instanceof Album)
                   settingsMenu.add(removeFromAlbum);
-               if(songContainer instanceof Playlist)
-                  settingsMenu.add(removeFromPlaylist);
+//               if(songContainer instanceof Playlist)
+//                  settingsMenu.add(removeFromPlaylist);
                settingsMenu.add(edit);
                settingsMenu.add(delete);
             }
-            
-            //settingsMenu.add(follow);
-
-//        mainFrame.addMouseListener(new MouseAdapter() {
-//            public void mouseClicked(MouseEvent e) {
-//                editMenu.show(mainFrame, e.getX(), e.getY());
-//            }
-//        });
-//        mainFrame.add(editMenu);
-//        mainFrame.setVisible(true);
 
             try{
                 URL resource = getClass().getClassLoader().getResource("images/cyanPlus.png");
@@ -820,9 +834,18 @@ public class SongPanel extends JPanel implements ActionListener{
                 resource = getClass().getClassLoader().getResource("images/violetRemoveFromAlbum.png");
                 img = ImageIO.read(resource);
                 removeFromAlbum.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
-//                resource = getClass().getClassLoader().getResource("images/songFollow.png");
-//                img = ImageIO.read(resource);
-//                follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                resource = getClass().getClassLoader().getResource("images/greenFollow.png");
+                img = ImageIO.read(resource);
+                followSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                resource = getClass().getClassLoader().getResource("images/songFollow.png");
+                img = ImageIO.read(resource);
+                unfollowSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                resource = getClass().getClassLoader().getResource("images/redFavSong.png");
+                img = ImageIO.read(resource);
+                favoriteSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
+                resource = getClass().getClassLoader().getResource("images/cyanFavSong.png");
+                img = ImageIO.read(resource);
+                unfavoriteSong.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
             }
             catch(Exception e){
 
