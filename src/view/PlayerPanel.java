@@ -82,7 +82,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
         favSong.setContentAreaFilled(false);
         favSong.setBorderPainted(false);
         favSong.addActionListener(this);
-        add(favSong);
+        //add(favSong);
         add(Box.createRigidArea(new Dimension(5,0)));
 
         prev = new JButton();

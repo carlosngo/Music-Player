@@ -173,13 +173,14 @@ public class PlaylistPanel extends CategoryPanel {
                         controller.unfollowPlaylist(playlist);
                         resource = getClass().getClassLoader().getResource("images/follow.png");
                         img = ImageIO.read(resource);
+                        follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                     } else {
                         controller.followPlaylist(playlist);
                         resource = getClass().getClassLoader().getResource("images/cyanFollow.png");
                         img = ImageIO.read(resource);
+                        follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                         favPlaylist.setVisible(true);
                     }
-                    follow.setIcon(new ImageIcon(ImageResizer.resizeImage(img, 15, 15)));
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
