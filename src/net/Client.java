@@ -12,6 +12,7 @@ import java.util.concurrent.*;
 
 
 public final class Client {
+    public static final String IP_ADDRESS = "";
     private static final Client singleton = new Client();
     // Network variables to communicate with the server
     private Socket socket;
@@ -192,7 +193,9 @@ public final class Client {
                         case SETIMAGEFILE:
                             break;
                         case GETSONGFILE:
-                            FileUtil.downloadFile(socket, inFromServer, wav);
+//                            FileUtil.downloadFile(socket, inFromServer, wav);
+                            if (inFromServer.readLine().equals(Protocol.OK))
+                                new FTPClient(Server.IP_ADDRESS, wav, (int) wav.length()).receive();
                             break;
                         case SETSONGFILE:
                             System.out.println(inFromServer.readLine());
@@ -346,7 +349,7 @@ public final class Client {
         }
     }
 
-    public void populateSongs() {
+    private void populateSongs() {
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);
             song.setAlbum(getAlbum(song.getAlbum().getAlbumId()));
@@ -390,9 +393,11 @@ public final class Client {
     }
 
     public void playSong(int accountId, int songId){
+        isBusy = true;
         outToServer.println(Protocol.PLAYSONG);
         outToServer.println(accountId);
         outToServer.println(songId);
+        while (isBusy());
     }
 
     public void followSong(Account follower, Song song){

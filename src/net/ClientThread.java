@@ -8,12 +8,15 @@ import util.Protocol;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientThread implements Runnable, UploadListener, PlayListener {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
     private Server server = Server.getInstance();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     public ClientThread(Socket socket) {
         this.socket = socket;
@@ -395,30 +398,40 @@ public class ClientThread implements Runnable, UploadListener, PlayListener {
                     case GETIMAGEFILE:
                         album = server.getAlbum(Integer.parseInt(in.readLine()));
                         File img = album.getCover();
-                        FileUtil.uploadFile(socket, out, img);
+//                        FileUtil.uploadFile(socket, out, img);
+                        out.println(img.length());
+                        executor.submit(new FTPServer(img));
+                        reply.append(Protocol.OK);
                         break;
                     case SETIMAGEFILE:
                         albumId = Integer.parseInt(in.readLine());
                         File dir = new File("resources/images");
                         dir.mkdirs();
                         img = new File(dir, albumId + ".png");
-                        FileUtil.downloadFile(socket, in, img);
+                        img.createNewFile();
+                        int fileSize = Integer.parseInt(in.readLine());
+                        new FTPClient(socket.getInetAddress().getHostAddress(), img, fileSize).receive();
                         server.setImageFile(albumId, img);
                         break;
                     case GETSONGFILE:
                         song = server.getSong(Integer.parseInt(in.readLine()));
                         System.out.println("Sending song " + song + " to the client.");
                         File wav = song.getWAV();
-                        FileUtil.uploadFile(socket, out, wav);
+//                        FileUtil.uploadFile(socket, out, wav);
+                        out.println(wav.length());
+                        executor.submit(new FTPServer(wav));
+                        reply.append(Protocol.OK);
                         break;
                     case SETSONGFILE:
                         songId = Integer.parseInt(in.readLine());
                         dir = new File("resources/songs");
                         dir.mkdirs();
                         wav = new File(dir, songId + ".wav");
-                        FileUtil.downloadFile(socket, in, wav);
+                        wav.createNewFile();
+//                        FileUtil.downloadFile(socket, in, wav);
+                        fileSize = Integer.parseInt(in.readLine());
+                        new FTPClient(socket.getInetAddress().getHostAddress(), wav, fileSize).receive();
                         server.setSongFile(songId, wav);
-                        reply.append(Protocol.OK);
                         break;
                     case LOGIN:
                         String username = in.readLine();
