@@ -94,8 +94,6 @@ public class SongController {
             ArrayList<Song> queue = new ArrayList<>();
             queue.add(song);
             mc.playSongs(queue);
-            client.followSong(user.getAccount(), song);
-            client.playSong(user.getAccount().getId(), songId);
 //            sp.editRow(index, map(song));
         } catch (Exception e) {
             e.printStackTrace();
@@ -306,8 +304,8 @@ public class SongController {
         }
         s.setWAV(wav);
         client.addSong(s);
-        client.setSongFile(s.getSongId(), wav);
         client.followSong(user.getAccount(),s);
+        client.setSongFile(s.getSongId(), wav);
 //        showAllSongs();
 //        showAllSongs();
     }

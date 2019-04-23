@@ -125,6 +125,9 @@ public class PlayerController implements ControllerListener, ActionListener {
         } catch (NoPlayerException e) {
             e.printStackTrace();
         }
+
+        client.followSong(mc.getAccountController().getUser().getAccount(), song);
+        client.playSong(mc.getAccountController().getUser().getAccount().getId(), song.getSongId());
     }
 
 
